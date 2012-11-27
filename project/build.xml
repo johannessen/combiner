@@ -1,0 +1,106 @@
+<?xml version="1.0" ?>
+<!-- This is an Apache Ant build file. -->
+<project default="run">
+	
+	<!--
+		The class path consists of the lib directory and any _immediate_ subdirectories.
+		Required dependency (unpack these into lib/):
+		
+		- GeoTools 8.3 (no other versions tested)
+		  http://www.geotools.org/
+		  NB: manual EPSG Authority management required!
+		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-8.3.jar)
+		
+	-->
+	<path id="libsRef">
+		<fileset dir="lib">
+			<include name="*.jar"/>
+			<include name="*/*.jar"/>
+		</fileset>
+	</path>
+	
+	
+	
+    <target name="build">
+		<mkdir dir="build/classes"/>
+    	
+		<!--
+			GeoTools includes several EPSG extensions, only one of which may be
+			in the classpath at the same time in order to prevent a run-time error.
+			http://docs.geotools.org/latest/userguide/faq.html#q-how-to-choose-an-epsg-authority
+		-->
+		<fail message="Too many EPSG Authorities on the class path; exactly 1 required.">
+			<condition>
+				<resourcecount when="greater" count="1">
+					<fileset dir="lib">
+						<include name="gt-epsg-*.jar"/>
+						<include name="*/gt-epsg-*.jar"/>
+					</fileset>
+				</resourcecount>
+			</condition>
+		</fail>
+		
+		<javac srcdir="src" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.5" target="1.5">
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+		</javac>
+    	
+    </target>
+	
+	
+	
+<!--
+	<target name="package" depends="build">
+		<mkdir dir="build/dist"/>
+		<jar destfile="build/dist/espebu.jar" basedir="build/classes">
+			<manifest>
+				<attribute name="Main-Class" value="de.thaw.espebu.Espebu"/>
+				<attribute name="Class-Path" value="lib/geotools-8.3/*"/>
+			</manifest>
+		</jar>
+	</target>
+-->
+	
+	
+	
+	<target name="doc">
+		<mkdir dir="build/doc"/>
+		<javadoc sourcepath="src" destdir="build/doc" classpathref="libsRef" access="package" Encoding="UTF-8" docencoding="UTF-8" charset="UTF-8" Version="true" Use="true" Author="true">
+			<link href="http://docs.oracle.com/javase/6/docs/api/"/>
+			<link href="http://tsusiatsoftware.net/jts/javadoc/"/>
+			<link href="http://docs.geotools.org/latest/javadocs/"/>
+		</javadoc>
+	</target>
+	
+	
+	
+	<target name="clean">
+		<delete dir="build"/>
+	</target>
+	
+	
+	
+	<!--
+		Alternatively, try this on the CLI:
+		$ IN=../simple.shp
+		$ OUT=../out.shp
+		$ java -cp build/classes:lib/geotools-8.3/* de.thaw.espebu.Espebu "$IN" "$OUT"
+	-->
+	<target name="run" depends="build">
+		<java classname="de.thaw.espebu.Espebu">
+			<classpath>
+				<pathelement path="build/classes"/>
+				<path refid="libsRef"/>
+			</classpath>
+<!--
+			<arg path="../simple.shp/simple.shp"/>
+			<arg path="../out.shp"/>
+-->
+		</java>
+	</target>
+	
+	
+	
+	<target name="all" depends="clean, build, doc, run" />
+	
+</project>

@@ -1,0 +1,24 @@
+
+Espebu
+======
+
+build and run:
+$ ant
+
+(or via IDE using build.xml)
+
+
+The class path consists of the lib directory and any _immediate_ subdirectories.
+
+install dependency:
+- get GeoTools 8.3 (no other versions tested), <http://www.geotools.org/>
+- unpack into lib
+- search for all gt-epsg-*.jar
+- delete all of those but one (for example, keep gt-epsg-hsql-8.3.jar)
+
+
+
+Kauneberget
+===========
+
+dependency: osmium

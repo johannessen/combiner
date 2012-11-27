@@ -1,0 +1,35 @@
+<title>de.thaw.espebu</title><body>
+
+<p>
+Espebu served as a test bed for spatial data handling in Java. It is not designed to be fully controllable from the command line. Switching modules / trying out different parts of this package requires changing the source code of the main class {@link de.thaw.espebu.Espebu} and recompiling.
+
+<p>
+Features include:
+<ul>
+<li>
+reading JTS {@link com.vividsolutions.jts.geom.LineString}s from Well-Known Text
+<li>
+<del>reading {@link com.vividsolutions.jts.geom.LineString}s from Spatialite databases</del>
+<li>
+reading {@link com.vividsolutions.jts.geom.LineString}s from ESRI Shapefiles and (re)projecting them
+<li>
+writing {@link com.vividsolutions.jts.geom.Geometry}s to ESRI Shapefiles
+<li>
+splitting {@link com.vividsolutions.jts.geom.LineString}s such that there remain no line fragments with start- and endpoints which are closer to another passing line fragment than to a start- or endpoint of that same line fragment;<br>
+in other words: splitting such that parallel lines A and B would be split into fragments (A1, A2, A3, …; B1, B2, B3, …) such that the fragments A1 and B1 have approximately the same length and are adjacent to each other, as are (A2 and B2), (A3 and B3) etc.
+<li>
+analysing a collection of {@link com.vividsolutions.jts.geom.LineString}s by parallelisms and determine which ones of the other {@link com.vividsolutions.jts.geom.LineString}s in the same collection (if any) are geometrically parallel (attributes are not taken into account)
+<li>
+merging continuing {@link com.vividsolutions.jts.geom.LineString}s into a single {@link com.vividsolutions.jts.geom.LineString} in cases where there is no geometric ambiguity (attributes are not taken into account)
+</ul>
+
+<p>
+The algorithms in this package are not designed to be particularly cheap on either time or memory. In fact, it's quite easy to point out a number of gross inefficiencies that make their naïve approach seem improbable as a useable real-world solution. Neither this package nor the algorithms contained in it are meant to be re-used later on, yet they might be useful as a fall-back or to provide future solutions with means for comparison.
+
+<p>
+Note that some of the existing code in this package is non-functional (though everything should compile all right). This notably includes the {@link de.thaw.espebu.SpatialiteReader} class.
+
+<p>
+<a href="http://www.openstreetmap.org/?mlat=58.936&mlon=8.533&zoom=14">Espebu</a>: a tunnel on the disused <a href="http://no.wikipedia.org/wiki/Treungenbanen#Linjekart">Treungenbanen</a>
+
+</body>

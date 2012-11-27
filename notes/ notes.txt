@@ -1,0 +1,24 @@
+osmosis --rb nordrhein-westfalen.osm.pbf --bounding-box bottom=50.8 left=6.7 top=51.2 right=7.2 completeWays=yes completeRelations=yes --wb koeln.osm.pbf omitmetadata=yes
+osmosis --rb koeln.osm.pbf --bounding-box bottom=50.9 left=6.95 top=51 right=7.1 completeWays=yes --wb koeln-ost.osm.pbf omitmetadata=yes
+
+#osmosis --rb koeln-ost.osm.pbf --wx file=koeln-ost.osm
+osmosis --rb koeln-ost.osm.pbf --tf reject-relations --tf accept-ways highway=motorway,motorway_link,trunk,trunk_link --un outPipe.0=MOTOR --rb koeln-ost.osm.pbf --tf reject-relations --tf accept-ways railway=rail --tf reject-ways service=spur,yard --un outPipe.0=RAIL --merge inPipe.0=MOTOR inPipe.1=RAIL --wx file=t4.osm
+sed -e 's/version="-1"/version="1"/' -e 's/changeset="-1"/changeset="1"/' -e 's/timestamp="1969-12-31T23:59:59Z" //' t4.osm > koeln-ost.osm
+
+
+-XX:PermSize=512m -XX:MaxPermSize=1024m -XX:+CMSPermGenSweepingEnabled -XX:+CMSClassUnloadingEnabled -XX:+UseConcMarkSweepGC
+
+
+ogr2ogr -clipsrc ../bbox3.shp koeln.shp road.shp
+ogr2ogr -where "fclass = 'motorway'" koeln-motorway.shp koeln.shp
+
+
+
+echo 'select astext(transform(geometry, 32632)) from motorways;' | spatialite koeln-ost-simple.sqlite
+
+
+
+warning building way geometry for way 148157721: contains position (214.748,214.748) twice
+warning building way geometry for way 148157721: contains position (214.748,214.748) twice
+warning building way geometry for way 148157721: contains position (214.748,214.748) twice
+
