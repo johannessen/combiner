@@ -82,8 +82,8 @@
 	
 	<!--
 		Alternatively, try this on the CLI:
-		$ IN=../simple.shp
-		$ OUT=../out.shp
+		$ IN=../data/shape-test/simple.shp
+		$ OUT=build/out.shp
 		$ java -cp build/classes:lib/geotools-8.3/* de.thaw.espebu.Espebu "$IN" "$OUT"
 	-->
 	<target name="run" depends="build">
@@ -93,8 +93,8 @@
 				<path refid="libsRef"/>
 			</classpath>
 <!--
-			<arg path="../simple.shp/simple.shp"/>
-			<arg path="../out.shp"/>
+			<arg path="../data/shape-test/simple.shp"/>
+			<arg path="build/out.shp"/>
 -->
 		</java>
 	</target>

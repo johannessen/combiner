@@ -103,9 +103,9 @@ public final class Espebu {
 //		final String in = args.length > 0 ? args[0] : "";
 //		final String out = args.length > 1 ? args[1] : "";
 
-//		final String in = "shape/koeln-motorways.shp";
-		final String in = "shape/simple.shp";
-		final String out = "shape/out.shp";
+//		final String in = "~aj3/Studium/Daten/nrw-road/koeln-motorways.shp";
+		final String in = "../data/shape-test/simple.shp";
+		final String out = "build/out.shp";
 		
 //		Espebu.analyse(in);
 		Espebu.analyseTryingHarder(in, out);
