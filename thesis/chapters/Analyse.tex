@@ -1,0 +1,140 @@
+% UTF-8
+
+% single-chapter commands
+\documentclass{../thesis}
+\begin{document}
+
+
+\chapter{Analyse der Ausgangslage}
+
+\section{OpenStreetMap: Alles für Alle}
+
+Topographische Vermessungen führten ursprünglich nur zu relativ ungenauen Ergebnissen [Koh04 43]. Für die im 18.~und 19.~Jahrhundert erstmals durchgeführte systematische Landesaufnahme standen nur am Boden operierte Messinstrumente zur Verfügung. Bis in die zweite Hälfte des 20. Jahrhunderts waren der manuell horizontierte und abgelesene Theodolit und das Bandmaß die dabei primär eingesetzten Instrumente [WG06 3-6]. Deren Natur entsprechend ging dies mit einem immensen Aufwand an Arbeitskräften einher.
+
+Die schiere Menge der eingesetzten Vermesser machte im Laufe der Zeit auch mit einfachen Instrumenten zufriedenstellende Ergebnisse möglich. In den letzten Jahrzehnten haben Photogrammetrie, Fernerkundung und satellitengestützte Ortsbestimmung das Vermessungswesen revolutioniert. Genauere Resultate ließen sich in kürzerer Zeit und so auch mit geringeren Kosten erreichen. [??]
+
+% Ist die Kostendiskussion wirklich von Interesse? Eigentlich geht's ja nur um die ursprüngliche Motivation für OSM
+
+Obgleich die Kosten geringer als zuvor sind, liegen sie nach wie vor in mehrstelliger Millionenhöhe allein für die amtlichen Geobasisdaten [lgm05 3].
+% [lgm05 3 (LG München, Beschl. vom 9. Nov. 2005, Az. 21 O 7402/02, 3; in: GRUR 2006, 225)]
+In Europa [??] herrscht heutzutage [Fis01 119] die Auffassung vor, dass diese solcherart mit Steuergeldern erhobenen Daten der Allgemeinheit nicht kostfrei zur Weiternutzung zur Verfügung gestellt werden, sondern die \emph{konkreten} Nutzenden zusätzlich Lizenzgebühren zahlen sollen [??]. Diese Lizenzkosten schränken den Nutzen amtlicher Geodaten nicht nur für kommerzielle Zwecke [Böh07 KN 57 (6) 336], sondern auch für Privatleute [??] erheblich ein [??].
+
+% [Egg99 ??]
+
+Heute haben selbst billige GPS-Empfänger eine Genauigkeit, welche die mancher Vermessung des 19. Jahrhunderts übertreffen kann [?? WG06 346]. Die „freie Weltkarte“ \eyecatcher{OpenStreetMap} (OSM) [RT09 3] macht sich dies zu Nutze, um mit Hilfe zehntausender Freiwilliger eine weltweite Datenbank mit Geobasisdaten aufzubauen und nachzuführen (Volunteered Geographic Information, VGI) [NZ12 147, 154]. Im Gegensatz zu vielen amtlichen Geobasisdaten dürfen OpenStreetMap-Daten lizenzkostenfrei verwendet werden, auch für kommerzielle Zwecke [RT09 217, 221 f].
+
+% ODBL? -> 3rd ed
+
+% fühlt sich alles _viel_ zu lang an … was davon brauche ich wirklich als Überleitung zu Fragmentierung und Process?
+% straff kürzen, unbekannte Begriffe a la KV-Pair einfach in Fußnote packen…
+
+Der Name OpenStreetMap mag fehlleitend sein, denn es handelt sich dabei nicht um eine Straßenkarte, sondern vielmehr um eine Geodatenbank mit Inhalten nahezu beliebiger Themen. Bei der Gründung von OSM im Jahr 2004 wurde auf das Festlegen starrer Klassifizierungsschemata oder Kartierschlüssel verzichtet. Statt dessen kann jedes Element in der Datenbank mit einer beliebigen Anzahl sogenannter \term{tags} versehen werden, die jeweils aus einem Schlüssel und einem Wert bestehen \term{(key-value-pair)}. [RT09 56]
+
+% ways / relationen / fragmentierung !!
+
+Syntax und Semantik der einzelnen \term{tags} werden bei OpenStreetMap seit der Gründung fortlaufend von den Beitragenden diskutiert, gestützt auf bisherige Erfahrungen. Die Diskussion findet vornehmlich im Internet statt; Ergebnisse werden öffentlich dokumentiert und in Software wie z.~B. Renderern implementiert. Wer neue Inhalte erfasst, orientiert sich oft an den bisher in der Datenbank üblichen oder im Web dokumentierten Konventionen. [Top09 KN 59 (1) 48][RT09 17 f, 59-66]
+
+Gegenüber einer vor der Erfassung detaillierten Ontologie [GOS09 ??] hat dieses System zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich interessiert und für wichtig halten. Jeder der Beitragenden entscheidet die Kriterien für die Erfassungsgeneralisierung für sich selbst. Dies führt zu großen regionalen Unterschieden in Datendichte, -aktualität und -qualität.
+% und zu u. U. oft wechselndem Tagging -> Fragmentierung
+
+
+
+
+
+
+
+
+\biggap
+
+\begin{itemize}
+%	\item OSM ist Geodatenbank und keine Karte im eigentlichen Sinn
+%	\item wie funktioniert OSM?
+%	\begin{itemize}
+%		\item kaum Systematik in Erfassungsgeneralisierung, Ontologie, ...
+%	\end{itemize}
+	\item welches sind die zu beobachtenden Folgen für Inhalt und Struktur der DA?
+	\begin{itemize}
+		\item Way-Fragmentierung
+		\item OSM hat kein Native-Konzept einer Fläche, Workaround: Linien mit Attribut „Fläche“
+		\item Änderungen am Schema müssen von der globalen Community akzeptiert und angewandt werden (z. B. \cite{Sch09}), zentrale Entscheidungen Einzelner funktionieren nicht
+	\end{itemize}
+\end{itemize}
+
+
+\section{Kartenherstellung mit OpenStreetMap}
+
+\begin{itemize}
+	\item bisher im Wesentlichen nur automatische, (fast) ungeneralisierte Mercator-Tiles fürs Web
+	\item Datenmenge, Maßstäbe, ständige Änderungen und Aktualisierungen etc.
+	\begin{itemize}
+		\item manuelle Generalisierung ist nicht zielführend außer für nicht nachzuführende Einzelanfertigungen
+	\end{itemize}
+	\item in der Praxis fast nur einfache semantische Modellgeneralisierung unmittelbar im Tile-Renderer, keine kartographische Generalisierung oder Folgekarten bzw. -datenbanken
+	\begin{itemize}
+		\item nahe beieinander liegende Punktsignaturen werden willkürlich selektiert, Linearsignaturen überdecken einander
+	\end{itemize}
+	\item insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. \cite{MWG12} oder Haltestellen-Relationen)
+\end{itemize}
+
+\section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
+
+\begin{itemize}
+	\item hier: ohne Flächen zu berücksichtigen, obwohl dort evtl. ähnliche Probleme auftreten könnten
+	\item Auswahl, Vergrößern und Betonen funktioniert zufriedenstellend
+	\item Problem bei Verdrängung: der Konflikt (dass z. B. dicht beieinander liegende parallele Linienzüge parallel sind) muss erkannt werden, bevor verdrängt werden kann
+	\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
+	\begin{itemize}
+		\item z. B. Fluss außerhalb des (unabhängig gemappten) Flussbetts \cite{Kla11}
+		\item z. B. ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise
+	\end{itemize}
+	\item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
+	\item Problem bei Zusammenfassung: Linienzüge müssen als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
+\end{itemize}
+
+
+\section{Zielsetzung der Arbeit}
+
+\textbf{offener Punkt: Redundanz mit Themenblatt}
+
+\begin{itemize}
+	\item „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
+	\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
+	\item Beispiel: unregelmäßige Lücken zwischen Autobahn-Richtungsfahrbahnen
+	\item Beispiele: untaugliche Formvereinfachungen (siehe vorgenannte Probleme)
+	\item ...
+	\item Visionen:
+	\begin{itemize}
+		\item kartographische Generalisierung => besseres Kartenbild
+		\item Verringerung der Datenmenge
+		\item MRDB
+		\item Vereinfachung der Weiternutzung
+		\item ...
+	\end{itemize}
+	\item \emph{nicht} Teil der Arbeit sind insbesondere:
+	\begin{itemize}
+		\item die Formvereinfachung selbst
+		\item eine wie auch immer geartete Verdrängung (obgleich eine solche durch diese Arbeit vielleicht erleichtert werden könnte)
+	\end{itemize}
+\end{itemize}
+
+
+\section[Diskussion existierender Ansätze]{Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
+
+\begin{itemize}
+	\item Puffer \cite{OHSZ10}
+	\item OS MasterMap \cite{CM05}
+	\item Strokes \cite{Tho06b, EM00}
+	\item graphbasiert \cite{JC04, MM99, HAS05, TR95, Kne09}
+	\item Skeleton\cite{LM96, Mig12, All11}
+	\item Relational Constraints \cite{TBDJRG12}
+	\item Conflict Detection \cite{KP98}, \cite{Tho06a}
+	\item ...
+\end{itemize}
+
+(jeweils einschließlich Anwendbarkeit auf die vorliegende Fragestellung, ggf. Vor- und Nachteilen, ggf. Bezug der darin verwendeten Fachsprache zur in dieser Arbeit verwendeten Terminologie)
+
+
+% single-chapter commands
+%\bibliographystyle{../myAMSalpha}
+%\bibliography{../thesis}{}
+\end{document}

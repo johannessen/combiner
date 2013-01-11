@@ -1,0 +1,38 @@
+
+\documentclass{thesis}
+
+\subtitle{Diplomarbeit}
+\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap\\ für konkrete Spezialfälle}
+\author{Arne Johannessen}
+\publishers{betreut durch\\ Prof. Dr. rer. nat. Detlef Günther-Diringer\\ und\\ Dipl.-Wi.-Ing. Frederik Ramm}
+%\date{Arbeitsentwurf}
+%\dedication{}
+
+\begin{document}
+
+\maketitle
+
+%\begin{abstract}
+%\end{abstract}
+
+\tableofcontents
+\include{chapters/Einleitung}
+\include{chapters/Analyse}
+\include{chapters/Spezifikation}
+\include{chapters/Algorithmen}
+\include{chapters/Implementierung}
+\include{chapters/Ergebniskritik}
+\include{chapters/Schlussfolgerung}
+\include{chapters/Zusammenfassung}
+
+\nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
+\setbibpreamble{Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert. Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par\bigskip\bigskip}
+\bibliographystyle{myAMSalpha}
+\bibliography{thesis}{}
+
+%\appendix
+%\chapter{Glossar}
+%\chapter{Abkürzungsverzeichnis}
+%\chapter{Software-Dokumentation}
+
+\end{document}
