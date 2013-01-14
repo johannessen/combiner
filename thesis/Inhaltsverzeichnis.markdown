@@ -33,7 +33,7 @@ Zielgruppe: wie für Einleitung
 - OSM ist Geodatenbank und keine Karte im eigentlichen Sinn
 - wie funktioniert OSM?
   + kaum Systematik in Erfassungsgeneralisierung, Ontologie, ...
-- welches sind die zu beobachtenden Folgen für Inhalt und Struktur der DA?
+- welches sind die zu beobachtenden Folgen für Inhalt und Struktur der DB?
   + Way-Fragmentierung
   + OSM hat kein Native-Konzept einer Fläche, Workaround: Linien mit Attribut "Fläche"
   + Änderungen am Schema müssen von der globalen Community akzeptiert und angewandt werden (z. B. [Sch09]), zentrale Entscheidungen Einzelner funktionieren nicht
