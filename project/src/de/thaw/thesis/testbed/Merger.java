@@ -1,12 +1,12 @@
 /* encoding UTF-8
  * 
- * Copyright (c) 2012 Arne Johannessen
+ * Copyright (c) 2012-13 Arne Johannessen
  * 
  * This project and all of its individual parts may be used in accordance
- * with the terms of a BSD-style license. See LICENSE for details.
+ * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.operation.linemerge.LineMerger;

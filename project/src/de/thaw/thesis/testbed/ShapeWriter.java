@@ -1,12 +1,12 @@
 /* encoding UTF-8
  * 
- * Copyright (c) 2012 Arne Johannessen
+ * Copyright (c) 2012-13 Arne Johannessen
  * 
  * This project and all of its individual parts may be used in accordance
- * with the terms of a BSD-style license. See LICENSE for details.
+ * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
@@ -63,7 +63,7 @@ final class ShapeWriter {
 	/**
 	 * The EPSG code of the CRS that the features provided are referred to.
 	 */
-	int sourceEpsgCode = Espebu.INTERNAL_EPSG_CODE();
+	int sourceEpsgCode = Testbed.INTERNAL_EPSG_CODE();
 	
 	
 	/**
@@ -97,8 +97,20 @@ final class ShapeWriter {
 		
 			featureBuilder.add(geometry);
 			List attributes = this.delegate.attributes(geometry);
+//			int i = 0;
 			for (Object attribute : attributes) {
-				featureBuilder.add(attribute);
+/*
+				System.err.println(i + ": " + attribute);
+				i++;
+				try {
+*/
+					featureBuilder.add(attribute);
+/*
+				}
+				catch (Exception e) {
+					// huh?
+				}
+*/
 			}
 			
 			final SimpleFeature feature = featureBuilder.buildFeature(null);
@@ -230,7 +242,7 @@ final class ShapeWriter {
 	 * @param args {input file, output file}
 	 */
 	public static void main (String[] args) throws Throwable {
-		Collection<LineString> lines = Espebu.getLineStrings(args[0]);
+		Collection<LineString> lines = Testbed.getLineStrings(args[0]);
 		Collection<Point> points = new ArrayList<Point>();
 		for (final LineString line: lines) {
 			points.add(line.getStartPoint());

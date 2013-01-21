@@ -1,4 +1,4 @@
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Geometry;

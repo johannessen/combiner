@@ -1,12 +1,12 @@
 /* encoding UTF-8
  * 
- * Copyright (c) 2012 Arne Johannessen
+ * Copyright (c) 2012-13 Arne Johannessen
  * 
  * This project and all of its individual parts may be used in accordance
- * with the terms of a BSD-style license. See LICENSE for details.
+ * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import java.io.File;
 import java.net.URI;
@@ -14,6 +14,7 @@ import java.util.*;
 import org.geotools.data.DataStore;
 import org.geotools.data.DataStoreFinder;
 import org.opengis.feature.simple.SimpleFeature;
+import org.opengis.feature.simple.SimpleFeatureType;
 import org.geotools.data.simple.SimpleFeatureSource;
 import org.geotools.data.simple.SimpleFeatureCollection;
 import org.geotools.data.simple.SimpleFeatureIterator;
@@ -43,10 +44,22 @@ final class ShapeReader {
 	/**
 	 * The EPSG code of the CRS into which features should be transformed.
 	 */
-	int targetEpsgCode = Espebu.INTERNAL_EPSG_CODE();
+	int targetEpsgCode = Testbed.INTERNAL_EPSG_CODE();
 	
 	
-	static int VERBOSITY = Espebu.VERBOSITY();
+	/**
+	 * The name of the shapefile attribute to be used for feature
+	 * identification.
+	 */
+	final static String OSM_ID_ATTRIBUTE = "osm_id";
+	
+	
+	/**
+	 */
+//	SimpleFeatureType featureType = null;
+	
+	
+	static int VERBOSITY = Testbed.VERBOSITY();
 	
 	
 	static void log (final int logLevel, final String logMessage) {
@@ -80,38 +93,52 @@ final class ShapeReader {
 		final SimpleFeatureIterator iterator = collection.features();
 		
 		CoordinateReferenceSystem sourceCRS = featureSource.getSchema().getCoordinateReferenceSystem();
-		log(1, "Identified Source CRS:\n" + sourceCRS);
+		log(2, "Identified Source CRS:\n" + sourceCRS);
 		if (sourceCRS == null) {
-			log(0, "No CRS definition found in source; defaulting to WGS84.");
+			log(0, "No CRS definition found in source; defaulting to unprojected WGS84.");
 			sourceCRS = DefaultGeographicCRS.WGS84;
 		}
 		final CoordinateReferenceSystem projectionCRS = CRS.decode("EPSG:" + this.targetEpsgCode);
-		final MathTransform transform = CRS.findMathTransform(sourceCRS, projectionCRS, true);
+		final MathTransform transform = CRS.findMathTransform(sourceCRS, projectionCRS);
 		
 		final Collection<LineString> result = new LinkedList<LineString>();
 		
+		SimpleFeature logFeature = null;
 		int i = 0;
 		try {
 			while (iterator.hasNext()) {
 				i++;
 				final SimpleFeature feature = iterator.next();
-				log(2, feature.getID() + " " + feature.getAttribute("id").toString());
-				final GeometryCollection sourceGeometry = (GeometryCollection)feature.getDefaultGeometry();  // possible bug
+				log(2, feature.getID());
+				final GeometryCollection sourceGeometry = (GeometryCollection)feature.getDefaultGeometry();
 				for (int j = 0; j < sourceGeometry.getNumGeometries(); j++) {
 					final Geometry singleGeometry = sourceGeometry.getGeometryN(j);
-					singleGeometry.setUserData(feature.getID());
+					
+					// store original feature for later use in shapefile output
+					singleGeometry.setUserData(new LineMeta(feature));
+					
 					if (singleGeometry instanceof LineString) {
 						final Geometry projectedGeometry = JTS.transform(singleGeometry, transform);
 						result.add((LineString)projectedGeometry);
 					}
 				}
+//				this.featureType = feature.getType();  // :TODO: better get this from ShapefileDataStore
+				
+				logFeature = feature;
 			}
+			
+/*
+			// :DEBUG: log feature type input
+			log(2, "FeatureType properties for '" + logFeature.getType().getGeometryDescriptor().getLocalName() + "':");
+			for (org.opengis.feature.Property p: logFeature.getProperties()) {
+				log(2, p.getName() + " = " + p.getValue());
+			}
+*/
 		}
 		finally {
-			log(2, "Fetaures: " + i);
+			log(1, "Features read from Shapefile: " + i);
 			iterator.close();
 		}
-		log(1, "Done.");
 		
 		return result;
 	}

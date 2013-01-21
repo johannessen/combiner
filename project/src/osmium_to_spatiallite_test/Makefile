@@ -1,6 +1,6 @@
 #------------------------------------------------------------------------------
 #
-#  kauneberget
+#  osmium_to_spatiallite_test
 #
 #------------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ PROGRAMS = \
 
 all: $(PROGRAMS)
 
-kauneberget: kauneberget.cpp
+osmium_to_spatiallite_test: osmium_to_spatiallite_test.cpp
 	$(CXX) $(CXXFLAGS) $(CXXFLAGS_OGR) -o $@ $< $(LDFLAGS) $(LIB_OGR)
 
 clean:

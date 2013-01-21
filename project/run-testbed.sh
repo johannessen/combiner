@@ -9,7 +9,8 @@ then
 fi
 
 
-IN=../data/testbed/koeln-SE-motorway.shp
+#IN=../data/testbed/koeln-SE-motorway.shp
+IN=../data/testbed/koeln-SE-main.shp
 OUT=../data/testbed/out.shp
 
 java -cp build/classes:lib/geotools-8.5/* de.thaw.thesis.testbed.Testbed "$IN" "$OUT"

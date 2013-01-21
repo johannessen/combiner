@@ -1,10 +1,5 @@
 /*
 
-  Kauneberget  http://www.openstreetmap.org/?mlat=58.73&mlon=8.54&zoom=14
-  is a station on the disused
-  Treungenbanen  http://no.wikipedia.org/wiki/Treungenbanen#Linjekart
-
-
   This is an example tool that converts OSM data to some output format
   like Spatialite or Shapefiles using the OGR library.
 
@@ -12,7 +7,7 @@
 
 /*
 
-kauneberget, aj3
+osmium_to_spatiallite_test, aj3
 
 This file is based on an Osmium example (https://github.com/joto/osmium).
 Copyright 2012 Jochen Topf <jochen@topf.org> and others (see README).

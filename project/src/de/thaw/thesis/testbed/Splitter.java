@@ -1,12 +1,12 @@
 /* encoding UTF-8
  * 
- * Copyright (c) 2012 Arne Johannessen
+ * Copyright (c) 2012-13 Arne Johannessen
  * 
  * This project and all of its individual parts may be used in accordance
- * with the terms of a BSD-style license. See LICENSE for details.
+ * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Geometry;
@@ -65,7 +65,7 @@ final class Splitter {
 	final double EPSILON_DISTANCE = 1.0;  // metres
 	
 	
-	static int VERBOSITY = Espebu.VERBOSITY();
+	static int VERBOSITY = Testbed.VERBOSITY();
 	
 	
 	static void log (final int logLevel, final String logMessage) {
@@ -81,12 +81,7 @@ final class Splitter {
 	 * the lines and we want to make sure the client isn't affected by that.
 	 */
 	Splitter (Collection<LineString> lines) {
-		if (lines instanceof ArrayList) {
-			this.lines = (ArrayList<LineString>)lines;
-		}
-		else {
-			this.lines = new ArrayList<LineString>(lines);
-		}
+		this.lines = new ArrayList<LineString>(lines);
 	}
 	
 	
@@ -94,7 +89,7 @@ final class Splitter {
 	 * @return the line description combined with the suffix
 	 */
 	String pointName (LineString line, String suffix) {
-		return GeometryMeta.description(line) + "-" + suffix;
+		return LineMeta.description(line) + "-" + suffix;
 	}
 	
 	
@@ -113,8 +108,8 @@ final class Splitter {
 	 */
 	Point[] namedLinePoints (LineString line) {
 		final Point[] points = new Point[] {line.getStartPoint(), line.getEndPoint()};
-		GeometryMeta.set( points[0], line, this.pointName(line, "start") );
-		GeometryMeta.set( points[1], line, this.pointName(line, "end") );
+		LinePartMeta.set( points[0], line, this.pointName(line, "start") );
+		LinePartMeta.set( points[1], line, this.pointName(line, "end") );
 		return points;
 	}
 	
@@ -138,7 +133,7 @@ final class Splitter {
 			}
 		}
 		Point point = this.factory.createPoint(coordinate);
-		GeometryMeta.set( point, line, this.pointName(line, newPointSerial) );
+		LinePartMeta.set( point, line, this.pointName(line, newPointSerial) );
 		return point;
 	}
 	
@@ -176,7 +171,7 @@ final class Splitter {
 						minDistance = distOp.distance();
 					}
 					
-					log(3, "   line: " + GeometryMeta.getFrom(line1) + " dist: " + distOp.distance() + " splitPt: " + GeometryMeta.getFrom(splitPoint));
+					log(3, "   line: " + LineMeta.description(line1) + " dist: " + distOp.distance() + " splitPt: " + LinePartMeta.description(splitPoint));
 					log(3, "   splitPt: " + splitPoint.toString());
 				}
 				
@@ -189,7 +184,7 @@ final class Splitter {
 				jobList.add(minDistanceJob);
 				
 				
-				log(2, k + ": " + minDistance + " splitPt: " + GeometryMeta.description(minDistanceJob.point) + " line2: " + GeometryMeta.description(line2) + " line2Pt: " + GeometryMeta.description(line2Point));
+				log(2, k + ": " + minDistance + " splitPt: " + LinePartMeta.description(minDistanceJob.point) + " line2: " + LineMeta.description(line2) + " line2Pt: " + LinePartMeta.description(line2Point));
 			}
 			k++;
 		}
@@ -236,7 +231,7 @@ final class Splitter {
 			}
 		}
 		
-		log(2, "\nSplit Job collation result:nSplit Jobs:");
+		log(2, "\nSplit Job collation result:\nSplit Jobs:");
 		final SplitJob[] collatedArray = jobListCollated.toArray(new SplitJob[0]);
 		for (int i = 0; i < collatedArray.length; i++) {
 			log(2, i + ": " + collatedArray[i]);
@@ -284,7 +279,7 @@ final class Splitter {
 					
 					// integrity check
 					if (p1.getCoordinate().distance(p2.getCoordinate()) < EPSILON_DISTANCE) {
-						log(0, "skipping zero-length line between " + GeometryMeta.getFrom(p1) + " to " + GeometryMeta.getFrom(p1));
+						log(0, "skipping zero-length line between " + LinePartMeta.getFrom(p1) + " and " + LinePartMeta.getFrom(p2) + " (actual length: " + p1.getCoordinate().distance(p2.getCoordinate()) + ")");
 						continue;
 					}
 					
@@ -294,12 +289,12 @@ final class Splitter {
 					newLines.add(newLine);
 					
 					// add meta data to new line
-					final Geometry origin = GeometryMeta.origin(p1);
-					final String description = GeometryMeta.description(p1) + "/" + GeometryMeta.description(p2);
-					GeometryMeta.set( newLine, origin, description );
+					final Geometry origin = LinePartMeta.origin(p1);
+					final String description = LinePartMeta.description(p1) + "/" + LinePartMeta.description(p2);
+					LinePartMeta.set( newLine, origin, description );
 					
 					// integrity checks
-					if (origin != GeometryMeta.origin(p2)) {
+					if (origin != LinePartMeta.origin(p2)) {
 						throw new RuntimeException("I refuse to be part of two different families!");
 					}
 					if (! (origin instanceof LineString)) {
@@ -319,28 +314,37 @@ final class Splitter {
 			currentLineSplitPoints.add(theJob.point);
 		}
 		
-		log(1, "\nSplitting complete. The fragment count is: " + newLines.size());
-		
 		
 		// lines that have not been split aren't present in newLines yet,
 		// so we need to add them
 		
+		log(2, "Lines that didn't need to be split: ");
 		Collection<LineString> missingLines = new LinkedList<LineString>();
 		lines: for (final LineString line: this.lines) {
 			for (final LineString fragment: newLines) {
-				if (GeometryMeta.origin(fragment) == line) {
+				if (LinePartMeta.origin(fragment) == line) {
 					// line is aleady present
 					continue lines;
 				}
 			}
 			// if we reach this point, the line is not present
-			missingLines.add(line);
+			
+			/* We need to add a copy of the line instead of the line itself to
+			 * keep the meta data straight. The Analyser expects having to deal
+			 * with line _parts_. Real solution: change class structure.
+			 */
+			final LineString lineCopy = (LineString)factory.createGeometry(line);
+			LinePartMeta.set( lineCopy, line, LineMeta.description(line) );
+			missingLines.add(lineCopy);
+			log(2, LineMeta.description(line));
 		}
+		
+		log(1, "\nSplitting complete. The fragment count is: " + newLines.size());
+		
 		newLines.addAll(missingLines);
 		
-		
-		log(1, "Lines that didn't need to be split: " + missingLines.size());
-		log(1, "Total number of lines in result data: " + newLines.size() + " (increased from " + this.lines.size() + " before splitting)\n");
+		log(1, "Number of lines that didn't need to be split: " + missingLines.size());
+		log(1, "Total number of fragments in result data: " + newLines.size() + " (increased from " + this.lines.size() + " before splitting)\n");
 		
 		
 		this.lines = newLines;
@@ -380,7 +384,7 @@ final class Splitter {
 		}
 		
 		public String toString () {
-			return "split " + GeometryMeta.getFrom(this.line) + " at " + GeometryMeta.getFrom(this.point);
+			return "split " + LineMeta.getFrom(this.line) + " at " + LinePartMeta.getFrom(this.point);
 		}
 	}
 	

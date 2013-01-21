@@ -1,4 +1,4 @@
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

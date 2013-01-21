@@ -1,24 +1,34 @@
 
-Espebu
-======
+Testbed
+=======
 
-build and run:
-$ ant
-
-(or via IDE using build.xml)
-
+(1)
+Install dependency:
+- get GeoTools 8.5 (no other versions tested), <http://www.geotools.org/>
+- unpack into lib
+- search for all gt-epsg-*.jar
+- delete all of those but one (for example, keep gt-epsg-hsql-8.5.jar)
 
 The class path consists of the lib directory and any _immediate_ subdirectories.
 
-install dependency:
-- get GeoTools 8.3 (no other versions tested), <http://www.geotools.org/>
-- unpack into lib
-- search for all gt-epsg-*.jar
-- delete all of those but one (for example, keep gt-epsg-hsql-8.3.jar)
+(2)
+Install test dataset:
+- execute data/prepare-testdata.sh
+- see source code for details!
+
+(3)
+Build and run:
+$ run-testbed.sh
+
+(Ant needs the current working directory set to project/ !)
+
+
+Notes:
+- "'on the fly' CRS transformation" needs to be enabled in QGIS's Project Properties, otherwise QGIS will ignore any CRS specified in the data.
 
 
 
-Kauneberget
-===========
+osmium_to_spatiallite_test
+==========================
 
 dependency: osmium

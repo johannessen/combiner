@@ -1,12 +1,12 @@
 /* encoding UTF-8
  * 
- * Copyright (c) 2012 Arne Johannessen
+ * Copyright (c) 2012-13 Arne Johannessen
  * 
  * This project and all of its individual parts may be used in accordance
- * with the terms of a BSD-style license. See LICENSE for details.
+ * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.espebu;
+package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Geometry;
@@ -73,6 +73,22 @@ final class Analyser {
 	 * The analysis's results.
 	 */
 	Collection<ResultSet> results;
+	
+	
+	/**
+	 * The maximum (averaged) location difference at which to withdraw a
+	 * particular pair of line fragments from consideration of being parallel.
+	 * (This probably doesn't help us very much, if at all.)
+	 */
+	final double MAX_DISTANCE = 200;  // metres
+//	final double MAX_DISTANCE = Double.POSITIVE_INFINITY;  // metres
+	
+	
+	static void log (final int logLevel, final String logMessage) {
+		if (logLevel <= Testbed.VERBOSITY()) {
+			System.err.println(logMessage);
+		}
+	}
 	
 	
 	/**
@@ -143,8 +159,8 @@ final class Analyser {
 	
 	
 	/**
-	 * @return the average distance of the two lines' start and end points, in
-	 *  map units
+	 * @return a distance measure representing the difference in location
+	 *  between the two lines' start and end points, in map units
 	 */
 	double compareLocation (final LineString line1, final LineString line2original) {
 		
@@ -168,8 +184,28 @@ final class Analyser {
 		final double[] distances = new double[2];
 		distances[0] = startPoints[0].distance(startPoints[1]);
 		distances[1] = endPoints[0].distance(endPoints[1]);
+		log(3, "    distances: start " + distances[0] + ", end " + distances[1]);
 		
-		return (distances[0] + distances[1]) / 2.0;
+//		final double arithmeticMeanDistance = (distances[0] + distances[1]) / 2.0;
+//		final double distanceDifference = Math.abs(distances[0] - distances[1]);
+		/*
+		 * The larger of the two distances is used as base for distance
+		 * evaluation because many of the respective shorter distances are
+		 * exceptionally short due to the intricacies of the splitting
+		 * algorithm. Since the minimum distances of parallel linestrings are
+		 * capped to the value of their orthogonal distance during splitting,
+		 * the larger of the two distances is by definition equal to this
+		 * orthogonal distance for that fragment which is the best match, while
+		 * those fragments farther away by nature have a significantly larger
+		 * "larger distance".
+		 */
+		final double largerDifference = Math.max(distances[0], distances[1]);
+		
+		final double compareLocation = largerDifference;
+		if (compareLocation > this.MAX_DISTANCE) {
+			return Double.POSITIVE_INFINITY;
+		}
+		return compareLocation;
 	}
 	
 	
@@ -184,10 +220,11 @@ final class Analyser {
 		// the 'simple' test data set works fine with just a location comparison;
 		// we can easily add comparisons of orientation or length
 		
-//		final double orientationSimilarity = this.compareOrientation(line1, line2);
+		final double orientationSimilarity = this.compareOrientation(line1, line2);
 //		final double lengthSimilarity = this.compareLength(line1, line2);
 		final double locationSimilarity = this.compareLocation(line1, line2);
-		return 1.0 / locationSimilarity;
+		return 1.0 / locationSimilarity * orientationSimilarity;
+//		return 1.0 / locationSimilarity;
 	}
 	
 	
@@ -199,27 +236,35 @@ final class Analyser {
 	 * @see #originalLines
 	 */
 	LineString findMostSimilar (final LineString theLine) {
+		log(3, "");
+		log(2, "Analysing fragment: " + LinePartMeta.getFrom(theLine));
 		
 		// brute force: compare everything with everything else
 		LineString mostSimilarLine = null;
 		double maxSimilarity = Double.NEGATIVE_INFINITY;
 		for (final LineString aLine : this.evaluationLines) {
 			
+			log(3, "  comparing with: " + LinePartMeta.getFrom(aLine));
+			
 			// don't compare us with ourselves
 			if (theLine == aLine) {
+				log(3, "    skipped (self)");
 				continue;
 			}
 			// don't compare us with something that's got the same parent as we do
-			if (GeometryMeta.origin(theLine) == GeometryMeta.origin(aLine)) {
+			if (LinePartMeta.origin(theLine) == LinePartMeta.origin(aLine)) {
+				log(3, "    skipped (same parent)");
 				continue;
 			}
 			
 			final double similarity = compareLines(theLine, aLine);
+			log(3, "    similarity: " + similarity);
 			if (mostSimilarLine == null || similarity > maxSimilarity) {
 				mostSimilarLine = aLine;
 				maxSimilarity = similarity;
 			}
 		}
+		log(2, "  most similar fragment: " + LinePartMeta.getFrom(mostSimilarLine));
 		return mostSimilarLine;
 	}
 	
@@ -245,7 +290,7 @@ final class Analyser {
 			
 			final Collection<Parallelism> parallelisms = new LinkedList<Parallelism>();
 			for (final SimilarityRelation relation : similarities) {
-				if (GeometryMeta.origin(relation.line) == originalLine) {
+				if (LinePartMeta.origin(relation.line) == originalLine) {
 					parallelisms.add(new Parallelism( originalLine, relation.similarLine ));
 				}
 			}
@@ -255,7 +300,7 @@ final class Analyser {
 		
 		// present results on stdout
 		for (final ResultSet resultLine: this.results) {
-			System.out.println("> " + resultLine);
+			log(2, "> " + resultLine);
 		}
 		
 	}
@@ -265,11 +310,12 @@ final class Analyser {
 	 * Convert the results to a list of lines with metadata.
 	 */
 	List<LineString> resultAsLineList () {
+		GeometryFactory factory = new GeometryFactory();
 		List<LineString> list = new LinkedList<LineString>();
 		for (final ResultSet resultLine: this.results) {
-			LineString clone = new LineString(resultLine.line.getCoordinateSequence(), new GeometryFactory());
-			GeometryMeta.set(clone, resultLine.line, resultLine.parallelisms.first().toString());
-			list.add(clone);
+			LineString line = new LineString(resultLine.line.getCoordinateSequence(), factory);
+			line.setUserData( resultLine.line.getUserData() );
+			list.add(line);
 		}
 		return list;
 	}
@@ -299,32 +345,17 @@ final class Analyser {
 		final double overlap;
 		
 		Parallelism (final LineString baseLine, final LineString fragment) {
-			this.origin = GeometryMeta.origin(fragment);
+			this.origin = LinePartMeta.origin(fragment);
 			this.overlap = fragment.getLength() / baseLine.getLength();
 		}
 		
 		public String toString () {
-			return GeometryMeta.description(this.origin) + " (" + Math.max(1, Math.round((float)this.overlap * 100f)) + "%)";
+			return LineMeta.description(this.origin) + " (" + Math.max(1, Math.round((float)this.overlap * 100f)) + "%)";
 		}
 		
 		// we want instances to be easily sortable so that in a list of parallelisms,
 		// the one with the highest degree of overlap comes up first
 		public int compareTo (final Parallelism that) {
-			if (this.equals(that)) {
-				/* We can't really represent this case completely correctly,
-				 * but need to handle it somewhat gracefully at least.
-				 * The Comparable contract requires every compareTo
-				 * implementation to be invertible, i. e.
-				 * <code>x.compareTo(y) == -y.compareTo(x)</code>.
-				 * We are unable to satsify this requirement well given our
-				 * data structure, but since we only use it to sort some
-				 * percentages into a sort of sensible order to ease reading
-				 * comprehension, it doesn't matter if compareTo yields
-				 * confusing results in our particular case.
-				 */
-				final int hashDifference = this.objectHashCode() - that.objectHashCode();
-				return hashDifference != 0 ? hashDifference : Integer.MAX_VALUE;
-			}
 			return -1 * Double.compare(this.overlap, that.overlap);
 		}
 		
@@ -339,14 +370,7 @@ final class Analyser {
 		
 		// if we need to override equals, we also need to override hashCode (by contract terms)
 		public int hashCode () {
-			return (int)(overlap * (double)(Integer.MAX_VALUE - Integer.MIN_VALUE));
-		}
-		
-		private int objectHashCode () {
-			// this would be the original hash code as returned by the
-			// java.lang.Object implementation; usually this relates to the
-			// object's logical location in memory
-			return super.hashCode();
+			return (int)(this.overlap * (double)(Integer.MAX_VALUE - Integer.MIN_VALUE));
 		}
 	}
 	
@@ -363,6 +387,10 @@ final class Analyser {
 		ResultSet (final LineString line, final Collection<Parallelism> parallelisms) {
 			this.line = line;
 			this.parallelisms = new TreeSet<Parallelism>(parallelisms);
+			
+			// store results for later use in shapefile output
+			final LineMeta meta = LineMeta.getFrom(line);
+			meta.analyserResults = this;
 		}
 		
 		public String toString() {
@@ -370,7 +398,7 @@ final class Analyser {
 			for (final Parallelism parallelism : parallelisms) {
 				if (description == null) {
 					description = new StringBuilder();
-					description.append(GeometryMeta.description(this.line));
+					description.append(LineMeta.description(this.line));
 					description.append(" is parallel to ");
 				}
 				else {

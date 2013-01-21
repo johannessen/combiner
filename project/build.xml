@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <!-- This is an Apache Ant build file. -->
-<project default="run">
+<project default="build">
 	
 	<!--
 		The class path consists of the lib directory and any _immediate_ subdirectories.
 		Required dependency (unpack these into lib/):
 		
-		- GeoTools 8.3 (no other versions tested)
+		- GeoTools 8.5 (no other versions tested)
 		  http://www.geotools.org/
 		  NB: manual EPSG Authority management required!
-		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-8.3.jar)
+		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-8.5.jar)
 		
 	-->
 	<path id="libsRef">
@@ -52,10 +52,10 @@
 <!--
 	<target name="package" depends="build">
 		<mkdir dir="build/dist"/>
-		<jar destfile="build/dist/espebu.jar" basedir="build/classes">
+		<jar destfile="build/dist/testbed.jar" basedir="build/classes">
 			<manifest>
-				<attribute name="Main-Class" value="de.thaw.espebu.Espebu"/>
-				<attribute name="Class-Path" value="lib/geotools-8.3/*"/>
+				<attribute name="Main-Class" value="de.thaw.thesis.testbed.Testbed"/>
+				<attribute name="Class-Path" value="lib/geotools-8.5/*"/>
 			</manifest>
 		</jar>
 	</target>
@@ -80,27 +80,35 @@
 	
 	
 	
-	<!--
-		Alternatively, try this on the CLI:
-		$ IN=../data/shape-test/simple.shp
-		$ OUT=build/out.shp
-		$ java -cp build/classes:lib/geotools-8.3/* de.thaw.espebu.Espebu "$IN" "$OUT"
-	-->
 	<target name="run" depends="build">
+		<exec executable="./run-testbed.sh" dir="."/>
+	</target>
+<!--
+	<target name="run" depends="build">
+		<java classname="de.thaw.thesis.testbed.Testbed">
+			<classpath>
+				<pathelement path="build/classes"/>
+				<path refid="libsRef"/>
+			</classpath>
+			<arg path="../data/shape-test/simple.shp"/>
+			<arg path="build/out.shp"/>
+		</java>
+	</target>
+-->
+	
+	
+	
+	<target name="all" depends="clean, build, doc" />
+	
+	
+	
+	<target name="espebu" depends="build">
 		<java classname="de.thaw.espebu.Espebu">
 			<classpath>
 				<pathelement path="build/classes"/>
 				<path refid="libsRef"/>
 			</classpath>
-<!--
-			<arg path="../data/shape-test/simple.shp"/>
-			<arg path="build/out.shp"/>
--->
 		</java>
 	</target>
-	
-	
-	
-	<target name="all" depends="clean, build, doc, run" />
 	
 </project>
