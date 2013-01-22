@@ -1,10 +1,12 @@
 #! /bin/bash
 
+set -x
+set -e
 
 # TODO: verify we're in correct dir!
 
 
-TEMPDIR=`mktemp -d -t 'prepare-testdata'`
+TEMPDIR=`mktemp -d -t 'prepare-testdataXXXXXX'`
 
 # Source:
 # http://www.remote.org/frederik/tmp/nrw-roads.zip

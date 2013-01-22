@@ -2,3 +2,4 @@
 /project/build
 /project/lib/geotools-8.5
 /data/testbed/nrw-roads.zip
+*.swp
