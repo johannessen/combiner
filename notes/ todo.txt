@@ -1,0 +1,6 @@
+offene Punkte
+=============
+
+(Diese Liste ist meistens unvollständig, weil ich kurzfristige oder dringende Punkte oft nur handschriftlich führe.)
+
+- CRS-Transformationen sind suboptimal, weil langsam. Kartesisch abgebildete Daten sind suboptimal wegen der Grenzen der kartesischen Systeme (UTM-Zonen etc.). Jochen: Unmittelbar in geogr. Kooridnaten zu arbeiten oder jedenfalls die Daten anstelle von Geotools lieber selbst zu transformieren (Plattkarte?), ist möglicherweise besser.

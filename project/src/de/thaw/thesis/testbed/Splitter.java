@@ -152,7 +152,7 @@ final class Splitter {
 			final Point[] line2Points = namedLinePoints(line2);
 			for (final Point line2Point: line2Points) {
 				
-				double minDistance = Double.POSITIVE_INFINITY;
+				double minDistance = 40.0;
 				SplitJob minDistanceJob = null;
 				
 				log(3, "");
@@ -162,7 +162,7 @@ final class Splitter {
 					// => terminateDistance must be zero
 					DistanceOp distOp = new DistanceOp(line1, line2Point, 0.0);
 					Coordinate[] nearestPoints = distOp.nearestPoints();
-
+					
 					Coordinate coordinateOnLine1NearestToLine2Point = nearestPoints[0];  // :BUG: relies on DistanceOp implementation detail of JTS version 1.12
 					Point splitPoint = this.createPoint(coordinateOnLine1NearestToLine2Point, line1, k);
 					

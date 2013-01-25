@@ -73,6 +73,10 @@ public final class Testbed {
 		analyser.originalLines = originalLines;
 		analyser.analyse();
 		
+		final ParallelDisprover disprover = new ParallelDisprover(analyser.results);
+		disprover.analyse();
+		
+		
 		Testbed.successfulLines = 0;
 		new ShapeWriter(destPath).writeGeometries(
 				analyser.resultAsLineList(),
@@ -105,6 +109,8 @@ public final class Testbed {
 						+ "," + this.PARALLEL_OSM_ID + ":Integer"
 						+ ",desc:String"
 						+ ",reciprocal:Integer"
+						+ ",in_buffer:Integer"
+						+ ",no_par:Integer"
 						);
 			}
 			
@@ -112,8 +118,36 @@ public final class Testbed {
 				// :TRICKY: positional arguments MUST be in same order as in .featureType()
 				
 				final LineMeta geometryMeta = LineMeta.getFrom(geometry);
+				
+				boolean parallelFound = geometryMeta.analyserResults.parallelisms.size() > 0;
+				if (! parallelFound) {
+					List<Object> attributes = new LinkedList<Object>();
+					attributes.add( geometryMeta.toString() );
+					attributes.add( -1 );
+					attributes.add( "none found" );
+					attributes.add( 0 );
+					attributes.add( 0 );
+					attributes.add( 1 );
+					Testbed.successfulLines++;
+					return attributes;
+				}
+				
 				final Geometry parallel = geometryMeta.analyserResults.parallelisms.first().origin;
 				final LineMeta parallelMeta = LineMeta.getFrom(parallel);
+				
+				boolean originalFound = parallelMeta.analyserResults.parallelisms.size() > 0;
+				if (! originalFound) {
+					List<Object> attributes = new LinkedList<Object>();
+					attributes.add( geometryMeta.toString() );
+					attributes.add( -2 );
+					attributes.add( "none found 2" );
+					attributes.add( 0 );
+					attributes.add( 0 );
+					attributes.add( 1 );
+					Testbed.successfulLines++;
+					return attributes;
+				}
+				
 				final Geometry parallelParallel = parallelMeta.analyserResults.parallelisms.first().origin;
 				
 				/* does the "likely parallel" of this LineString have _this_
@@ -121,7 +155,14 @@ public final class Testbed {
 				 * then these two are almost definitely parallel (provided the
 				 * metric used by the Analyser works okay)
 				 */
-				boolean reciprocal = LineMeta.getFrom(parallelParallel) == LineMeta.getFrom(geometry);
+//				boolean reciprocal = LineMeta.getFrom(parallelParallel) == LineMeta.getFrom(geometry);
+				boolean reciprocal = false;
+				Analyser.Parallelism[] p = parallelMeta.analyserResults.parallelisms.toArray(new Analyser.Parallelism[0]);
+				for (int i = 0; i < p.length; i++) {
+					reciprocal |= LineMeta.getFrom(p[i].origin) == LineMeta.getFrom(geometry);
+				}
+				
+//				if (reciprocal || ! geometryMeta.analyserResults.parallelismsInBuffer) {
 				if (reciprocal) {
 					Testbed.successfulLines++;
 				}
@@ -159,6 +200,8 @@ public final class Testbed {
 				attributes.add( parallelMeta.toString() );
 				attributes.add( geometryMeta.analyserResults.toString() );
 				attributes.add( reciprocal ? 1 : 0 );
+				attributes.add( geometryMeta.analyserResults.parallelismsInBuffer ? 1 : 0 );
+				attributes.add( 0 );
 				
 				return attributes;
 			}

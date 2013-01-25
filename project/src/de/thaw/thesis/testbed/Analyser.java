@@ -384,6 +384,14 @@ final class Analyser {
 		final LineString line;
 		final SortedSet<Parallelism> parallelisms;
 		
+		/**
+		 * If a buffer analysis is run and concludes that all of this
+		 * instance's parallelisms are in fact inside this line's buffer, this
+		 * field is set to true.
+		 * @see ParallelDisprover
+		 */
+		boolean parallelismsInBuffer = false;
+		
 		ResultSet (final LineString line, final Collection<Parallelism> parallelisms) {
 			this.line = line;
 			this.parallelisms = new TreeSet<Parallelism>(parallelisms);
