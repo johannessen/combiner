@@ -34,6 +34,12 @@ final class LinePartMeta extends GeometryMeta {
 	
 	
 	/**
+	 * 
+	 */
+	ParallelismFinder.ResultSet finderResults = null;
+	
+	
+	/**
 	 */
 	LinePartMeta (final Geometry parent, final String description) {
 		super(parent, description);

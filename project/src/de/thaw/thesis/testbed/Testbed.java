@@ -31,6 +31,9 @@ public final class Testbed {
 	static int VERBOSITY () { return 1; }
 	
 	static int successfulLines = Integer.MIN_VALUE;
+	static int parallelLines = Integer.MIN_VALUE;
+	
+	static String debugOutPath = null;
 	
 	
 	static Collection<LineString> getLineStrings (final String path) throws Exception {
@@ -49,11 +52,11 @@ public final class Testbed {
 	
 	/**
 	 * Run parallelism analysis of *exactly* the lines read from the Shapefile.
-	 * No output other than debug messages inside the Analyser.
+	 * No output other than debug messages inside the ParallelismFinder.
 	 */
 	static void analyse (final String sourcePath) throws Exception {
 		final Collection<LineString> lines = Testbed.getLineStrings(sourcePath);
-		new Analyser(lines).analyse();
+		new ParallelismFinder(lines).analyse();
 	}
 	
 	
@@ -69,17 +72,35 @@ public final class Testbed {
 		final Splitter splitter = new Splitter(originalLines);
 		splitter.split();
 		
-		final Analyser analyser = new Analyser(splitter.lines);
-		analyser.originalLines = originalLines;
-		analyser.analyse();
+		final ParallelismFinder finder = new ParallelismFinder(splitter.lines);
+//		finder.originalLines = originalLines;
+		finder.analyse();
 		
-		final ParallelDisprover disprover = new ParallelDisprover(analyser.results);
+		final ParallelDisprover disprover = new ParallelDisprover(finder.results);
 		disprover.analyse();
 		
+		final List<LineString> lineList = finder.resultAsLineList();
 		
-		Testbed.successfulLines = 0;
+		final SimpleGeneraliser generaliser = new SimpleGeneraliser(lineList);
+		final List<LineString> generalisedLines = generaliser.generalise();
+		
+		// new output: generalisation result
+/*
 		new ShapeWriter(destPath).writeGeometries(
-				analyser.resultAsLineList(),
+				generalisedLines,
+				new ShapeWriter.DefaultLineDelegate());
+*/
+		new Merger(generalisedLines).mergeAndWriteTo(destPath);
+		
+		
+		// old output: line fragments with new attributes
+		if (debugOutPath == null) {
+			return;
+		}
+		Testbed.successfulLines = 0;
+		Testbed.parallelLines = 0;
+		new ShapeWriter(debugOutPath).writeGeometries(
+				lineList,
 				new ShapeWriterDelegate() {
 			// this delegate enables us to include attributes with the geometry written to the output Shapefile
 			
@@ -87,20 +108,6 @@ public final class Testbed {
 			
 			public SimpleFeatureType featureType () throws SchemaException {
 				// :TRICKY: positional arguments MUST be in same order as in .attributes(Geometry)
-				
-/*
-				// :BUG: throws varying errors indicating trouble with property count and order; not traceable
-				
-				final SimpleFeatureTypeBuilder builder = new SimpleFeatureTypeBuilder();
-				builder.init(reader.featureType);
-//				builder.remove("the_geom");
-//				builder.add("geometry", LineString.class, Testbed.INTERNAL_EPSG_CODE());  // :BUG: simpleFeaturesFromGeometries writes geometry first, needs adjustment
-				builder.setName("ParallelLines");
-//				builder.add(this.PARALLEL_OSM_ID, Long.class);
-				builder.setDefaultGeometry("geometry");
-				final SimpleFeatureType type = builder.buildFeatureType();
-				return type;
-*/
 				
 				// :BUG: may not work with 64 bit IDs
 				return DataUtilities.createType( "ParallelLines",
@@ -114,17 +121,27 @@ public final class Testbed {
 						);
 			}
 			
+			int safeParseInt (String s) {
+				try {
+					return Integer.parseInt(s);
+				}
+				catch (NumberFormatException e) {
+					return Integer.MIN_VALUE;
+				}
+			}
+			
 			public List attributes (Geometry geometry) {
 				// :TRICKY: positional arguments MUST be in same order as in .featureType()
 				
-				final LineMeta geometryMeta = LineMeta.getFrom(geometry);
+//				final LineMeta geometryMeta = LineMeta.getFrom(geometry);
+				final LinePartMeta geometryMeta = LinePartMeta.getFrom(geometry);
 				
-				boolean parallelFound = geometryMeta.analyserResults.parallelisms.size() > 0;
+				boolean parallelFound = geometryMeta.finderResults.parallelisms.size() > 0;
 				if (! parallelFound) {
 					List<Object> attributes = new LinkedList<Object>();
-					attributes.add( geometryMeta.toString() );
-					attributes.add( -1 );
-					attributes.add( "none found" );
+					attributes.add( safeParseInt(geometryMeta.toString()) );
+					attributes.add( Integer.MIN_VALUE );
+					attributes.add( LineMeta.description(geometry) + ": none found" );
 					attributes.add( 0 );
 					attributes.add( 0 );
 					attributes.add( 1 );
@@ -132,15 +149,16 @@ public final class Testbed {
 					return attributes;
 				}
 				
-				final Geometry parallel = geometryMeta.analyserResults.parallelisms.first().origin;
-				final LineMeta parallelMeta = LineMeta.getFrom(parallel);
+				final Geometry parallel = geometryMeta.finderResults.parallelisms.first().origin;
+//				final LineMeta parallelMeta = LineMeta.getFrom(parallel);
+				final LinePartMeta parallelMeta = LinePartMeta.getFrom(parallel);
 				
-				boolean originalFound = parallelMeta.analyserResults.parallelisms.size() > 0;
+				boolean originalFound = parallelMeta.finderResults.parallelisms.size() > 0;
 				if (! originalFound) {
 					List<Object> attributes = new LinkedList<Object>();
-					attributes.add( geometryMeta.toString() );
-					attributes.add( -2 );
-					attributes.add( "none found 2" );
+					attributes.add( safeParseInt(geometryMeta.toString()) );
+					attributes.add( Integer.MIN_VALUE + 1 );
+					attributes.add( LineMeta.description(geometry) + ": none found 2" );
 					attributes.add( 0 );
 					attributes.add( 0 );
 					attributes.add( 1 );
@@ -148,59 +166,32 @@ public final class Testbed {
 					return attributes;
 				}
 				
-				final Geometry parallelParallel = parallelMeta.analyserResults.parallelisms.first().origin;
+				final Geometry parallelParallel = parallelMeta.finderResults.parallelisms.first().origin;
 				
 				/* does the "likely parallel" of this LineString have _this_
 				 * LineString registered as its own "likely parallel"? If so,
 				 * then these two are almost definitely parallel (provided the
-				 * metric used by the Analyser works okay)
+				 * metric used by the ParallelismFinder works okay)
 				 */
 //				boolean reciprocal = LineMeta.getFrom(parallelParallel) == LineMeta.getFrom(geometry);
 				boolean reciprocal = false;
-				Analyser.Parallelism[] p = parallelMeta.analyserResults.parallelisms.toArray(new Analyser.Parallelism[0]);
+				Parallelism[] p = parallelMeta.finderResults.parallelisms.toArray(new Parallelism[0]);
 				for (int i = 0; i < p.length; i++) {
-					reciprocal |= LineMeta.getFrom(p[i].origin) == LineMeta.getFrom(geometry);
+					reciprocal |= LinePartMeta.getFrom(p[i].origin) == LinePartMeta.getFrom(geometry);
 				}
 				
-//				if (reciprocal || ! geometryMeta.analyserResults.parallelismsInBuffer) {
+//				if (reciprocal || ! geometryMeta.finderResults.parallelismsInBuffer) {
 				if (reciprocal) {
+					Testbed.parallelLines++;
 					Testbed.successfulLines++;
 				}
 				
-/*
-				// copy attributes from source file
-				
-				// :BUG: throws varying errors indicating trouble with property count and order; not traceable
-				
-				// OpenGIS uses Java Collections in its interface, and collections are unordered
-				// but the actual collections used all seem to be Lists (which are ordered collections)
-				
-				final List<Object> attributes = new LinkedList<Object>();
-				try {
-					for (final AttributeDescriptor attribute: this.featureType().getAttributeDescriptors()) {
-						final String attributeName = attribute.getLocalName();
-//						if (attributeName == "geometry") {
-//							continue;
-//						}
-						if (attributeName == this.PARALLEL_OSM_ID) {
-							final Object osmId = parallelOriginMeta.feature.getAttribute(ShapeReader.OSM_ID_ATTRIBUTE);
-							attributes.add( osmId );
-							continue;
-						}
-						attributes.add( geometryOriginMeta.feature.getAttribute(attributeName) );
-					}
-				}
-				catch (SchemaException exception) {
-					throw new RuntimeException(exception);
-				}
-*/
-				
 				List<Object> attributes = new LinkedList<Object>();
-				attributes.add( geometryMeta.toString() );
-				attributes.add( parallelMeta.toString() );
-				attributes.add( geometryMeta.analyserResults.toString() );
+				attributes.add( safeParseInt(geometryMeta.toString()) );
+				attributes.add( safeParseInt(parallelMeta.toString()) );
+				attributes.add( geometryMeta.finderResults.toString() );
 				attributes.add( reciprocal ? 1 : 0 );
-				attributes.add( geometryMeta.analyserResults.parallelismsInBuffer ? 1 : 0 );
+				attributes.add( geometryMeta.finderResults.parallelismsInBuffer ? 1 : 0 );
 				attributes.add( 0 );
 				
 				return attributes;
@@ -208,7 +199,8 @@ public final class Testbed {
 			
 		});
 		
-		System.out.println("Success rate: " + Testbed.successfulLines + " of " + originalLines.size());
+		System.out.println("Reciprocal rate: " + Testbed.parallelLines + " of " + finder.originalLines.size());
+		System.out.println("Analysis success rate: " + Testbed.successfulLines + " of " + finder.originalLines.size());
 	}
 	
 	
@@ -224,8 +216,11 @@ public final class Testbed {
 	
 	
 	public static void main (String[] args) throws Throwable {
-		final String in = args.length > 0 ? args[0] : "";
-		final String out = args.length > 1 ? args[1] : "";
+		final String in = args.length > 0 ? args[0] : null;
+		final String out = args.length > 1 ? args[1] : null;
+		if (args.length > 2) {
+			Testbed.debugOutPath = args[2];
+		}
 		
 //		final String in = "~aj3/Studium/Daten/nrw-road/koeln-motorways.shp";
 //		final String in = "../data/shape-test/simple.shp";

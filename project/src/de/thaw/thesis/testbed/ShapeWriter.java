@@ -63,7 +63,7 @@ final class ShapeWriter {
 	/**
 	 * The EPSG code of the CRS that the features provided are referred to.
 	 */
-	int sourceEpsgCode = Testbed.INTERNAL_EPSG_CODE();
+	static int sourceEpsgCode = Testbed.INTERNAL_EPSG_CODE();
 	
 	
 	/**
@@ -202,7 +202,7 @@ final class ShapeWriter {
 	/**
 	 * A <code>ShapeWriterDelegate</code> defining no attributes by default.
 	 */
-	abstract class DefaultDelegate implements ShapeWriterDelegate {
+	static abstract class DefaultDelegate implements ShapeWriterDelegate {
 		
 		/**
 		 * Returns an empty attribute list.
@@ -220,9 +220,9 @@ final class ShapeWriter {
 	 * A <code>ShapeWriterDelegate</code> defining an output of
 	 * <code>LineString</code>s without attributes.
 	 */
-	class DefaultLineDelegate extends DefaultDelegate {
+	static class DefaultLineDelegate extends DefaultDelegate {
 		public SimpleFeatureType featureType () throws SchemaException {
-			return DataUtilities.createType("Location", "location:LineString:srid=" + ShapeWriter.this.sourceEpsgCode);
+			return DataUtilities.createType("Location", "location:LineString:srid=" + ShapeWriter.sourceEpsgCode);
 		}
 	}
 	
@@ -231,9 +231,9 @@ final class ShapeWriter {
 	 * A <code>ShapeWriterDelegate</code> defining an output of
 	 * <code>Point</code>s without attributes.
 	 */
-	class DefaultPointDelegate extends DefaultDelegate {
+	static class DefaultPointDelegate extends DefaultDelegate {
 		public SimpleFeatureType featureType () throws SchemaException {
-			return DataUtilities.createType("Location", "location:Point:srid=" + ShapeWriter.this.sourceEpsgCode);
+			return DataUtilities.createType("Location", "location:Point:srid=" + ShapeWriter.sourceEpsgCode);
 		}
 	}
 	

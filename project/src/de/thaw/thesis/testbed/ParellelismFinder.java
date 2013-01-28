@@ -31,7 +31,7 @@ import java.util.LinkedList;
  * This implementation works best on parallel line fragments of approximately
  * equal length. The {@link Splitter} may be used to create such fragments.
  */
-final class Analyser {
+final class ParallelismFinder {
 	
 	
 	/**
@@ -65,8 +65,6 @@ final class Analyser {
 	 */
 	Collection<LineString> originalLines;
 	
-	// :TODO: we can prolly use this together with the Merger to get some interesting results...
-	
 	
 	
 	/**
@@ -98,7 +96,7 @@ final class Analyser {
 	 * 
 	 * @see #originalLines
 	 */
-	Analyser (final Collection<LineString> lines) {
+	ParallelismFinder (final Collection<LineString> lines) {
 		this.evaluationLines = lines;
 		this.originalLines = lines;
 	}
@@ -109,7 +107,7 @@ final class Analyser {
 	 * 
 	 * @see <a href="http://en.wikipedia.org/wiki/Course_(navigation)">definition of a course</a>
 	 */
-	double orientation (final Coordinate start, final Coordinate end) {
+	static double orientation (final Coordinate start, final Coordinate end) {
 		final double orientation = Math.atan2(end.x - start.x, end.y - start.y) * 180.0 / Math.PI;
 		return orientation < 0.0 ? orientation + 360.0 : orientation;
 	}
@@ -117,8 +115,8 @@ final class Analyser {
 	
 	/**
 	 */
-	double orientation (final LineString line) {
-		return this.orientation(line.getStartPoint().getCoordinate(), line.getEndPoint().getCoordinate());
+	static double orientation (final LineString line) {
+		return orientation(line.getStartPoint().getCoordinate(), line.getEndPoint().getCoordinate());
 	}
 	
 	
@@ -127,7 +125,7 @@ final class Analyser {
 	 *  (for example, 0 for exactly parallel lines in the same direction, 180
 	 *  for opposite directions, or 90 for orthogonal directions)
 	 */
-	double orientationDifference (final double orientation1, final double orientation2) {
+	static double orientationDifference (final double orientation1, final double orientation2) {
 		double difference = Math.abs(orientation2 - orientation1);
 		if (difference > 180.0) {
 			difference = 360.0 - difference;
@@ -138,15 +136,15 @@ final class Analyser {
 	
 	/**
 	 */
-	double orientationDifference (final LineString line1, final LineString line2) {
-		return this.orientationDifference(this.orientation(line1), this.orientation(line2));
+	static double orientationDifference (final LineString line1, final LineString line2) {
+		return orientationDifference(orientation(line1), orientation(line2));
 	}
 	
 	
 	/**
 	 */
-	double compareOrientation (final double orientation1, final double orientation2) {
-		final double similarity = Math.abs(this.orientationDifference(orientation1, orientation2) - 90.0) / 90.0;
+	static double compareOrientation (final double orientation1, final double orientation2) {
+		final double similarity = Math.abs(orientationDifference(orientation1, orientation2) - 90.0) / 90.0;
 		return similarity == 0.0 ? Double.MIN_VALUE : similarity;
 	}
 	
@@ -154,7 +152,7 @@ final class Analyser {
 	/**
 	 */
 	double compareOrientation (final LineString line1, final LineString line2) {
-		return this.compareOrientation(this.orientation(line1), this.orientation(line2));
+		return compareOrientation(orientation(line1), orientation(line2));
 	}
 	
 	
@@ -166,7 +164,7 @@ final class Analyser {
 		
 		// reverse one of the lines before comparison if they're pointed in opposite directions
 		final LineString line2;
-		if (this.orientationDifference(line1, line2original) <= 90.0) {
+		if (orientationDifference(line1, line2original) <= 90.0) {
 			line2 = line2original;
 		}
 		else {
@@ -257,7 +255,7 @@ final class Analyser {
 				continue;
 			}
 			
-			final double similarity = compareLines(theLine, aLine);
+			final double similarity = this.compareLines(theLine, aLine);
 			log(3, "    similarity: " + similarity);
 			if (mostSimilarLine == null || similarity > maxSimilarity) {
 				mostSimilarLine = aLine;
@@ -271,7 +269,7 @@ final class Analyser {
 	
 	/**
 	 * Runs the analysis. This method attempts to find the most similar line
-	 * for each of the {@link Analyser#evaluationLines}, then summarises and
+	 * for each of the {@link ParallelismFinder#evaluationLines}, then summarises and
 	 * collates the results of that operation before writing a text
 	 * representation of the collated results to the standard output.
 	 */
@@ -290,7 +288,8 @@ final class Analyser {
 			
 			final Collection<Parallelism> parallelisms = new LinkedList<Parallelism>();
 			for (final SimilarityRelation relation : similarities) {
-				if (LinePartMeta.origin(relation.line) == originalLine) {
+				if (LinePartMeta.origin(relation.line) == originalLine
+					|| relation.line == originalLine) {  // :BUG: should be one check or the other
 					parallelisms.add(new Parallelism( originalLine, relation.similarLine ));
 				}
 			}
@@ -313,8 +312,9 @@ final class Analyser {
 		GeometryFactory factory = new GeometryFactory();
 		List<LineString> list = new LinkedList<LineString>();
 		for (final ResultSet resultLine: this.results) {
-			LineString line = new LineString(resultLine.line.getCoordinateSequence(), factory);
-			line.setUserData( resultLine.line.getUserData() );
+			LineString line = resultLine.line;
+//			LineString line = new LineString(resultLine.line.getCoordinateSequence(), factory);
+//			line.setUserData( resultLine.line.getUserData() );
 			list.add(line);
 		}
 		return list;
@@ -331,46 +331,6 @@ final class Analyser {
 		SimilarityRelation (final LineString line, final LineString similarLine) {
 			this.line = line;
 			this.similarLine = similarLine;
-		}
-	}
-	
-	
-	
-	/**
-	 * Represents a relation between a line and a (likely) parallel line,
-	 * including the percentage to which the two lines are (likely) parallel.
-	 */
-	class Parallelism implements Comparable<Parallelism> {
-		final Geometry origin;
-		final double overlap;
-		
-		Parallelism (final LineString baseLine, final LineString fragment) {
-			this.origin = LinePartMeta.origin(fragment);
-			this.overlap = fragment.getLength() / baseLine.getLength();
-		}
-		
-		public String toString () {
-			return LineMeta.description(this.origin) + " (" + Math.max(1, Math.round((float)this.overlap * 100f)) + "%)";
-		}
-		
-		// we want instances to be easily sortable so that in a list of parallelisms,
-		// the one with the highest degree of overlap comes up first
-		public int compareTo (final Parallelism that) {
-			return -1 * Double.compare(this.overlap, that.overlap);
-		}
-		
-		// if we need to implement compareTo, we also need to override equals (by contract terms)
-		public boolean equals (final Object object) {
-			if (! (object instanceof Parallelism)) {
-				return false;
-			}
-			final Parallelism that = (Parallelism)object;
-			return this.overlap == that.overlap && this.origin == that.origin;
-		}
-		
-		// if we need to override equals, we also need to override hashCode (by contract terms)
-		public int hashCode () {
-			return (int)(this.overlap * (double)(Integer.MAX_VALUE - Integer.MIN_VALUE));
 		}
 	}
 	
@@ -397,16 +357,25 @@ final class Analyser {
 			this.parallelisms = new TreeSet<Parallelism>(parallelisms);
 			
 			// store results for later use in shapefile output
-			final LineMeta meta = LineMeta.getFrom(line);
-			meta.analyserResults = this;
+//			final LineMeta meta = LineMeta.getFrom(line);
+//			meta.finderResults = this;
+			final LinePartMeta meta = LinePartMeta.getFrom(line);
+			meta.finderResults = this;
 		}
 		
 		public String toString() {
+//			final String lineDescription = LineMeta.description(this.line);
+			final String lineDescription = LinePartMeta.description(this.line);
 			StringBuilder description = null;
+			
+			if (parallelisms.size() == 0) {
+				return lineDescription + " has no parallels.";
+			}
+			
 			for (final Parallelism parallelism : parallelisms) {
 				if (description == null) {
 					description = new StringBuilder();
-					description.append(LineMeta.description(this.line));
+					description.append(lineDescription);
 					description.append(" is parallel to ");
 				}
 				else {

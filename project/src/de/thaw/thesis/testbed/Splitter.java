@@ -62,7 +62,7 @@ final class Splitter {
 	 * identical anyhow.
 	 */
 //	final double EPSILON_DISTANCE = .00001;  // arc degrees
-	final double EPSILON_DISTANCE = 1.0;  // metres
+	final double EPSILON_DISTANCE = 2.0;  // metres
 	
 	
 	static int VERBOSITY = Testbed.VERBOSITY();
@@ -173,9 +173,12 @@ final class Splitter {
 					
 					log(3, "   line: " + LineMeta.description(line1) + " dist: " + distOp.distance() + " splitPt: " + LinePartMeta.description(splitPoint));
 					log(3, "   splitPt: " + splitPoint.toString());
+					
+					k++;
 				}
 				
 				if ( minDistanceJob == null ) {
+					log(2, k + ": skipped (minDistance " + minDistance + ")");
 					continue;
 				}
 				
@@ -186,7 +189,7 @@ final class Splitter {
 				
 				log(2, k + ": " + minDistance + " splitPt: " + LinePartMeta.description(minDistanceJob.point) + " line2: " + LineMeta.description(line2) + " line2Pt: " + LinePartMeta.description(line2Point));
 			}
-			k++;
+//			k++;
 		}
 		
 		return jobList;
@@ -330,7 +333,7 @@ final class Splitter {
 			// if we reach this point, the line is not present
 			
 			/* We need to add a copy of the line instead of the line itself to
-			 * keep the meta data straight. The Analyser expects having to deal
+			 * keep the meta data straight. The ParallelismFinder expects having to deal
 			 * with line _parts_. Real solution: change class structure.
 			 */
 			final LineString lineCopy = (LineString)factory.createGeometry(line);

@@ -24,9 +24,8 @@ fi
 echo "ogr2ogr clipping..."
 
 ogr2ogr -clipsrc ../bounding-boxes/koeln-bbox.shp  koeln.shp  "$TEMPDIR/roads.shp"
-
-# southeast
-ogr2ogr -clipsrc ../bounding-boxes/koeln-SE-bbox.shp  koeln-SE.shp  koeln.shp
+ogr2ogr -clipsrc ../bounding-boxes/koeln-SE-bbox.shp  koeln-SE.shp  koeln.shp  # SE - southeast
+ogr2ogr -clipsrc ../bounding-boxes/koeln-junkersdorf-bbox.shp  koeln-junkersdorf.shp  koeln.shp
 
 
 echo "ogr2ogr filtering..."
@@ -41,6 +40,7 @@ ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-main.shp koeln.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-SE-main.shp koeln-SE.shp
 ogr2ogr -where "$NO_SERVICE" koeln-noservice.shp koeln.shp
 ogr2ogr -where "$NO_SERVICE" koeln-SE-noservice.shp koeln-SE.shp
+ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-junkersdorf-main.shp koeln-junkersdorf.shp
 
 
 echo "cleanup..."

@@ -53,7 +53,7 @@ final class LineMeta {
 	/**
 	 * 
 	 */
-	Analyser.ResultSet analyserResults = null;
+	ParallelismFinder.ResultSet finderResults = null;
 	
 	
 	/**
@@ -66,14 +66,15 @@ final class LineMeta {
 	/**
 	 * Retrieves the <code>LineMeta</code> instance associated with the
 	 * passed geometry. If no user data is associated with it, or if the user
-	 * data associated with the geometry is a String, a new
-	 * <code>LineMeta</code> instance is created, associated and returned,
-	 * ready to use. The String (if any) is used as the {@link #description} of
-	 * the new <code>LineMeta</code> instance.
+	 * data associated with the geometry is not a geometry meta object, a new
+	 * run-time exception is thrown. If a <code>LinePartMeta</code> instance
+	 * is passed, the <code>LineMeta</code> instance of its parent is returned.
 	 * 
+	 * @throws NullPointerException if <code>geometry.getUserData()</code> is
+	 *  <code>null</code>
 	 * @throws ClassCastException if <code>geometry.getUserData()</code> is
 	 *  neither a <code>LineMeta</code> instance
-	 *  nor a <code>String</code>
+	 *  nor a <code>LinePartMeta</code> instance
 	 *  nor <code>null</code>
 	 * @see Geometry#getUserData()
 	 */
@@ -82,6 +83,9 @@ final class LineMeta {
 		if (userData == null) {
 			throw new NullPointerException("No LineMeta associated with the geometry that was provided");
 		}
+//		if (userData instanceof LinePartMeta) {
+//			return LineMeta.getFrom( LinePartMeta.origin(geometry) );
+//		}
 		if (! (userData instanceof LineMeta)) {
 			throw new ClassCastException("Geometry userData '" + geometry.getUserData().getClass() + "' is not LineMeta");
 		}
@@ -133,6 +137,11 @@ final class LineMeta {
 	 * @see #getFrom(Geometry)
 	 */
 	static String description (final Geometry geometry) {
+		
+//		if (geometry.getUserData() instanceof LinePartMeta) {
+//			return LinePartMeta.getFrom(geometry).description();
+//		}
+		
 		return LineMeta.getFrom(geometry).featureId();
 	}
 	

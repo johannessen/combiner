@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>345645.547290</xmin>
-            <ymin>5639375.468605</ymin>
-            <xmax>359871.311193</xmax>
-            <ymax>5648971.024171</ymax>
+            <xmin>340171.943999</xmin>
+            <ymin>5635907.522508</ymin>
+            <xmax>365071.302133</xmax>
+            <ymax>5652702.625825</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -24,9 +24,14 @@
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="false">
-        <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="out" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="out (generalised)" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="out20130119203708409" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="out20130129200817343" visible="1"/>
+            </filegroup>
+        </legendlayer>
+        <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="out-debug" showFeatureCount="0">
+            <filegroup open="true" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="out_debug20130119203708409" visible="1"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="1" open="true" checked="Qt::Unchecked" name="koeln-SE-motorway" showFeatureCount="0">
@@ -39,9 +44,9 @@
                 <legendlayerfile isInOverview="0" layerid="koeln_SE_main20130121151936201" visible="0"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="4" open="true" checked="Qt::Checked" name="koeln-SE-noservice" showFeatureCount="0">
+        <legendlayer drawingOrder="4" open="true" checked="Qt::Unchecked" name="koeln-SE-noservice" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="koeln_SE_noservice20130121151942320" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="koeln_SE_noservice20130121151942320" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="2" open="true" checked="Qt::Unchecked" name="koeln-SE" showFeatureCount="0">
@@ -60,7 +65,7 @@
             </filegroup>
         </legendlayer>
     </legend>
-    <projectlayers layercount="7">
+    <projectlayers layercount="8">
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln20130119203734990</id>
             <datasource>./koeln.shp</datasource>
@@ -554,11 +559,78 @@
             <attributeactions/>
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
-            <id>out20130119203708409</id>
+            <id>out20130129200817343</id>
             <datasource>./out.shp</datasource>
             <title></title>
             <abstract></abstract>
-            <layername>out</layername>
+            <layername>out (generalised)</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs</proj4>
+                    <srsid>3116</srsid>
+                    <srid>32632</srid>
+                    <authid>EPSG:32632</authid>
+                    <description>WGS 84 / UTM zone 32N</description>
+                    <projectionacronym>utm</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <provider encoding="System">ogr</provider>
+            <vectorjoins/>
+            <renderer-v2 symbollevels="0" type="singleSymbol">
+                <symbols>
+                    <symbol outputUnit="MM" alpha="1" type="line" name="0">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="170,0,255,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.26"/>
+                        </layer>
+                    </symbol>
+                </symbols>
+                <rotation field=""/>
+                <sizescale field=""/>
+            </renderer-v2>
+            <customproperties/>
+            <displayfield></displayfield>
+            <label>0</label>
+            <labelattributes>
+                <label fieldname="" text="Label"/>
+                <family fieldname="" name="Lucida Grande"/>
+                <size fieldname="" units="pt" value="12"/>
+                <bold fieldname="" on="0"/>
+                <italic fieldname="" on="0"/>
+                <underline fieldname="" on="0"/>
+                <strikeout fieldname="" on="0"/>
+                <color fieldname="" red="0" blue="0" green="0"/>
+                <x fieldname=""/>
+                <y fieldname=""/>
+                <offset x="0" y="0" units="pt" yfieldname="" xfieldname=""/>
+                <angle fieldname="" value="0" auto="0"/>
+                <alignment fieldname="" value="center"/>
+                <buffercolor fieldname="" red="255" blue="255" green="255"/>
+                <buffersize fieldname="" units="pt" value="1"/>
+                <bufferenabled fieldname="" on=""/>
+                <multilineenabled fieldname="" on=""/>
+                <selectedonly on=""/>
+            </labelattributes>
+            <editform>.</editform>
+            <editforminit></editforminit>
+            <annotationform>.</annotationform>
+            <attributeactions/>
+        </maplayer>
+        <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
+            <id>out_debug20130119203708409</id>
+            <datasource>./out-debug.shp</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>out-debug</layername>
             <srs>
                 <spatialrefsys>
                     <proj4>+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs</proj4>
@@ -576,11 +648,37 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="RuleRenderer">
                 <rules>
-                    <rule symbol="0"/>
-                    <rule filter="reciprocal = 0" symbol="1"/>
+                    <rule filter="no_par = 1" symbol="0" label="internal error"/>
+                    <rule filter="in_buffer = 0 and reciprocal = 0" symbol="1" label="no parallel (successful line)"/>
+                    <rule symbol="2" label="reciprocal (successful line)"/>
+                    <rule filter="reciprocal = 0 and in_buffer = 1" symbol="3" label="doubtful case"/>
                 </rules>
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="line" name="0">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="255,255,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="2.26"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="1" type="line" name="1">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="0,85,255,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="1.26"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="1" type="line" name="2">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="square"/>
                             <prop k="color" v="0,170,0,255"/>
@@ -592,26 +690,26 @@
                             <prop k="width" v="0.26"/>
                         </layer>
                     </symbol>
-                    <symbol outputUnit="MM" alpha="1" type="line" name="1">
+                    <symbol outputUnit="MM" alpha="1" type="line" name="3">
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="round"/>
-                            <prop k="color" v="255,170,0,255"/>
+                            <prop k="color" v="255,149,0,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="joinstyle" v="round"/>
                             <prop k="offset" v="0"/>
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="0.56"/>
+                            <prop k="width" v="0.8"/>
                         </layer>
                         <layer pass="0" class="SimpleLine" locked="0">
                             <prop k="capstyle" v="round"/>
-                            <prop k="color" v="255,170,0,255"/>
+                            <prop k="color" v="255,149,0,255"/>
                             <prop k="customdash" v="5;2"/>
                             <prop k="joinstyle" v="round"/>
                             <prop k="offset" v="0"/>
                             <prop k="penstyle" v="dot"/>
                             <prop k="use_custom_dash" v="0"/>
-                            <prop k="width" v="0.488205"/>
+                            <prop k="width" v="0.697436"/>
                         </layer>
                     </symbol>
                 </symbols>
@@ -641,6 +739,8 @@
             </labelattributes>
             <edittypes>
                 <edittype type="0" name="desc"/>
+                <edittype type="0" name="in_buffer"/>
+                <edittype type="0" name="no_par"/>
                 <edittype type="0" name="osm_id"/>
                 <edittype type="0" name="para_osmid"/>
                 <edittype type="0" name="reciprocal"/>

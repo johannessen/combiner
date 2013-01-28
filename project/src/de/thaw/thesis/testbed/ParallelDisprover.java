@@ -27,7 +27,7 @@ import com.vividsolutions.jts.operation.buffer.BufferParameters;
  * <code>Analyser</code>'s way of marking multiple lines as possible parallels.
  * Therefore the internals of this class depend heavily on those of the
  * <code>Analyser</code>.
- * @see Analayser
+ * @see Analyser
  */
 final class ParallelDisprover {
 	
@@ -35,7 +35,7 @@ final class ParallelDisprover {
 	/**
 	 * The input lines for this analysis.
 	 */
-	final Collection<Analyser.ResultSet> analyserResults;
+	final Collection<ParallelismFinder.ResultSet> finderResults;
 	
 	
 	/**
@@ -60,11 +60,11 @@ final class ParallelDisprover {
 	
 	
 	/**
-	 * @param analyserResults a collection containing the results of the
+	 * @param finderResults a collection containing the results of the
 	 *  initial parallelism analysis.
 	 */
-	ParallelDisprover (Collection<Analyser.ResultSet> analyserResults) {
-		this.analyserResults = analyserResults;
+	ParallelDisprover (Collection<ParallelismFinder.ResultSet> finderResults) {
+		this.finderResults = finderResults;
 	}
 	
 	
@@ -75,8 +75,8 @@ final class ParallelDisprover {
 	 * side of the line, but rather behind it or ahead of it, it means that
 	 * there apparently is no parallel line and the <code>Analyser</code>'s
 	 * result is wrong. The result sets are then marked as such by means
-	 * of{@link Analyser.ResultSet#parallismsInBuffer} and also removed from
-	 * the result collection iff {@link #remvoeDisproven} is <code>true</code>.
+	 * of{@link Analyser.ResultSet#parallelismsInBuffer} and also removed from
+	 * the result collection iff {@link #removeDisproven} is <code>true</code>.
 	 */
 	void analyse () {
 		
@@ -88,15 +88,15 @@ final class ParallelDisprover {
 		 */
 		final BufferParameters params = new BufferParameters(0, BufferParameters.CAP_FLAT);
 		
-		for (final Analyser.ResultSet result : analyserResults) {
+		for (final ParallelismFinder.ResultSet result : finderResults) {
 			
 			// collect all disproven parallelisms
-			final LinkedList<Analyser.Parallelism> disproven = new LinkedList<Analyser.Parallelism>();
+			final LinkedList<Parallelism> disproven = new LinkedList<Parallelism>();
 			
 			// we assume that the other lines are in fact all parallel, then check if that's true
 			result.parallelismsInBuffer = true;
 			
-			for (final Analyser.Parallelism parallelism : result.parallelisms) {
+			for (final Parallelism parallelism : result.parallelisms) {
 				
 				final Geometry theLine = result.line;
 				final Geometry aLine = parallelism.origin;
@@ -138,7 +138,7 @@ final class ParallelDisprover {
 	void analyse () {
 		final BufferParameters params = new BufferParameters(0, BufferParameters.CAP_FLAT);
 		
-		for (final Analyser.ResultSet result : analyserResults) {
+		for (final Analyser.ResultSet result : finderResults) {
 			
 			result.parallelismsInBuffer = true;
 			
