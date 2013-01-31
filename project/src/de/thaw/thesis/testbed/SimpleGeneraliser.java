@@ -149,6 +149,8 @@ final class SimpleGeneraliser {
 	 */
 	LineString generalisedLine (final LineString line, final LineString parallel) {
 		
+		// :TODO: (4) -> walk along LineString with more points, then findNearestPoint for each one, then use that to generate sequential mid points
+		
 		final Coordinate[][] linePoints = this.linePoints(line, parallel);
 		final Coordinate[] newLinePoints = new Coordinate[2];
 		

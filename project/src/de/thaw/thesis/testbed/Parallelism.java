@@ -19,7 +19,7 @@ import com.vividsolutions.jts.geom.LineString;
  * This "percentage" is merely a rough measure based on the geometric length of
  * the two lines.
  */
-class Parallelism implements Comparable<Parallelism> {
+final class Parallelism implements Comparable<Parallelism> {
 	
 	final Geometry origin;
 	
