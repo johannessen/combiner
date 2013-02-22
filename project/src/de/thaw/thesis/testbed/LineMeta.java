@@ -24,21 +24,29 @@ import org.opengis.feature.simple.SimpleFeature;
  * processing.
  * <p>
  * For example, if the start- and end-points of a line are retrieved, these are
- * associated with a new <code>LineMeta</code> instance whose
- * {@link #parent} is set to the line. If the line is split into several
- * fragments, each of those is associated with a new <code>LineMeta</code>
- * instance whose {@link #parent} is set to the object representing the line
- * before it was split. Clients may then use {@link #origin(Geometry)} to
+ * associated with a new <code>LineMeta</code>. If the line is split into several
+ * fragments, each of those is associated with a new {@link LinePartMeta}
+ * instance whose {@link LinePartMeta#parent} is set to the object representing the line
+ * before it was split. Clients may then use {@link LinePartMeta#origin(Geometry)} to
  * retrieve the original geometry. The {@link Analyser} and {@link Splitter}
  * classes make some use of this.
  */
-final class LineMeta {
+public final class LineMeta {
 	
 	
 	/**
 	 * A reference to the original feature object as read from a data source.
 	 */
 	final SimpleFeature feature;
+	
+	
+	/**
+	 * A reference to the original feature object as read from a data source.
+	 * @return {@link #feature}
+	 */
+	public final SimpleFeature feature () {
+		return this.feature;
+	}
 	
 	
 	/**
@@ -78,7 +86,7 @@ final class LineMeta {
 	 *  nor <code>null</code>
 	 * @see Geometry#getUserData()
 	 */
-	static LineMeta getFrom (final Geometry geometry) {
+	public static LineMeta getFrom (final Geometry geometry) {
 		Object userData = geometry.getUserData();
 		if (userData == null) {
 			throw new NullPointerException("No LineMeta associated with the geometry that was provided");

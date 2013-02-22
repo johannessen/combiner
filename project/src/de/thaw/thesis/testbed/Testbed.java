@@ -17,7 +17,7 @@ import java.util.Collection;
 public final class Testbed {
 	
 	
-	static int INTERNAL_EPSG_CODE () { return 32632; }  // UTM 32 U
+	public static int INTERNAL_EPSG_CODE () { return 32632; }  // UTM 32 U
 	
 	static int VERBOSITY () { return 1; }
 	

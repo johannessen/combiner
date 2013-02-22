@@ -9,7 +9,8 @@
 package de.thaw.thesis.testbed;
 
 import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.operation.linemerge.LineMerger;
+//import com.vividsolutions.jts.operation.linemerge.LineMerger;
+import de.thaw.thesis.linemerge.LineMerger;
 
 import java.util.Collection;
 
@@ -29,11 +30,15 @@ final class Merger {
 	
 	@SuppressWarnings("unchecked")
 	void mergeAndWriteTo (final String newPath) throws Exception {
-		System.out.println(this.lines.size());
+		System.out.println(this.lines.size() + " lines to be merged");
 		
 		final LineMerger lineMerger = new LineMerger();
 		lineMerger.add(this.lines);
 		final Collection<LineString> mergedLines = lineMerger.getMergedLineStrings();
+		
+		for (final LineString line : mergedLines) {
+//			System.out.println(line.getUserData());  // check whetehr user data was kept through the merge
+		}
 		
 		System.out.println("Lines formed: " + mergedLines.size());
 //		System.out.println(mergedLines);

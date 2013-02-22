@@ -21,7 +21,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * type of features to create a Shapefile for and which attributes that
  * Shapefile should have back to this instance.
  */
-interface ShapeWriterDelegate {
+public interface ShapeWriterDelegate {
 	
 	
 	/**

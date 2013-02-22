@@ -26,8 +26,6 @@ import java.util.LinkedList;
 final class Analyser {
 	
 	
-	static int INTERNAL_EPSG_CODE () { return 32632; }  // UTM 32 U
-	
 	static int successfulLines = Integer.MIN_VALUE;
 	static int parallelLines = Integer.MIN_VALUE;
 	
@@ -48,7 +46,7 @@ final class Analyser {
 	
 	/**
 	 * Run parallelism analysis of the lines read from the Shapefile using the
-	 * splitting algorithm. Write output to new Shapefile.
+	 * splitting algorithm.
 	 */
 	void analyse () throws Exception {
 		
@@ -70,8 +68,7 @@ final class Analyser {
 	
 	
 	/**
-	 * Run parallelism analysis of the lines read from the Shapefile using the
-	 * splitting algorithm. Write output to new Shapefile.
+	 * Continue analysis; write output to new Shapefile.
 	 */
 	void outputResults (final String sourcePath, final String destPath, final String debugOutPath) throws Exception {
 		
@@ -109,6 +106,7 @@ final class Analyser {
 						+ ",reciprocal:Integer"
 						+ ",in_buffer:Integer"
 						+ ",no_par:Integer"
+						+ ",par_vec:Integer"
 						);
 			}
 			
@@ -136,6 +134,7 @@ final class Analyser {
 					attributes.add( 0 );
 					attributes.add( 0 );
 					attributes.add( 1 );
+					attributes.add( -1 );
 					Testbed.successfulLines++;
 					return attributes;
 				}
@@ -144,15 +143,19 @@ final class Analyser {
 //				final LineMeta parallelMeta = LineMeta.getFrom(parallel);
 				final LinePartMeta parallelMeta = LinePartMeta.getFrom(parallel);
 				
-				boolean originalFound = parallelMeta.finderResults.parallelisms.size() > 0;
+				boolean originalFound = false;
+				if (parallelMeta.finderResults != null) {  // :BUG: NullGeometry
+					originalFound = parallelMeta.finderResults.parallelisms.size() > 0;
+				}
 				if (! originalFound) {
 					List<Object> attributes = new LinkedList<Object>();
 					attributes.add( safeParseInt(geometryMeta.toString()) );
 					attributes.add( Integer.MIN_VALUE + 1 );
-					attributes.add( LineMeta.description(geometry) + ": none found 2" );
+					attributes.add( LinePartMeta.description(geometry) + ": none found 2" );
 					attributes.add( 0 );
 					attributes.add( 0 );
 					attributes.add( 1 );
+					attributes.add( -1 );
 					Testbed.successfulLines++;
 					return attributes;
 				}
@@ -184,6 +187,8 @@ final class Analyser {
 				attributes.add( reciprocal ? 1 : 0 );
 				attributes.add( geometryMeta.finderResults.parallelismsInBuffer ? 1 : 0 );
 				attributes.add( 0 );
+				final double a = Analyser.this.finder.compareVectors((LineString)geometry, (LineString)parallel);
+				attributes.add( (int)a );
 				
 				return attributes;
 			}

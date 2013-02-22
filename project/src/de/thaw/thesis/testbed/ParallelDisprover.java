@@ -70,12 +70,12 @@ final class ParallelDisprover {
 	
 	/**
 	 * Runs the analysis. This method attempts to disprove possible parallels
-	 * found by the <code>Analyser</code> by checking their geometric
+	 * found by the <code>ParallelismFinder</code> by checking their geometric
 	 * location. If the lines identfied as possible parallels are not on either
 	 * side of the line, but rather behind it or ahead of it, it means that
-	 * there apparently is no parallel line and the <code>Analyser</code>'s
+	 * there apparently is no parallel line and the <code>ParallelismFinder</code>'s
 	 * result is wrong. The result sets are then marked as such by means
-	 * of{@link Analyser.ResultSet#parallelismsInBuffer} and also removed from
+	 * of{@link ParallelismFinder.ResultSet#parallelismsInBuffer} and also removed from
 	 * the result collection iff {@link #removeDisproven} is <code>true</code>.
 	 */
 	void analyse () {

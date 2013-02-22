@@ -207,6 +207,61 @@ final class ParallelismFinder {
 	}
 	
 	
+	double compareVectors (final LineString line1, final LineString line2original) {
+		
+		// reverse one of the lines before comparison if they're pointed in opposite directions
+		final LineString line2;
+		if (orientationDifference(line1, line2original) <= 90.0) {
+			line2 = line2original;
+		}
+		else {
+			line2 = (LineString)line2original.reverse();
+		}
+		
+		// obtain coordinates of all start- and end-points
+		final Coordinate[] startPoints = new Coordinate[2];
+		final Coordinate[] endPoints = new Coordinate[2];
+		startPoints[0] = line1.getStartPoint().getCoordinate();
+		endPoints[0] = line1.getEndPoint().getCoordinate();
+		startPoints[1] = line2.getStartPoint().getCoordinate();
+		endPoints[1] = line2.getEndPoint().getCoordinate();
+		
+		final double[] directions = new double[2];
+		directions[0] = orientation(startPoints[0], startPoints[1]);
+		directions[1] = orientation(endPoints[0], endPoints[1]);
+		
+		final double[] lineOrientations = new double[2];
+		lineOrientations[0] = orientation(startPoints[0], endPoints[0]);
+		lineOrientations[1] = orientation(startPoints[1], endPoints[1]);
+		
+		final double[] angles = new double[4];
+		angles[0] = orientationDifference(lineOrientations[0], directions[0]);  // C
+		angles[1] = orientationDifference(lineOrientations[1], directions[0]);  // A
+		angles[2] = orientationDifference(lineOrientations[0], directions[1]);  // D
+		angles[3] = orientationDifference(lineOrientations[1], directions[1]);  // B
+		
+		final double[] vectorLengths = new double[2];
+		vectorLengths[0] = startPoints[0].distance(startPoints[1]);
+		vectorLengths[1] = endPoints[0].distance(endPoints[1]);
+		
+		if (vectorLengths[0] > MAX_DISTANCE ||vectorLengths[1] > MAX_DISTANCE) {
+			// based on the vectors' lengths, this can't possibly a close parallel
+			return 0.0;
+		}
+		
+		for (int i = 0; i < 4; i++) {
+			if (Math.abs(angles[i]) < 45.0 || Math.abs(angles[i]) > 135.0) {
+				// vector directions differ wildly from being orthogonal to lines
+				return 0.0;
+			}
+		}
+		
+		// vector dircetions OK
+		return 1.0;
+//		return angles;
+	}
+	
+	
 	/**
 	 * Compares both lines with each other and returns their estimated
 	 * similarity expressed as a single floating point value.
@@ -221,7 +276,9 @@ final class ParallelismFinder {
 		final double orientationSimilarity = this.compareOrientation(line1, line2);
 //		final double lengthSimilarity = this.compareLength(line1, line2);
 		final double locationSimilarity = this.compareLocation(line1, line2);
-		return 1.0 / locationSimilarity * orientationSimilarity;
+		final double vectorSimilarity = this.compareVectors(line1, line2);
+//		return 1.0 / locationSimilarity * orientationSimilarity;
+		return 1.0 / locationSimilarity * orientationSimilarity * vectorSimilarity;
 //		return 1.0 / locationSimilarity;
 	}
 	
@@ -239,7 +296,7 @@ final class ParallelismFinder {
 		
 		// brute force: compare everything with everything else
 		LineString mostSimilarLine = null;
-		double maxSimilarity = Double.NEGATIVE_INFINITY;
+		double maxSimilarity = 0.0;
 		for (final LineString aLine : this.evaluationLines) {
 			
 			log(3, "  comparing with: " + LinePartMeta.getFrom(aLine));
@@ -257,11 +314,16 @@ final class ParallelismFinder {
 			
 			final double similarity = this.compareLines(theLine, aLine);
 			log(3, "    similarity: " + similarity);
-			if (mostSimilarLine == null || similarity > maxSimilarity) {
+			if (similarity > maxSimilarity) {
 				mostSimilarLine = aLine;
 				maxSimilarity = similarity;
 			}
 		}
+		
+		if (mostSimilarLine == null) {
+			mostSimilarLine = new NullGeometry();
+		}
+		
 		log(2, "  most similar fragment: " + LinePartMeta.getFrom(mostSimilarLine));
 		return mostSimilarLine;
 	}
@@ -345,12 +407,12 @@ final class ParallelismFinder {
 		final SortedSet<Parallelism> parallelisms;
 		
 		/**
-		 * If a buffer analysis is run and concludes that all of this
-		 * instance's parallelisms are in fact inside this line's buffer, this
-		 * field is set to true.
+		 * If a buffer analysis is run and concludes that one or more of this
+		 * instance's parallelisms are in fact outside this line's buffer, this
+		 * field is set to false.
 		 * @see ParallelDisprover
 		 */
-		boolean parallelismsInBuffer = false;
+		boolean parallelismsInBuffer = true;
 		
 		ResultSet (final LineString line, final Collection<Parallelism> parallelisms) {
 			this.line = line;

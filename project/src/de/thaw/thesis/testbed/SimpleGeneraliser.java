@@ -75,7 +75,7 @@ final class SimpleGeneraliser {
 		
 		final LinePartMeta geometryMeta = LinePartMeta.getFrom(line);
 		
-		boolean parallelFound = geometryMeta.finderResults.parallelisms.size() > 0;
+		final boolean parallelFound = geometryMeta.finderResults.parallelisms.size() > 0;
 		if (! parallelFound) {
 			return null;
 		}
@@ -83,7 +83,10 @@ final class SimpleGeneraliser {
 		final LineString parallel = (LineString)geometryMeta.finderResults.parallelisms.first().origin;
 		final LinePartMeta parallelMeta = LinePartMeta.getFrom(parallel);
 		
-		boolean originalFound = parallelMeta.finderResults.parallelisms.size() > 0;
+		if (parallelMeta.finderResults == null) {  // :BUG: NullGeometry
+			return null;
+		}
+		final boolean originalFound = parallelMeta.finderResults.parallelisms.size() > 0;
 		if (! originalFound) {
 			return null;
 		}
@@ -95,9 +98,9 @@ final class SimpleGeneraliser {
 		 * then these two are almost definitely parallel (provided the
 		 * metric used by the Analyser works okay)
 		 */
-//		boolean reciprocal = LineMeta.getFrom(parallelParallel) == LineMeta.getFrom(line);
+//		final boolean reciprocal = LineMeta.getFrom(parallelParallel) == LineMeta.getFrom(line);
 		boolean reciprocal = false;
-		Parallelism[] p = parallelMeta.finderResults.parallelisms.toArray(new Parallelism[0]);
+		final Parallelism[] p = parallelMeta.finderResults.parallelisms.toArray(new Parallelism[0]);
 		for (int i = 0; i < p.length; i++) {
 			reciprocal |= LinePartMeta.getFrom(p[i].origin) == LinePartMeta.getFrom(line);
 		}
@@ -163,7 +166,13 @@ final class SimpleGeneraliser {
 			newLinePoints[1] = this.midPoint(new Coordinate[]{ linePoints[0][1], linePoints[1][1] });
 		}
 		
-		LineString newLine = new LineString(new CoordinateArraySequence(newLinePoints), this.factory);
+		final LineString newLine;
+		newLine = new LineString(new CoordinateArraySequence(newLinePoints), this.factory);
+		
+		final List<LinePartMeta> userData = new ArrayList<LinePartMeta>(2);
+		userData.add(LinePartMeta.getFrom(line));
+		userData.add(LinePartMeta.getFrom(parallel));
+		newLine.setUserData(userData);
 		
 		return newLine;
 	}
@@ -205,10 +214,18 @@ final class SimpleGeneraliser {
 		
 		// normalise result
 		if (this.preventDuplicates) {
+			// :BUG: clears user data
+/*
 			// :TODO: .normalize() on a newly constructed GeometryCollection may be enough
 			// -- but would it really be faster?
-			MultiLineString filtered = (MultiLineString) UnaryUnionOp.union(newLines);
+			final MultiLineString filtered = (MultiLineString) UnaryUnionOp.union(newLines);
 			return SimpleGeneraliser.toList(filtered);
+*/
+			// :FIX: keeps user data, but may no longer produce the same result as the union does
+			final MultiLineString geometryCollection;
+			geometryCollection = new MultiLineString( newLines.toArray(new LineString[0]), factory );
+			geometryCollection.normalize();
+			return toList(geometryCollection);
 		}
 		
 		return newLines;

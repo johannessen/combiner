@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>340171.943999</xmin>
-            <ymin>5635907.522508</ymin>
-            <xmax>365071.302133</xmax>
-            <ymax>5652702.625825</ymax>
+            <xmin>345475.155623</xmin>
+            <ymin>5640250.004718</ymin>
+            <xmax>354056.475076</xmax>
+            <ymax>5646317.782502</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -24,13 +24,13 @@
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="false">
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="out (generalised)" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="out (generalised)" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="out20130129200817343" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="out20130129200817343" visible="0"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="0" open="true" checked="Qt::Checked" name="out-debug" showFeatureCount="0">
-            <filegroup open="true" hidden="false">
+        <legendlayer drawingOrder="0" open="false" checked="Qt::Checked" name="out-debug" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
                 <legendlayerfile isInOverview="0" layerid="out_debug20130119203708409" visible="1"/>
             </filegroup>
         </legendlayer>
@@ -648,10 +648,10 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="RuleRenderer">
                 <rules>
-                    <rule filter="no_par = 1" symbol="0" label="internal error"/>
-                    <rule filter="in_buffer = 0 and reciprocal = 0" symbol="1" label="no parallel (successful line)"/>
-                    <rule symbol="2" label="reciprocal (successful line)"/>
-                    <rule filter="reciprocal = 0 and in_buffer = 1" symbol="3" label="doubtful case"/>
+                    <rule filter="desc ~ '4241626' and in_buffer = 1" symbol="0" label="internal error]"/>
+                    <rule filter="par_vec = 0" symbol="1" label="no parallel (successful line)"/>
+                    <rule filter="par_vec = 1" symbol="2" label="reciprocal (successful line)"/>
+                    <rule filter="reciprocal = 0 and in_buffer = 1 and par_vec = 1" symbol="3" label="doubtful case"/>
                 </rules>
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="line" name="0">
@@ -742,6 +742,7 @@
                 <edittype type="0" name="in_buffer"/>
                 <edittype type="0" name="no_par"/>
                 <edittype type="0" name="osm_id"/>
+                <edittype type="0" name="par_vec"/>
                 <edittype type="0" name="para_osmid"/>
                 <edittype type="0" name="reciprocal"/>
             </edittypes>

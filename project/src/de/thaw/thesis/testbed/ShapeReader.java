@@ -38,13 +38,13 @@ import org.geotools.geometry.jts.JTS;
  * to WGS84 datum. All features are transformed to a target CRS specified by
  * the field {@link #targetEpsgCode}.
  */
-final class ShapeReader {
+public final class ShapeReader {
 	
 	
 	/**
 	 * The EPSG code of the CRS into which features should be transformed.
 	 */
-	int targetEpsgCode = Testbed.INTERNAL_EPSG_CODE();
+	final public int targetEpsgCode = Testbed.INTERNAL_EPSG_CODE();
 	
 	
 	/**
@@ -59,7 +59,7 @@ final class ShapeReader {
 //	SimpleFeatureType featureType = null;
 	
 	
-	static int VERBOSITY = Testbed.VERBOSITY();
+	public static int VERBOSITY = Testbed.VERBOSITY();
 	
 	
 	static void log (final int logLevel, final String logMessage) {
@@ -77,7 +77,7 @@ final class ShapeReader {
 	 * @param file the Shapefile
 	 * @return all linestrings that could be read from <code>file</code>
 	 */
-	Collection<LineString> readFrom (final File file) throws Exception {
+	public Collection<LineString> readFrom (final File file) throws Exception {
 		
 		final Map<String, Object> connect = new HashMap<String, Object>();
 		connect.put("url", file.toURI().toURL());

@@ -57,7 +57,7 @@ import org.geotools.feature.SchemaException;
  * specified by the field {@link #sourceEpsgCode}. Coordinate transformation
  * is not performed.
  */
-final class ShapeWriter {
+public class ShapeWriter {
 	
 	
 	/**
@@ -82,7 +82,7 @@ final class ShapeWriter {
 	/**
 	 * @param newPath the path to the output Shapefile (will be overwritten or created)
 	 */
-	ShapeWriter (final String newPath) {
+	public ShapeWriter (final String newPath) {
 		this.newFile = new File(newPath);
 	}
 	
@@ -171,7 +171,7 @@ final class ShapeWriter {
 	 * @param delegate an instance providing definitions of the type of
 	 *  features and the attribute data to include with the geometry
 	 */
-	void writeGeometries (Collection<? extends Geometry> geometries, final ShapeWriterDelegate delegate) throws Exception {
+	public void writeGeometries (final Collection<? extends Geometry> geometries, final ShapeWriterDelegate delegate) throws Exception {
 		this.delegate = delegate;
 		final List<SimpleFeature> features = this.simpleFeaturesFromGeometries(geometries);
 		final ShapefileDataStore dataStore = this.createDataStore(this.newFile);
@@ -184,7 +184,7 @@ final class ShapeWriter {
 	 * 
 	 * @see DefaultLineDelegate
 	 */
-	void writeLines (Collection<LineString> lines) throws Exception {
+	public void writeLines (final Collection<LineString> lines) throws Exception {
 		this.writeGeometries(lines, new DefaultLineDelegate());
 	}
 	
@@ -194,7 +194,7 @@ final class ShapeWriter {
 	 * 
 	 * @see DefaultPointDelegate
 	 */
-	void writePoints (Collection<Point> points) throws Exception {
+	public void writePoints (final Collection<Point> points) throws Exception {
 		this.writeGeometries(points, new DefaultPointDelegate());
 	}
 	
@@ -202,14 +202,14 @@ final class ShapeWriter {
 	/**
 	 * A <code>ShapeWriterDelegate</code> defining no attributes by default.
 	 */
-	static abstract class DefaultDelegate implements ShapeWriterDelegate {
+	public static abstract class DefaultDelegate implements ShapeWriterDelegate {
 		
 		/**
 		 * Returns an empty attribute list.
 		 * 
 		 * @return {@link Collections#EMPTY_LIST}
 		 */
-		public List attributes (Geometry geometry) {
+		public List attributes (final Geometry geometry) {
 			return Collections.EMPTY_LIST;
 		}
 		
@@ -220,7 +220,7 @@ final class ShapeWriter {
 	 * A <code>ShapeWriterDelegate</code> defining an output of
 	 * <code>LineString</code>s without attributes.
 	 */
-	static class DefaultLineDelegate extends DefaultDelegate {
+	public static class DefaultLineDelegate extends DefaultDelegate {
 		public SimpleFeatureType featureType () throws SchemaException {
 			return DataUtilities.createType("Location", "location:LineString:srid=" + ShapeWriter.sourceEpsgCode);
 		}
@@ -231,7 +231,7 @@ final class ShapeWriter {
 	 * A <code>ShapeWriterDelegate</code> defining an output of
 	 * <code>Point</code>s without attributes.
 	 */
-	static class DefaultPointDelegate extends DefaultDelegate {
+	public static class DefaultPointDelegate extends DefaultDelegate {
 		public SimpleFeatureType featureType () throws SchemaException {
 			return DataUtilities.createType("Location", "location:Point:srid=" + ShapeWriter.sourceEpsgCode);
 		}
