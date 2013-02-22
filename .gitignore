@@ -3,3 +3,9 @@
 /project/lib/geotools-8.5
 /data/testbed/nrw-roads.zip
 *.swp
+/data/combiner/*.dbf
+/data/combiner/*.fix
+/data/combiner/*.prj
+/data/combiner/*.qix
+/data/combiner/*.shp
+/data/combiner/*.shx
