@@ -22,9 +22,9 @@ public final class CombinerMain {
 	
 	String inPath = null;
 	String outPath = "out.shp";
-	String nodeOutPath = null;
-	String linePartOutPath = null;
-	String debugOutPath = null;
+	String nodeOutPath = "";
+	String linePartOutPath = "";
+	String debugOutPath = "";
 	long startId = 0;
 	
 	int VERBOSE = 1;
@@ -60,9 +60,8 @@ public final class CombinerMain {
 		out.writeAllNodes(nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
-//		out.writeSegmentOrientationAids(debugOutPath);
-//		out.writeMidPointConnectors(debugOutPath);
-		out.writeCorrelationEdges(combiner.cns, debugOutPath);
+		out.writeMidPointConnectors(debugOutPath);
+//		out.writeCorrelationEdges(combiner.cns, debugOutPath);
 		out.writeGeneralisedLines(combiner.gen, outPath);
 	}
 	

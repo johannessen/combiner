@@ -51,7 +51,11 @@ final class Output {
 	
 	
 	private ShapeWriter writer (final String path) {
-		return new ShapeWriter( new File(path), epsgCode );
+		final File file = new File(path);
+		if (! file.canWrite()) {
+			return null;
+		}
+		return new ShapeWriter(file, epsgCode);
 	}
 	
 	
@@ -65,6 +69,10 @@ final class Output {
 	
 	void writeAllNodes (final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeAllNodes (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final OsmNode node : dataset.allNodes()) {
@@ -96,6 +104,10 @@ final class Output {
 	
 	void writeAllSegments (final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeAllSegments (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final LineSegment segment : dataset.allSegments()) {
@@ -158,6 +170,10 @@ final class Output {
 	
 	void writeAllFragments (final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeAllFragments (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final LineSegment segment : dataset.allSegments()) {
@@ -172,8 +188,13 @@ final class Output {
 	
 	
 	
+/*
 	void writeSegmentOrientationAids (final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeSegmentOrientationAids (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final LineSegment segment : dataset.allSegments()) {
@@ -185,11 +206,16 @@ final class Output {
 		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
 		verbose(1, "Output: orientation aids for all " + geometries.size() + " segments.");
 	}
+*/
 	
 	
 	
 	void writeMidPointConnectors (final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeMidPointConnectors (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final Set<MidPointConnector> connectors = new LinkedHashSet<MidPointConnector>();
 		
@@ -250,6 +276,10 @@ final class Output {
 	
 	void writeCorrelationEdges (final Collection<CorrelationEdge> cns, final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeCorrelationEdges (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final CorrelationEdge cn : cns) {
@@ -281,6 +311,10 @@ final class Output {
 	
 	void writeGeneralisedLines (final Collection<Collection<OsmNode>> gen, final String path) {
 		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeGeneralisedLines (Writer creation failed for path: " + path + ").");
+			return;
+		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final Collection<OsmNode> nodeList : gen) {
