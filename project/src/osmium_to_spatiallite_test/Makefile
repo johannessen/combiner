@@ -34,7 +34,7 @@ LIB_XML2   = $(shell xml2-config --libs)
 LDFLAGS = $(LIB_EXPAT) $(LIB_PBF)
 
 PROGRAMS = \
-    kauneberget
+    osmium_to_spatiallite_test
 
 .PHONY: all clean
 
