@@ -189,7 +189,14 @@ abstract class AbstractLinePart implements LinePart {
 		segment.fragments.add(fragment2);
 		
 		if (this instanceof LineFragment) {
-//			segment.fragments.remove(this);  // :BUG: not sure if this is even necessary ... in any event, it's rather hacky
+			/* The next stage compares close fragments with each other. If we
+			 * left those fragmenst which have been further split into more
+			 * (sub-)fragments in the list, we end up with overlapping
+			 * fragments being checked against each other. These checks are
+			 * unnecessary and a performance hit.
+			 */
+			// :TODO: check whether this line has an influence on the end result as well (testing so far seems to indicate that it might)
+			segment.fragments.remove(this);
 		}
 		
 		listener.didSplit(fragment1, fragment2, node);
