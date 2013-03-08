@@ -53,7 +53,17 @@ final class Output {
 	private ShapeWriter writer (final String path) {
 		final File file = new File(path);
 		if (! file.canWrite()) {
-			return null;
+			if (file.exists()) {
+				return null;
+			}
+			try {
+				file.createNewFile();
+			}
+			catch (Exception e) {
+				// if this happens, the file couldn't be created
+				// (This code is no good, but what the heck.)
+				return null;
+			}
 		}
 		return new ShapeWriter(file, epsgCode);
 	}
