@@ -31,6 +31,10 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	public final boolean node0ForwardDefining;
 	
 	
+	// in how many directions (out of 2 in the trivial case) has this edge been used for generalisation?
+	int genCounter = 0;
+	
+	
 	CorrelationEdge (final OsmNode node0,
 			final OsmNode node1) {
 //		this(null, node0, null, null, node1, null, false);
@@ -87,6 +91,7 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 		}
 		
 		// we don't actually care about the exact ordering, except that it MUST meet contract terms!
+		// :BGUG: we acrtually do
 		// :TODO: rewrite this to compare nodes instead of coordinates; should yield the same result
 		final double eMinA = Math.min(this.node0.easting(), this.node1.easting());
 		final double eMaxA = Math.max(this.node0.easting(), this.node1.easting());
@@ -139,7 +144,7 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	
 	
 	public String toString () {
-		return "{" + node0 + " <--> " + node1 + "}";
+		return "{gen: " + genCounter + " | " + node0 + " <--> " + node1 + "}";
 	}
 	
 }

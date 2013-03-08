@@ -8,7 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 //import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +25,9 @@ public final class CorrelationGraph {
 	
 	final OsmDataset dataset;
 	
-	final NavigableSet<CorrelationEdge> edges;
+	CorrelationEdge[] sortedEdges;
+	
+	NavigableSet<CorrelationEdge> sortedEdgesSet;
 	
 	Collection<Collection<OsmNode>> generalisedLines;
 	
@@ -32,7 +36,7 @@ public final class CorrelationGraph {
 		this.dataset = dataset;
 		
 		generalisedLines = new LinkedList<Collection<OsmNode>>();
-		edges = new TreeSet<CorrelationEdge>();
+		sortedEdgesSet = new TreeSet<CorrelationEdge>();
 		createGraph();
 	}
 	
@@ -50,7 +54,7 @@ public final class CorrelationGraph {
 				continue;
 			}
 			if (segment.wasCorrelated) {
-				continue;
+//				continue;
 			}
 			
 			// ∀ nodes T1 {start,end} of S
@@ -104,6 +108,9 @@ public final class CorrelationGraph {
 			// mark S as done "7"
 			segment.wasCorrelated = true;
 		}
+		
+		sortedEdges = sortedEdgesSet.toArray(new CorrelationEdge[0]);
+		sortedEdgesSet = null;
 	}
 	
 	
@@ -114,17 +121,83 @@ public final class CorrelationGraph {
 	
 	
 	boolean contains (final CorrelationEdge edge) {
-		return edges.contains(edge);
+		if (sortedEdges == null) {
+			return sortedEdgesSet.contains(edge);
+		}
+		return Arrays.binarySearch(sortedEdges, edge) >= 0;
+	}
+	
+	
+	// the point of this method is to return the original collection element, enabling the client to operate on that instead of some "equal" clone
+	CorrelationEdge intern (final CorrelationEdge edge) {
+		assert sortedEdgesSet == null;  // Collection doesn't support get, only from array (Illegal State)
+		final int i = Arrays.binarySearch(sortedEdges, edge);
+		if (i < 0) {
+			return null;  // No Such Element
+		}
+		return sortedEdges[i];
 	}
 	
 	
 	boolean add (final CorrelationEdge edge) {
-		return edges.add(edge);
+		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
+		return sortedEdgesSet.add(edge);
 	}
 	
 	
-	LineSegment findStart (long startId) {
+	Collection<CorrelationEdge> edges () {
+		return Arrays.asList(sortedEdges);
+	}
+	
+	
+	
+/*	
+	// :TODO: multiple return values; bad hack
+	private LineSegment startSegment;
+	private OsmNode startNode;
+	private CorrelationEdge startEdge;
+	
+	void findStart () {
+		
+		// (TG 1) choose segment S
+		for (final CorrelationEdge edge : edges()) {
+			// :TODO: is this counter even needed?
+			if (edge.genCounter < 2) {
+				
+				OsmNode[] edgeNodes = new OsmNode[]{ edge.node0, edge.node1 };
+				for (int i = 0; i < 2; i++) {
+					OsmNode node = edgeNodes[i];
+					
+					for (final LineSegment segment : node.connectingSegments){
+						if (segment.wasGeneralised) {
+							continue;
+						}
+System.out.println("A " + segment.way.id);
+						if (segment.way.id != 2L) {
+							continue;
+						}
+						
+System.out.println("B " + segment.way.id);
+						startSegment = segment;
+						startNode = node;
+						startEdge = edge;
+						return;
+					}
+					
+				}
+			}
+		}
+		startSegment = null;
+		startNode = null;
+		startEdge = null;
+		return;
+	}
+*/
+
+/*
 		// "find" appropriate start location
+		
+		
 		
 		// (insert magic here)
 		
@@ -140,9 +213,10 @@ public final class CorrelationGraph {
 			}
 		}
 		return start;
-	}
+*/
 	
 	
+/*
 	boolean findMaxLPoint (final LineSegment segment, final OsmNode node, final double relativeBearingLimit) {
 		
 		// :TODO: traverse local graph crosswise to max end
@@ -153,10 +227,16 @@ public final class CorrelationGraph {
 		double minRelativeBearing = 0.0;  // left bearing <=> negative => "min"
 		OsmNode minOtherNode = null;
 		Vector minEdgeVector = null;
-		for (final CorrelationEdge edge : edges) {
+		CorrelationEdge minEdge = null;
+		for (final CorrelationEdge edge : edges()) {
 			if (! edge.contains(node)) {
 				continue;
 			}
+			if (edge.wasGeneralised) {
+				// :DEBUG: only works if the graph is exactly two levels deep
+//				continue;
+			}
+			
 			final OsmNode otherNode = node.equals(edge.node0) ? edge.other(edge.node0) : edge.node0;
 			final Vector edgeVector = new Vector( node, otherNode );
 			double relativeBearing = segment.vector().relativeBearing( edgeVector );
@@ -164,7 +244,13 @@ public final class CorrelationGraph {
 				minRelativeBearing = relativeBearing;
 				minOtherNode = otherNode;
 				minEdgeVector = edgeVector;
+				minEdge = edge;
 			}
+		}
+		
+		// :DEBUG: side effect; supposed to enable us to operate on all edges in turn
+		if (minEdge != null) {
+			minEdge.wasGeneralised = true;
 		}
 		
 		// :TODO: returning multiple values; bad hack
@@ -185,20 +271,22 @@ public final class CorrelationGraph {
 		List<OsmNode> generalisedSection = new LinkedList<OsmNode>();
 		
 		
-		for (int j = 0; j < 2; j++) {
+		// :BUG: (?) most nodes are traversed twice
+		for (int j = 1; j < 2; j++) {
 			final OsmNode node = node(segment, j);
 			
 			double relativeBearingLimit = Vector.HALF_CIRCLE * -1.0;
 			
-			OsmNode LPoint;
+//			OsmNode LPoint;
+			
+			// :TODO: receiving multiple return values; bad hack
 			while ( findMaxLPoint(segment, node, relativeBearingLimit) ) {
-				// :TODO: receiving multiple return values; bad hack
 				final double minRelativeBearing = this.lastMinRelativeBearing;
 				final OsmNode minOtherNode = this.lastMinOtherNode;
 				final Vector minEdgeVector = this.lastMinEdgeVector;
 				
 				relativeBearingLimit = minRelativeBearing;
-			
+				
 				OsmNode midPoint = OsmNode.createAtMidPoint(node, minEdgeVector);
 				midPoint = dataset.getNodeAtEastingNorthing(midPoint.easting(), midPoint.northing());
 				generalisedSection.add(midPoint);
@@ -212,23 +300,295 @@ public final class CorrelationGraph {
 	void traverseLengthwise (final LineSegment startSegment) {
 		
 		List<OsmNode> generalisedSection = traverseCrosswise(startSegment);
-		generalisedLines.add(generalisedSection);
+		generalisedLines.addAll(generalisedSection);
 		
-		// :BUG: choosing indiscriminately...
+		// :BUG: choosing next segment indiscriminately...
+/*
+		/* The connectingSegments are a list of all segments of which a node is
+		 * a part of. For a trivial dataset, this list only has either on or
+		 * two entries,m so choosing an segment that is not equal to the
+		 * segment we've worked on before will reswult in a nice and simple
+		 * lengthwise traversal.
+		 */
+/*
 		for (final LineSegment nextSegment : startSegment.end().connectingSegments) {
 			if (nextSegment == startSegment) {
 				continue;
 			}
 			
+			// :BUG: stack overflow for some input data (e. g. junkersdorf)
 			traverseLengthwise(nextSegment);
 			break;
 		}
 	}
 	
 	
-	void traverse (final LineSegment segment) {
+	void traverse (final LineSegment edge, final LineSegment segment) {
+System.err.println(segment);
+//System.exit(0);
 		// :BUG: only works in forward direction
-		traverseLengthwise(segment);
+//		traverseLengthwise(segment);
+	}
+*/
+	
+	
+	void traverse () {
+		while (true) {  // :TODO: does this terminate?
+			Walker walker = new Walker();
+			walker.run();
+			Collection<OsmNode> generalisedSection = walker.generalisedSection;
+			if (generalisedSection == null) {
+				break;
+			}
+			if (generalisedSection.size() == 1) {
+				break;
+			}
+			generalisedLines.add(generalisedSection);
+		}
+	}
+	
+	
+	class Walker {
+			
+		LinkedList<OsmNode> generalisedSection;
+		
+		private OsmNode startNode = null;  // E_S
+		private CorrelationEdge startEdge = null;  // E
+		
+		private LineSegment segment1 = null;  // A
+		private LineSegment segment2 = null;  // B
+		private boolean segment1Aligned = true;
+		private boolean segment2Aligned = true;
+		private OsmNode currentNode1 = null;  // E_S
+		private OsmNode currentNode2 = null;  // E_T
+		private CorrelationEdge currentEdge = null;  // E
+		
+		
+		Walker () {
+			generalisedSection = new LinkedList<OsmNode>();
+			findStartEdge();
+		}
+		
+		
+		void findStartEdge () {
+			
+			// we don't actually care where to start
+			
+			// (TG 1) choose segment S
+			for (final CorrelationEdge edge : edges()) {
+				// :TODO: is this counter even needed?
+				if (edge.genCounter < 2) {
+					
+					OsmNode[] edgeNodes = new OsmNode[]{ edge.node0, edge.node1 };
+					for (int i = 0; i < 2; i++) {
+						OsmNode node = edgeNodes[i];
+						
+						// get segment with ID
+						for (final LineSegment segment : node.connectingSegments) {
+							if (segment.wasGeneralised) {
+								continue;
+							}
+							
+//							if (segment.way.id == -2L) {
+								startEdge = edge;
+								startNode = node;
+								return;
+//							}
+						}
+						
+					}
+				}
+			}
+		}
+		
+		
+		/* :BUG:
+		 * Certain edge cases exist in many input datasets. These lead to
+		 * generalised lines overlapping each other (most often, but not
+		 * necessarily always, at or near ends or begins of generalised
+		 * sections). Probably something to do with the genCOunter...
+		 */
+		
+		void run () {
+			if (startNode == null) {
+				generalisedSection = null;
+				return;
+			}
+			
+			addGeneralisedPoint(startEdge, true);
+//System.out.println("\n" + startEdge);
+			
+			assert startNode.connectingSegments.size() <= 2;
+			boolean forward = false;
+			for (final LineSegment segment : startNode.connectingSegments) {
+				forward = ! forward;
+				if (segment.wasGeneralised) {
+					continue;
+				}
+/*
+				// :DEBUG: check if both forward and backward work
+				if (segment.way.id != -2L) {
+					continue;
+				}
+*/
+				
+				currentEdge = startEdge;
+				currentNode1 = startNode;
+				currentNode2 = startEdge.other(startNode);
+				segment1 = segment;
+				segment1Aligned = segment1.start == currentNode1;
+				segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
+				if (segment2 == null) {
+					continue;
+				}
+				segment2Aligned = segment2.start == currentNode2;
+				
+				// (TG 3) ∀ D
+				// :BUG: only works in forward direction
+				
+				// (TG 3a)
+				while (currentEdge != null && currentEdge.genCounter < 2 && segment1 != null && segment2 != null) {
+					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
+					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
+					
+					// (TG 4) find M, draw it
+//					generalisedSection.add(generalisedPoint( currentEdge ));
+					
+					// (TG 5) find next nodes
+					OsmNode nextNode1 = segment1Aligned ? segment1.end : segment1.start;  // X
+					OsmNode nextNode2 = segment2Aligned ? segment2.end : segment2.start;  // Y
+					
+					// (TG 6/7)
+					CorrelationEdge nextEdge = new CorrelationEdge(nextNode1, currentNode2);
+					nextEdge = intern(nextEdge);
+					if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+						
+						currentEdge.genCounter++;
+						nextEdge.genCounter++;
+						assert currentEdge.genCounter <= 2 : currentEdge;
+//						assert nextEdge.genCounter <= 2 : nextEdge;
+						
+						LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
+						if (nextSegment1 != null) {
+							segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());  // :TODO: unclear; can prolly be replaced by node comparison
+						}
+						segment1 = nextSegment1;
+						segment2 = segment2;  // no change
+						currentNode1 = nextNode1;
+						currentNode2 = currentNode2;  // no change
+						currentEdge = nextEdge;
+						
+					}
+					else {
+						nextEdge = new CorrelationEdge(nextNode2, currentNode1);
+						nextEdge = intern(nextEdge);
+						if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+							
+							currentEdge.genCounter++;
+							nextEdge.genCounter++;
+							assert currentEdge.genCounter <= 2 : currentEdge;
+//							assert nextEdge.genCounter <= 2 : nextEdge;
+							
+							segment1 = segment1;  // no change
+							LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
+							if (nextSegment2 != null) {
+								segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());
+							}
+							segment2 = nextSegment2;
+							currentNode1 = currentNode1;  // no change
+							currentNode2 = nextNode2;
+							currentEdge = nextEdge;
+							
+						}
+						else {
+							nextEdge = new CorrelationEdge(nextNode1, nextNode2);
+							nextEdge = intern(nextEdge);
+							if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+								
+								currentEdge.genCounter++;
+								nextEdge.genCounter++;
+								assert currentEdge.genCounter <= 2 : currentEdge;
+//								assert nextEdge.genCounter <= 2 : nextEdge;
+								
+								LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
+								if (nextSegment1 != null) {
+									segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());
+								}
+								segment1 = nextSegment1;
+								LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
+								if (nextSegment2 != null) {
+									segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());
+								}
+								segment2 = nextSegment2;
+								currentNode1 = nextNode1;
+								currentNode2 = nextNode2;
+								currentEdge = nextEdge;
+							}
+							else {
+								assert nextEdge == null || nextEdge.genCounter >= 2;
+								
+								currentEdge.genCounter++;
+								assert currentEdge.genCounter <= 2 : currentEdge;
+								currentEdge = null;  // break
+							}
+						}
+					}
+					
+					addGeneralisedPoint(currentEdge, forward);
+				}
+			}
+			startEdge.genCounter = 2;  // :TODO: this line may be wrong
+//System.out.println(generalisedSection.size());
+		}
+		
+		
+		// (TG 4) find M
+		void addGeneralisedPoint (CorrelationEdge edge, boolean addAsLast) {
+			if (edge == null) {
+				return;
+			}
+			
+			double e = (edge.node0.e + edge.node1.e) / 2.0;
+			double n = (edge.node0.n + edge.node1.n) / 2.0;
+//			final OsmNode midPoint = OsmNode.createWithEastingNorthing(e, n);
+			final OsmNode midPoint = dataset.getNodeAtEastingNorthing(e, n);  // :TODO: why this line? perhaps so that the node is inserted into the debug output?
+			if (addAsLast) {
+				generalisedSection.addLast( midPoint );
+			}
+			else {
+				generalisedSection.addFirst( midPoint );
+			}
+		}
+		
+		
+		// (TG 2a) find T
+		LineSegment findOppositeSegment (OsmNode oppositeNode, LineSegment thisSegment, boolean thisIsAligned) {
+			LineSegment oppositeSegment = null;
+			
+			Vector thisVector = thisIsAligned ? thisSegment.vector() : thisSegment.vector().reversed();
+			for (LineSegment segment : oppositeNode.connectingSegments) {
+				Vector vector = segment.start == oppositeNode ? segment.vector() : segment.vector().reversed();
+				if ( Math.abs( vector.relativeBearing(thisVector) ) < Vector.RIGHT_ANGLE ) {
+					assert oppositeSegment == null;  // only one should match, normally (might be some exceptions in some datasets, this is a :HACK:)
+					oppositeSegment = segment;
+				}
+				
+			}
+			return oppositeSegment;
+		}
+		
+		
+		LineSegment findNextSegment (OsmNode pivot, LineSegment currentSegment) {
+			LineSegment nextSegment = null;
+			for (LineSegment segment : pivot.connectingSegments) {
+				if (segment != currentSegment) {
+					assert nextSegment == null;  // :BUG: handles trivial case only
+					nextSegment = segment;
+				}
+			}
+			return nextSegment;
+		}
+		
 	}
 	
 }

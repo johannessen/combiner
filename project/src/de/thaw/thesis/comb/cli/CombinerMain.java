@@ -60,9 +60,9 @@ public final class CombinerMain {
 		out.writeAllNodes(nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
-		out.writeMidPointConnectors(debugOutPath);
-//		out.writeCorrelationEdges(combiner.cns, debugOutPath);
+//		out.writeMidPointConnectors(debugOutPath);
 //		out.writeFragmentMidPointConnectors(debugOutPath);
+		out.writeCorrelationEdges(combiner.cns, debugOutPath);
 		out.writeGeneralisedLines(combiner.gen, outPath);
 	}
 	

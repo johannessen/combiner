@@ -36,7 +36,7 @@ public final class Combiner {
 	private final Analyser analyser;
 	
 	// :DEBUG: debugging output
-	public Set<CorrelationEdge> cns;
+	public Collection<CorrelationEdge> cns;
 	public Collection<Collection<OsmNode>> gen;
 	
 	public int verbose = 0;
@@ -62,7 +62,7 @@ public final class Combiner {
 		analyseSegments(analyser);
 		
 		CorrelationGraph graph = correlateNodes();
-		cns = graph.edges;  // :DEBUG: debugging output
+		cns = graph.edges();  // :DEBUG: debugging output
 		generaliseSegments(graph, startId);
 		gen = graph.generalisedLines;
 		// :TODO: ... magic
@@ -74,10 +74,14 @@ public final class Combiner {
 	
 	void generaliseSegments (final CorrelationGraph graph, final long startId) {
 		
+		graph.traverse();
+		
+/*
 		LineSegment start = graph.findStart(startId);
 		if (start != null) {
 			graph.traverse(start);
 		}
+*/
 		
 	}
 	
