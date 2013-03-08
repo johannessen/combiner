@@ -247,10 +247,22 @@ abstract class AbstractLinePart implements LinePart {
 	}
 	
 	
+	
+	/* Issue here: The fragments need to be cross-checked, (see screenshot
+	 * "bug-crosscheck"). The "list" of real parallels needs to be at the
+	 * fragment level and needs to be limited to one per side. Whenever the
+	 * reverse relation is "added" (currently: bestMatch.parallels.add(this) ),
+	 * the reverse needs to be checked first for existing parallels such that
+	 * only the one with the shortest distance remains. The segment can then
+	 * congregate their own fragments' real parallels into their own list of
+	 * real parallels.
+	 * Ideally, this should prevent the Triangle Problem at diverging lines.
+	 */
+	
 	/**
 	 * 
 	 */
-	public void addBestLeftMatch (LinePart bestMatch) {
+	public void addBestLeftMatch (final LinePart bestMatch) {
 		assert this instanceof LineFragment || segment().fragments.size() == 0;  // :BUG: Composite
 		if (bestMatch == null) {
 			return;
@@ -273,7 +285,7 @@ abstract class AbstractLinePart implements LinePart {
 	/**
 	 * 
 	 */
-	public void addBestRightMatch (LinePart bestMatch) {
+	public void addBestRightMatch (final LinePart bestMatch) {
 		assert this instanceof LineFragment || segment().fragments.size() == 0;  // :BUG: Composite
 		if (bestMatch == null) {
 			return;
@@ -296,7 +308,7 @@ abstract class AbstractLinePart implements LinePart {
 	/**
 	 * 
 	 */
-	public int compareTo (LinePart other) {
+	public int compareTo (final LinePart other) {
 		return midPoint().compareTo(other.midPoint());
 	}
 	// :BUG: override equals/hashCode!

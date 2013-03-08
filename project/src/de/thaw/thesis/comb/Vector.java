@@ -23,6 +23,7 @@ public final class Vector {
 	private double d = Double.NaN;
 	private double a = Double.NaN;
 	
+	// :BUG: memeory "leak" through circular references if a reversed vector is reversed
 	private Vector reversed = null;
 	
 	
@@ -201,6 +202,7 @@ public final class Vector {
 			reversed.n = -n;
 			reversed.d = d;
 			reversed.a = normaliseAbsoluteBearing(a + HALF_CIRCLE);
+			reversed.reversed = this;
 		}
 		return reversed;
 	}

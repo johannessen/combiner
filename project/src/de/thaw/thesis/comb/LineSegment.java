@@ -85,6 +85,7 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 	 */
 	public Collection<LineSegment> closeParallels () {
 		// filter close parallels from close segment list
+		// :TODO: check if filtering is necessary here after regionalisation
 		
 		if (closeParallels == null) {
 			assert closeSegments != null;

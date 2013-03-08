@@ -36,11 +36,13 @@ final class MyAnalyser implements Analyser {
 		// ignore fragments that share a node with the current segment
 		// (otherwise the L/R point search in next step might get confused (?))
 		// :TODO: really test this!
+		//        (initial testing indicates this may not any impact on trivial
+		//         datasets, but may screw up those that have branches etc.)
 		if ( part1.start().equals(part2.start())
 				|| part1.end().equals(part2.end())
 				|| part1.start().equals(part2.end())
 				|| part1.end().equals(part2.start()) ) {
-			return false;
+//			return false;
 		}
 		
 		final Vector v1 = part1.vector();
@@ -77,6 +79,7 @@ final class MyAnalyser implements Analyser {
 		
 		// only evaluate fragments of the same highway class
 		// (tag results are interned => == works on Strings)
+		// :BUG: fails on dual carriageways having links etc. on _both_ sides
 //		if ( tags(part1).get("highway") != tags(part2).get("highway") ) {
 //			return false;
 //		}
@@ -102,17 +105,22 @@ final class MyAnalyser implements Analyser {
 			starts = new Vector(part1.start(), part2.end());
 			ends = new Vector(part1.end(), part2.start());
 		}
-//System.err.println("Vectors: (" + part1.segment().way.id + ") " + v1 + "  /  (" + part2.segment().way.id + ") " + v2);
-//System.err.println(starts + "  /  " + ends + "\n");
+/*
+if ((part1.segment().way.id == 19975724L || part2.segment().way.id == 19975724L || part1.segment().way.id == 105062275L || part2.segment().way.id == 105062275L) && (part1.segment().way.id == 105062281L || part2.segment().way.id == 105062281L)) {
+System.err.println("Vectors: (" + part1.segment().way.id + ") " + v1 + "  /  (" + part2.segment().way.id + ") " + v2);
+System.err.println(starts + "  /  " + ends + "\n");
+}
+*/
 		
 		// left / right exclusion
-		// :TODO: really test this!
+		// :TODO: really test this! -- seems to work fine though, based on practical results
 		if ( Math.signum(v1.relativeBearing(starts)) != direction
 				|| Math.signum(v1.relativeBearing(ends)) != direction ) {
 			return worstResult();
 		}
 		
 		final double distance = starts.distance() + ends.distance();
+//		final double distance = Math.max(starts.distance(), ends.distance());
 		return distance;
 	}
 	
