@@ -80,7 +80,15 @@ public final class ShapeReader {
 	public OsmDataset osmDataset () {
 		final OsmDataset dataset = dataset();
 		
-		for (final LineString lineString : lineStrings) {
+		for (LineString lineString : lineStrings) {
+			// :HACK: diversify "simple" dataset by introducing reversed segments
+			Object id = LineMeta.getFrom(lineString).feature().getAttribute("id");
+			if ("-5".equals(id) || "-1".equals(id) /*|| "-100".equals(id)*/ ) {
+				Object userData = lineString.getUserData();
+				lineString = (LineString)lineString.reverse();
+				lineString.setUserData(userData);
+			}
+			
 			final CoordinateSequence coordinates = lineString.getCoordinateSequence();
 			if (coordinates.size() < 2) {
 				continue;
