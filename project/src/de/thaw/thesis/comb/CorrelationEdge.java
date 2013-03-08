@@ -20,47 +20,14 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	
 	public final OsmNode node1;
 	
-//	public final LineSegment node0Forward;
-	
-//	public final LineSegment node0Backward;
-	
-//	public final LineSegment node1Forward;
-	
-//	public final LineSegment node1Backward;
-	
-	public final boolean node0ForwardDefining;
-	
 	
 	// in how many directions (out of 2 in the trivial case) has this edge been used for generalisation?
 	int genCounter = 0;
 	
 	
-	CorrelationEdge (final OsmNode node0,
-			final OsmNode node1) {
-//		this(null, node0, null, null, node1, null, false);
-		this(node0, node1, false);
-	}
-	
-	
-	// :BUG: horrible interface!
-	CorrelationEdge (
-//			final LineSegment node0Backward,
-			final OsmNode node0,
-//			final LineSegment node0Forward,
-//			final LineSegment node1Backward,
-			final OsmNode node1,
-//			final LineSegment node1Forward,
-			final boolean node0isSegmentStart) {
-		
-//		this.node0Backward = node0Backward;
+ 	CorrelationEdge (final OsmNode node0, final OsmNode node1) {
 		this.node0 = node0;
-//		this.node0Forward = node0Forward;
-		
-//		this.node1Backward = node1Backward;
 		this.node1 = node1;
-//		this.node1Forward = node1Forward;
-		
-		this.node0ForwardDefining = node0isSegmentStart;
 	}
 	
 	
