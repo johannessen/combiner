@@ -265,6 +265,8 @@ abstract class AbstractLinePart implements LinePart {
 		else {
 			bestMatch.segment().leftRealParallels.add(segment());
 		}
+		
+		segment().way.dataset.parallelFragments.add(new LinePart[]{ bestMatch, this });
 	}
 	
 	
@@ -286,6 +288,8 @@ abstract class AbstractLinePart implements LinePart {
 		else {
 			bestMatch.segment().rightRealParallels.add(segment());
 		}
+		
+		segment().way.dataset.parallelFragments.add(new LinePart[]{ bestMatch, this });
 	}
 	
 	

@@ -35,6 +35,8 @@ public final class OsmDataset {
 	
 	private List<LineSegment> allSegments;
 	
+	public Collection<LinePart[]> parallelFragments = new LinkedList<LinePart[]>();  // :DEBUG:
+	
 	
 	/**
 	 * 

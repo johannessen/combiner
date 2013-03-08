@@ -210,6 +210,34 @@ final class Output {
 	
 	
 	
+	void writeFragmentMidPointConnectors (final String path) {
+		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeFragmentMidPointConnectors (Writer creation failed for path: " + path + ").");
+			return;
+		}
+		
+		final Set<MidPointConnector> connectors = new LinkedHashSet<MidPointConnector>();
+		
+		for (final LinePart[] parts : dataset.parallelFragments) {
+			connectors.add(new MidPointConnector(parts[0], parts[1]));
+		}
+		
+		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
+		
+		for (final MidPointConnector connector : connectors) {
+			assert ! connector.s1.midPoint().equals(connector.s2.midPoint()) : connector.s1 + " / " + connector.s2;
+			OsmNode node0 = connector.s1.midPoint();
+			OsmNode node1 = connector.s2.midPoint();
+			geometries.add( writer.toLineString(node0, node1) );
+		}
+		
+		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
+		verbose(1, "Output: " + geometries.size() + " fragment midpoint connectors.");
+	}
+	
+	
+	
 	void writeMidPointConnectors (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
@@ -246,9 +274,9 @@ final class Output {
 	
 	
 	private class MidPointConnector {
-		final LineSegment s1;
-		final LineSegment s2;
-		MidPointConnector (final LineSegment s1, final LineSegment s2) {
+		final LinePart s1;
+		final LinePart s2;
+		MidPointConnector (final LinePart s1, final LinePart s2) {
 			if (s1.compareTo(s2) > 0) {
 				this.s1 = s1;
 				this.s2 = s2;
