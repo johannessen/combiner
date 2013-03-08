@@ -4,20 +4,20 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>347311.565248</xmin>
-            <ymin>5642692.795671</ymin>
-            <xmax>350156.718028</xmax>
-            <ymax>5644611.906784</ymax>
+            <xmin>758947.786544</xmin>
+            <ymin>6595474.871474</ymin>
+            <xmax>799191.470338</xmax>
+            <ymax>6622620.022105</ymax>
         </extent>
-        <projections>0</projections>
+        <projections>1</projections>
         <destinationsrs>
             <spatialrefsys>
-                <proj4>+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs</proj4>
-                <srsid>3116</srsid>
-                <srid>32632</srid>
-                <authid>EPSG:32632</authid>
-                <description>WGS 84 / UTM zone 32N</description>
-                <projectionacronym>utm</projectionacronym>
+                <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                <srsid>3644</srsid>
+                <srid>900913</srid>
+                <authid>EPSG:900913</authid>
+                <description>Google Mercator</description>
+                <projectionacronym>merc</projectionacronym>
                 <ellipsoidacronym>WGS84</ellipsoidacronym>
                 <geographicflag>false</geographicflag>
             </spatialrefsys>
@@ -44,8 +44,71 @@
                 <legendlayerfile isInOverview="0" layerid="out_debug220130219205847600" visible="1"/>
             </filegroup>
         </legendlayer>
+        <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="OpenStreetMap" showFeatureCount="0">
+            <filegroup open="false" hidden="false">
+                <legendlayerfile isInOverview="0" layerid="openstreetmap_mapnik20130307135708733" visible="0"/>
+            </filegroup>
+        </legendlayer>
     </legend>
-    <projectlayers layercount="4">
+    <projectlayers layercount="5">
+        <maplayer minimumScale="0" maximumScale="1e+08" type="raster" hasScaleBasedVisibilityFlag="0">
+            <id>openstreetmap_mapnik20130307135708733</id>
+            <datasource>./openstreetmap_mapnik.xml</datasource>
+            <title></title>
+            <abstract></abstract>
+            <layername>OpenStreetMap</layername>
+            <srs>
+                <spatialrefsys>
+                    <proj4>+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs</proj4>
+                    <srsid>3644</srsid>
+                    <srid>900913</srid>
+                    <authid>EPSG:900913</authid>
+                    <description>Google Mercator</description>
+                    <projectionacronym>merc</projectionacronym>
+                    <ellipsoidacronym>WGS84</ellipsoidacronym>
+                    <geographicflag>false</geographicflag>
+                </spatialrefsys>
+            </srs>
+            <transparencyLevelInt>255</transparencyLevelInt>
+            <customproperties/>
+            <provider>gdal</provider>
+            <rasterproperties>
+                <mDrawingStyle>MultiBandColor</mDrawingStyle>
+                <mColorShadingAlgorithm>UndefinedShader</mColorShadingAlgorithm>
+                <mInvertColor boolean="false"/>
+                <mRedBandName>Band 1</mRedBandName>
+                <mGreenBandName>Band 2</mGreenBandName>
+                <mBlueBandName>Band 3</mBlueBandName>
+                <mGrayBandName>Not Set</mGrayBandName>
+                <mStandardDeviations>0</mStandardDeviations>
+                <mUserDefinedRGBMinimumMaximum boolean="false"/>
+                <mRGBMinimumMaximumEstimated boolean="true"/>
+                <mUserDefinedGrayMinimumMaximum boolean="false"/>
+                <mGrayMinimumMaximumEstimated boolean="true"/>
+                <mContrastEnhancementAlgorithm>NoEnhancement</mContrastEnhancementAlgorithm>
+                <contrastEnhancementMinMaxValues>
+                    <minMaxEntry>
+                        <min>0</min>
+                        <max>255</max>
+                    </minMaxEntry>
+                    <minMaxEntry>
+                        <min>0</min>
+                        <max>255</max>
+                    </minMaxEntry>
+                    <minMaxEntry>
+                        <min>0</min>
+                        <max>255</max>
+                    </minMaxEntry>
+                </contrastEnhancementMinMaxValues>
+                <mNoDataValue mValidNoDataValue="true">-32768.000000</mNoDataValue>
+                <singleValuePixelList>
+                    <pixelListEntry pixelValue="-32768.000000" percentTransparent="100"/>
+                </singleValuePixelList>
+                <threeValuePixelList>
+                    <pixelListEntry red="-32768.000000" blue="-32768.000000" green="-32768.000000" percentTransparent="100"/>
+                </threeValuePixelList>
+            </rasterproperties>
+        </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>out20130215221037543</id>
             <datasource>./out-lineparts.shp</datasource>
@@ -380,9 +443,18 @@
         </maplayer>
     </projectlayers>
     <properties>
+        <WMSServiceAbstract type="QString"></WMSServiceAbstract>
+        <WMSOnlineResource type="QString"></WMSOnlineResource>
+        <WMSContactPerson type="QString"></WMSContactPerson>
+        <Identify>
+            <disabledLayers type="QStringList"/>
+        </Identify>
+        <WMSContactPhone type="QString"></WMSContactPhone>
         <SpatialRefSys>
+            <ProjectCRSProj4String type="QString">+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext +over +no_defs</ProjectCRSProj4String>
             <ProjectCrs type="QString">EPSG:4326</ProjectCrs>
-            <ProjectCRSID type="int">3116</ProjectCRSID>
+            <ProjectCRSID type="int">3644</ProjectCRSID>
+            <ProjectionsEnabled type="int">1</ProjectionsEnabled>
         </SpatialRefSys>
         <Paths>
             <Absolute type="bool">false</Absolute>
@@ -396,9 +468,15 @@
             <SelectionColorGreenPart type="int">255</SelectionColorGreenPart>
             <CanvasColorBluePart type="int">255</CanvasColorBluePart>
         </Gui>
+        <WMSContactMail type="QString"></WMSContactMail>
+        <WFSLayers type="QStringList"/>
         <PositionPrecision>
             <DecimalPlaces type="int">2</DecimalPlaces>
             <Automatic type="bool">true</Automatic>
         </PositionPrecision>
+        <WMSAddWktGeometry type="bool">false</WMSAddWktGeometry>
+        <WMSContactOrganization type="QString"></WMSContactOrganization>
+        <WMSServiceCapabilities type="bool">false</WMSServiceCapabilities>
+        <WMSServiceTitle type="QString"></WMSServiceTitle>
     </properties>
 </qgis>
