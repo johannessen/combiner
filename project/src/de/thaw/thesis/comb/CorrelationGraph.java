@@ -63,25 +63,28 @@ public final class CorrelationGraph {
 				
 				// ∀ sides A {left,right} of S
 				for (int i = 0; i < 2; i++) {
-					final Collection side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
+					final Collection<LineSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
 					
 					OsmNode closestNode = null;
 					double closestNodeDistance = Double.POSITIVE_INFINITY;
 					
 					// ∀ parallels P of S on side A
-					for (final Object p : side) {
-						if (! (p instanceof LineSegment)) {
-							throw new ClassCastException();  // shouldn't happen
-						}
-						final LineSegment parallel = (LineSegment)p;
+					for (final LineSegment parallel : side) {
 						
 						// find nearest node T2 of same category (start/end) as T1
-						final boolean isAligned = segment.vector().isAligned(parallel.vector());
-						final OsmNode parallelNode = isAligned ? node(parallel, j) : node(parallel, 1 - j);
-						final double d = new Vector(segmentNode, parallelNode).distance();
-						if (d < closestNodeDistance) {
-							closestNodeDistance = d;
-							closestNode = parallelNode;
+						// :BUG: creates edges that cross each other
+//						final boolean isAligned = segment.vector().isAligned(parallel.vector());
+//						final OsmNode parallelNode = isAligned ? node(parallel, j) : node(parallel, 1 - j);
+						
+						// ∀ nodes T2 (of any category) in P
+						for (int k = 0; k < 2; k++) {
+							final OsmNode parallelNode = node(parallel, k);
+							
+							final double d = new Vector(segmentNode, parallelNode).distance();
+							if (d < closestNodeDistance) {
+								closestNodeDistance = d;
+								closestNode = parallelNode;
+							}
 						}
 					}
 					
