@@ -10,9 +10,9 @@ fi
 
 
 #IN=../data/testbed/koeln-SE-main.shp
-IN=../data/testbed/koeln-SE-motorway.shp
+#IN=../data/testbed/koeln-SE-motorway.shp
 #IN=../data/testbed/koeln-junkersdorf-main.shp
-#IN=../data/shape-test/simple.shp
+IN=../data/shape-test/simple2.shp
 
 OUT=../data/combiner/out.shp
 OUT_DEBUG1=../data/combiner/out-nodes.shp
