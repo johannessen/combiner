@@ -147,17 +147,14 @@ public final class CorrelationGraph {
 	
 	
 	void traverse () {
-		while (true) {  // :TODO: does this terminate?
-			Walker walker = new Walker();
+		Walker walker = new Walker();
+		
+		while (walker.ready()) {  // :TODO: does this terminate always?
 			walker.run();
 			Collection<OsmNode> generalisedSection = walker.generalisedSection;
-			if (generalisedSection == null) {
-				break;
-			}
-			if (generalisedSection.size() == 1) {
-				break;
-			}
 			generalisedLines.add(generalisedSection);
+			
+			walker = new Walker();
 		}
 	}
 	
@@ -185,43 +182,37 @@ public final class CorrelationGraph {
 		
 		
 		void findStartEdge () {
+			startEdge = null;
+			startNode = null;
 			
 			// we don't actually care where to start
 			
 			// (TG 1) choose segment S
 			for (final CorrelationEdge edge : edges()) {
-				// :TODO: is this counter even needed?
-				if (edge.genCounter < 2) {
 					
-					OsmNode[] edgeNodes = new OsmNode[]{ edge.node0, edge.node1 };
-					for (int i = 0; i < 2; i++) {
-						OsmNode node = edgeNodes[i];
-						
-						// get segment with ID
-						for (final LineSegment segment : node.connectingSegments) {
-							if (segment.wasGeneralised) {
-								continue;
-							}
-							
-//							if (segment.way.id == -2L) {
-								startEdge = edge;
-								startNode = node;
-								return;
-//							}
+				OsmNode[] edgeNodes = new OsmNode[]{ edge.node0, edge.node1 };
+				for (int i = 0; i < 2; i++) {
+					OsmNode node = edgeNodes[i];
+					
+					// get segment with ID
+					for (final LineSegment segment : node.connectingSegments) {
+						if (segment.wasGeneralised || segment.notToBeGeneralised) {
+							continue;
 						}
 						
+						startEdge = edge;
+						startNode = node;
+						return;
 					}
 				}
 			}
 		}
 		
 		
-		/* :BUG:
-		 * Certain edge cases exist in many input datasets. These lead to
-		 * generalised lines overlapping each other (most often, but not
-		 * necessarily always, at or near ends or begins of generalised
-		 * sections). Probably something to do with the genCOunter...
-		 */
+		boolean ready () {
+			return startEdge != null && startNode != null;
+		}
+		
 		
 		void run () {
 			if (startNode == null) {
@@ -230,7 +221,6 @@ public final class CorrelationGraph {
 			}
 			
 			addGeneralisedPoint(startEdge, true);
-//System.out.println("\n" + startEdge);
 			
 			assert startNode.connectingSegments.size() <= 2;
 			boolean forward = false;
@@ -239,12 +229,6 @@ public final class CorrelationGraph {
 				if (segment.wasGeneralised) {
 					continue;
 				}
-/*
-				// :DEBUG: check if both forward and backward work
-				if (segment.way.id != -2L) {
-					continue;
-				}
-*/
 				
 				currentEdge = startEdge;
 				currentNode1 = startNode;
@@ -253,6 +237,7 @@ public final class CorrelationGraph {
 				segment1Aligned = segment1.start == currentNode1;
 				segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
 				if (segment2 == null) {
+					segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
 					continue;
 				}
 				segment2Aligned = segment2.start == currentNode2;
@@ -261,7 +246,8 @@ public final class CorrelationGraph {
 				// :BUG: only works in forward direction
 				
 				// (TG 3a)
-				while (currentEdge != null && currentEdge.genCounter < 2 && segment1 != null && segment2 != null) {
+				// :TODO: this condition can surely be simplified
+				while (currentEdge != null && segment1 != null && segment2 != null && (! segment1.wasGeneralised || ! segment2.wasGeneralised)) {
 					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
 					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
 					
@@ -275,12 +261,14 @@ public final class CorrelationGraph {
 					// (TG 6/7)
 					CorrelationEdge nextEdge = new CorrelationEdge(nextNode1, currentNode2);
 					nextEdge = intern(nextEdge);
-					if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+					if ( nextEdge != null && nextEdge != currentEdge ) {
+						
+						// Fall "es gibt eine Kante vom naechsten Punkt-1 (X) zurueck zum aktuellen Punkt-2 (E_T)"
+						
+						segment1.wasGeneralised = true;
 						
 						currentEdge.genCounter++;
 						nextEdge.genCounter++;
-						assert currentEdge.genCounter <= 2 : currentEdge;
-//						assert nextEdge.genCounter <= 2 : nextEdge;
 						
 						LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
 						if (nextSegment1 != null) {
@@ -296,12 +284,14 @@ public final class CorrelationGraph {
 					else {
 						nextEdge = new CorrelationEdge(nextNode2, currentNode1);
 						nextEdge = intern(nextEdge);
-						if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+						if ( nextEdge != null && nextEdge != currentEdge ) {
 							
-							currentEdge.genCounter++;
-							nextEdge.genCounter++;
-							assert currentEdge.genCounter <= 2 : currentEdge;
-//							assert nextEdge.genCounter <= 2 : nextEdge;
+							// Fall "es gibt eine Kante vom naechsten Punkt-2 (Y) zurueck zum aktuellen Punkt-1 (E_S)"
+							
+							segment2.wasGeneralised = true;
+							
+							currentEdge.genCounter += 10;
+							nextEdge.genCounter += 10;
 							
 							segment1 = segment1;  // no change
 							LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
@@ -317,12 +307,15 @@ public final class CorrelationGraph {
 						else {
 							nextEdge = new CorrelationEdge(nextNode1, nextNode2);
 							nextEdge = intern(nextEdge);
-							if ( nextEdge != null /*&& nextEdge.genCounter < 2*/ ) {
+							if ( nextEdge != null && nextEdge != currentEdge ) {
 								
-								currentEdge.genCounter++;
-								nextEdge.genCounter++;
-								assert currentEdge.genCounter <= 2 : currentEdge;
-//								assert nextEdge.genCounter <= 2 : nextEdge;
+								// Fall "es gibt zwei naechste unabhaengige Segmente, die auch parallel sind und es gibt agnz normal eine naechste kante"
+								
+								segment1.wasGeneralised = true;
+								segment2.wasGeneralised = true;
+								
+								currentEdge.genCounter += 1000;
+								nextEdge.genCounter += 1000;
 								
 								LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
 								if (nextSegment1 != null) {
@@ -339,10 +332,14 @@ public final class CorrelationGraph {
 								currentEdge = nextEdge;
 							}
 							else {
-								assert nextEdge == null || nextEdge.genCounter >= 2;
 								
-								currentEdge.genCounter++;
-								assert currentEdge.genCounter <= 2 : currentEdge;
+								// Fall "es gibt naechste unabhaengige Segmente, die aber nicht parallel sind"
+								assert nextEdge == null || nextEdge == currentEdge;
+								
+								segment1.notToBeGeneralised = ! segment1.wasGeneralised;
+								segment2.notToBeGeneralised = ! segment2.wasGeneralised;
+								
+								currentEdge.genCounter += 100;
 								currentEdge = null;  // break
 							}
 						}
@@ -351,8 +348,6 @@ public final class CorrelationGraph {
 					addGeneralisedPoint(currentEdge, forward);
 				}
 			}
-			startEdge.genCounter = 2;  // :TODO: this line may be wrong
-//System.out.println(generalisedSection.size());
 		}
 		
 		
@@ -383,7 +378,7 @@ public final class CorrelationGraph {
 			for (LineSegment segment : oppositeNode.connectingSegments) {
 				Vector vector = segment.start == oppositeNode ? segment.vector() : segment.vector().reversed();
 				if ( Math.abs( vector.relativeBearing(thisVector) ) < Vector.RIGHT_ANGLE ) {
-					assert oppositeSegment == null;  // only one should match, normally (might be some exceptions in some datasets, this is a :HACK:)
+//					assert oppositeSegment == null;  // only one should match, normally (at least for trivial datasets?) (might be some exceptions in some datasets, this is a :HACK:)
 					oppositeSegment = segment;
 				}
 				
@@ -399,6 +394,9 @@ public final class CorrelationGraph {
 					assert nextSegment == null;  // :BUG: handles trivial case only
 					nextSegment = segment;
 				}
+			}
+			if (nextSegment == null) {
+				return currentSegment;
 			}
 			return nextSegment;
 		}
