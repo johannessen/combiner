@@ -225,7 +225,6 @@ public final class CorrelationGraph {
 			assert startNode.connectingSegments.size() <= 2;
 			boolean forward = false;
 			for (final LineSegment segment : startNode.connectingSegments) {
-				forward = ! forward;
 				if (segment.wasGeneralised) {
 					continue;
 				}
@@ -241,6 +240,9 @@ public final class CorrelationGraph {
 					continue;
 				}
 				segment2Aligned = segment2.start == currentNode2;
+				
+				// move into both directions along segments from startNode
+				forward = ! forward;
 				
 				// (TG 3) ∀ D
 				// :BUG: only works in forward direction
