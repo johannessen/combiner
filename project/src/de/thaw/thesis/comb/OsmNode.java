@@ -19,7 +19,17 @@ import java.util.TreeSet;
  */
 public final class OsmNode implements Comparable<OsmNode> {
 	
-//	static final double EPSILON = .5;  // metres
+	/* :FIX: QGIS Shapefile Snapping
+	 * When editing a Shapefile, QGIS 1.8.0 sometimes snaps vertices of
+	 * linestrings to coordinates that don't quite match those of the vertix
+	 * they're being snapped to. This appears to be a bug in QGIS. The mismatch
+	 * distance seems to be very small, usually just in the least significant
+	 * bit of the double's significand.
+	 */
+	static private final double MAX_COORDINATE_VALUE = 10000000.0;  // 10_000 km false northing
+	static private final double EPSILON = Math.ulp(MAX_COORDINATE_VALUE * 2.0);
+//	static private final double EPSILON = .0000001;  // metres
+	// :BUG: very short segments in source data are folded to a zero-length segment using this method if EPSILON is too large
 	
 	final double e;
 	final double n;
@@ -85,6 +95,7 @@ public final class OsmNode implements Comparable<OsmNode> {
 	 */
 	public String toString () {
 		return "E" + ((double)(int)(e * 10.0 + .5) / 10.0) + "m N" + ((double)(int)(n * 10.0 + .5) / 10.0) + "m" + (id != OsmDataset.ID_UNKNOWN ? " [" + id + "]" : "");
+//		return "E " + Double.toHexString(e) + " / N " + Double.toHexString(n) + (id != OsmDataset.ID_UNKNOWN ? " [" + id + "]" : "");  // :DEBUG:
 	}
 	
 	
@@ -92,11 +103,9 @@ public final class OsmNode implements Comparable<OsmNode> {
 	 * 
 	 */
 	public int compareTo (final OsmNode that) {
-/*
 		if (that.equals(this)) {
-			return 0;
+			return 0;  // :FIX: QGIS Shapefile Snapping
 		}
-*/
 		final int compare = Double.compare(that.e, this.e);
 		if (compare == 0) {
 			return Double.compare(that.n, this.n);
@@ -116,9 +125,9 @@ public final class OsmNode implements Comparable<OsmNode> {
 		if (! (object instanceof OsmNode)) {
 			return false;
 		}
-		return this.compareTo( (OsmNode)object ) == 0;
+//		return this.compareTo( (OsmNode)object ) == 0;
 		
-/*
+		// :FIX: QGIS Shapefile Snapping
 		// :BUG: there are equal objects with unequal hash codes
 		final OsmNode that = (OsmNode)object;
 		
@@ -128,9 +137,7 @@ public final class OsmNode implements Comparable<OsmNode> {
 		if (Math.abs(that.n - this.n) > EPSILON) {
 			return false;
 		}
-		// :BUG: very short segments in source data are folded to a zero-length segment using this method, which seems to cause problems later on
 		return true;
-*/
 	}
 	
 	
@@ -140,26 +147,14 @@ public final class OsmNode implements Comparable<OsmNode> {
 	// if we need to override equals, we also need to override hashCode (by contract terms)
 	public int hashCode () {
 		
-//		// :BUG: there are equal objects with unequal hash codes
-//		assert false;
+		// :BUG: there are equal objects with unequal hash codes
+		// for very small EPSILONs, casting to floats for the hashing should minimise this problem
 		
 		//Algorithm from Effective Java by Joshua Bloch
 		int hashCode = 17;
-		hashCode = hashCode * 37 + hashCode(e);
-		hashCode = hashCode * 37 + hashCode(n);
+		hashCode = hashCode * 37 + Float.floatToIntBits( (float)e );
+		hashCode = hashCode * 37 + Float.floatToIntBits( (float)n );
 		return hashCode;
-	}
-	
-	
-	/**
-	 * Computes a hash code for a double value, using the algorithm from
-	 * Joshua Bloch's book <i>Effective Java"</i>
-	 * 
-	 * @return a hashcode for the double value
-	 */
-	private static int hashCode (double x) {
-		long f = Double.doubleToLongBits(x);
-		return (int)(f ^ (f >>> 32));
 	}
 	
 }
