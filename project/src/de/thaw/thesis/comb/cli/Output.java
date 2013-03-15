@@ -135,6 +135,7 @@ final class Output {
 						+ ",p_left:String"
 						+ ",p_right:String"
 						+ ",reciprocal:Integer"
+						+ ",gen:Integer"
 						);
 			}
 			
@@ -160,7 +161,7 @@ final class Output {
 						return false;
 					}
 				}
-				return true;
+				return true;  // returns true for "no parallels"
 			}
 			
 			public List attributes (final Geometry geometry) {
@@ -170,6 +171,7 @@ final class Output {
 				attributes.add( idsFromParallels(segment.leftRealParallels) );
 				attributes.add( idsFromParallels(segment.rightRealParallels) );
 				attributes.add( reciprocal(segment) ? 1 : 0 );
+				attributes.add( segment.wasGeneralised ? 1 : 0 );
 				return attributes;
 			}
 		});
@@ -356,11 +358,62 @@ final class Output {
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final Collection<OsmNode> nodeList : gen) {
+			if (nodeList.size() < 2) {
+System.out.println("skipped non-line");
+				continue;
+			}
 			geometries.add( writer.toLineString(nodeList) );
 		}
 		
 		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
 		verbose(1, "Output: " + geometries.size() + " generalised linestring" + (geometries.size() == 1 ? "." : "s."));
+	}
+	
+	
+	
+	void writeAllLines (final Collection<Collection<OsmNode>> gen, final String path) {
+		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeAllLines (Writer creation failed for path: " + path + ").");
+			return;
+		}
+		
+		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
+		for (final Collection<OsmNode> nodeList : gen) {
+			if (nodeList.size() < 2) {
+System.out.println("skipped non-line");
+				continue;
+			}
+			Geometry line = writer.toLineString(nodeList);
+			line.setUserData("1");
+			geometries.add( line );
+		}
+		for (final LineSegment segment : dataset.allSegments()) {
+			if (segment.wasGeneralised) {
+				continue;
+			}
+			Geometry line = writer.toLineString(segment);
+			line.setUserData("0");
+			geometries.add( line );
+		}
+		
+		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
+			
+			// positional arguments MUST be in same order in both methods
+			public SimpleFeatureType featureType () throws SchemaException {
+				return DataUtilities.createType( "AllLines",
+						"geometry:LineString:srid=" + epsgCode
+						+ ",gen:String"
+						);
+			}
+			
+			public List attributes (final Geometry geometry) {
+				final List<Object> attributes = new LinkedList<Object>();
+				attributes.add( geometry.getUserData().toString() );
+				return attributes;
+			}
+		});
+		verbose(1, "Output: " + geometries.size() + " lines.");
 	}
 	
 }
