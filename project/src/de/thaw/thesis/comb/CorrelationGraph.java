@@ -255,6 +255,13 @@ public final class CorrelationGraph {
 				// move into both directions along segments from startNode
 				forward = ! forward;
 				
+				/* :BUG:
+				 * This toggling logic only works for "trivial" locations, i. e.
+				 * no nodes with more than 2 connecting segments. If there are
+				 * more segments, the flag is toggled more than once, which
+				 * yields visuals comparable to those of #111.
+				 */
+				
 				// (TG 3) ∀ D
 				// :BUG: only works in forward direction
 				
