@@ -98,7 +98,7 @@ public final class CorrelationGraph {
 					
 					// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
 					for (LineSegment connectedSegment : segmentNode.connectingSegments) {
-						OsmNode otherNode = connectedSegment.start != segmentNode ? segmentNode : connectedSegment.end;
+						OsmNode otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
 						if (otherNode == closestNode
 //								&& otherNode != segmentNode  // allows generalised lines to replace certain sections w/o parallels, which looks good on e. g. Aachener/Militärring NE (Cologne), but bad on e. g. Köln-Nord
 								) {
