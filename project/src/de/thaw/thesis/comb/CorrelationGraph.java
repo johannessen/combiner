@@ -222,7 +222,7 @@ public final class CorrelationGraph {
 			
 			addGeneralisedPoint(startEdge, true);
 			
-			assert startNode.connectingSegments.size() <= 2;
+//			assert startNode.connectingSegments.size() <= 2;
 			boolean forward = false;
 			for (final LineSegment segment : startNode.connectingSegments) {
 				if (segment.wasGeneralised) {
@@ -250,8 +250,8 @@ public final class CorrelationGraph {
 				// (TG 3a)
 				// :TODO: this condition can surely be simplified
 				while (currentEdge != null && segment1 != null && segment2 != null && (! segment1.wasGeneralised || ! segment2.wasGeneralised)) {
-					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
-					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
+//					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
+//					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
 					
 					// (TG 4) find M, draw it
 //					generalisedSection.add(generalisedPoint( currentEdge ));
@@ -393,7 +393,7 @@ public final class CorrelationGraph {
 			LineSegment nextSegment = null;
 			for (LineSegment segment : pivot.connectingSegments) {
 				if (segment != currentSegment) {
-					assert nextSegment == null;  // :BUG: handles trivial case only
+//					assert nextSegment == null;  // :BUG: handles trivial case only
 					nextSegment = segment;
 				}
 			}
