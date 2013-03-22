@@ -62,6 +62,7 @@ public final class CorrelationGraph {
 				final OsmNode segmentNode = node(segment, j);
 				
 				// ∀ sides A {left,right} of S
+				S:
 				for (int i = 0; i < 2; i++) {
 					final Collection<LineSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
 					
@@ -94,6 +95,16 @@ public final class CorrelationGraph {
 						continue;
 					}
 					assert side.size() > 0;
+					
+					// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
+					for (LineSegment connectedSegment : segmentNode.connectingSegments) {
+						OsmNode otherNode = connectedSegment.start != segmentNode ? segmentNode : connectedSegment.end;
+						if (otherNode == closestNode
+//								&& otherNode != segmentNode  // allows generalised lines to replace certain sections w/o parallels, which looks good on e. g. Aachener/Militärring NE (Cologne), but bad on e. g. Köln-Nord
+								) {
+							continue S;
+						}
+					}
 					
 					assert contains(new CorrelationEdge(segmentNode, closestNode)) == contains(new CorrelationEdge(closestNode, segmentNode)) : new CorrelationEdge(segmentNode, closestNode);  // testing Set comparisons
 					
