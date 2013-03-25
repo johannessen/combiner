@@ -172,7 +172,7 @@ final class Output {
 				attributes.add( idsFromParallels(segment.leftRealParallels) );
 				attributes.add( idsFromParallels(segment.rightRealParallels) );
 				attributes.add( reciprocal(segment) ? 1 : 0 );
-				attributes.add( segment.wasGeneralised ? 1 : 0 );
+				attributes.add( segment.wasGeneralised /*? 1 : 0*/ );
 				return attributes;
 			}
 		});
@@ -386,11 +386,11 @@ System.out.println("skipped non-line");
 				continue;
 			}
 			Geometry line = writer.toLineString( section.combination );
-			line.setUserData("1");
+			line.setUserData(section.originals);
 			geometries.add( line );
 		}
 		for (final LineSegment segment : dataset.allSegments()) {
-			if (segment.wasGeneralised) {
+			if (segment.wasGeneralised > 0) {
 				continue;
 			}
 			Geometry line = writer.toLineString(segment);

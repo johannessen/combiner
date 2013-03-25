@@ -167,6 +167,20 @@ public final class CorrelationGraph {
 			
 			walker = new Walker();
 		}
+		
+		
+		// filter short sections
+		Iterator<GeneralisedSection> iterator = generalisedLines.iterator();
+		while (iterator.hasNext()) {
+			GeneralisedSection section = iterator.next();
+			
+			if (section.length() < GeneralisedSection.MIN_LENGTH) {
+				iterator.remove();
+				for (LineSegment segment : section.originals) {
+					segment.wasGeneralised -= 1;
+				}
+			}
+		}
 	}
 	
 	
@@ -207,8 +221,8 @@ public final class CorrelationGraph {
 					
 					// get segment with ID
 					for (final LineSegment segment : node.connectingSegments) {
-						if (segment.wasGeneralised || segment.notToBeGeneralised) {
-							continue;
+						if (segment.wasGeneralised > 0 || segment.notToBeGeneralised) {
+ 							continue;
 						}
 						
 						startEdge = edge;
@@ -236,7 +250,7 @@ public final class CorrelationGraph {
 //			assert startNode.connectingSegments.size() <= 2;
 			boolean forward = false;
 			for (final LineSegment segment : startNode.connectingSegments) {
-				if (segment.wasGeneralised) {
+				if (segment.wasGeneralised > 0) {
 					continue;
 				}
 				
@@ -267,7 +281,7 @@ public final class CorrelationGraph {
 				
 				// (TG 3a)
 				// :TODO: this condition can surely be simplified
-				while (currentEdge != null && segment1 != null && segment2 != null && (! segment1.wasGeneralised || ! segment2.wasGeneralised)) {
+				while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
 //					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
 //					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
 					
@@ -285,7 +299,8 @@ public final class CorrelationGraph {
 						
 						// Fall "es gibt eine Kante vom naechsten Punkt-1 (X) zurueck zum aktuellen Punkt-2 (E_T)"
 						
-						segment1.wasGeneralised = true;
+						segment1.wasGeneralised += 1;
+						generalisedSection.originals.add(segment1);
 						
 						currentEdge.genCounter++;
 						nextEdge.genCounter++;
@@ -308,7 +323,8 @@ public final class CorrelationGraph {
 							
 							// Fall "es gibt eine Kante vom naechsten Punkt-2 (Y) zurueck zum aktuellen Punkt-1 (E_S)"
 							
-							segment2.wasGeneralised = true;
+							segment2.wasGeneralised += 1;
+							generalisedSection.originals.add(segment2);
 							
 							currentEdge.genCounter += 10;
 							nextEdge.genCounter += 10;
@@ -331,8 +347,10 @@ public final class CorrelationGraph {
 								
 								// Fall "es gibt zwei naechste unabhaengige Segmente, die auch parallel sind und es gibt agnz normal eine naechste kante"
 								
-								segment1.wasGeneralised = true;
-								segment2.wasGeneralised = true;
+								segment1.wasGeneralised += 1;
+								generalisedSection.originals.add(segment1);
+								segment2.wasGeneralised += 1;
+								generalisedSection.originals.add(segment2);
 								
 								currentEdge.genCounter += 1000;
 								nextEdge.genCounter += 1000;
@@ -356,8 +374,8 @@ public final class CorrelationGraph {
 								// Fall "es gibt naechste unabhaengige Segmente, die aber nicht parallel sind"
 								assert nextEdge == null || nextEdge == currentEdge;
 								
-								segment1.notToBeGeneralised = ! segment1.wasGeneralised;
-								segment2.notToBeGeneralised = ! segment2.wasGeneralised;
+								segment1.notToBeGeneralised = segment1.wasGeneralised == 0;
+								segment2.notToBeGeneralised = segment2.wasGeneralised == 0;
 								
 								currentEdge.genCounter += 100;
 								currentEdge = null;  // break

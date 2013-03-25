@@ -35,7 +35,8 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 	Envelope envelope;
 	
 	boolean wasCorrelated = false;
-	public boolean wasGeneralised = false;
+//	public boolean wasGeneralised = false;
+	public int wasGeneralised = 0;
 	public boolean notToBeGeneralised = false;
 	
 	// LineSegment

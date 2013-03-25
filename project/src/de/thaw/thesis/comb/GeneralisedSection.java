@@ -14,7 +14,11 @@ import java.util.LinkedList;
 
 public class GeneralisedSection {
 	
+	static double MIN_LENGTH = 80.0;  // :TODO: check what works best
+	
 	public LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
+	
+	public LinkedList<LineSegment> originals = new LinkedList<LineSegment>();
 	
 	double length () {
 		// :BUG: calculate intermediate segments
