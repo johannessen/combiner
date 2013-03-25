@@ -29,13 +29,13 @@ public final class CorrelationGraph {
 	
 	NavigableSet<CorrelationEdge> sortedEdgesSet;
 	
-	Collection<Collection<OsmNode>> generalisedLines;
+	Collection<GeneralisedSection> generalisedLines;
 	
 	
 	CorrelationGraph (final OsmDataset dataset) {
 		this.dataset = dataset;
 		
-		generalisedLines = new LinkedList<Collection<OsmNode>>();
+		generalisedLines = new LinkedList<GeneralisedSection>();
 		sortedEdgesSet = new TreeSet<CorrelationEdge>();
 		createGraph();
 	}
@@ -162,7 +162,7 @@ public final class CorrelationGraph {
 		
 		while (walker.ready()) {  // :TODO: does this terminate always?
 			walker.run();
-			Collection<OsmNode> generalisedSection = walker.generalisedSection;
+			GeneralisedSection generalisedSection = walker.generalisedSection;
 			generalisedLines.add(generalisedSection);
 			
 			walker = new Walker();
@@ -172,7 +172,7 @@ public final class CorrelationGraph {
 	
 	class Walker {
 			
-		LinkedList<OsmNode> generalisedSection;
+		GeneralisedSection generalisedSection;
 		
 		private OsmNode startNode = null;  // E_S
 		private CorrelationEdge startEdge = null;  // E
@@ -187,7 +187,7 @@ public final class CorrelationGraph {
 		
 		
 		Walker () {
-			generalisedSection = new LinkedList<OsmNode>();
+			generalisedSection = new GeneralisedSection();
 			findStartEdge();
 		}
 		
@@ -382,10 +382,10 @@ public final class CorrelationGraph {
 //			final OsmNode midPoint = OsmNode.createWithEastingNorthing(e, n);
 			final OsmNode midPoint = dataset.getNodeAtEastingNorthing(e, n);  // :TODO: why this line? perhaps so that the node is inserted into the debug output?
 			if (addAsLast) {
-				generalisedSection.addLast( midPoint );
+				generalisedSection.combination.addLast( midPoint );
 			}
 			else {
-				generalisedSection.addFirst( midPoint );
+				generalisedSection.combination.addFirst( midPoint );
 			}
 		}
 		

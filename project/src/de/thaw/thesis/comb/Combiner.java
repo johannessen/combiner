@@ -37,7 +37,7 @@ public final class Combiner {
 	
 	// :DEBUG: debugging output
 	public Collection<CorrelationEdge> cns;
-	public Collection<Collection<OsmNode>> gen;
+	public Collection<GeneralisedSection> gen;
 	
 	public int verbose = 0;
 	
