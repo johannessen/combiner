@@ -15,7 +15,7 @@ IN=../data/testbed-nrw/koeln-main-nolinks.shp
 #IN=../data/testbed-nrw/koeln-junkersdorf-main.shp
 #IN=../data/shape-test/simple3.shp
 
-#IN=../data/quads2-mtp/baden-wuerttemberg/n47.5-e7.shp
+#IN=../data/quads/de_1x2-mtp/baden-wuerttemberg/n48.5-e9.shp
 
 OUT=../data/combiner/out.shp
 OUT_DEBUG1=../data/combiner/out-nodes.shp

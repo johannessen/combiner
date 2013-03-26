@@ -63,26 +63,12 @@ public final class Combiner {
 		
 		CorrelationGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
-		generaliseSegments(graph, startId);
-		gen = graph.generalisedLines;
-		// :TODO: ... magic
+		
+		GeneralisedLines result = new GeneralisedLines();
+		result.traverse(graph);
+		gen = result.lines();  // :DEBUG: debugging output
 		
 		verbose(1, "Done.");
-	}
-	
-	
-	
-	void generaliseSegments (final CorrelationGraph graph, final long startId) {
-		
-		graph.traverse();
-		
-/*
-		LineSegment start = graph.findStart(startId);
-		if (start != null) {
-			graph.traverse(start);
-		}
-*/
-		
 	}
 	
 	
