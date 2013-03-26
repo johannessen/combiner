@@ -225,6 +225,11 @@ public final class CorrelationGraph {
  							continue;
 						}
 						
+						if (node.connectingSegments.size() > 2
+								|| edge.other(node).connectingSegments.size() > 2) {
+							continue;
+						}
+						
 						startEdge = edge;
 						startNode = node;
 						return;
@@ -247,8 +252,9 @@ public final class CorrelationGraph {
 			
 			addGeneralisedPoint(startEdge, true);
 			
-//			assert startNode.connectingSegments.size() <= 2;
-			boolean forward = false;
+			assert startNode.connectingSegments.size() <= 2 : startNode;
+			boolean forward = true;
+			int directionsCounter = 0;
 			for (final LineSegment segment : startNode.connectingSegments) {
 				if (segment.wasGeneralised > 0) {
 					continue;
@@ -265,9 +271,6 @@ public final class CorrelationGraph {
 					continue;
 				}
 				segment2Aligned = segment2.start == currentNode2;
-				
-				// move into both directions along segments from startNode
-				forward = ! forward;
 				
 				/* :BUG:
 				 * This toggling logic only works for "trivial" locations, i. e.
@@ -385,7 +388,12 @@ public final class CorrelationGraph {
 					
 					addGeneralisedPoint(currentEdge, forward);
 				}
+				
+				// move into both directions along segments from startNode
+				forward = ! forward;
+				directionsCounter += 1;
 			}
+			assert directionsCounter <= 2 : startNode;
 		}
 		
 		
