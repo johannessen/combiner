@@ -9,13 +9,13 @@ then
 fi
 
 
-#IN=../data/testbed/koeln-SE-main.shp
-#IN=../data/testbed/koeln-SE-motorway.shp
-IN=../data/testbed/koeln-junkersdorf-main.shp
+#IN=../data/testbed-nrw/koeln-SE-main.shp
+#IN=../data/testbed-nrw/koeln-SE-motorway.shp
+IN=../data/testbed-nrw/koeln-junkersdorf-main.shp
 #IN=../data/shape-test/simple.shp
 
-OUT=../data/testbed/out.shp
-OUT_DEBUG=../data/testbed/out-debug.shp
+OUT=../data/testbed-out/out.shp
+OUT_DEBUG=../data/testbed-out/out-debug.shp
 
 java -cp build/classes:lib/geotools-8.5/* de.thaw.thesis.testbed.Testbed "$IN" "$OUT" "$OUT_DEBUG"
 

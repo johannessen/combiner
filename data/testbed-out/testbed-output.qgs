@@ -68,7 +68,7 @@
     <projectlayers layercount="8">
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln20130119203734990</id>
-            <datasource>./koeln.shp</datasource>
+            <datasource>../testbed-nrw/koeln.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln</layername>
@@ -153,7 +153,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln_SE20130119203729142</id>
-            <datasource>./koeln-SE.shp</datasource>
+            <datasource>../testbed-nrw/koeln-SE.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln-SE</layername>
@@ -220,7 +220,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln_SE_main20130121151936201</id>
-            <datasource>./koeln-SE-main.shp</datasource>
+            <datasource>../testbed-nrw/koeln-SE-main.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln-SE-main</layername>
@@ -305,7 +305,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln_SE_motorway20130119203711806</id>
-            <datasource>./koeln-SE-motorway.shp</datasource>
+            <datasource>../testbed-nrw/koeln-SE-motorway.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln-SE-motorway</layername>
@@ -390,7 +390,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln_SE_noservice20130121151942320</id>
-            <datasource>./koeln-SE-noservice.shp</datasource>
+            <datasource>../testbed-nrw/koeln-SE-noservice.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln-SE-noservice</layername>
@@ -475,7 +475,7 @@
         </maplayer>
         <maplayer minimumScale="0" maximumScale="1e+08" geometry="Line" type="vector" hasScaleBasedVisibilityFlag="0">
             <id>koeln_motorway20130119203723034</id>
-            <datasource>./koeln-motorway.shp</datasource>
+            <datasource>../testbed-nrw/koeln-motorway.shp</datasource>
             <title></title>
             <abstract></abstract>
             <layername>koeln-motorway</layername>
