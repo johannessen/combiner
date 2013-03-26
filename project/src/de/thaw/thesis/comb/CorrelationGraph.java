@@ -257,6 +257,9 @@ public final class CorrelationGraph {
 			
 			addGeneralisedPoint(startEdge, true);
 			
+			addConnector(startEdge, true);
+			addConnector(startEdge, false);
+			
 			assert startNode.connectingSegments.size() <= 2 : startNode;
 			boolean forward = true;
 			int directionsCounter = 0;
@@ -386,7 +389,7 @@ public final class CorrelationGraph {
 								segment2.notToBeGeneralised = segment2.wasGeneralised == 0;
 								
 								currentEdge.genCounter += 100;
-								currentEdge = null;  // break
+								segment1 = null;  // break
 							}
 						}
 					}
@@ -394,11 +397,24 @@ public final class CorrelationGraph {
 					addGeneralisedPoint(currentEdge, forward);
 				}
 				
+				addConnector(currentEdge, forward);
+				
 				// move into both directions along segments from startNode
 				forward = ! forward;
 				directionsCounter += 1;
 			}
 			assert directionsCounter <= 2 : startNode;
+		}
+		
+		
+		void addConnector (final CorrelationEdge edge, final boolean addAtEnd) {
+			if (addAtEnd) {
+				generalisedSection.endConnector = edge;
+			}
+			else {
+				assert ! addAtEnd;
+				generalisedSection.startConnector = edge;
+			}
 		}
 		
 		

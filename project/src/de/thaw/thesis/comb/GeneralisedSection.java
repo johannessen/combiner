@@ -25,6 +25,9 @@ public class GeneralisedSection {
 		return new Vector( combination.getFirst(), combination.getLast() ).distance();
 	}
 	
+	public CorrelationEdge startConnector = null;
+	public CorrelationEdge endConnector = null;
+	
 }
 
 

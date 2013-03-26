@@ -4,10 +4,10 @@
     <mapcanvas>
         <units>meters</units>
         <extent>
-            <xmin>784835.200267</xmin>
-            <ymin>6610930.533020</ymin>
-            <xmax>787081.297355</xmax>
-            <ymax>6612395.439490</ymax>
+            <xmin>758442.521995</xmin>
+            <ymin>6595597.296492</ymin>
+            <xmax>800122.902556</xmax>
+            <ymax>6622781.276871</ymax>
         </extent>
         <projections>1</projections>
         <destinationsrs>
@@ -24,9 +24,9 @@
         </destinationsrs>
     </mapcanvas>
     <legend updateDrawingOrder="true">
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Nodes" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Nodes" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="out_debug20130215221212113" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="out_debug20130215221212113" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Generalised Lines" showFeatureCount="0">
@@ -34,14 +34,14 @@
                 <legendlayerfile isInOverview="0" layerid="out20130221231224665" visible="1"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="Segments" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="Segments" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="out20130215221037543" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="out20130215221037543" visible="0"/>
             </filegroup>
         </legendlayer>
-        <legendlayer drawingOrder="-1" open="true" checked="Qt::Checked" name="out-debug" showFeatureCount="0">
+        <legendlayer drawingOrder="-1" open="true" checked="Qt::Unchecked" name="out-debug" showFeatureCount="0">
             <filegroup open="true" hidden="false">
-                <legendlayerfile isInOverview="0" layerid="out_debug220130219205847600" visible="1"/>
+                <legendlayerfile isInOverview="0" layerid="out_debug220130219205847600" visible="0"/>
             </filegroup>
         </legendlayer>
         <legendlayer drawingOrder="-1" open="false" checked="Qt::Unchecked" name="OpenStreetMap" showFeatureCount="0">
@@ -238,8 +238,9 @@
             <vectorjoins/>
             <renderer-v2 symbollevels="0" type="RuleRenderer">
                 <rules>
-                    <rule filter="gen = 1" symbol="0" label="combined"/>
+                    <rule filter="gen != 0 and gen != -1" symbol="0" label="combined"/>
                     <rule filter="gen = 0" symbol="1" label="passthru"/>
+                    <rule filter="gen = -1" symbol="2" label="connector"/>
                 </rules>
                 <symbols>
                     <symbol outputUnit="MM" alpha="1" type="line" name="0">
@@ -264,6 +265,18 @@
                             <prop k="penstyle" v="solid"/>
                             <prop k="use_custom_dash" v="0"/>
                             <prop k="width" v="0.46"/>
+                        </layer>
+                    </symbol>
+                    <symbol outputUnit="MM" alpha="1" type="line" name="2">
+                        <layer pass="0" class="SimpleLine" locked="0">
+                            <prop k="capstyle" v="square"/>
+                            <prop k="color" v="255,0,0,255"/>
+                            <prop k="customdash" v="5;2"/>
+                            <prop k="joinstyle" v="bevel"/>
+                            <prop k="offset" v="0"/>
+                            <prop k="penstyle" v="solid"/>
+                            <prop k="use_custom_dash" v="0"/>
+                            <prop k="width" v="0.26"/>
                         </layer>
                     </symbol>
                 </symbols>

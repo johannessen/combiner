@@ -388,6 +388,14 @@ System.out.println("skipped non-line");
 			Geometry line = writer.toLineString( section.combination );
 			line.setUserData(section.originals);
 			geometries.add( line );
+			
+			line = writer.toLineString( toNodeList(section.startConnector, section.combination.getFirst()) );
+			line.setUserData("-1");
+			geometries.add( line );
+			line = writer.toLineString( toNodeList(section.endConnector, section.combination.getLast()) );
+			line.setUserData("-1");
+			geometries.add( line );
+			
 		}
 		for (final LineSegment segment : dataset.allSegments()) {
 			if (segment.wasGeneralised > 0) {
@@ -415,6 +423,19 @@ System.out.println("skipped non-line");
 			}
 		});
 		verbose(1, "Output: " + geometries.size() + " lines.");
+	}
+	
+	
+	
+	private List<OsmNode> toNodeList (final CorrelationEdge edge, final OsmNode genNode) {
+		LinkedList<OsmNode> list = new LinkedList<OsmNode>();
+		if (edge == null) {
+			return list;
+		}
+		list.add( edge.node0 );
+		list.add( genNode );
+		list.add( edge.node1 );
+		return list;
 	}
 	
 }
