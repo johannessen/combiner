@@ -99,11 +99,16 @@ public final class CorrelationGraph {
 					// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
 					for (LineSegment connectedSegment : segmentNode.connectingSegments) {
 						OsmNode otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
-						if (otherNode == closestNode
-//								&& otherNode != segmentNode  // allows generalised lines to replace certain sections w/o parallels, which looks good on e. g. Aachener/Militärring NE (Cologne), but bad on e. g. Köln-Nord
-								) {
+						if (otherNode == closestNode) {
+							assert otherNode != segmentNode : segmentNode;
 							continue S;
 						}
+					}
+					
+					if (segmentNode == closestNode) {
+						// <=> merge point (e. g. end of dual carriageway)
+						// (this condition isn't always true in such situations, so let's skip them entirely and clean up later)
+						continue;
 					}
 					
 					assert contains(new CorrelationEdge(segmentNode, closestNode)) == contains(new CorrelationEdge(closestNode, segmentNode)) : new CorrelationEdge(segmentNode, closestNode);  // testing Set comparisons
