@@ -58,6 +58,8 @@ public final class Combiner {
 	 * 
 	 */
 	public void run (final long startId) {
+		long startTime = System.currentTimeMillis();
+		
 		splitSegments();
 		analyseSegments(analyser);
 		
@@ -69,6 +71,7 @@ public final class Combiner {
 		gen = result;  // :DEBUG: debugging output
 		
 		verbose(1, "Done.");
+		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");
 	}
 	
 	
