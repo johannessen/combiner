@@ -37,7 +37,7 @@ public final class Combiner {
 	
 	// :DEBUG: debugging output
 	public Collection<CorrelationEdge> cns;
-	public Collection<GeneralisedSection> gen;
+	public GeneralisedLines gen;
 	
 	public int verbose = 0;
 	
@@ -64,9 +64,9 @@ public final class Combiner {
 		CorrelationGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
 		
-		GeneralisedLines result = new GeneralisedLines();
-		result.traverse(graph);
-		gen = result.lines();  // :DEBUG: debugging output
+		GeneralisedLines result = new GeneralisedLines(graph);
+		result.traverse();
+		gen = result;  // :DEBUG: debugging output
 		
 		verbose(1, "Done.");
 	}

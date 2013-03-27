@@ -10,67 +10,56 @@ package de.thaw.thesis.comb;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 
 
+/**
+ * 
+ */
 public class GeneralisedLines {
 	
-	private List<GeneralisedSection> lines;
+	private final CorrelationGraph graph;
 	
-	private OsmNode startNode = null;  // E_S
-	private CorrelationEdge startEdge = null;  // E
-	
+	private Collection<GeneralisedSection> lines;
 	
 	
-	GeneralisedLines () {
-		lines = new LinkedList<GeneralisedSection>();
+	
+	/**
+	 * 
+	 */
+	GeneralisedLines (final CorrelationGraph graph) {
+		this.graph = graph;
+		this.lines = new LinkedList<GeneralisedSection>();
 	}
 	
 	
 	
-	Collection<GeneralisedSection> lines () {
-		List<GeneralisedSection> immutableLines = Collections.unmodifiableList( lines );
-		lines = immutableLines;
-		return immutableLines;
+	/**
+	 * 
+	 */
+	public Collection<GeneralisedSection> lines () {
+		return Collections.unmodifiableCollection( lines );
 	}
 	
 	
 	
-	void traverse (CorrelationGraph graph) {
-		// :TODO: is this loop terminating?
-		while (true) {
-			findStartEdge(graph);
-			if ( startEdge == null || startNode == null ) {
-				break;
-			}
-			
-			GeneralisedSection section = new GeneralisedSection(graph);
-			section.startAt(startEdge, startNode);
-			section.filterShortSection();
-			if ( ! section.valid() ) {
-				continue;
-			}
-			lines.add(section);
-		}
-	}
-	
-	
-	
-	void findStartEdge (CorrelationGraph graph) {
-		startEdge = null;
-		startNode = null;
+	/**
+	 * 
+	 */
+	void traverse () {
+		CorrelationEdge startEdge = null;  // E_S
+		OsmNode startNode = null;  // E
 		
-		// we don't actually care where to start
+		/* This is reasonably fast because both of the inner loops usually have
+		 * only 2 or 3 items to loop through.
+		 */
 		
 		// (TG 1) choose segment S
 		for (final CorrelationEdge edge : graph.edges()) {
 				
-			OsmNode[] edgeNodes = new OsmNode[]{ edge.node0, edge.node1 };
 			for (int i = 0; i < 2; i++) {
-				OsmNode node = edgeNodes[i];
+				OsmNode node = i == 0 ? edge.node0 : edge.node1;
 				
 				// get segment with ID
 				for (final LineSegment segment : node.connectingSegments) {
@@ -78,18 +67,33 @@ public class GeneralisedLines {
 						continue;
 					}
 					
+					// :FIX: #111 - backward/forward logic can't handle junctions
 					if (node.connectingSegments.size() > 2
 							|| edge.other(node).connectingSegments.size() > 2) {
 						continue;
 					}
 					
-					startEdge = edge;
-					startNode = node;
-					
-					return;
+					generaliseSectionAt(edge, node);
 				}
 			}
 		}
+	}
+	
+	
+	
+	/**
+	 * 
+	 */
+	private void generaliseSectionAt (final CorrelationEdge edge, OsmNode node) {
+		final GeneralisedSection section = new GeneralisedSection(graph);
+		section.startAt(edge, node);
+		
+		section.filterShortSection();
+		if ( ! section.valid() ) {
+			return;
+		}
+		
+		lines.add(section);
 	}
 	
 }

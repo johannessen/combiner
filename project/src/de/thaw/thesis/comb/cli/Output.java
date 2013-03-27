@@ -9,6 +9,7 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.CorrelationEdge;
+import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
@@ -372,7 +373,7 @@ System.out.println("skipped non-line");
 	
 	
 	
-	void writeAllLines (final Collection<GeneralisedSection> gen, final String path) {
+	void writeAllLines (final GeneralisedLines gen, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
 			verbose(1, "Skipped writeAllLines (Writer creation failed for path: " + path + ").");
@@ -380,7 +381,7 @@ System.out.println("skipped non-line");
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final GeneralisedSection section : gen) {
+		for (final GeneralisedSection section : gen.lines()) {
 			if (section.combination.size() < 2) {
 System.out.println("skipped non-line");
 				continue;
