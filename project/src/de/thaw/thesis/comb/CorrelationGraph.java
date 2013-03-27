@@ -134,6 +134,12 @@ public final class CorrelationGraph {
 	}
 	
 	
+	CorrelationEdge get (final OsmNode node0, final OsmNode node1) {
+		CorrelationEdge testEdge = new CorrelationEdge(node0, node1);
+		return intern(testEdge);
+	}
+	
+	
 	boolean contains (final CorrelationEdge edge) {
 		if (sortedEdges == null) {
 			return sortedEdgesSet.contains(edge);

@@ -8,6 +8,7 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -41,179 +42,175 @@ public class GeneralisedSection {
 	
 	
 	
-	void startAt (final CorrelationEdge startEdge, final OsmNode startNode) {
-		
-		// startEdge -- E
-		// startNode -- E_S
-		LineSegment segment1 = null;  // A
-		LineSegment segment2 = null;  // B
-		boolean segment1Aligned = true;
-		boolean segment2Aligned = true;
-		OsmNode currentNode1 = null;  // E_S
-		OsmNode currentNode2 = null;  // E_T
-		CorrelationEdge currentEdge = null;  // E
+	CorrelationEdge startEdge = null;  // E
+	OsmNode startNode = null;  // E_S
+	
+	void startAt (final CorrelationEdge edge, final OsmNode node) {
+		startEdge = edge;
+		startNode = node;
 		
 		if (startNode == null) {
 			valid = false;
 			return;
 		}
 		
-		addGeneralisedPoint(startEdge, true);
-		
 		addConnector(startEdge, true);
 		addConnector(startEdge, false);
 		
-		assert startNode.connectingSegments.size() <= 2 : startNode;
-		boolean forward = true;
-		int directionsCounter = 0;
-		for (final LineSegment segment : startNode.connectingSegments) {
+		assert startNode.connectingSegments.size() <= 2 : startNode;  // see issue #111
+		assert startNode.connectingSegments.size() > 0 : startNode;
+		
+		
+		Iterator<LineSegment> iterator = startNode.connectingSegments.iterator();
+		for (int i = 0; i < 2 && iterator.hasNext(); i++) {
+			final LineSegment segment = iterator.next();
+			
+			// move into both directions along segments from startNode
+			boolean forward = i == 0;
+			
 			if (segment.wasGeneralised > 0) {
 				continue;
 			}
 			
-			currentEdge = startEdge;
-			currentNode1 = startNode;
-			currentNode2 = startEdge.other(startNode);
-			segment1 = segment;
-			segment1Aligned = segment1.start == currentNode1;
-			segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
-			if (segment2 == null) {
-				segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
+			CorrelationEdge lastEdge = traverseGraph(segment, forward);
+			if (lastEdge == startEdge) {
 				continue;
 			}
-			segment2Aligned = segment2.start == currentNode2;
 			
-			/* :BUG:
-			 * This toggling logic only works for "trivial" locations, i. e.
-			 * no nodes with more than 2 connecting segments. If there are
-			 * more segments, the flag is toggled more than once, which
-			 * yields visuals comparable to those of #111.
-			 */
-			
-			// (TG 3) ∀ D
-			// :BUG: only works in forward direction
-			
-			// (TG 3a)
-			// :TODO: this condition can surely be simplified
-			while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
-//					assert currentNode1.connectingSegments.size() <= 2 : currentNode1;  // trivial case
-//					assert currentNode2.connectingSegments.size() <= 2 : currentNode2;  // trivial case
-				
-				// (TG 4) find M, draw it
-//					generalisedSection.add(generalisedPoint( currentEdge ));
-				
-				// (TG 5) find next nodes
-				OsmNode nextNode1 = segment1Aligned ? segment1.end : segment1.start;  // X
-				OsmNode nextNode2 = segment2Aligned ? segment2.end : segment2.start;  // Y
-				
-				// (TG 6/7)
-				CorrelationEdge nextEdge = new CorrelationEdge(nextNode1, currentNode2);
-				nextEdge = graph.intern(nextEdge);
-				if ( nextEdge != null && nextEdge != currentEdge ) {
-					
-					// Fall "es gibt eine Kante vom naechsten Punkt-1 (X) zurueck zum aktuellen Punkt-2 (E_T)"
-					
-					segment1.wasGeneralised += 1;
-					originals.add(segment1);
-					
-					currentEdge.genCounter++;
-					nextEdge.genCounter++;
-					
-					LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
-					if (nextSegment1 != null) {
-						segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());  // :TODO: unclear; can prolly be replaced by node comparison
-					}
-					segment1 = nextSegment1;
-					segment2 = segment2;  // no change
-					currentNode1 = nextNode1;
-					currentNode2 = currentNode2;  // no change
-					currentEdge = nextEdge;
-					
-				}
-				else {
-					nextEdge = new CorrelationEdge(nextNode2, currentNode1);
-					nextEdge = graph.intern(nextEdge);
-					if ( nextEdge != null && nextEdge != currentEdge ) {
-						
-						// Fall "es gibt eine Kante vom naechsten Punkt-2 (Y) zurueck zum aktuellen Punkt-1 (E_S)"
-						
-						segment2.wasGeneralised += 1;
-						originals.add(segment2);
-						
-						currentEdge.genCounter += 10;
-						nextEdge.genCounter += 10;
-						
-						segment1 = segment1;  // no change
-						LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
-						if (nextSegment2 != null) {
-							segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());
-						}
-						segment2 = nextSegment2;
-						currentNode1 = currentNode1;  // no change
-						currentNode2 = nextNode2;
-						currentEdge = nextEdge;
-						
-					}
-					else {
-						nextEdge = new CorrelationEdge(nextNode1, nextNode2);
-						nextEdge = graph.intern(nextEdge);
-						if ( nextEdge != null && nextEdge != currentEdge ) {
-							
-							// Fall "es gibt zwei naechste unabhaengige Segmente, die auch parallel sind und es gibt agnz normal eine naechste kante"
-							
-							segment1.wasGeneralised += 1;
-							originals.add(segment1);
-							segment2.wasGeneralised += 1;
-							originals.add(segment2);
-							
-							currentEdge.genCounter += 1000;
-							nextEdge.genCounter += 1000;
-							
-							LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
-							if (nextSegment1 != null) {
-								segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());
-							}
-							segment1 = nextSegment1;
-							LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
-							if (nextSegment2 != null) {
-								segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());
-							}
-							segment2 = nextSegment2;
-							currentNode1 = nextNode1;
-							currentNode2 = nextNode2;
-							currentEdge = nextEdge;
-						}
-						else {
-							
-							// Fall "es gibt naechste unabhaengige Segmente, die aber nicht parallel sind"
-							assert nextEdge == null || nextEdge == currentEdge;
-							
-							segment1.notToBeGeneralised = segment1.wasGeneralised == 0;
-							segment2.notToBeGeneralised = segment2.wasGeneralised == 0;
-							
-							currentEdge.genCounter += 100;
-							segment1 = null;  // break
-						}
-					}
-				}
-				
-				addGeneralisedPoint(currentEdge, forward);
-			}
-			
-			addConnector(currentEdge, forward);
-			
-			// move into both directions along segments from startNode
-			forward = ! forward;
-			directionsCounter += 1;
+			addConnector(lastEdge, forward);
 		}
-		assert directionsCounter <= 2 : startNode;
+		
+		assert ! iterator.hasNext() : startNode;  // see issue #111
 		
 		valid = true;
 	}
 	
 	
 	
-	void addConnector (final CorrelationEdge edge, final boolean addAtEnd) {
+	LineSegment segment1 = null;  // A
+	LineSegment segment2 = null;  // B
+	boolean segment1Aligned = true;
+	boolean segment2Aligned = true;
+	OsmNode currentNode1 = null;  // E_S
+	OsmNode currentNode2 = null;  // E_T
+	CorrelationEdge currentEdge = null;  // E
+	
+	private CorrelationEdge traverseGraph (final LineSegment segment, final boolean forward) {
+		
+		currentEdge = startEdge;
+		currentNode1 = startNode;
+		currentNode2 = startEdge.other(startNode);
+		segment1 = segment;
+		segment1Aligned = segment1.start == currentNode1;
+		segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
+		if (segment2 == null) {
+			segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
+			return null;
+		}
+		segment2Aligned = segment2.start == currentNode2;
+		
+		if (forward) {
+			addGeneralisedPoint(startEdge, true);
+		}
+		
+		// (TG 3a)
+		// :TODO: this condition can surely be simplified
+		while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
+			
+			currentEdge.genCounter += 1;  // :DEBUG:
+			
+			// (TG 5) find next nodes
+			OsmNode nextNode1 = segment1Aligned ? segment1.end : segment1.start;  // X
+			OsmNode nextNode2 = segment2Aligned ? segment2.end : segment2.start;  // Y
+			
+			CorrelationEdge nextEdge;
+			
+			// (TG 6/7)
+			nextEdge = graph.get(nextNode1, currentNode2);
+			if ( nextEdge != null && nextNode1 != currentNode1 ) {
+				
+				// Fall "es gibt eine Kante vom naechsten Punkt-1 (X) zurueck zum aktuellen Punkt-2 (E_T)"
+				
+				advance1(nextNode1);
+				currentEdge = nextEdge;
+				
+			}
+			else {
+				nextEdge = graph.get(nextNode2, currentNode1);
+				if ( nextEdge != null && nextNode2 != currentNode2 ) {
+					
+					// Fall "es gibt eine Kante vom naechsten Punkt-2 (Y) zurueck zum aktuellen Punkt-1 (E_S)"
+					
+					advance2(nextNode2);
+					currentEdge = nextEdge;
+					
+				}
+				else {
+					nextEdge = graph.get(nextNode1, nextNode2);
+					if ( nextEdge != null && (nextNode1 != currentNode1 || nextNode2 != currentNode2) ) {
+						
+						// Fall "es gibt zwei naechste unabhaengige Segmente, die auch parallel sind und es gibt agnz normal eine naechste kante"
+						
+						advance1(nextNode1);
+						advance2(nextNode2);
+						currentEdge = nextEdge;
+						
+					}
+					else {
+						
+						// Fall "es gibt naechste unabhaengige Segmente, die aber nicht parallel sind"
+						assert nextEdge == null || nextEdge == currentEdge;
+						
+						segment1.notToBeGeneralised = segment1.wasGeneralised == 0;
+						segment2.notToBeGeneralised = segment2.wasGeneralised == 0;
+						
+						segment1 = null;  // break
+					}
+				}
+			}
+			
+			
+			addGeneralisedPoint(currentEdge, forward);
+		}
+		
+		return currentEdge;
+	}
+	
+	
+	
+	void advance1 (OsmNode nextNode1) {
+		
+		segment1.wasGeneralised += 1;
+		originals.add(segment1);
+
+		LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
+		if (nextSegment1 != null) {
+			segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());  // :TODO: unclear; can prolly be replaced by node comparison
+		}
+		segment1 = nextSegment1;
+
+		currentNode1 = nextNode1;
+	}
+	
+	
+	
+	void advance2 (OsmNode nextNode2) {
+		
+		segment2.wasGeneralised += 1;
+		originals.add(segment2);
+
+		LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
+		if (nextSegment2 != null) {
+			segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());  // :TODO: unclear; can prolly be replaced by node comparison
+		}
+		segment2 = nextSegment2;
+
+		currentNode2 = nextNode2;
+	}
+	
+	
+	
+	private void addConnector (final CorrelationEdge edge, final boolean addAtEnd) {
 		if (addAtEnd) {
 			endConnector = edge;
 		}
@@ -226,7 +223,7 @@ public class GeneralisedSection {
 	
 	
 	// (TG 4) find M
-	void addGeneralisedPoint (CorrelationEdge edge, boolean addAsLast) {
+	private void addGeneralisedPoint (CorrelationEdge edge, boolean addAsLast) {
 		if (edge == null) {
 			return;
 		}
@@ -246,7 +243,7 @@ public class GeneralisedSection {
 	
 	
 	// (TG 2a) find T
-	LineSegment findOppositeSegment (OsmNode oppositeNode, LineSegment thisSegment, boolean thisIsAligned) {
+	private LineSegment findOppositeSegment (OsmNode oppositeNode, LineSegment thisSegment, boolean thisIsAligned) {
 		LineSegment oppositeSegment = null;
 		
 		Vector thisVector = thisIsAligned ? thisSegment.vector() : thisSegment.vector().reversed();
@@ -263,7 +260,7 @@ public class GeneralisedSection {
 	
 	
 	
-	LineSegment findNextSegment (OsmNode pivot, LineSegment currentSegment) {
+	private LineSegment findNextSegment (OsmNode pivot, LineSegment currentSegment) {
 		LineSegment nextSegment = null;
 		for (LineSegment segment : pivot.connectingSegments) {
 			if (segment != currentSegment) {
@@ -280,6 +277,9 @@ public class GeneralisedSection {
 	
 	
 	double length () {
+		if (combination.size() < 2) {
+			return 0.0;
+		}
 		// :BUG: calculate intermediate segments
 		return new Vector( combination.getFirst(), combination.getLast() ).distance();
 	}
