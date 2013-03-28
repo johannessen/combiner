@@ -2,27 +2,32 @@
 Testbed
 =======
 
+
 (1)
 Install dependency:
-- get GeoTools 8.5 (no other versions tested), <http://www.geotools.org/>
-    geotools-8.5-bin.zip
+- get GeoTools 9.0 (no other versions tested), <http://www.geotools.org/>
+    <http://sourceforge.net/projects/geotools/files/GeoTools%209%20Releases/>
+	geotools-9.0-bin.zip
 - unpack into lib
 
 cd project/lib
-unzip ~/geotools-8.5-bin.zip
+unzip ~/geotools-9.0-bin.zip
 
 - search for all gt-epsg-*.jar
 
 find . -name gt-epsg\*jar
 
-- delete all of those but one (for example, keep gt-epsg-hsql-8.5.jar)
+- delete all of those but one (for example, keep gt-epsg-hsql-9.0.jar)
 
-rm ./geotools-8.5/gt-epsg-oracle-8.5.jar
-rm ./geotools-8.5/gt-epsg-wkt-8.5.jar
-rm ./geotools-8.5/gt-epsg-extension-8.5.jar
-rm ./geotools-8.5/gt-epsg-postgresql-8.5.jar
+rm ./geotools-8.5/gt-epsg-oracle-9.0.jar
+rm ./geotools-8.5/gt-epsg-wkt-9.0.jar
+rm ./geotools-8.5/gt-epsg-extension-9.0.jar
+rm ./geotools-8.5/gt-epsg-postgresql-9.0.jar
+
+You may also need to remove imageio-ext-imagereadmt-1.1.6.jar from the classpath to prevent runtime error messages. In spite of any errors, execution of this code should not be affected.
 
 The class path consists of the lib directory and any _immediate_ subdirectories.
+
 
 (2)
 Install test dataset:
@@ -33,6 +38,7 @@ wget http://www.remote.org/frederik/tmp/nrw-roads.zip
 - execute data/testbed/prepare-testdata.sh
 
 ./prepare-testdata.sh
+
 
 (3)
 Build and run:

@@ -6,7 +6,7 @@
 		The class path consists of the lib directory and any _immediate_ subdirectories.
 		Required dependency (unpack these into lib/):
 		
-		- GeoTools 8.5 (no other versions tested)
+		- GeoTools 9.0 (no other versions tested)
 		  http://www.geotools.org/
 		  NB: manual EPSG Authority management required!
 		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-8.5.jar)
