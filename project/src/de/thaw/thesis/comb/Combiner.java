@@ -66,8 +66,9 @@ public final class Combiner {
 		CorrelationGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
 		
-		GeneralisedLines result = new GeneralisedLines(graph);
-		result.traverse();
+		GeneralisedLines result = new GeneralisedLines();
+		result.traverse(graph);
+		result.concatUncombinedLines(dataset);
 		gen = result;  // :DEBUG: debugging output
 		
 		verbose(1, "Done.");

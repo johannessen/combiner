@@ -15,6 +15,7 @@ import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Section;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
 
@@ -398,11 +399,12 @@ System.out.println("skipped non-line");
 			geometries.add( line );
 			
 		}
-		for (final LineSegment segment : dataset.allSegments()) {
-			if (segment.wasGeneralised > 0) {
+		for (final Section section : gen.lines2()) {
+			if (section.combination.size() < 2) {
+System.out.println("skipped non-line (2)");
 				continue;
 			}
-			Geometry line = writer.toLineString(segment);
+			Geometry line = writer.toLineString( section.combination );
 			line.setUserData("0");
 			geometries.add( line );
 		}

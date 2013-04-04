@@ -19,18 +19,18 @@ import java.util.LinkedList;
  */
 public class GeneralisedLines {
 	
-	private final CorrelationGraph graph;
+	private CorrelationGraph graph = null;
 	
-	private Collection<GeneralisedSection> lines;
+	private Collection<GeneralisedSection> lines = new LinkedList<GeneralisedSection>();
+	
+	private Collection<Section> lines2 = new LinkedList<Section>();
 	
 	
 	
 	/**
 	 * 
 	 */
-	GeneralisedLines (final CorrelationGraph graph) {
-		this.graph = graph;
-		this.lines = new LinkedList<GeneralisedSection>();
+	GeneralisedLines () {
 	}
 	
 	
@@ -47,7 +47,17 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	void traverse () {
+	public Collection<Section> lines2 () {
+		return Collections.unmodifiableCollection( lines2 );
+	}
+	
+	
+	
+	/**
+	 * 
+	 */
+	void traverse (final CorrelationGraph graph) {
+		this.graph = graph;
 		CorrelationEdge startEdge = null;  // E_S
 		OsmNode startNode = null;  // E
 		
@@ -84,11 +94,11 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	private void generaliseSectionAt (final CorrelationEdge edge, OsmNode node) {
+	private void generaliseSectionAt (final CorrelationEdge edge, final OsmNode node) {
 		final GeneralisedSection section = new GeneralisedSection(graph);
 		section.startAt(edge, node);
 		
-		section.filterShortSection();
+//		section.filterShortSection();
 		if ( ! section.valid() ) {
 			return;
 		}
@@ -96,4 +106,26 @@ public class GeneralisedLines {
 		lines.add(section);
 	}
 	
+	
+	
+	void concatUncombinedLines (final OsmDataset dataset) {
+		for (final LineSegment segment : dataset.allSegments()) {
+			if (segment.wasGeneralised > 0) {
+				continue;
+			}
+			Section section = new Section();
+			section.startAt(segment);
+			
+//			section.filterShortSection();
+			if (! section.valid()) {
+				continue;
+			}
+			
+			lines2.add(section);
+		}
+	}
+	
 }
+
+
+
