@@ -121,7 +121,7 @@ public final class Combiner {
 			c += closeSegments.size();
 			p += segment.closeParallels().size();
 		}
-		verbose(1, "Regionalisation done; on average " + c / i + " close segments, " + p / i + " close false parallels.");
+		verbose(1, "Regionalisation done; " + (i > 0 ? "on average " + c / i + " close segments, " + p / i + " close false parallels." : "no segments exist in source data."));
 	}
 	
 	

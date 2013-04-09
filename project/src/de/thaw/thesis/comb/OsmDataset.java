@@ -37,6 +37,8 @@ public final class OsmDataset {
 	
 	public Collection<LinePart[]> parallelFragments = new LinkedList<LinePart[]>();  // :DEBUG:
 	
+	public StatSink stats = null;
+	
 	
 	/**
 	 * 

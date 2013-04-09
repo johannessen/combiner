@@ -12,6 +12,9 @@ import de.thaw.thesis.comb.Combiner;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.io.ShapeReader;
 
+import de.thaw.thesis.comb.io.SQLiteWriter;
+import de.thaw.thesis.comb.StatSink;
+
 import java.io.File;
 
 
@@ -44,13 +47,17 @@ public final class CombinerMain {
 			throw new IllegalArgumentException(".shp input only");
 		}
 		
+		final StatSink stats = new SQLiteWriter().connect("").createTables();
+		
 		final File inFile = new File(inPath);
 		
 		ShapeReader.VERBOSE = VERBOSE;
 		final ShapeReader reader = new ShapeReader(inFile);
 		final OsmDataset dataset = reader.osmDataset();
+		dataset.stats = stats;
 		
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser());
+		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
 		combiner.run(startId);
 		
