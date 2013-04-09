@@ -8,18 +8,21 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
 
 
 
-public class Section {
+public class Section implements SectionInterface {
 	
 	static double MIN_LENGTH = 80.0;  // :TODO: check what works best
 	
-	public LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
+	LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
 	
 	private boolean valid = false;
+	
+	private OsmTags tags = null;
 	
 	
 	
@@ -30,6 +33,18 @@ public class Section {
 	
 	public boolean valid () {
 		return valid;
+	}
+	
+	
+	
+	public OsmTags tags () {
+		return tags;
+	}
+	
+	
+	
+	public Collection<OsmNode> combination () {
+		return Collections.unmodifiableCollection(combination);
 	}
 	
 	

@@ -41,6 +41,8 @@ public final class Combiner {
 	
 	public int verbose = 0;
 	
+	public StatSink stats = null;
+	
 	
 	
 	/**

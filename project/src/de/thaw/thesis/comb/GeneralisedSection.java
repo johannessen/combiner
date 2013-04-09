@@ -9,11 +9,13 @@
 package de.thaw.thesis.comb;
 
 import java.util.Iterator;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 
 
-public class GeneralisedSection {
+public class GeneralisedSection implements SectionInterface {
 	
 	static double MIN_LENGTH = 80.0;  // :TODO: check what works best
 	
@@ -28,6 +30,8 @@ public class GeneralisedSection {
 	
 	private CorrelationGraph graph;
 	
+	private OsmTags tags = null;
+	
 	
 	
 	GeneralisedSection (CorrelationGraph theGraph) {
@@ -38,6 +42,18 @@ public class GeneralisedSection {
 	
 	boolean valid () {
 		return valid;
+	}
+	
+	
+	
+	public OsmTags tags () {
+		return tags;
+	}
+	
+	
+	
+	public Collection<OsmNode> combination () {
+		return Collections.unmodifiableCollection(combination);
 	}
 	
 	
@@ -82,7 +98,7 @@ public class GeneralisedSection {
 		
 		assert ! iterator.hasNext() : startNode;  // see issue #111
 		
-		valid = true;
+		valid = combination.size() >= 2;
 	}
 	
 	

@@ -15,7 +15,7 @@ import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
-import de.thaw.thesis.comb.Section;
+import de.thaw.thesis.comb.SectionInterface;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
 
@@ -383,29 +383,31 @@ System.out.println("skipped non-line");
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final GeneralisedSection section : gen.lines()) {
-			if (section.combination.size() < 2) {
+			if (section.combination().size() < 2) {
 System.out.println("skipped non-line");
 				continue;
 			}
-			Geometry line = writer.toLineString( section.combination );
-			line.setUserData(section.originals);
+			Geometry line = writer.toLineString( section.combination() );
+			line.setUserData(section);
 			geometries.add( line );
 			
+/*
 			line = writer.toLineString( toNodeList(section.startConnector, section.combination.getFirst()) );
-			line.setUserData("-1");
+			line.setUserData(null);
 			geometries.add( line );
 			line = writer.toLineString( toNodeList(section.endConnector, section.combination.getLast()) );
-			line.setUserData("-1");
+			line.setUserData(null);
 			geometries.add( line );
+*/
 			
 		}
-		for (final Section section : gen.lines2()) {
-			if (section.combination.size() < 2) {
+		for (final SectionInterface section : gen.lines2()) {
+			if (section.combination().size() < 2) {
 System.out.println("skipped non-line (2)");
 				continue;
 			}
-			Geometry line = writer.toLineString( section.combination );
-			line.setUserData("0");
+			Geometry line = writer.toLineString( section.combination() );
+			line.setUserData(section);
 			geometries.add( line );
 		}
 		
@@ -421,7 +423,12 @@ System.out.println("skipped non-line (2)");
 			
 			public List attributes (final Geometry geometry) {
 				final List<Object> attributes = new LinkedList<Object>();
-				attributes.add( geometry.getUserData().toString() );
+				Object userData = geometry.getUserData();
+				if (userData != null && ! (userData instanceof SectionInterface)) {
+					throw new AssertionError(userData.toString());
+				}
+				SectionInterface section = (SectionInterface)userData;
+				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
 				return attributes;
 			}
 		});
