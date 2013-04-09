@@ -101,5 +101,9 @@ final class SpatialiteReader {
 	}
 */
 	
+	public static void main (String[] args) throws Throwable {
+		new SpatialiteReader();
+	}
+	
 }
 

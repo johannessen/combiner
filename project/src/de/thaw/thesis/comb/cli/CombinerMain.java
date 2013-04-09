@@ -55,6 +55,9 @@ public final class CombinerMain {
 		combiner.run(startId);
 		
 		System.out.println("Writing results...");
+		
+//		new Output2(dataset, reader.epsgCode()).writeAllNodes("test.sqlite");
+		
 		final Output out = new Output(dataset, reader.epsgCode());
 		out.verbose = VERBOSE;
 		out.writeAllNodes(nodeOutPath);
