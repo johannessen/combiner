@@ -86,6 +86,10 @@ public class Section implements SectionInterface {
 		
 		LineSegment segment = null;
 		OsmNode node = null;
+		OsmWay way = startSegment.way;
+		String osmRef = way.tags.get("ref") != OsmTags.NO_VALUE ? way.tags.get("ref") : "";
+		// special values for osmRef:
+		// "" -> no known ref; null -> conflicting refs
 		
 		assert combination.size() == 0 : combination;
 		
@@ -93,6 +97,7 @@ public class Section implements SectionInterface {
 			final boolean forward = i == 0;
 			segment = startSegment;
 			node = forward ? startSegment.end : startSegment.start;
+			
 			startSegment.wasGeneralised -= 1;  // startSegment's counter will be incremented twice
 			while (node != null && segment.wasGeneralised <= 0) {
 				segment.wasGeneralised += 1;
@@ -101,10 +106,33 @@ public class Section implements SectionInterface {
 				
 				segment = other(segment, node.connectingSegments);
 				node = other(node, segment);
+				
+				// analyse OSM tags
+				// NB: get() returns intern()ed value, so == is safe to use
+				if (segment != null && segment.way != way) {
+					if (segment.way.tags.get("highway") != way.tags.get("highway")) {
+						break;
+					}
+					if (osmRef != null) {
+						// no conflicting refs encountered yet
+						final String segmentRef = segment.way.tags.get("ref");
+						if (osmRef == "" && segmentRef != OsmTags.NO_VALUE) {
+							osmRef = segmentRef;
+						}
+						else if (osmRef != "" && segmentRef != osmRef) {
+							// conflicting refs encountered; stop processing refs
+							osmRef = null;
+						}
+					}
+				}
 			}
 		}
 		
 		valid = combination.size() >= 2;
+		
+		if (valid) {
+			tags = new Tags(way.tags.get("highway"), osmRef);
+		}
 	}
 	
 	
@@ -139,6 +167,26 @@ public class Section implements SectionInterface {
 		
 		if (length() < GeneralisedSection.MIN_LENGTH) {
 //			valid = false;
+		}
+	}
+	
+	
+	
+	private static class Tags implements OsmTags {
+		private final String highway;
+		private final String ref;
+		Tags (final String highway, final String ref) {
+			this.highway = highway != null ? highway.intern() : OsmTags.NO_VALUE;
+			this.ref = ref != null ? ref.intern() : OsmTags.NO_VALUE;
+		}
+		public String get (final String key) {
+			if (key.equals("highway")) {
+				return highway;
+			}
+			if (key.equals("ref")) {
+				return ref;
+			}
+			return OsmTags.NO_VALUE;
 		}
 	}
 	

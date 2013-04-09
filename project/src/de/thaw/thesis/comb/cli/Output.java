@@ -15,6 +15,7 @@ import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.SectionInterface;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
@@ -418,6 +419,8 @@ System.out.println("skipped non-line (2)");
 				return DataUtilities.createType( "AllLines",
 						"geometry:LineString:srid=" + epsgCode
 						+ ",gen:String"
+						+ ",highway:String"
+						+ ",ref:String"
 						);
 			}
 			
@@ -428,7 +431,10 @@ System.out.println("skipped non-line (2)");
 					throw new AssertionError(userData.toString());
 				}
 				SectionInterface section = (SectionInterface)userData;
+				OsmTags tags = section != null ? section.tags() : null;
 				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
+				attributes.add( tags != null ? tags.get("highway") : "road" );
+				attributes.add( tags != null ? tags.get("ref") : "" );
 				return attributes;
 			}
 		});

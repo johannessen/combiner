@@ -27,11 +27,14 @@ final class ShapeTagsAdapter implements OsmTags {
 	
 	
 	private String rewriteKey (final String osmKey) {
-		if (osmKey == "highway") {
-			return "fclass";
-		}
-		if (osmKey == "highway") {
-			return "fclass";
+		Object attrValue = feature.getAttribute(osmKey);
+		if (attrValue == null) {
+			if (osmKey == "highway" && feature.getAttribute("fclass") != null) {
+				return "fclass";
+			}
+			if (osmKey == "highway" && feature.getAttribute("type") != null) {
+				return "type";
+			}
 		}
 		return osmKey;
 	}
@@ -47,6 +50,7 @@ final class ShapeTagsAdapter implements OsmTags {
 				return "no";
 			}
 		}
+/*
 		if (osmKey == "highway") {
 			if (osmKey == "primary") {
 				return "x3_primary";
@@ -79,6 +83,7 @@ final class ShapeTagsAdapter implements OsmTags {
 				return "x7_residential_link";
 			}
 		}
+*/
 		return value;
 	}
 	
