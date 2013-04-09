@@ -16,7 +16,7 @@ import java.util.LinkedList;
 
 public class Section implements SectionInterface {
 	
-	static double MIN_LENGTH = 80.0;  // :TODO: check what works best
+	static double MIN_LENGTH = 10.0;  // :TODO: check what works best
 	
 	LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
 	
@@ -165,8 +165,8 @@ public class Section implements SectionInterface {
 	void filterShortSection () {
 		assert valid == true;
 		
-		if (length() < GeneralisedSection.MIN_LENGTH) {
-//			valid = false;
+		if (length() < MIN_LENGTH) {
+			valid = false;
 		}
 	}
 	

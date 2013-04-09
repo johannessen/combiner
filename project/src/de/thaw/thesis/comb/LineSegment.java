@@ -30,7 +30,7 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 	
 	final static double PARALLEL_ANGLE_MAXIMUM = 15.0 / 180.0 * Math.PI;
 	
-	final static double INDEX_ENVELOPE_MARGIN = 40.0;  // metres
+	final static double INDEX_ENVELOPE_MARGIN = 50.0;  // metres
 	
 	Envelope envelope;
 	

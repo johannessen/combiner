@@ -10,6 +10,7 @@ package de.thaw.thesis.comb;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -116,12 +117,72 @@ public class GeneralisedLines {
 			Section section = new Section();
 			section.startAt(segment);
 			
-//			section.filterShortSection();
+/*
+			section.filterShortSection();
 			if (! section.valid()) {
 				continue;
 			}
+*/
 			
 			lines2.add(section);
+		}
+	}
+	
+	
+	
+	void cleanup () {
+		for (final Section section : lines2) {
+			for (int i = 0; i < 2; i++) {
+				final OsmNode node = i == 0 ? section.combination.getFirst() : section.combination.getLast();
+				
+				CorrelationEdge theEdge = null;
+				for (final CorrelationEdge anEdge : node.edges) {
+					if (theEdge == null || anEdge.vector().distance() < theEdge.vector().distance()) {
+						theEdge = anEdge;
+					}
+				}
+				if (theEdge == null) {
+					continue;  // section doesn't end on generalised node
+				}
+				
+				double e = (theEdge.node0.e + theEdge.node1.e) / 2.0;
+				double n = (theEdge.node0.n + theEdge.node1.n) / 2.0;
+				final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);
+				
+				if (midPoint.id == 0L) {
+					midPoint.id = -2L;
+				}
+				
+				if (i == 0) {
+					section.combination.removeFirst();
+					section.combination.addFirst(midPoint);
+				}
+				else {
+					section.combination.removeLast();
+					section.combination.addLast(midPoint);
+				}
+				
+/*
+				boolean wasGeneralised = false;
+				for (final LineSegment segment : node.connectingSegments) {
+					if (segment.wasGeneralised) {
+						wasGeneralised = true;
+						break;
+					}
+				}
+*/
+				
+				
+			}
+		}
+		
+		Iterator<Section> i = lines2.iterator();
+		while (i.hasNext()) {
+			Section section = i.next();
+			section.filterShortSection();
+			if (! section.valid()) {
+				i.remove();
+			}
 		}
 	}
 	

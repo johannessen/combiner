@@ -20,7 +20,7 @@ import de.thaw.thesis.comb.Vector;
  */
 final class MyAnalyser implements Analyser {
 	
-	private final double MAX_DISTANCE = 40.0;  // metres
+	private final double MAX_DISTANCE = 50.0;  // metres
 	
 	private final double COLLINEAR_MAX_ANGLE = 30.0 / 180.0 * Math.PI;
 	

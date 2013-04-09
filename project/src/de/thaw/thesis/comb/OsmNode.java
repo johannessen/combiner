@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -39,11 +41,17 @@ public final class OsmNode implements Comparable<OsmNode> {
 	
 	Set<LineSegment> connectingSegments;
 	
+	public Collection<GeneralisedSection> generalisedSections;
+	
+	public Collection<CorrelationEdge> edges;
+	
 	
 	private OsmNode (final double e, final double n) {
 		this.e = e;
 		this.n = n;
 		this.connectingSegments = new TreeSet<LineSegment>();
+		this.generalisedSections = new LinkedList<GeneralisedSection>();
+		this.edges = new LinkedList<CorrelationEdge>();
 	}
 	
 	
@@ -51,8 +59,7 @@ public final class OsmNode implements Comparable<OsmNode> {
 	 * 
 	 */
 	public OsmNode (final OsmNode start, final Vector vector) {
-		this.e = start.e + vector.easting();
-		this.n = start.n + vector.northing();
+		this(start.e + vector.easting(), start.n + vector.northing());
 	}
 	
 	

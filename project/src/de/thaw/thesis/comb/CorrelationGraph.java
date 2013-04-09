@@ -130,7 +130,12 @@ public final class CorrelationGraph {
 	
 	private boolean add (final CorrelationEdge edge) {
 		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
-		return sortedEdgesSet.add(edge);
+		final boolean didAdd = sortedEdgesSet.add(edge);
+		if (didAdd) {
+			edge.node0.edges.add(edge);
+			edge.node1.edges.add(edge);
+		}
+		return didAdd;
 	}
 	
 	

@@ -17,11 +17,12 @@ import java.util.LinkedList;
 
 public class GeneralisedSection implements SectionInterface {
 	
-	static double MIN_LENGTH = 80.0;  // :TODO: check what works best
+	static double MIN_LENGTH = 50.0;  // :TODO: check what works best
 	
 	public LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
 	
-	public LinkedList<LineSegment> originals = new LinkedList<LineSegment>();
+	public LinkedList<LineSegment> originalSegments = new LinkedList<LineSegment>();
+	public LinkedList<OsmNode> originalNodes = new LinkedList<OsmNode>();
 	
 	public CorrelationEdge startConnector = null;
 	public CorrelationEdge endConnector = null;
@@ -129,12 +130,17 @@ public class GeneralisedSection implements SectionInterface {
 		segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
 		if (segment2 == null) {
 			segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
+			// :TODO: does this occur? if so, why? -- doesn't matte rmuch, it seems to do the right thing anyhow
 			return null;
 		}
 		segment2Aligned = segment2.start == currentNode2;
 		
 		if (forward) {
 			addGeneralisedPoint(startEdge, true);
+			currentNode1.generalisedSections.add(this);
+			currentNode2.generalisedSections.add(this);
+			originalNodes.add(currentNode1);
+			originalNodes.add(currentNode2);
 			
 			osmHighway = segment1.way.tags.get("highway");
 			osmRef = "";
@@ -210,6 +216,7 @@ public class GeneralisedSection implements SectionInterface {
 						advance2(nextNode2);
 						currentEdge = nextEdge;
 						
+						
 					}
 					else {
 						
@@ -226,6 +233,7 @@ public class GeneralisedSection implements SectionInterface {
 			
 			
 			addGeneralisedPoint(currentEdge, forward);
+			
 		}
 		
 		return currentEdge;
@@ -235,8 +243,11 @@ public class GeneralisedSection implements SectionInterface {
 	
 	void advance1 (OsmNode nextNode1) {
 		
+		nextNode1.generalisedSections.add(this);
+		originalNodes.add(nextNode1);
+		
 		segment1.wasGeneralised += 1;
-		originals.add(segment1);
+		originalSegments.add(segment1);
 
 		LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
 		if (nextSegment1 != null) {
@@ -251,8 +262,11 @@ public class GeneralisedSection implements SectionInterface {
 	
 	void advance2 (OsmNode nextNode2) {
 		
+		nextNode2.generalisedSections.add(this);
+		originalNodes.add(nextNode2);
+		
 		segment2.wasGeneralised += 1;
-		originals.add(segment2);
+		originalSegments.add(segment2);
 
 		LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
 		if (nextSegment2 != null) {
@@ -368,15 +382,28 @@ public class GeneralisedSection implements SectionInterface {
 	
 	
 	
+	void ungeneralise () {
+		for (LineSegment segment : originalSegments) {
+			segment.wasGeneralised -= 1;
+			segment.notToBeGeneralised = true;  // avoid infinite loop in GeneralisedLines#traverse()
+			
+			for (OsmNode node : originalNodes) {
+				while ( node.generalisedSections.remove(this) ) {
+					// remove as side effect of the loop condition
+				}
+			}
+			originalNodes.clear();
+		}
+	}
+	
+	
+	
 	void filterShortSection () {
 		assert valid == true;
 		
-		if (length() < GeneralisedSection.MIN_LENGTH) {
+		if (length() < MIN_LENGTH) {
 			valid = false;
-			for (LineSegment segment : originals) {
-				segment.wasGeneralised -= 1;
-				segment.notToBeGeneralised = true;  // avoid infinite loop in GeneralisedLines#traverse()
-			}
+			ungeneralise();
 		}
 	}
 	

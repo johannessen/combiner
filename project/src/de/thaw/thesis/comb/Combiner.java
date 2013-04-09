@@ -73,6 +73,8 @@ public final class Combiner {
 		result.concatUncombinedLines(dataset);
 		gen = result;  // :DEBUG: debugging output
 		
+		result.cleanup();
+		
 		verbose(1, "Done.");
 		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");
 	}

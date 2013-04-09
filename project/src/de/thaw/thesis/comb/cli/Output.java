@@ -101,6 +101,7 @@ final class Output {
 				return DataUtilities.createType( "AllNodes",
 						"geometry:Point:srid=" + epsgCode
 						+ ",id_osm:Integer"
+						+ ",gen_sects:Integer"
 						);
 			}
 			
@@ -108,6 +109,7 @@ final class Output {
 				final OsmNode node = writer.toOsmNode(geometry);
 				final List<Object> attributes = new LinkedList<Object>();
 				attributes.add( node.id );
+				attributes.add( node.generalisedSections.size() );
 				return attributes;
 			}
 		});
