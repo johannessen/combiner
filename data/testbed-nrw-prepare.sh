@@ -4,7 +4,7 @@ set -x
 set -e
 
 BBOX_PATH="$1"
-BBOX_PATH_DEFAULT="../../bounding-boxes"
+BBOX_PATH_DEFAULT="../bounding-boxes"
 
 
 # This script should preferably be called from the data/ directory as working
@@ -22,6 +22,7 @@ then
 	unzip ../nrw-roads.zip
 else
 	curl -L -O "http://www.remote.org/frederik/tmp/nrw-roads.zip"
+	unzip nrw-roads.zip
 fi
 
 echo "ogr2ogr clipping..."
@@ -41,8 +42,10 @@ echo "ogr2ogr filtering..."
 MOTORWAY_ONLY="fclass = 'motorway' OR fclass = 'trunk'"
 MOTORWAY_TRUNK_PRIMARY="fclass = 'motorway' OR fclass = 'trunk' OR fclass = 'primary'"
 MOTORWAY_TRUNK_PRIMARY_LINK="$MOTORWAY_TRUNK_PRIMARY OR fclass = 'motorway_link' OR fclass = 'trunk_link' OR fclass = 'primary_link'"
+CLASSIFIED_NOLINK="fclass = 'motorway' OR fclass = 'trunk' OR fclass = 'primary' OR fclass = 'secondary' OR fclass = 'tertiary'"
 NO_SERVICE="fclass <> 'service'"  # expecting input with nothing but road network
 
+ogr2ogr -where "$CLASSIFIED_NOLINK" koeln-classfied-nolinks.shp koeln.shp
 ogr2ogr -where "$MOTORWAY_ONLY" koeln-motorway.shp koeln.shp
 ogr2ogr -where "$MOTORWAY_ONLY" koeln-SE-motorway.shp koeln-SE.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY_LINK" koeln-main.shp koeln.shp
