@@ -75,6 +75,7 @@ public final class CombinerMain {
 		out.writeCorrelationEdges(combiner.cns, debugOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
+//		out.writeSimplifiedSections(combiner.gen, outPath);
 	}
 	
 	

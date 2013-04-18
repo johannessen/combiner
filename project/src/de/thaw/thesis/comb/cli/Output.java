@@ -21,6 +21,7 @@ import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 import org.opengis.feature.simple.SimpleFeatureType;
 import org.geotools.feature.SchemaException;
 import org.geotools.data.DataUtilities;
@@ -454,6 +455,68 @@ System.out.println("skipped non-line (2)");
 		list.add( genNode );
 		list.add( edge.node1 );
 		return list;
+	}
+	
+	
+	
+	void writeSimplifiedSections (final GeneralisedLines gen, final String path) {
+		final ShapeWriter writer = writer(path);
+		if (writer == null) {
+			verbose(1, "Skipped writeSections (Writer creation failed for path: " + path + ").");
+			return;
+		}
+		
+		final double distanceTolerance = 16.0;
+		
+		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
+		for (final SectionInterface section : gen.lines()) {
+			if (section.combination().size() < 2) {
+System.out.println("skipped non-line");
+				continue;
+			}
+			Geometry line = writer.toLineString( section.combination() );
+			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
+			simplifiedLine.setUserData(section);
+			geometries.add( simplifiedLine );
+		}
+		for (final SectionInterface section : gen.lines2()) {
+			if (section.combination().size() < 2) {
+System.out.println("skipped non-line");
+				continue;
+			}
+			Geometry line = writer.toLineString( section.combination() );
+			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
+			simplifiedLine.setUserData(section);
+			geometries.add( simplifiedLine );
+		}
+		
+		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
+			
+			// positional arguments MUST be in same order in both methods
+			public SimpleFeatureType featureType () throws SchemaException {
+				return DataUtilities.createType( "AllLines",
+						"geometry:LineString:srid=" + epsgCode
+						+ ",gen:String"
+						+ ",highway:String"
+						+ ",ref:String"
+						);
+			}
+			
+			public List attributes (final Geometry geometry) {
+				final List<Object> attributes = new LinkedList<Object>();
+				Object userData = geometry.getUserData();
+				if (userData != null && ! (userData instanceof SectionInterface)) {
+					throw new AssertionError(userData.toString());
+				}
+				SectionInterface section = (SectionInterface)userData;
+				OsmTags tags = section != null ? section.tags() : null;
+				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
+				attributes.add( tags != null ? tags.get("highway") : "road" );
+				attributes.add( tags != null ? tags.get("ref") : "" );
+				return attributes;
+			}
+		});
+		verbose(1, "Output: " + geometries.size() + " sections.");
 	}
 	
 }
