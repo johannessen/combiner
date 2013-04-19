@@ -1,6 +1,89 @@
 offene Punkte
 =============
 
-(Diese Liste ist meistens unvollständig, weil ich kurzfristige oder dringende Punkte oft nur handschriftlich führe.)
+(1) Behandlung kurzer Stücke
+----------------------------
+
+- kurze Stücke wegschmeißen: nur solche, die an max. einem Ende verbunden sind
+
+- oder solche, die an beiden Enden Kreuzungen haben und die kürzeste von allen mind. 5 Stücken sind
+
+Connections:
+(1a) 0 / 0  => leave out section
+(1b) 0 / 2+ => leave out (shortest) section
+(2a) 1 / 1  => (somehow) merge sections to at most two
+(2b) 1 / 2+ => change node to vertex
+(2c) 1 / 0  => change node to vertex
+(3) 2+ / 2+ => combine both nodes to a single one
+
+Idealergebnis: Qualitätsumschlag Kreuzungen
+
+Offener Punkt: Oft sind (_relativ_) kurze Stücke Duplikate (z. B. nach relocateGeneralisedNodes()); entweder exakte Duplikate oder zwei Stücke mit jeweils gleichem Start- und Endpunkt, aber unterschiedlichen Stützpunkten. Fallen diese Duplikate als kurze Stücke automatisch weg, oder müssen die vorher (hinterher?) extra behandelt werden?
+
+
+(2) mehr als zwei Parallelen
+----------------------------
+
+- filter graph for the two highest-class lines
+- refs auswerten
+
+
+(3) Normalisierung
+------------------
+
+für Formvereinfachung (Douglas-Peucker)
+
+(bedingt Behandlung kurzer Stücke, profitiert vom Qualitätsumschlag)
+
+
+(4) Heuristik verbessern
+------------------------
+
+oder es jedenfalls versuchen
+
+-> Statistik!
+- Heuristiken darüber definieren
+- Spatialite? nein, aber SQLite
+- Histogramm über z. B. Winkel etc.
+- Geovisualiserung
+
+
+
+Aufräumen
+=========
+
+- view for LinePart
+(für Reverse, einfaches Holen von Nodes etc.)
+
+- SectionInterface
+
+- AbstractLinePart
+
+- Vector
+...
+
+
+
+rein optional
+=============
+
+(nicht den Kern betreffende, kleine Verbesserungen)
+
+- konvex/konkev -> Kreisverkehre etc.
+  (Winkeladdition? z. B. bei Kreisverkehren erhöht sich die Differenz, bei Kurven oder Verschwenkungen gleicht sie sich wieder aus)
+
+- Connectors mit gemeinsamen Nodes verknüpfen (-----^-----)
 
 - CRS-Transformationen sind suboptimal, weil langsam. Kartesisch abgebildete Daten sind suboptimal wegen der Grenzen der kartesischen Systeme (UTM-Zonen etc.). Jochen: Unmittelbar in geogr. Kooridnaten zu arbeiten oder jedenfalls die Daten anstelle von Geotools lieber selbst zu transformieren (Plattkarte?), ist möglicherweise besser.
+
+- Nodes (derzeit unsortiert) sortieren nach Anzahl Kreuzungen, dann versuchen, Cluster zu bilden
+(oder noch besser: nach position sortieren... ;-) )
+
+- (am Ende der GeneralisedSections evtl. LineSegments folgen zur nächsten GeneralisedSection, ggf. verbinden?)
+(sollte eigentlich durch die Behandlung kurzer Stücke unnötig werden)
+
+
+
+* * *
+
+Screenshots nicht vergessen...
