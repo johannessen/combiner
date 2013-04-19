@@ -70,10 +70,9 @@ public final class Combiner {
 		
 		GeneralisedLines result = new GeneralisedLines();
 		result.traverse(graph);
-		result.concatUncombinedLines(dataset);
 		gen = result;  // :DEBUG: debugging output
 		
-		result.cleanup();
+		result.cleanup(dataset);
 		
 		verbose(1, "Done.");
 		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");

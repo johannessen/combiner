@@ -386,7 +386,7 @@ System.out.println("skipped non-line");
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final GeneralisedSection section : gen.lines()) {
+		for (final GeneralisedSection section : gen.lines1()) {
 			if (section.combination().size() < 2) {
 System.out.println("skipped non-line");
 				continue;
@@ -469,7 +469,7 @@ System.out.println("skipped non-line (2)");
 		final double distanceTolerance = 16.0;
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final SectionInterface section : gen.lines()) {
+		for (final SectionInterface section : gen.lines1()) {
 			if (section.combination().size() < 2) {
 System.out.println("skipped non-line");
 				continue;

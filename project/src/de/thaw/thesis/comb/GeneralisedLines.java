@@ -22,7 +22,9 @@ public class GeneralisedLines {
 	
 	private CorrelationGraph graph = null;
 	
-	private Collection<GeneralisedSection> lines = new LinkedList<GeneralisedSection>();
+	private Collection<SectionInterface> lines = new LinkedList<SectionInterface>();
+	
+	private Collection<GeneralisedSection> lines1 = new LinkedList<GeneralisedSection>();
 	
 	private Collection<Section> lines2 = new LinkedList<Section>();
 	
@@ -39,8 +41,8 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	public Collection<GeneralisedSection> lines () {
-		return Collections.unmodifiableCollection( lines );
+	public Collection<GeneralisedSection> lines1 () {
+		return Collections.unmodifiableCollection( lines1 );
 	}
 	
 	
@@ -104,7 +106,16 @@ public class GeneralisedLines {
 			return;
 		}
 		
+		lines1.add(section);
 		lines.add(section);
+	}
+	
+	
+	
+	void cleanup (final OsmDataset dataset) {
+		concatUncombinedLines(dataset);
+		relocateGeneralisedNodes();
+//		cleanup2();
 	}
 	
 	
@@ -125,16 +136,20 @@ public class GeneralisedLines {
 */
 			
 			lines2.add(section);
+			lines.add(section);
 		}
 	}
 	
 	
 	
-	void cleanup () {
+	// move nodes such that line ends are no longer dangling, but end on other lines
+	void relocateGeneralisedNodes () {
 		for (final Section section : lines2) {
 			for (int i = 0; i < 2; i++) {
 				final OsmNode node = i == 0 ? section.combination.getFirst() : section.combination.getLast();
 				
+				// find the closest existing vertex on the generalised section (if any)
+				// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
 				CorrelationEdge theEdge = null;
 				for (final CorrelationEdge anEdge : node.edges) {
 					if (theEdge == null || anEdge.vector().distance() < theEdge.vector().distance()) {
@@ -144,6 +159,8 @@ public class GeneralisedLines {
 				if (theEdge == null) {
 					continue;  // section doesn't end on generalised node
 				}
+				
+				// "move" (actually: replace) first/last nodes as appropriate
 				
 				double e = (theEdge.node0.e + theEdge.node1.e) / 2.0;
 				double n = (theEdge.node0.n + theEdge.node1.n) / 2.0;
@@ -161,21 +178,12 @@ public class GeneralisedLines {
 					section.combination.removeLast();
 					section.combination.addLast(midPoint);
 				}
-				
-/*
-				boolean wasGeneralised = false;
-				for (final LineSegment segment : node.connectingSegments) {
-					if (segment.wasGeneralised) {
-						wasGeneralised = true;
-						break;
-					}
-				}
-*/
-				
-				
 			}
 		}
 		
+/*
+		// remove short sections
+		// (very dumb algorithms; we shouldn't remvoe everything)
 		Iterator<Section> i = lines2.iterator();
 		while (i.hasNext()) {
 			Section section = i.next();
@@ -184,9 +192,7 @@ public class GeneralisedLines {
 				i.remove();
 			}
 		}
+*/
 	}
 	
 }
-
-
-
