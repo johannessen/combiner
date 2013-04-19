@@ -45,6 +45,8 @@ public final class OsmNode implements Comparable<OsmNode> {
 	
 	public Collection<CorrelationEdge> edges;
 	
+//	Collection<SectionInterface> allSections;
+	
 	
 	private OsmNode (final double e, final double n) {
 		this.e = e;
@@ -52,6 +54,7 @@ public final class OsmNode implements Comparable<OsmNode> {
 		this.connectingSegments = new TreeSet<LineSegment>();
 		this.generalisedSections = new LinkedList<GeneralisedSection>();
 		this.edges = new LinkedList<CorrelationEdge>();
+//		this.allSections = new LinkedList<SectionInterface>();
 	}
 	
 	

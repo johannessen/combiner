@@ -15,9 +15,13 @@ import java.util.Collection;
 public interface SectionInterface {
 	
 	Collection<OsmNode> combination () ;
-		
+	
 	OsmTags tags () ;
-
+	
+	OsmNode start () ;
+	
+	OsmNode end () ;
+	
 }
 
 

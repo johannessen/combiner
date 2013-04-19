@@ -53,6 +53,18 @@ public class GeneralisedSection implements SectionInterface {
 	
 	
 	
+	public OsmNode start () {
+		return combination.getFirst();
+	}
+	
+	
+	
+	public OsmNode end () {
+		return combination.getLast();
+	}
+	
+	
+	
 	public Collection<OsmNode> combination () {
 		return Collections.unmodifiableCollection(combination);
 	}
