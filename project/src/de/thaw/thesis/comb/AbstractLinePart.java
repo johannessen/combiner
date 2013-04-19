@@ -142,8 +142,8 @@ abstract class AbstractLinePart implements LinePart {
 	public OsmNode findPerpendicularFoot (final OsmNode node) {
 		// name: see http://mathworld.wolfram.com/PerpendicularFoot.html
 		
-		assert node.equals(start) == (node == start) : start + " " + node;
-		assert node.equals(end) == (node == end) : end + " " + node;
+//		assert node.equals(start) == (node == start) : start + " " + node;
+//		assert node.equals(end) == (node == end) : end + " " + node;
 		
 		if (node.equals(start) || node.equals(end)) {
 			return null;
@@ -269,7 +269,7 @@ abstract class AbstractLinePart implements LinePart {
 		}
 		assert bestMatch.segment() != segment();
 		
-		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
+//		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
 		segment().leftRealParallels.add(bestMatch.segment());
 		if (this.vector().isAligned(bestMatch.vector())) {
 			bestMatch.segment().rightRealParallels.add(segment());
@@ -292,7 +292,7 @@ abstract class AbstractLinePart implements LinePart {
 		}
 		assert bestMatch.segment() != segment();
 		
-		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
+//		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
 		segment().rightRealParallels.add(bestMatch.segment());
 		if (this.vector().isAligned(bestMatch.vector())) {
 			bestMatch.segment().leftRealParallels.add(segment());

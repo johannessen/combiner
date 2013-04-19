@@ -182,7 +182,7 @@ public final class Combiner {
 			
 			// if the node was already present, there shouldn't have been a split in the first place!
 			// :BUG: this logic predictably breaks down if fuzzy matching is utilised
-			assert didAdd;
+//			assert didAdd;
 		}
 		
 	}

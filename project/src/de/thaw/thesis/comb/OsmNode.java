@@ -28,9 +28,10 @@ public final class OsmNode implements Comparable<OsmNode> {
 	 * distance seems to be very small, usually just in the least significant
 	 * bit of the double's significand.
 	 */
-	static private final double MAX_COORDINATE_VALUE = 10000000.0;  // 10_000 km false northing
-	static private final double EPSILON = Math.ulp(MAX_COORDINATE_VALUE * 2.0);
+//	static private final double MAX_COORDINATE_VALUE = 10000000.0;  // 10_000 km false northing
+//	static private final double EPSILON = Math.ulp(MAX_COORDINATE_VALUE * 2.0);
 //	static private final double EPSILON = .0000001;  // metres
+	static private final double EPSILON = 0.0;  // metres
 	// :BUG: very short segments in source data are folded to a zero-length segment using this method if EPSILON is too large
 	
 	final double e;

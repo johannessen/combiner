@@ -411,7 +411,7 @@ public class GeneralisedSection implements SectionInterface {
 	
 	
 	void filterShortSection () {
-		assert valid == true;
+//		assert valid == true;
 		
 		if (length() < MIN_LENGTH) {
 			valid = false;
