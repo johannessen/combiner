@@ -108,6 +108,7 @@ public final class CorrelationGraph {
 		}
 		
 		// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
+/*
 		for (LineSegment connectedSegment : segmentNode.connectingSegments) {
 			OsmNode otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
 			if (otherNode == closestNode) {
@@ -115,6 +116,7 @@ public final class CorrelationGraph {
 				return;
 			}
 		}
+*/
 		
 		if (segmentNode == closestNode) {
 			// <=> merge point (e. g. end of dual carriageway)
