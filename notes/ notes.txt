@@ -22,3 +22,10 @@ warning building way geometry for way 148157721: contains position (214.748,214.
 warning building way geometry for way 148157721: contains position (214.748,214.748) twice
 warning building way geometry for way 148157721: contains position (214.748,214.748) twice
 
+
+
+- - -
+
+
+http://stackoverflow.com/questions/6748432/java-heap-space-out-of-memory
+

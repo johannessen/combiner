@@ -1,8 +1,11 @@
 .DS_Store
 /project/build
 /project/lib/geotools-8.5
+/project/lib/geotools-8.7.zip
+/project/lib/geotools-9.0
 *.swp
 /data/nrw-roads.zip
+/data/testbed-nrw
 /data/combiner/*.dbf
 /data/combiner/*.fix
 /data/combiner/*.prj
