@@ -8,13 +8,14 @@
 
 package de.thaw.thesis.comb;
 
-import de.thaw.thesis.comb.util.MutableIterator;
+import de.thaw.thesis.comb.util.MutableIterator2;
 
 import com.vividsolutions.jts.index.SpatialIndex;
 import com.vividsolutions.jts.index.strtree.STRtree;
 import com.vividsolutions.jts.geom.Envelope;
 
 import java.util.Collection;
+import java.util.Collections;
 //import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -154,7 +155,7 @@ public final class Combiner {
 		for (final OsmWay way : dataset.ways) {
 			// we only have segments at the beginning, which means this is sufficient
 			// fragments are added later as they are created, see MutableIterator#add()
-			iterator.addAll(way.segments());
+			iterator.add(Collections.<LinePart>unmodifiableCollection( way.segments() ));
 		}
 		
 		return iterator;
@@ -162,7 +163,7 @@ public final class Combiner {
 	
 	
 	
-	final private class SplitQueueIterator extends MutableIterator<LinePart> implements SplitQueueListener {
+	final private class SplitQueueIterator extends MutableIterator2<LinePart> implements SplitQueueListener {
 		
 		SplitQueueIterator () {
 			super();
@@ -171,8 +172,10 @@ public final class Combiner {
 		public void didSplit (final LineFragment newLine1, final LineFragment newLine2, final OsmNode splitNode) {
 			
 			// enqueue new fragments as split bases
-			super.add(newLine1);
-			super.add(newLine2);
+			Collection<LinePart> newLines = new LinkedList<LinePart>();
+			newLines.add(newLine1);
+			newLines.add(newLine2);
+			super.add(newLines);
 			
 			final boolean didAdd;
 			didAdd = dataset.addNode(splitNode);
