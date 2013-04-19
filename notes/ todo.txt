@@ -1,7 +1,34 @@
 offene Punkte
 =============
 
-(1) Behandlung kurzer StŸcke
+(1) mehr als zwei Parallelen
+----------------------------
+
+- filter graph for the two highest-class lines
+- refs auswerten
+
+
+(2) Normalisierung
+------------------
+
+fŸr Formvereinfachung (Douglas-Peucker)
+
+(bedingt Behandlung kurzer StŸcke, profitiert vom QualitŠtsumschlag)
+
+- Jochen: bei jeder €nderung wieder ganz von vorn anfangen? teuer, aber einfach
+
+- Jochen: alternativ zweite Datenstruktur komplett neu aufbauen, auch unverŠnderte StŸcke Ÿbernehmen => kein Iterator-Problem
+-> neue Klasse?
+
+- Jochen: nach Norm. brauche ich evtl. die ganze Node-Sammlung nicht mehr?
+-> nur noch Koordinaten-Arrays fŸr StŸtzpunkte
+
+- Jochen: wichtig: Refs ins Result Ÿbernehmen ("prŸfen!")
+
+- Jochen: Tags mergen: generischer als jetzt, vgl. Analyser (muss nicht voll implementiert sein, hauptsŠchlich doku reicht)
+
+
+(3) Behandlung kurzer StŸcke
 ----------------------------
 
 - kurze StŸcke wegschmei§en: nur solche, die an max. einem Ende verbunden sind
@@ -20,20 +47,7 @@ Idealergebnis: QualitŠtsumschlag Kreuzungen
 
 Offener Punkt: Oft sind (_relativ_) kurze StŸcke Duplikate (z. B. nach relocateGeneralisedNodes()); entweder exakte Duplikate oder zwei StŸcke mit jeweils gleichem Start- und Endpunkt, aber unterschiedlichen StŸtzpunkten. Fallen diese Duplikate als kurze StŸcke automatisch weg, oder mŸssen die vorher (hinterher?) extra behandelt werden?
 
-
-(2) mehr als zwei Parallelen
-----------------------------
-
-- filter graph for the two highest-class lines
-- refs auswerten
-
-
-(3) Normalisierung
-------------------
-
-fŸr Formvereinfachung (Douglas-Peucker)
-
-(bedingt Behandlung kurzer StŸcke, profitiert vom QualitŠtsumschlag)
+- Jochen: LŸcken Zwei Enden nahe beienander, gleicher Ref => verknŸpfen
 
 
 (4) Heuristik verbessern
