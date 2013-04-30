@@ -24,6 +24,13 @@ final class MyAnalyser implements Analyser {
 	
 	private final double COLLINEAR_MAX_ANGLE = 30.0 / 180.0 * Math.PI;
 	
+	private final boolean evaluateTags;
+	
+	
+	MyAnalyser (final boolean evaluateTags) {
+		this.evaluateTags = evaluateTags;
+	}
+	
 	
 	private OsmTags tags (final LinePart part) {
 		return part.segment().way.tags();
@@ -77,12 +84,17 @@ final class MyAnalyser implements Analyser {
 			return false;
 		}
 		
-		// only evaluate fragments of the same highway class
-		// (tag results are interned => == works on Strings)
-		// :BUG: fails on dual carriageways having links etc. on _both_ sides
-//		if ( tags(part1).get("highway") != tags(part2).get("highway") ) {
-//			return false;
-//		}
+		if (evaluateTags) {
+			// only evaluate fragments of the same highway class
+			// (tag results are interned => == works on Strings)
+			// :BUG: fails on dual carriageways having links etc. on _both_ sides
+			if ( tags(part1).get("highway") != tags(part2).get("highway") ) {
+				return false;
+			}
+			if ( tags(part1).get("ref") != tags(part2).get("ref") ) {
+				return false;
+			}
+		}
 		
 		return true;
 	}

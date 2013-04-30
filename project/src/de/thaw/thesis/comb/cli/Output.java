@@ -280,7 +280,7 @@ final class Output {
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		
 		for (final MidPointConnector connector : connectors) {
-			assert ! connector.s1.midPoint().equals(connector.s2.midPoint()) : connector.s1 + " / " + connector.s2;
+//			assert ! connector.s1.midPoint().equals(connector.s2.midPoint()) : connector.s1 + " / " + connector.s2;
 			OsmNode node0 = connector.s1.midPoint();
 			OsmNode node1 = connector.s2.midPoint();
 			geometries.add( writer.toLineString(node0, node1) );

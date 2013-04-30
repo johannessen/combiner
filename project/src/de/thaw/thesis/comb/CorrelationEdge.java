@@ -96,9 +96,9 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 		// symmetric behaviour: T1->T2 <=> T2->T1
 		boolean e = this.node0.equals(that.node0) && this.node1.equals(that.node1)
 				|| this.node0.equals(that.node1) && this.node1.equals(that.node0);
-		boolean f = this.node0.id == that.node0.id && this.node1.id == that.node1.id
-				|| this.node0.id == that.node1.id && this.node1.id == that.node0.id;
-		assert e == f;
+//		boolean f = this.node0.id == that.node0.id && this.node1.id == that.node1.id
+//				|| this.node0.id == that.node1.id && this.node1.id == that.node0.id;
+//		assert e == f;
 		return e;
 	}
 	

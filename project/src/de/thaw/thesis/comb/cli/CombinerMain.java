@@ -9,13 +9,18 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Combiner;
+import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.OsmDataset;
+import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.OsmWay;
+import de.thaw.thesis.comb.SectionInterface;
 import de.thaw.thesis.comb.io.ShapeReader;
 
 import de.thaw.thesis.comb.io.SQLiteWriter;
 import de.thaw.thesis.comb.StatSink;
 
 import java.io.File;
+import java.util.Collection;
 
 
 /**
@@ -31,6 +36,9 @@ public final class CombinerMain {
 	long startId = 0;
 	
 	int VERBOSE = 1;
+	
+	// negative value: first analyser uses tags
+	int iterations = 0;
 	
 	
 	
@@ -56,10 +64,15 @@ public final class CombinerMain {
 		final OsmDataset dataset = reader.osmDataset();
 		dataset.stats = stats;
 		
-		final Combiner combiner = new Combiner(dataset, new MyAnalyser());
+		final Combiner combiner = new Combiner(dataset, new MyAnalyser(iterations < 0));
 		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
 		combiner.run(startId);
+		
+		if (Math.abs(iterations) > 1) {
+			combineLines2(Math.abs(iterations) - 1, combiner.gen, reader.epsgCode());
+			return;
+		}
 		
 		System.out.println("Writing results...");
 		
@@ -70,9 +83,9 @@ public final class CombinerMain {
 		out.writeAllNodes(nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
-//		out.writeMidPointConnectors(debugOutPath);
+		out.writeMidPointConnectors(debugOutPath);
 //		out.writeFragmentMidPointConnectors(debugOutPath);
-		out.writeCorrelationEdges(combiner.cns, debugOutPath);
+//		out.writeCorrelationEdges(combiner.cns, debugOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
 //		out.writeSimplifiedSections(combiner.gen, outPath);
@@ -80,9 +93,61 @@ public final class CombinerMain {
 	
 	
 	
+	void combineLines2 (final int count, final GeneralisedLines lines, final int epsgCode) {
+		
+		OsmDataset dataset = new OsmDataset();
+		addLinesToDataset(dataset, lines.lines1());
+		addLinesToDataset(dataset, lines.lines2());
+		dataset.setCompleted();
+		
+		final Combiner combiner = new Combiner(dataset, new MyAnalyser(false));
+		combiner.verbose = VERBOSE;
+		combiner.run(startId);
+		
+		if (count > 1) {
+			combineLines2(count - 1, combiner.gen, epsgCode);
+			return;
+		}
+		
+		
+		System.out.println("Writing results...");
+		
+		final Output out = new Output(dataset, epsgCode);
+		out.verbose = VERBOSE;
+//		out.writeAllNodes(nodeOutPath);
+//		out.writeGeneralisedLines(combiner.gen, outPath);
+		out.writeAllLines(combiner.gen, outPath);
+//		out.writeSimplifiedSections(combiner.gen, outPath);
+	}
+	
+	
+	
+	// make generalisation result into new dataset for repetition of generalisation
+	void addLinesToDataset (final OsmDataset dataset, final Collection<? extends SectionInterface> sections) {
+		for (final SectionInterface section : sections) {
+			final OsmWay way = dataset.createOsmWay(section.tags());
+			OsmNode prevNode = null;
+			for (OsmNode node : section.combination()) {
+				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
+				if (prevNode == null) {
+					prevNode = node;
+					continue;
+				}
+				if (prevNode == node) {
+					continue;
+				}
+				way.createSegment(prevNode, node);
+				prevNode = node;
+			}
+			way.setCompleted();
+		}
+	}
+	
+	
+	
 	public static void main (String[] args) {
 		if (args.length == 0) {
-			throw new IllegalArgumentException("Arguments: inFile outFile [nodeOutFile [lineOutFile [debugOutFile]]]");
+			throw new IllegalArgumentException("Arguments: inFile outFile [nodeOutFile [lineOutFile [debugOutFile [repetions]]]]");
 		}
 		
 		CombinerMain combiner = new CombinerMain();
@@ -101,7 +166,12 @@ public final class CombinerMain {
 		}
 		if (args.length > 5) {
 			try {
-				combiner.startId = Long.parseLong(args[5]);
+				combiner.iterations = Integer.parseInt(args[5]);
+			} catch (NumberFormatException e) {}
+		}
+		if (args.length > 6) {
+			try {
+				combiner.startId = Long.parseLong(args[6]);
 			} catch (NumberFormatException e) {}
 		}
 		
