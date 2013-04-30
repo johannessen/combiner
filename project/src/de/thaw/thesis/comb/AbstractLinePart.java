@@ -8,6 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SimpleVector;
+import de.thaw.thesis.comb.util.Vector;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +21,7 @@ import java.util.LinkedList;
  * A skeletal implementation of the <code>LinePart</code> interface. Minimises
  * the effort required to implement this interface.
  */
-abstract class AbstractLinePart implements LinePart {
+abstract class AbstractLinePart extends AbstractVector implements LinePart {
 	
 	
 	public abstract LineSegment segment () ;
@@ -32,21 +35,12 @@ abstract class AbstractLinePart implements LinePart {
 	// large values increase the tolerance required during analysis because the start/endpoints of the other line will no longer be exactly orthogonal to the current line's points
 	
 	
-	// LinePart
-	final OsmNode start;
-	final OsmNode end;
-	
-	private Vector vector;
-	
 	boolean wasSplit = false;
 	
 	
 	AbstractLinePart (final OsmNode start, final OsmNode end) {
-		assert start != null && end != null;
+		super(start, end);
 		assert ! start.equals(end) : start + " / " + end;
-		
-		this.start = start;
-		this.end = end;
 	}
 	
 	
@@ -71,17 +65,6 @@ abstract class AbstractLinePart implements LinePart {
 	/**
 	 * 
 	 */
-	public Vector vector () {
-		if (vector == null) {
-			vector = new Vector(start, end);
-		}
-		return vector;
-	}
-	
-	
-	/**
-	 * 
-	 */
 	public boolean wasSplit () {
 		return wasSplit;
 	}
@@ -91,7 +74,7 @@ abstract class AbstractLinePart implements LinePart {
 	 * 
 	 */
 	public OsmNode midPoint () {
-		return OsmNode.createAtMidPoint(start, vector());
+		return OsmNode.createAtMidPoint(start, this);
 	}
 	
 	
@@ -151,9 +134,9 @@ abstract class AbstractLinePart implements LinePart {
 		
 		// :BUG: expensive due to dynamic Vector object creation; implement a static method instead
 		
-		final Vector ba = vector();
-		final Vector bc = new Vector(start, node);
-		final Vector ca = new Vector(node, end);
+		final Vector ba = this;
+		final Vector bc = new SimpleVector(start, node);
+		final Vector ca = new SimpleVector(node, end);
 		final double alpha = ba.relativeBearing(ca);
 		final double beta = ba.relativeBearing(bc);
 		if (Math.abs(alpha) >= Vector.RIGHT_ANGLE || Math.abs(beta) >= Vector.RIGHT_ANGLE) {
@@ -162,9 +145,10 @@ abstract class AbstractLinePart implements LinePart {
 		}
 		final double a = bc.distance();
 		final double q = a * Math.cos(beta);
-		final Vector qVector = Vector.createFromDistanceBearing(q, ba.bearing());
+//		final Vector qVector = SimpleVector.createFromDistanceBearing(q, ba.bearing());
 		
-		final OsmNode foot = new OsmNode(start, qVector);
+//		final OsmNode foot = new OsmNode(start, qVector);
+		final OsmNode foot = OsmNode.createWithDistanceBearing(start, q, ba.bearing());
 		foot.id = OsmDataset.ID_NONEXISTENT;
 		
 		return foot;
@@ -175,8 +159,7 @@ abstract class AbstractLinePart implements LinePart {
 	 * 
 	 */
 	public void splitAt (final OsmNode node, final SplitQueueListener listener) {
-		// :BUG: expensive due to dynamic Vector object creation; implement a static method instead 
-		if (new Vector(start, node).distance() < MIN_FRAGMENT_LENGTH || new Vector(node, end).distance() < MIN_FRAGMENT_LENGTH) {
+		if (SimpleVector.distance(start, node) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(node, end) < MIN_FRAGMENT_LENGTH) {
 			// extremely short lines are of little use to us
 			return;
 		}
@@ -271,7 +254,7 @@ abstract class AbstractLinePart implements LinePart {
 		
 //		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
 		segment().leftRealParallels.add(bestMatch.segment());
-		if (this.vector().isAligned(bestMatch.vector())) {
+		if (isAligned(bestMatch)) {
 			bestMatch.segment().rightRealParallels.add(segment());
 		}
 		else {
@@ -294,7 +277,7 @@ abstract class AbstractLinePart implements LinePart {
 		
 //		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
 		segment().rightRealParallels.add(bestMatch.segment());
-		if (this.vector().isAligned(bestMatch.vector())) {
+		if (isAligned(bestMatch)) {
 			bestMatch.segment().leftRealParallels.add(segment());
 		}
 		else {
@@ -318,7 +301,7 @@ abstract class AbstractLinePart implements LinePart {
 	 * 
 	 */
 	public String toString () {
-		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + vector() + ")" + (segment().way.id != OsmDataset.ID_UNKNOWN ? " [" + segment().way.id + "]" : "");
+		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + new SimpleVector(start, end) + ")" + (segment().way.id != OsmDataset.ID_UNKNOWN ? " [" + segment().way.id + "]" : "");
 	}
 	
 }

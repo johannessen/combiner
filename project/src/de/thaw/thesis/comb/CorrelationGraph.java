@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SimpleVector;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -74,7 +76,7 @@ public final class CorrelationGraph {
 						for (int k = 0; k < 2; k++) {
 							final OsmNode parallelNode = node(parallel, k);
 							
-							final double d = new Vector(segmentNode, parallelNode).distance();
+							final double d = SimpleVector.distance(segmentNode, parallelNode);
 							if (d < closestNodeDistance) {
 								closestNodeDistance = d;
 								closestNode = parallelNode;
@@ -134,8 +136,8 @@ public final class CorrelationGraph {
 		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
 		final boolean didAdd = sortedEdgesSet.add(edge);
 		if (didAdd) {
-			edge.node0.edges.add(edge);
-			edge.node1.edges.add(edge);
+			edge.start.edges.add(edge);
+			edge.end.edges.add(edge);
 		}
 		return didAdd;
 	}

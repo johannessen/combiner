@@ -6,49 +6,44 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.util;
 
 
 /**
  * An euclidian vector.
  */
-public final class Vector {
-	
-	static final double FULL_CIRCLE = Math.PI * 2.0;
-	static final double HALF_CIRCLE = Math.PI;
-	static final double RIGHT_ANGLE = Math.PI / 2.0;
+public final class SimpleVector implements Vector {
 	
 	private double e = Double.NaN;
 	private double n = Double.NaN;
 	private double d = Double.NaN;
 	private double a = Double.NaN;
 	
-	// :BUG: memeory "leak" through circular references if a reversed vector is reversed
-	private Vector reversed = null;
+	private SimpleVector reversed = null;
 	
 	
 	/**
 	 * 
 	 */
-	public Vector (final OsmNode start, final OsmNode end) {
-		e = end.e - start.e;
-		n = end.n - start.n;
+	public SimpleVector (final PlaneCoordinate start, final PlaneCoordinate end) {
+		e = end.easting() - start.easting();
+		n = end.northing() - start.northing();
 		
 		assert ! Double.isNaN(e + n) : e + " / " + n;
 	}
 	
 	
-	private Vector () {
+	private SimpleVector () {
 	}
 	
 	
 	/**
 	 * 
 	 */
-	static Vector createFromDistanceBearing (final double distance, final double bearing) {
+	static SimpleVector createFromDistanceBearing (final double distance, final double bearing) {
 		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
 		
-		final Vector vector = new Vector();
+		final SimpleVector vector = new SimpleVector();
 		vector.e = Double.NaN;
 		vector.n = Double.NaN;
 		vector.d = distance;
@@ -84,26 +79,36 @@ public final class Vector {
 /*
 	static {
 		// easting()/northing() test cases
-		Vector v;
-		v = new Vector(true); v.d = 1.0; v.a = -.5 * Math.PI;
+		SimpleVector v;
+		v = new SimpleVector(true); v.d = 1.0; v.a = -.5 * Math.PI;
 		assert q( -1.0, v.easting() ) && q( v.northing(),  0.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 0.0 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 0.0 * Math.PI;
 		assert q(  0.0, v.easting() ) && q( v.northing(), +1.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 0.5 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 0.5 * Math.PI;
 		assert q( +1.0, v.easting() ) && q( v.northing(),  0.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 1.0 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 1.0 * Math.PI;
 		assert q(  0.0, v.easting() ) && q( v.northing(), -1.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 1.5 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 1.5 * Math.PI;
 		assert q( -1.0, v.easting() ) && q( v.northing(),  0.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 2.0 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 2.0 * Math.PI;
 		assert q(  0.0, v.easting() ) && q( v.northing(), +1.0 ) : v.easting() + " / " + v.northing();
-		v = new Vector(true); v.d = 1.0; v.a = 2.5 * Math.PI;
+		v = new SimpleVector(true); v.d = 1.0; v.a = 2.5 * Math.PI;
 		assert q( +1.0, v.easting() ) && q( v.northing(),  0.0 ) : v.easting() + " / " + v.northing();
 	}
 	static boolean q (double x, double y) {
 		return Math.abs(x - y) < Math.cbrt((double)Float.MIN_NORMAL);
 	}
 */
+	
+	
+	/**
+	 * 
+	 */
+	public static double distance (final PlaneCoordinate point1, final PlaneCoordinate point2) {
+		final double e = point2.easting() - point1.easting();
+		final double n = point2.northing() - point1.northing();
+		return Math.sqrt( e*e + n*n );
+	}
 	
 	
 	/**
@@ -133,16 +138,16 @@ public final class Vector {
 /*
 	static {
 		// bearing() test cases
-		Vector v;
-		v = new Vector(false); v.e =  0.0; v.n = +1.0;
+		SimpleVector v;
+		v = new SimpleVector(false); v.e =  0.0; v.n = +1.0;
 		assert   0.0 == v.bearingDegrees() : v.bearingDegrees();
-		v = new Vector(false); v.e = +1.0; v.n = +1.0;
+		v = new SimpleVector(false); v.e = +1.0; v.n = +1.0;
 		assert  45.0 == v.bearingDegrees() : v.bearingDegrees();
-		v = new Vector(false); v.e = +1.0; v.n = -1.0;
+		v = new SimpleVector(false); v.e = +1.0; v.n = -1.0;
 		assert 135.0 == v.bearingDegrees() : v.bearingDegrees();
-		v = new Vector(false); v.e = -1.0; v.n = -1.0;
+		v = new SimpleVector(false); v.e = -1.0; v.n = -1.0;
 		assert 225.0 == v.bearingDegrees() : v.bearingDegrees();
-		v = new Vector(false); v.e = -1.0; v.n = +1.0;
+		v = new SimpleVector(false); v.e = -1.0; v.n = +1.0;
 		assert 315.0 == v.bearingDegrees() : v.bearingDegrees();
 	}
 */
@@ -151,7 +156,7 @@ public final class Vector {
 	/**
 	 * 
 	 */
-	double bearingDegrees () {
+	private double bearingDegrees () {
 		return bearing() * 180.0 / Math.PI;
 	}
 	
@@ -167,7 +172,7 @@ public final class Vector {
 	/**
 	 * 
 	 */
-	static double normaliseAbsoluteBearing (double bearing) {
+	public static double normaliseAbsoluteBearing (double bearing) {
 		while (bearing < 0.0) {
 			bearing += FULL_CIRCLE;
 		}
@@ -181,7 +186,7 @@ public final class Vector {
 	/**
 	 * 
 	 */
-	static double normaliseRelativeBearing (double bearing) {
+	public static double normaliseRelativeBearing (double bearing) {
 		while (bearing < HALF_CIRCLE) {
 			bearing += FULL_CIRCLE;
 		}
@@ -195,14 +200,14 @@ public final class Vector {
 	/**
 	 * 
 	 */
-	Vector reversed () {
+	public SimpleVector reversed () {
 		if (reversed == null) {
-			reversed = new Vector();
+			reversed = new SimpleVector();
 			reversed.e = -e;
 			reversed.n = -n;
 			reversed.d = d;
 			reversed.a = normaliseAbsoluteBearing(a + HALF_CIRCLE);
-			reversed.reversed = this;
+//			reversed.reversed = this;  // :BUG: memory leak through circular references if a reversed vector is again reversed
 		}
 		return reversed;
 	}
@@ -211,7 +216,7 @@ public final class Vector {
 	/**
 	 * 
 	 */
-	public Vector aligned (final Vector v) {
+	public SimpleVector aligned (final Vector v) {
 		if (! isAligned(v)) {
 			return reversed();
 		}

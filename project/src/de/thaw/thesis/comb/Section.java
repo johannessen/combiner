@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SimpleVector;
+
 import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -169,7 +171,7 @@ public class Section implements SectionInterface {
 			return 0.0;
 		}
 		// :BUG: calculate intermediate segments
-		return new Vector( combination.getFirst(), combination.getLast() ).distance();
+		return SimpleVector.distance( combination.getFirst(), combination.getLast() );
 	}
 	
 	

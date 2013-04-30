@@ -8,6 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.PlaneCoordinate;
+import de.thaw.thesis.comb.util.Vector;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Set;
@@ -19,7 +22,7 @@ import java.util.TreeSet;
  * relationships with actual nodes in the OSM planet database, and may or may
  * not be part of an <code>OsmDataset</code>.
  */
-public final class OsmNode implements Comparable<OsmNode> {
+public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	
 	/* :FIX: QGIS Shapefile Snapping
 	 * When editing a Shapefile, QGIS 1.8.0 sometimes snaps vertices of
@@ -63,7 +66,15 @@ public final class OsmNode implements Comparable<OsmNode> {
 	 * 
 	 */
 	public OsmNode (final OsmNode start, final Vector vector) {
-		this(start.e + vector.easting(), start.n + vector.northing());
+		this(start, vector, 1.0);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	private OsmNode (final OsmNode start, final Vector vector, final double distanceFactor) {
+		this(start.e + vector.easting() * distanceFactor, start.n + vector.northing() * distanceFactor);
 	}
 	
 	
@@ -75,8 +86,18 @@ public final class OsmNode implements Comparable<OsmNode> {
 	}
 	
 	
+	/**
+	 * 
+	 */
+	public static OsmNode createWithDistanceBearing (final OsmNode node, final double distance, final double bearing) {
+		return new OsmNode(
+				node.e + AbstractVector.eastingFromDistanceBearing(distance, bearing),
+				node.n + AbstractVector.northingFromDistanceBearing(distance, bearing) );
+	}
+	
+	
 	static OsmNode createAtMidPoint (final OsmNode node, final Vector vector) {
-		return new OsmNode(node, Vector.createFromDistanceBearing( vector.distance() / 2.0, vector.bearing() ));
+		return new OsmNode(node, vector, 0.5);
 	}
 	
 	

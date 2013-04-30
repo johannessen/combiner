@@ -72,7 +72,7 @@ public class GeneralisedLines {
 		for (final CorrelationEdge edge : graph.edges()) {
 				
 			for (int i = 0; i < 2; i++) {
-				OsmNode node = i == 0 ? edge.node0 : edge.node1;
+				OsmNode node = i == 0 ? edge.start : edge.end;
 				
 				// get segment with ID
 				for (final LineSegment segment : node.connectingSegments) {
@@ -152,7 +152,7 @@ public class GeneralisedLines {
 				// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
 				CorrelationEdge theEdge = null;
 				for (final CorrelationEdge anEdge : node.edges) {
-					if (theEdge == null || anEdge.vector().distance() < theEdge.vector().distance()) {
+					if (theEdge == null || anEdge.distance() < theEdge.distance()) {
 						theEdge = anEdge;
 					}
 				}
@@ -162,8 +162,8 @@ public class GeneralisedLines {
 				
 				// "move" (actually: replace) first/last nodes as appropriate
 				
-				double e = (theEdge.node0.e + theEdge.node1.e) / 2.0;
-				double n = (theEdge.node0.n + theEdge.node1.n) / 2.0;
+				double e = (theEdge.start.e + theEdge.end.e) / 2.0;
+				double n = (theEdge.start.n + theEdge.end.n) / 2.0;
 				final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);
 				
 				if (midPoint.id == 0L) {

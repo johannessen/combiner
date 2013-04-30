@@ -9,6 +9,7 @@
 package de.thaw.thesis.comb;
 
 import de.thaw.thesis.comb.util.OneItemList;
+import de.thaw.thesis.comb.util.Vector;
 
 import com.vividsolutions.jts.geom.Envelope;
 
@@ -95,8 +96,8 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 			closeParallels = new LinkedList<LineSegment>();
 			for (final LineSegment segment : closeSegments) {
 				
-				final Vector v1 = segment.vector();
-				final Vector v2 = vector().aligned(v1);
+				final Vector v1 = segment;
+				final Vector v2 = aligned(v1);
 				final double angleDifference = Math.abs( v1.relativeBearing(v2) );
 				
 				if (angleDifference > PARALLEL_ANGLE_MAXIMUM) {

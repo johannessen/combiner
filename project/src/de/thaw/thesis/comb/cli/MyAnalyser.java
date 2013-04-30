@@ -11,7 +11,8 @@ package de.thaw.thesis.comb.cli;
 import de.thaw.thesis.comb.Analyser;
 import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.OsmTags;
-import de.thaw.thesis.comb.Vector;
+import de.thaw.thesis.comb.util.SimpleVector;
+import de.thaw.thesis.comb.util.Vector;
 
 
 /**
@@ -52,17 +53,17 @@ final class MyAnalyser implements Analyser {
 //			return false;
 		}
 		
-		final Vector v1 = part1.vector();
-		final Vector v2 = part2.vector().aligned(v1);
-		final Vector starts;
-		final Vector ends;
-		if (part2.vector().isAligned(v1)) {
-			starts = new Vector(part1.start(), part2.start());
-			ends = new Vector(part1.end(), part2.end());
+		final Vector v1 = part1;
+		final Vector v2 = part2.aligned(v1);
+		final SimpleVector starts;
+		final SimpleVector ends;
+		if (part2.isAligned(v1)) {
+			starts = new SimpleVector(part1.start(), part2.start());
+			ends = new SimpleVector(part1.end(), part2.end());
 		}
 		else {
-			starts = new Vector(part1.start(), part2.end());
-			ends = new Vector(part1.end(), part2.start());
+			starts = new SimpleVector(part1.start(), part2.end());
+			ends = new SimpleVector(part1.end(), part2.start());
 		}
 		
 		// ignore fragments whose start/end-points are far apart
@@ -105,17 +106,17 @@ final class MyAnalyser implements Analyser {
 		assert ! (part1 instanceof de.thaw.thesis.comb.LineSegment && (((de.thaw.thesis.comb.LineSegment)part1).fragments.size() > 0));
 		assert ! (part2 instanceof de.thaw.thesis.comb.LineSegment && (((de.thaw.thesis.comb.LineSegment)part2).fragments.size() > 0));
 		
-		final Vector v1 = part1.vector();
-		final Vector v2 = part2.vector().aligned(v1);
-		final Vector starts;
-		final Vector ends;
-		if (part2.vector().isAligned(v1)) {
-			starts = new Vector(part1.start(), part2.start());
-			ends = new Vector(part1.end(), part2.end());
+		final Vector v1 = part1;
+		final Vector v2 = part2.aligned(v1);
+		final SimpleVector starts;
+		final SimpleVector ends;
+		if (part2.isAligned(v1)) {
+			starts = new SimpleVector(part1.start(), part2.start());
+			ends = new SimpleVector(part1.end(), part2.end());
 		}
 		else {
-			starts = new Vector(part1.start(), part2.end());
-			ends = new Vector(part1.end(), part2.start());
+			starts = new SimpleVector(part1.start(), part2.end());
+			ends = new SimpleVector(part1.end(), part2.start());
 		}
 /*
 if ((part1.segment().way.id == 19975724L || part2.segment().way.id == 19975724L || part1.segment().way.id == 105062275L || part2.segment().way.id == 105062275L) && (part1.segment().way.id == 105062281L || part2.segment().way.id == 105062281L)) {

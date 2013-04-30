@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.Vector;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -18,14 +20,12 @@ import java.util.Iterator;
  * database. Instances are always indirectly a part of an
  * <code>OsmDataset</code>.
  */
-public interface LinePart extends Comparable<LinePart> {
+public interface LinePart extends Comparable<LinePart>, Vector {
 	
 	// :TODO: filter and organise these methods -- they're prolly not all strictly required to be part of the interface
 	// :TODO: rework structure to better fit the Composite pattern
 	
 	LineSegment segment () ;
-	
-	Vector vector () ;
 	
 	boolean wasSplit () ;
 	

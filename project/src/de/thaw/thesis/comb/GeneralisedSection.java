@@ -8,6 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SimpleVector;
+import de.thaw.thesis.comb.util.Vector;
+
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.Collections;
@@ -263,7 +266,7 @@ public class GeneralisedSection implements SectionInterface {
 
 		LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
 		if (nextSegment1 != null) {
-			segment1Aligned ^= ! nextSegment1.vector().isAligned(segment1.vector());  // :TODO: unclear; can prolly be replaced by node comparison
+			segment1Aligned ^= ! nextSegment1.isAligned(segment1);  // :TODO: unclear; can prolly be replaced by node comparison
 		}
 		segment1 = nextSegment1;
 
@@ -282,7 +285,7 @@ public class GeneralisedSection implements SectionInterface {
 
 		LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
 		if (nextSegment2 != null) {
-			segment2Aligned ^= ! nextSegment2.vector().isAligned(segment2.vector());  // :TODO: unclear; can prolly be replaced by node comparison
+			segment2Aligned ^= ! nextSegment2.isAligned(segment2);  // :TODO: unclear; can prolly be replaced by node comparison
 		}
 		segment2 = nextSegment2;
 
@@ -309,8 +312,8 @@ public class GeneralisedSection implements SectionInterface {
 			return;
 		}
 		
-		double e = (edge.node0.e + edge.node1.e) / 2.0;
-		double n = (edge.node0.n + edge.node1.n) / 2.0;
+		double e = (edge.start.e + edge.end.e) / 2.0;
+		double n = (edge.start.n + edge.end.n) / 2.0;
 //			final OsmNode midPoint = OsmNode.createWithEastingNorthing(e, n);
 		final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);  // :TODO: why this line? perhaps so that the node is inserted into the debug output?
 		if (addAsLast) {
@@ -327,9 +330,9 @@ public class GeneralisedSection implements SectionInterface {
 	private LineSegment findOppositeSegment (OsmNode oppositeNode, LineSegment thisSegment, boolean thisIsAligned) {
 		LineSegment oppositeSegment = null;
 		
-		Vector thisVector = thisIsAligned ? thisSegment.vector() : thisSegment.vector().reversed();
+		Vector thisVector = thisIsAligned ? thisSegment : thisSegment.reversed();
 		for (LineSegment segment : oppositeNode.connectingSegments) {
-			Vector vector = segment.start == oppositeNode ? segment.vector() : segment.vector().reversed();
+			Vector vector = segment.start == oppositeNode ? segment : segment.reversed();
 			if ( Math.abs( vector.relativeBearing(thisVector) ) < Vector.RIGHT_ANGLE ) {
 //					assert oppositeSegment == null;  // only one should match, normally (at least for trivial datasets?) (might be some exceptions in some datasets, this is a :HACK:)
 				oppositeSegment = segment;
@@ -389,7 +392,7 @@ public class GeneralisedSection implements SectionInterface {
 			return 0.0;
 		}
 		// :BUG: calculate intermediate segments
-		return new Vector( combination.getFirst(), combination.getLast() ).distance();
+		return SimpleVector.distance( combination.getFirst(), combination.getLast() );
 	}
 	
 	

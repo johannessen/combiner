@@ -330,8 +330,8 @@ final class Output {
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final CorrelationEdge cn : cns) {
-			OsmNode node0 = cn.node0;
-			OsmNode node1 = cn.node1;
+			OsmNode node0 = cn.start;
+			OsmNode node1 = cn.end;
 			geometries.add( writer.userData(writer.toLineString(node0, node1), cn) );
 		}
 		
@@ -451,9 +451,9 @@ System.out.println("skipped non-line (2)");
 		if (edge == null) {
 			return list;
 		}
-		list.add( edge.node0 );
+		list.add( edge.start );
 		list.add( genNode );
-		list.add( edge.node1 );
+		list.add( edge.end );
 		return list;
 	}
 	

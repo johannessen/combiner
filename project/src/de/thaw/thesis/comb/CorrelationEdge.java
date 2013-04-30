@@ -12,13 +12,17 @@ package de.thaw.thesis.comb;
 /**
  * 
  */
-public final class CorrelationEdge implements Comparable<CorrelationEdge> {
+public final class CorrelationEdge extends AbstractVector implements Comparable<CorrelationEdge> {
 	
 	// :DEBUG: fields shouldn't be public
 	
-	public final OsmNode node0;
+	public OsmNode node0 () {
+		return start;
+	}
 	
-	public final OsmNode node1;
+	public OsmNode node1 () {
+		return end;
+	}
 	
 	
 	// in how many directions (out of 2 in the trivial case) has this edge been used for generalisation?
@@ -26,29 +30,23 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	
 	
  	CorrelationEdge (final OsmNode node0, final OsmNode node1) {
-		this.node0 = node0;
-		this.node1 = node1;
+		super(node0, node1);
 	}
 	
 	
 	boolean contains (final OsmNode node) {
-		return node0.equals(node) || node1.equals(node);
+		return start.equals(node) || end.equals(node);
 	}
 	
 	
 	OsmNode other (final OsmNode node) {
-		if (node0.equals(node)) {
-			return node1;
+		if (start.equals(node)) {
+			return end;
 		}
 		else {
-			assert node1.equals(node);
-			return node0;
+			assert end.equals(node);
+			return start;
 		}
-	}
-	
-	
-	Vector vector () {
-		return new Vector(node0, node1);
 	}
 	
 	
@@ -60,14 +58,14 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 		// we don't actually care about the exact ordering, except that it MUST meet contract terms!
 		// :BGUG: we acrtually do
 		// :TODO: rewrite this to compare nodes instead of coordinates; should yield the same result
-		final double eMinA = Math.min(this.node0.easting(), this.node1.easting());
-		final double eMaxA = Math.max(this.node0.easting(), this.node1.easting());
-		final double nMinA = Math.min(this.node0.northing(), this.node1.northing());
-		final double nMaxA = Math.max(this.node0.northing(), this.node1.northing());
-		final double eMinB = Math.min(that.node0.easting(), that.node1.easting());
-		final double eMaxB = Math.max(that.node0.easting(), that.node1.easting());
-		final double nMinB = Math.min(that.node0.northing(), that.node1.northing());
-		final double nMaxB = Math.max(that.node0.northing(), that.node1.northing());
+		final double eMinA = Math.min(this.start.easting(), this.end.easting());
+		final double eMaxA = Math.max(this.start.easting(), this.end.easting());
+		final double nMinA = Math.min(this.start.northing(), this.end.northing());
+		final double nMaxA = Math.max(this.start.northing(), this.end.northing());
+		final double eMinB = Math.min(that.start.easting(), that.end.easting());
+		final double eMaxB = Math.max(that.start.easting(), that.end.easting());
+		final double nMinB = Math.min(that.start.northing(), that.end.northing());
+		final double nMaxB = Math.max(that.start.northing(), that.end.northing());
 		int compare = Double.compare(eMinA, eMinB);
 		if (compare == 0) {
 			compare = Double.compare(nMinA, nMinB);
@@ -94,8 +92,8 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 		CorrelationEdge that = (CorrelationEdge)object;
 		
 		// symmetric behaviour: T1->T2 <=> T2->T1
-		boolean e = this.node0.equals(that.node0) && this.node1.equals(that.node1)
-				|| this.node0.equals(that.node1) && this.node1.equals(that.node0);
+		boolean e = this.start.equals(that.start) && this.end.equals(that.end)
+				|| this.start.equals(that.end) && this.end.equals(that.start);
 //		boolean f = this.node0.id == that.node0.id && this.node1.id == that.node1.id
 //				|| this.node0.id == that.node1.id && this.node1.id == that.node0.id;
 //		assert e == f;
@@ -106,12 +104,12 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	// if we need to override equals, we also need to override hashCode (by contract terms)
 	public int hashCode () {
 		// symmetric behaviour required!
-		return 29 * (node0.hashCode() + node1.hashCode());
+		return 29 * (start.hashCode() + end.hashCode());
 	}
 	
 	
 	public String toString () {
-		return "{gen: " + genCounter + " | " + node0 + " <--> " + node1 + "}";
+		return "{gen: " + genCounter + " | " + start + " <--> " + end + "}";
 	}
 	
 }
