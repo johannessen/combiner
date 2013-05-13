@@ -11,18 +11,18 @@ package de.thaw.thesis.comb;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
+import java.util.AbstractSequentialList;
 import java.util.Iterator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 
-public class GeneralisedSection implements SectionInterface {
+public class GeneralisedSection extends AbstractLine {
 	
 	static double MIN_LENGTH = 50.0;  // :TODO: check what works best
-	
-	public LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
 	
 	public LinkedList<LineSegment> originalSegments = new LinkedList<LineSegment>();
 	public LinkedList<OsmNode> originalNodes = new LinkedList<OsmNode>();
@@ -33,8 +33,6 @@ public class GeneralisedSection implements SectionInterface {
 	private boolean valid = false;
 	
 	private CorrelationGraph graph;
-	
-	private OsmTags tags = null;
 	
 	
 	
@@ -50,26 +48,8 @@ public class GeneralisedSection implements SectionInterface {
 	
 	
 	
-	public OsmTags tags () {
-		return tags;
-	}
-	
-	
-	
-	public OsmNode start () {
-		return combination.getFirst();
-	}
-	
-	
-	
-	public OsmNode end () {
-		return combination.getLast();
-	}
-	
-	
-	
-	public Collection<OsmNode> combination () {
-		return Collections.unmodifiableCollection(combination);
+	public long id () {
+		return OsmDataset.ID_NONEXISTENT;
 	}
 	
 	
@@ -118,7 +98,7 @@ public class GeneralisedSection implements SectionInterface {
 		
 		assert ! iterator.hasNext() : startNode;  // see issue #111
 		
-		valid = combination.size() >= 2;
+		valid = size() >= 2;
 		
 		if (valid) {
 			tags = new Tags(osmHighway, osmRef);
@@ -157,7 +137,7 @@ public class GeneralisedSection implements SectionInterface {
 			originalNodes.add(currentNode1);
 			originalNodes.add(currentNode2);
 			
-			osmHighway = segment1.way.tags.get("highway");
+			osmHighway = segment1.way.tags().get("highway");
 			osmRef = "";
 			// special values for osmRef:
 			// ""/OsmTags.NO_VALUE -> no known ref; null -> conflicting refs
@@ -167,28 +147,28 @@ public class GeneralisedSection implements SectionInterface {
 		// :TODO: this condition can surely be simplified
 		while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
 			
-			if (highwayClass(segment2.way.tags.get("highway")) != highwayClass(osmHighway)
-					&& highwayClass(segment1.way.tags.get("highway")) != highwayClass(osmHighway)) {
+			if (highwayClass(segment2.way.tags().get("highway")) != highwayClass(osmHighway)
+					&& highwayClass(segment1.way.tags().get("highway")) != highwayClass(osmHighway)) {
 //System.err.println(" --break1 " + segment2.way.tags.get("highway") + segment2.way.tags.get("ref") + " " + segment1.way.tags.get("highway") + segment1.way.tags.get("ref") + " " + osmHighway);
 				break;  // apparently the highway class has changed somewhere along the line; let's interrupt the generalised line and leave the continuation for the next run (which may then pick up the lower class)
 			}
-			if (segment2.way.tags.get("highway") != osmHighway) {  // get() returns intern()ed value
-				if (highwayClass(segment2.way.tags.get("highway")) > highwayClass(osmHighway)) {
-					osmHighway = segment2.way.tags.get("highway");
+			if (segment2.way.tags().get("highway") != osmHighway) {  // get() returns intern()ed value
+				if (highwayClass(segment2.way.tags().get("highway")) > highwayClass(osmHighway)) {
+					osmHighway = segment2.way.tags().get("highway");
 				}
 			}
 			if (osmRef != null) {
 				// osmRef == null  -> conflicting refs
 				// we're dealing with intern()ed values here, so == is safe to use
 				if (osmRef == "") {
-					osmRef = segment2.way.tags.get("ref");
+					osmRef = segment2.way.tags().get("ref");
 				}
 				if (osmRef == "") {
-					osmRef = segment1.way.tags.get("ref");
+					osmRef = segment1.way.tags().get("ref");
 				}
 				if (osmRef != "" &&
-						( osmRef != segment1.way.tags.get("ref")
-						|| osmRef != segment2.way.tags.get("ref") )) {
+						( osmRef != segment1.way.tags().get("ref")
+						|| osmRef != segment2.way.tags().get("ref") )) {
 					osmRef = null;
 				}
 			}
@@ -317,10 +297,10 @@ public class GeneralisedSection implements SectionInterface {
 //			final OsmNode midPoint = OsmNode.createWithEastingNorthing(e, n);
 		final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);  // :TODO: why this line? perhaps so that the node is inserted into the debug output?
 		if (addAsLast) {
-			combination.addLast( midPoint );
+			addLast( midPoint );
 		}
 		else {
-			combination.addFirst( midPoint );
+			addFirst( midPoint );
 		}
 	}
 	
@@ -388,11 +368,11 @@ public class GeneralisedSection implements SectionInterface {
 	
 	
 	double length () {
-		if (combination.size() < 2) {
+		if (size() < 2) {
 			return 0.0;
 		}
 		// :BUG: calculate intermediate segments
-		return SimpleVector.distance( combination.getFirst(), combination.getLast() );
+		return SimpleVector.distance( start(), end() );
 	}
 	
 	

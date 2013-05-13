@@ -10,10 +10,10 @@ package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Combiner;
 import de.thaw.thesis.comb.GeneralisedLines;
+import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmWay;
-import de.thaw.thesis.comb.SectionInterface;
 import de.thaw.thesis.comb.io.ShapeReader;
 
 import de.thaw.thesis.comb.io.SQLiteWriter;
@@ -123,23 +123,16 @@ public final class CombinerMain {
 	
 	
 	// make generalisation result into new dataset for repetition of generalisation
-	void addLinesToDataset (final OsmDataset dataset, final Collection<? extends SectionInterface> sections) {
-		for (final SectionInterface section : sections) {
-			final OsmWay way = dataset.createOsmWay(section.tags());
-			OsmNode prevNode = null;
+	void addLinesToDataset (final OsmDataset dataset, final Collection<? extends Line> sections) {
+		for (final Line section : sections) {
+			final OsmWay way = dataset.createOsmWay(section.tags(), section.size());
 			for (OsmNode node : section.combination()) {
 				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
-				if (prevNode == null) {
-					prevNode = node;
-					continue;
-				}
-				if (prevNode == node) {
-					continue;
-				}
-				way.createSegment(prevNode, node);
-				prevNode = node;
+				
+				way.addLast(node);
+				
 			}
-			way.setCompleted();
+			way.mutable(false);
 		}
 	}
 	

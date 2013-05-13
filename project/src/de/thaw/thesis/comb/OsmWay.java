@@ -8,7 +8,11 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.AbstractSequentialList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.LinkedList;
 
 
@@ -17,64 +21,35 @@ import java.util.LinkedList;
  * Instances may or may not have relationships with actual ways in the OSM
  * planet database. Instances are always part of an <code>OsmDataset</code>.
  */
-public final class OsmWay {
-	
-	List<LineSegment> segments;
-	OsmTags tags;
-	OsmDataset dataset;
+public final class OsmWay extends AbstractLine {
 	
 	public long id = OsmDataset.ID_UNKNOWN;  // :BUG: shouldn't be public
 	// not all OsmWays have a unique ID (e. g. splitPts, Frederik's shapefile)
 	
-	private boolean dataComplete;
+	OsmDataset dataset = null;
 	
 	
 	OsmWay (final OsmTags tags, final OsmDataset dataset) {
+		this(tags, dataset, 10);
+	}
+	
+	
+	OsmWay (final OsmTags tags, final OsmDataset dataset, final int segmentCount) {
+		super(segmentCount);
 		assert tags != null && dataset != null;
 		
-		this.segments = new LinkedList<LineSegment>();
-		this.tags = tags;
+		super.tags = tags;
 		this.dataset = dataset;
-		this.dataComplete = false;
 	}
 	
 	
-	/**
-	 * 
-	 */
-	public void setCompleted () {
-		dataComplete = true;
+	public OsmDataset dataset () {
+		return dataset;
 	}
 	
 	
-	/**
-	 * 
-	 */
-	public LineSegment createSegment (final OsmNode node0, final OsmNode node1) {
-		assert node0 != null && node1 != null;
-		assert ! dataComplete;
-		
-		LineSegment segment = new LineSegment(node0, node1, this);
-		node0.addSegment(segment);
-		node1.addSegment(segment);
-		segments.add(segment);
-		
-		return segment;
-	}
-	
-	
-	List<LineSegment> segments () {
-		assert dataComplete;
-		
-		return segments;
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public OsmTags tags () {
-		return tags;
+	public long id () {
+		return id;
 	}
 	
 }

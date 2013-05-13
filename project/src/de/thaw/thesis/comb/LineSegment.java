@@ -41,7 +41,7 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 	public boolean notToBeGeneralised = false;
 	
 	// LineSegment
-	public OsmWay way;
+	public Line way;
 	public Collection<LineFragment> fragments;  // (A)
 	
 	private Collection<LineSegment> closeSegments;  // (D)
@@ -52,9 +52,9 @@ public final class LineSegment extends AbstractLinePart implements LinePart {
 	public Set<LineSegment> rightRealParallels;
 	
 	
-	LineSegment (final OsmNode start, final OsmNode end, final OsmWay way) {
+	LineSegment (final OsmNode start, final OsmNode end, final Line way) {
 		super(start, end);
-		assert way != null;
+		assert way != null /* && way instanceof OsmWay*/;
 		
 		this.way = way;
 		this.fragments = new LinkedList<LineFragment>();

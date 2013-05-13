@@ -8,13 +8,17 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SimpleVector;
+
 
 /**
  * 
  */
-public final class CorrelationEdge extends AbstractVector implements Comparable<CorrelationEdge> {
+public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	
 	// :DEBUG: fields shouldn't be public
+	public final OsmNode start;
+	public final OsmNode end;
 	
 	public OsmNode node0 () {
 		return start;
@@ -29,8 +33,14 @@ public final class CorrelationEdge extends AbstractVector implements Comparable<
 	int genCounter = 0;
 	
 	
- 	CorrelationEdge (final OsmNode node0, final OsmNode node1) {
-		super(node0, node1);
+ 	CorrelationEdge (final OsmNode start, final OsmNode end) {
+		assert (start == null) == (end == null);
+		if (start != null) {
+			assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;  // don't think this is useful
+		}
+		
+		this.start = start;
+		this.end = end;
 	}
 	
 	
@@ -47,6 +57,13 @@ public final class CorrelationEdge extends AbstractVector implements Comparable<
 			assert end.equals(node);
 			return start;
 		}
+	}
+	
+	
+	double length () {
+		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		
+		return SimpleVector.distance(start, end);
 	}
 	
 	

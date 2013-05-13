@@ -21,7 +21,11 @@ import java.util.LinkedList;
  * A skeletal implementation of the <code>LinePart</code> interface. Minimises
  * the effort required to implement this interface.
  */
-abstract class AbstractLinePart extends AbstractVector implements LinePart {
+abstract class AbstractLinePart implements LinePart, Vector {
+	
+	// :DEBUG: shouldn't be public!
+	public OsmNode start;
+	public OsmNode end;
 	
 	
 	public abstract LineSegment segment () ;
@@ -39,7 +43,14 @@ abstract class AbstractLinePart extends AbstractVector implements LinePart {
 	
 	
 	AbstractLinePart (final OsmNode start, final OsmNode end) {
-		super(start, end);
+		assert (start == null) == (end == null);
+		if (start != null) {
+			assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;  // don't think this is useful
+		}
+		
+		this.start = start;
+		this.end = end;
+		
 		assert ! start.equals(end) : start + " / " + end;
 	}
 	
@@ -261,7 +272,7 @@ abstract class AbstractLinePart extends AbstractVector implements LinePart {
 			bestMatch.segment().leftRealParallels.add(segment());
 		}
 		
-		segment().way.dataset.parallelFragments.add(new LinePart[]{ bestMatch, this });
+		segment().way.dataset().parallelFragments.add(new LinePart[]{ bestMatch, this });
 	}
 	
 	
@@ -284,7 +295,7 @@ abstract class AbstractLinePart extends AbstractVector implements LinePart {
 			bestMatch.segment().rightRealParallels.add(segment());
 		}
 		
-		segment().way.dataset.parallelFragments.add(new LinePart[]{ bestMatch, this });
+		segment().way.dataset().parallelFragments.add(new LinePart[]{ bestMatch, this });
 	}
 	
 	
@@ -301,7 +312,113 @@ abstract class AbstractLinePart extends AbstractVector implements LinePart {
 	 * 
 	 */
 	public String toString () {
-		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + new SimpleVector(start, end) + ")" + (segment().way.id != OsmDataset.ID_UNKNOWN ? " [" + segment().way.id + "]" : "");
+		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + new SimpleVector(start, end) + ")" + (segment().way.id() != OsmDataset.ID_UNKNOWN ? " [" + segment().way.id() + "]" : "");
+	}
+	
+	
+	
+	/////////////////////// VECTOR
+	
+/*
+	public String toString () {
+		return "e=" + ((double)(int)(easting() * 10.0 + .5) / 10.0)
+				+ "m n=" + ((double)(int)(northing() * 10.0 + .5) / 10.0)
+				+ "m d=" + ((double)(int)(distance() * 10.0 + .5) / 10.0)
+				+ "m a=" + (int)(bearingDegrees() + .5) + "d";
+	}
+*/
+	
+	
+	/**
+	 * 
+	 */
+	public double easting () {
+		assert ! Double.isNaN(end.e + start.e) : start + " / " + end;
+		
+		return end.e - start.e;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public double northing () {
+		assert ! Double.isNaN(end.n + start.n) : start + " / " + end;
+		
+		return end.n - start.n;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public double distance () {
+		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		
+		return SimpleVector.distance(start, end);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public double bearing () {
+		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		
+		return SimpleVector.normaliseAbsoluteBearing( Math.atan2(end.e - start.e, end.n - start.n) );
+	}
+	
+	
+	/**
+	 * 
+	 */
+	double bearingDegrees () {
+		return bearing() * 180.0 / Math.PI;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public double relativeBearing (final Vector v) {
+		return SimpleVector.normaliseRelativeBearing(v.bearing() - bearing());
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public Vector reversed () {
+		return new SimpleVector(end, start);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	void reverse () {
+		OsmNode start = this.start;
+		this.start = this.end;
+		this.end = start;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public Vector aligned (final Vector v) {
+		if (! isAligned(v)) {
+			return reversed();
+		}
+		return this;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public boolean isAligned (final Vector v) {
+		return Math.abs(relativeBearing(v)) <= RIGHT_ANGLE;
 	}
 	
 }

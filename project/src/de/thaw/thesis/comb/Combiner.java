@@ -155,7 +155,7 @@ public final class Combiner {
 		for (final OsmWay way : dataset.ways) {
 			// we only have segments at the beginning, which means this is sufficient
 			// fragments are added later as they are created, see MutableIterator#add()
-			iterator.add(Collections.<LinePart>unmodifiableCollection( way.segments() ));
+			iterator.add(Collections.<LinePart>unmodifiableCollection( way ));
 		}
 		
 		return iterator;

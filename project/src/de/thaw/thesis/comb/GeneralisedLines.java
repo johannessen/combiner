@@ -22,7 +22,7 @@ public class GeneralisedLines {
 	
 	private CorrelationGraph graph = null;
 	
-	private Collection<SectionInterface> lines = new LinkedList<SectionInterface>();
+	private Collection<Line> lines = new LinkedList<Line>();
 	
 	private Collection<GeneralisedSection> lines1 = new LinkedList<GeneralisedSection>();
 	
@@ -146,13 +146,13 @@ public class GeneralisedLines {
 	void relocateGeneralisedNodes () {
 		for (final Section section : lines2) {
 			for (int i = 0; i < 2; i++) {
-				final OsmNode node = i == 0 ? section.combination.getFirst() : section.combination.getLast();
+				final OsmNode node = i == 0 ? section.start() : section.end();
 				
 				// find the closest existing vertex on the generalised section (if any)
 				// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
 				CorrelationEdge theEdge = null;
 				for (final CorrelationEdge anEdge : node.edges) {
-					if (theEdge == null || anEdge.distance() < theEdge.distance()) {
+					if (theEdge == null || anEdge.length() < theEdge.length()) {
 						theEdge = anEdge;
 					}
 				}
@@ -171,12 +171,10 @@ public class GeneralisedLines {
 				}
 				
 				if (i == 0) {
-					section.combination.removeFirst();
-					section.combination.addFirst(midPoint);
+					section.set(0, midPoint);
 				}
 				else {
-					section.combination.removeLast();
-					section.combination.addLast(midPoint);
+					section.set(section.size(), midPoint);  // sic
 				}
 			}
 		}

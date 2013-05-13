@@ -8,6 +8,7 @@
 
 package de.thaw.thesis.comb.io;
 
+import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
@@ -104,14 +105,17 @@ public final class ShapeWriter {
 	}
 	
 	
-	public LineString toLineString (final Collection<OsmNode> nodeList) {
-		final Coordinate[] coordinates = new Coordinate[nodeList.size()];
+	public LineString toLineString (final Line line) {
+		assert line.size() > 0;
+		final Coordinate[] coordinates = new Coordinate[line.size() + 1];
 		int i = 0;
-		for (final OsmNode node : nodeList) {
+		for (final OsmNode node : line.combination()) {
 			coordinates[i] = toCoordinate(node);
 			i++;
 		}
-		return factory.createLineString(coordinates);
+		final LineString lineString = factory.createLineString(coordinates);
+		lineString.setUserData(line);
+		return lineString;
 	}
 	
 	

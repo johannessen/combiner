@@ -254,4 +254,25 @@ public final class SimpleVector implements Vector {
 		return (int)(f ^ (f >>> 32));
 	}
 	
+	
+	/**
+	 * 
+	 */
+	public static double eastingFromDistanceBearing (final double distance, final double bearing) {
+		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
+		
+		return distance * Math.sin(bearing);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public static double northingFromDistanceBearing (final double distance, final double bearing) {
+		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
+		
+		return distance * Math.cos(bearing);
+	}
+	
+	
 }

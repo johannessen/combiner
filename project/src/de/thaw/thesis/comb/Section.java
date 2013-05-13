@@ -10,21 +10,19 @@ package de.thaw.thesis.comb;
 
 import de.thaw.thesis.comb.util.SimpleVector;
 
+import java.util.AbstractSequentialList;
 import java.util.Collections;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.ListIterator;
 
 
 
-public class Section implements SectionInterface {
+public class Section extends AbstractLine {
 	
 	static double MIN_LENGTH = 10.0;  // :TODO: check what works best
 	
-	LinkedList<OsmNode> combination = new LinkedList<OsmNode>();
-	
 	private boolean valid = false;
-	
-	private OsmTags tags = null;
 	
 	
 	
@@ -39,31 +37,13 @@ public class Section implements SectionInterface {
 	
 	
 	
-	public OsmTags tags () {
-		return tags;
+	public long id () {
+		return OsmDataset.ID_NONEXISTENT;
 	}
 	
 	
 	
-	public OsmNode start () {
-		return combination.getFirst();
-	}
-	
-	
-	
-	public OsmNode end () {
-		return combination.getLast();
-	}
-	
-	
-	
-	public Collection<OsmNode> combination () {
-		return Collections.unmodifiableCollection(combination);
-	}
-	
-	
-	
-	OsmNode other (final OsmNode node, final LineSegment segment) {
+	private static OsmNode other (final OsmNode node, final LineSegment segment) {
 		if (segment == null) {
 			return null;
 		}
@@ -78,7 +58,7 @@ public class Section implements SectionInterface {
 	
 	
 	
-	LineSegment other (final LineSegment segment, final Collection<LineSegment> segments) {
+	private static LineSegment other (final LineSegment segment, final Collection<LineSegment> segments) {
 		if (segments.size() > 2) {
 			return null;  // "the other one" is only well-defined for at most two segments total
 		}
@@ -100,12 +80,12 @@ public class Section implements SectionInterface {
 		
 		LineSegment segment = null;
 		OsmNode node = null;
-		OsmWay way = startSegment.way;
-		String osmRef = way.tags.get("ref") != OsmTags.NO_VALUE ? way.tags.get("ref") : "";
+		Line way = startSegment.way;
+		String osmRef = way.tags().get("ref") != OsmTags.NO_VALUE ? way.tags().get("ref") : "";
 		// special values for osmRef:
 		// "" -> no known ref; null -> conflicting refs
 		
-		assert combination.size() == 0 : combination;
+		assert size() == 0 : this;
 		
 		for (int i = 0; i < 2; i++) {
 			final boolean forward = i == 0;
@@ -124,12 +104,12 @@ public class Section implements SectionInterface {
 				// analyse OSM tags
 				// NB: get() returns intern()ed value, so == is safe to use
 				if (segment != null && segment.way != way) {
-					if (segment.way.tags.get("highway") != way.tags.get("highway")) {
+					if (segment.way.tags().get("highway") != way.tags().get("highway")) {
 						break;
 					}
 					if (osmRef != null) {
 						// no conflicting refs encountered yet
-						final String segmentRef = segment.way.tags.get("ref");
+						final String segmentRef = segment.way.tags().get("ref");
 						if (osmRef == "" && segmentRef != OsmTags.NO_VALUE) {
 							osmRef = segmentRef;
 						}
@@ -142,10 +122,10 @@ public class Section implements SectionInterface {
 			}
 		}
 		
-		valid = combination.size() >= 2;
+		valid = size() > 0;
 		
 		if (valid) {
-			tags = new Tags(way.tags.get("highway"), osmRef);
+			tags = new Tags(way.tags().get("highway"), osmRef);
 		}
 	}
 	
@@ -157,21 +137,21 @@ public class Section implements SectionInterface {
 		}
 		
 		if (addAsLast) {
-			combination.addLast( node );
+			addLast( node );
 		}
 		else {
-			combination.addFirst( node );
+			addFirst( node );
 		}
 	}
 	
 	
 	
 	double length () {
-		if (combination.size() < 2) {
+		if (size() < 2) {
 			return 0.0;
 		}
 		// :BUG: calculate intermediate segments
-		return SimpleVector.distance( combination.getFirst(), combination.getLast() );
+		return SimpleVector.distance( start(), end() );
 	}
 	
 	

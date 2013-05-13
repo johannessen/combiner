@@ -96,19 +96,16 @@ public final class ShapeReader {
 			
 			final SimpleFeature feature = LineMeta.getFrom(lineString).feature();
 			final ShapeTagsAdapter tags = new ShapeTagsAdapter(feature);
-			final OsmWay way = dataset.createOsmWay(tags);
+			final OsmWay way = dataset.createOsmWay(tags, coordinates.size() - 1);
 			way.id = featureId(feature);
 			
-			OsmNode previousNode = toNode( coordinates.getCoordinate(0) );
-			for (int i = 1; i < coordinates.size(); i++) {
+			for (int i = 0; i < coordinates.size(); i++) {
 				final OsmNode node = toNode( coordinates.getCoordinate(i) );
 				
-				way.createSegment(previousNode, node);
-				
-				previousNode = node;
+				way.addLast(node);
 			}
 			
-			way.setCompleted();
+			way.mutable(false);
 		}
 		dataset.setCompleted();
 		return dataset;

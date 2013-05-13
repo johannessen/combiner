@@ -9,18 +9,25 @@
 package de.thaw.thesis.comb;
 
 import java.util.Collection;
+import java.util.List;
 
 
 
-public interface SectionInterface {
+public interface Line extends List<LineSegment> {
 	
-	Collection<OsmNode> combination () ;
+	OsmDataset dataset () ;  // optional
+	
+	long id () ;  // optional
+	
+	Iterable<OsmNode> combination () ;
 	
 	OsmTags tags () ;
 	
 	OsmNode start () ;
 	
 	OsmNode end () ;
+	
+	int size () ;  // segment count!
 	
 }
 

@@ -11,12 +11,12 @@ package de.thaw.thesis.comb.cli;
 import de.thaw.thesis.comb.CorrelationEdge;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedSection;
+import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.LinePart;
 import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmTags;
-import de.thaw.thesis.comb.SectionInterface;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
 
@@ -150,7 +150,7 @@ final class Output {
 			private List idsFromParallels (final Collection<LineSegment> segments) {
 				final List ids = new LinkedList();
 				for (final LineSegment segment : segments) {
-					ids.add(segment.way.id);
+					ids.add(segment.way.id());
 				}
 				return ids;
 			}
@@ -174,7 +174,7 @@ final class Output {
 			public List attributes (final Geometry geometry) {
 				final LineSegment segment = writer.toLineSegment(geometry);
 				final List<Object> attributes = new LinkedList<Object>();
-				attributes.add( segment.way.id );
+				attributes.add( segment.way.id() );
 				attributes.add( idsFromParallels(segment.leftRealParallels) );
 				attributes.add( idsFromParallels(segment.rightRealParallels) );
 				attributes.add( reciprocal(segment) ? 1 : 0 );
@@ -356,28 +356,6 @@ final class Output {
 	
 	
 	
-	void writeGeneralisedLines (final Collection<Collection<OsmNode>> gen, final String path) {
-		final ShapeWriter writer = writer(path);
-		if (writer == null) {
-			verbose(1, "Skipped writeGeneralisedLines (Writer creation failed for path: " + path + ").");
-			return;
-		}
-		
-		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final Collection<OsmNode> nodeList : gen) {
-			if (nodeList.size() < 2) {
-System.out.println("skipped non-line");
-				continue;
-			}
-			geometries.add( writer.toLineString(nodeList) );
-		}
-		
-		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
-		verbose(1, "Output: " + geometries.size() + " generalised linestring" + (geometries.size() == 1 ? "." : "s."));
-	}
-	
-	
-	
 	void writeAllLines (final GeneralisedLines gen, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
@@ -387,12 +365,8 @@ System.out.println("skipped non-line");
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final GeneralisedSection section : gen.lines1()) {
-			if (section.combination().size() < 2) {
-System.out.println("skipped non-line");
-				continue;
-			}
-			Geometry line = writer.toLineString( section.combination() );
-			line.setUserData(section);
+			Geometry line = writer.toLineString( section );
+//			line.setUserData(section);
 			geometries.add( line );
 			
 /*
@@ -405,13 +379,10 @@ System.out.println("skipped non-line");
 */
 			
 		}
-		for (final SectionInterface section : gen.lines2()) {
-			if (section.combination().size() < 2) {
-System.out.println("skipped non-line (2)");
-				continue;
-			}
-			Geometry line = writer.toLineString( section.combination() );
-			line.setUserData(section);
+		for (final Line section : gen.lines2()) {
+			assert section.size() > 0;
+			Geometry line = writer.toLineString( section );
+//			line.setUserData(section);
 			geometries.add( line );
 		}
 		
@@ -430,10 +401,10 @@ System.out.println("skipped non-line (2)");
 			public List attributes (final Geometry geometry) {
 				final List<Object> attributes = new LinkedList<Object>();
 				Object userData = geometry.getUserData();
-				if (userData != null && ! (userData instanceof SectionInterface)) {
+				if (userData != null && ! (userData instanceof Line)) {
 					throw new AssertionError(userData.toString());
 				}
-				SectionInterface section = (SectionInterface)userData;
+				Line section = (Line)userData;
 				OsmTags tags = section != null ? section.tags() : null;
 				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
 				attributes.add( tags != null ? tags.get("highway") : "road" );
@@ -469,24 +440,18 @@ System.out.println("skipped non-line (2)");
 		final double distanceTolerance = 16.0;
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final SectionInterface section : gen.lines1()) {
-			if (section.combination().size() < 2) {
-System.out.println("skipped non-line");
-				continue;
-			}
-			Geometry line = writer.toLineString( section.combination() );
+		for (final Line section : gen.lines1()) {
+			assert section.size() > 0;
+			Geometry line = writer.toLineString( section );
 			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
-			simplifiedLine.setUserData(section);
+//			simplifiedLine.setUserData(section);
 			geometries.add( simplifiedLine );
 		}
-		for (final SectionInterface section : gen.lines2()) {
-			if (section.combination().size() < 2) {
-System.out.println("skipped non-line");
-				continue;
-			}
-			Geometry line = writer.toLineString( section.combination() );
+		for (final Line section : gen.lines2()) {
+			assert section.size() > 0;
+			Geometry line = writer.toLineString( section );
 			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
-			simplifiedLine.setUserData(section);
+//			simplifiedLine.setUserData(section);
 			geometries.add( simplifiedLine );
 		}
 		
@@ -505,10 +470,10 @@ System.out.println("skipped non-line");
 			public List attributes (final Geometry geometry) {
 				final List<Object> attributes = new LinkedList<Object>();
 				Object userData = geometry.getUserData();
-				if (userData != null && ! (userData instanceof SectionInterface)) {
+				if (userData != null && ! (userData instanceof Line)) {
 					throw new AssertionError(userData.toString());
 				}
-				SectionInterface section = (SectionInterface)userData;
+				Line section = (Line)userData;
 				OsmTags tags = section != null ? section.tags() : null;
 				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
 				attributes.add( tags != null ? tags.get("highway") : "road" );

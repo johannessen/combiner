@@ -32,12 +32,9 @@ The class path consists of the lib directory and any _immediate_ subdirectories.
 (2)
 Install test dataset:
 
-cd data/testbed
-wget http://www.remote.org/frederik/tmp/nrw-roads.zip
+- execute data/testbed-nrw-prepare.sh
 
-- execute data/testbed/prepare-testdata.sh
-
-./prepare-testdata.sh
+./testbed-nrw-prepare.sh
 
 
 (3)

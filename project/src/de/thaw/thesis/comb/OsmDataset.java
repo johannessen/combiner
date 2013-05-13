@@ -61,10 +61,10 @@ public final class OsmDataset {
 	/**
 	 * 
 	 */
-	public OsmWay createOsmWay (final OsmTags tags) {
+	public OsmWay createOsmWay (final OsmTags tags, final int segmentCount) {
 		assert ! dataComplete;
 		
-		OsmWay way = new OsmWay(tags, this);
+		OsmWay way = new OsmWay(tags, this, segmentCount);
 		ways.add(way);
 		return way;
 	}
@@ -117,7 +117,7 @@ public final class OsmDataset {
 			// (OTOH, this happens only once...)
 			final List<LineSegment> list = new LinkedList<LineSegment>();
 			for (final OsmWay way : ways) {
-				list.addAll(way.segments());
+				list.addAll(way);
 			}
 			allSegments = Collections.unmodifiableList(list);
 		}

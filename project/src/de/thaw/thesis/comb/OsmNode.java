@@ -9,6 +9,7 @@
 package de.thaw.thesis.comb;
 
 import de.thaw.thesis.comb.util.PlaneCoordinate;
+import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
 import java.util.Collection;
@@ -91,8 +92,8 @@ public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	 */
 	public static OsmNode createWithDistanceBearing (final OsmNode node, final double distance, final double bearing) {
 		return new OsmNode(
-				node.e + AbstractVector.eastingFromDistanceBearing(distance, bearing),
-				node.n + AbstractVector.northingFromDistanceBearing(distance, bearing) );
+				node.e + SimpleVector.eastingFromDistanceBearing(distance, bearing),
+				node.n + SimpleVector.northingFromDistanceBearing(distance, bearing) );
 	}
 	
 	
