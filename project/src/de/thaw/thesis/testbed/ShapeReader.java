@@ -137,7 +137,7 @@ public final class ShapeReader {
 		}
 		finally {
 			log(1, "Features read from Shapefile: " + i);
-			iterator.close();
+//			iterator.close();  // causes locking exceptions
 		}
 		
 		return result;
