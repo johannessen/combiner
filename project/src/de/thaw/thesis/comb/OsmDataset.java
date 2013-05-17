@@ -33,7 +33,7 @@ public final class OsmDataset {
 	
 	final List<OsmWay> ways;
 	
-	private List<LineSegment> allSegments;
+	private List<LineSegment> allSegments = null;
 	
 	public Collection<LinePart[]> parallelFragments = new LinkedList<LinePart[]>();  // :DEBUG:
 	

@@ -69,7 +69,7 @@ Combiner.printMemoryStatistics();
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser(iterations < 0));
 		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
-		combiner.run(startId);
+		combiner.run();
 Combiner.printMemoryStatistics();
 		
 		if (Math.abs(iterations) > 1) {
@@ -102,13 +102,12 @@ Combiner.printMemoryStatistics();
 	void combineLines2 (final int count, final GeneralisedLines lines, final int epsgCode) {
 		
 		OsmDataset dataset = new OsmDataset();
-		addLinesToDataset(dataset, lines.lines1());
-		addLinesToDataset(dataset, lines.lines2());
+		addLinesToDataset(dataset, lines.lines());
 		dataset.setCompleted();
 		
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser(false));
 		combiner.verbose = VERBOSE;
-		combiner.run(startId);
+		combiner.run();
 		
 		if (count > 1) {
 			combineLines2(count - 1, combiner.gen, epsgCode);

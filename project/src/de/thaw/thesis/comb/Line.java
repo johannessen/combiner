@@ -19,8 +19,6 @@ public interface Line extends List<LineSegment> {
 	
 	long id () ;  // optional
 	
-	Iterable<OsmNode> combination () ;
-	
 	OsmTags tags () ;
 	
 	OsmNode start () ;
@@ -28,6 +26,8 @@ public interface Line extends List<LineSegment> {
 	OsmNode end () ;
 	
 	int size () ;  // segment count!
+	
+	Iterable<OsmNode> combination () ;  // nodes
 	
 }
 

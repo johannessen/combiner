@@ -24,9 +24,9 @@ public class GeneralisedLines {
 	
 	private Collection<Line> lines = new LinkedList<Line>();
 	
-	private Collection<GeneralisedSection> lines1 = new LinkedList<GeneralisedSection>();
+	private Collection<GeneralisedSection> lines1 /*= new LinkedList<GeneralisedSection>()*/;
 	
-	private Collection<Section> lines2 = new LinkedList<Section>();
+	private Collection<Section> lines2 /*= new LinkedList<Section>()*/;
 	
 	
 	
@@ -41,17 +41,17 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	public Collection<GeneralisedSection> lines1 () {
-		return Collections.unmodifiableCollection( lines1 );
-	}
+//	public Collection<GeneralisedSection> lines1 () {
+//		return Collections.unmodifiableCollection( lines1 );
+//	}
 	
 	
 	
 	/**
 	 * 
 	 */
-	public Collection<Section> lines2 () {
-		return Collections.unmodifiableCollection( lines2 );
+	public Collection<? extends Line> lines () {
+		return Collections.unmodifiableCollection( lines );
 	}
 	
 	
@@ -106,7 +106,7 @@ public class GeneralisedLines {
 			return;
 		}
 		
-		lines1.add(section);
+//		lines1.add(section);
 		lines.add(section);
 	}
 	
@@ -135,7 +135,7 @@ public class GeneralisedLines {
 			}
 */
 			
-			lines2.add(section);
+//			lines2.add(section);
 			lines.add(section);
 		}
 	}
@@ -144,7 +144,14 @@ public class GeneralisedLines {
 	
 	// move nodes such that line ends are no longer dangling, but end on other lines
 	void relocateGeneralisedNodes () {
-		for (final Section section : lines2) {
+		for (final Line line : lines) {
+			
+			// just to keep bevahiour intact; we'll prolly want to loose it
+			if (! (line instanceof Section)) {
+				continue;
+			}
+			final Section section = (Section)line;
+			
 			for (int i = 0; i < 2; i++) {
 				final OsmNode node = i == 0 ? section.start() : section.end();
 				
@@ -166,9 +173,11 @@ public class GeneralisedLines {
 				double n = (theEdge.start.n + theEdge.end.n) / 2.0;
 				final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);
 				
+/*
 				if (midPoint.id == 0L) {
 					midPoint.id = -2L;
 				}
+*/
 				
 				if (i == 0) {
 					section.set(0, midPoint);

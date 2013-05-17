@@ -60,7 +60,7 @@ public final class Combiner {
 	/**
 	 * 
 	 */
-	public void run (final long startId) {
+	public void run () {
 		long startTime = System.currentTimeMillis();
 		
 		regionaliseSegments(/* allSegements */);
@@ -73,12 +73,12 @@ Combiner.printMemoryStatistics();
 		CorrelationGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
 		
-		GeneralisedLines result = new GeneralisedLines();
-		result.traverse(graph);
-		gen = result;  // :DEBUG: debugging output
+		GeneralisedLines lines = new GeneralisedLines();
+		lines.traverse(graph);
+		gen = lines;  // :DEBUG: debugging output
 Combiner.printMemoryStatistics();
 		
-		result.cleanup(dataset);
+		lines.cleanup(dataset);
 		
 		verbose(1, "Done.");
 		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");

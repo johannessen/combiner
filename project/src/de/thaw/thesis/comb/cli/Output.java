@@ -364,7 +364,8 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final GeneralisedSection section : gen.lines1()) {
+		for (final Line section : gen.lines()) {
+			assert section.size() > 0;
 			Geometry line = writer.toLineString( section );
 //			line.setUserData(section);
 			geometries.add( line );
@@ -379,12 +380,14 @@ final class Output {
 */
 			
 		}
+/*
 		for (final Line section : gen.lines2()) {
 			assert section.size() > 0;
 			Geometry line = writer.toLineString( section );
 //			line.setUserData(section);
 			geometries.add( line );
 		}
+*/
 		
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
@@ -440,13 +443,14 @@ final class Output {
 		final double distanceTolerance = 16.0;
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final Line section : gen.lines1()) {
+		for (final Line section : gen.lines()) {
 			assert section.size() > 0;
 			Geometry line = writer.toLineString( section );
 			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
 //			simplifiedLine.setUserData(section);
 			geometries.add( simplifiedLine );
 		}
+/*
 		for (final Line section : gen.lines2()) {
 			assert section.size() > 0;
 			Geometry line = writer.toLineString( section );
@@ -454,6 +458,7 @@ final class Output {
 //			simplifiedLine.setUserData(section);
 			geometries.add( simplifiedLine );
 		}
+*/
 		
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
