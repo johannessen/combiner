@@ -25,6 +25,10 @@ OUT_DEBUG1=../data/combiner/out-nodes.shp
 OUT_DEBUG2=../data/combiner/out-lineparts.shp
 OUT_DEBUG3=../data/combiner/out-debug.shp
 
-java -cp build/classes:lib/geotools-9.0/* -ea:de.thaw... -Xms256m -Xmx2048m \
+time java -cp build/classes:lib/geotools-9.0/* -ea:de.thaw... \
+		-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
+		-Xms256m -Xmx2048m -XX:+UseParallelGC -XX:+UseParallelOldGC \
 		de.thaw.thesis.comb.cli.CombinerMain \
 		"$IN" "$OUT" "$OUT_DEBUG1" "$OUT_DEBUG2" "$OUT_DEBUG3" "$1"
+
+# -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms10999m -Xmx100999m

@@ -48,6 +48,7 @@ public final class CombinerMain {
 	
 	
 	void combineLines () {
+System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxMemory() / 1024L + " KB.");
 		if (inPath == null || outPath == null) {
 			throw new IllegalStateException("set input/output file paths first");
 		}
@@ -63,11 +64,13 @@ public final class CombinerMain {
 		final ShapeReader reader = new ShapeReader(inFile);
 		final OsmDataset dataset = reader.osmDataset();
 		dataset.stats = stats;
+Combiner.printMemoryStatistics();
 		
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser(iterations < 0));
 		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
 		combiner.run(startId);
+Combiner.printMemoryStatistics();
 		
 		if (Math.abs(iterations) > 1) {
 			combineLines2(Math.abs(iterations) - 1, combiner.gen, reader.epsgCode());
@@ -89,6 +92,9 @@ public final class CombinerMain {
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
 //		out.writeSimplifiedSections(combiner.gen, outPath);
+Combiner.printMemoryStatistics();
+System.gc();
+Combiner.printMemoryStatistics();
 	}
 	
 	

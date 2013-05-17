@@ -63,8 +63,12 @@ public final class Combiner {
 	public void run (final long startId) {
 		long startTime = System.currentTimeMillis();
 		
-		splitSegments();
+		regionaliseSegments(/* allSegements */);
+Combiner.printMemoryStatistics();
+		splitSegments(/* ways */);
+Combiner.printMemoryStatistics();
 		analyseSegments(analyser);
+Combiner.printMemoryStatistics();
 		
 		CorrelationGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
@@ -72,6 +76,7 @@ public final class Combiner {
 		GeneralisedLines result = new GeneralisedLines();
 		result.traverse(graph);
 		gen = result;  // :DEBUG: debugging output
+Combiner.printMemoryStatistics();
 		
 		result.cleanup(dataset);
 		
@@ -131,8 +136,6 @@ public final class Combiner {
 	
 	
 	void splitSegments () {
-		regionaliseSegments();
-		
 		final SplitQueueIterator iterator = createSplitQueue();
 		while (iterator.hasNext()) {
 			LinePart base = iterator.next();
@@ -192,6 +195,27 @@ public final class Combiner {
 	private void verbose (final int verbosity, final Object message) {
 		if (verbose >= verbosity) {
 			System.out.println( String.valueOf(message) );
+		}
+	}
+	
+	
+	
+	public static void printMemoryStatistics () {
+		long total = Runtime.getRuntime().totalMemory() / 1024L;
+		long used = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024L;
+		System.err.println("Java using " + used + " KB of " + total + " KB.");
+		try {
+			Process p = new ProcessBuilder("ps", "au").redirectErrorStream(true).start();
+			java.io.BufferedReader stdInput = new java.io.BufferedReader(new java.io.InputStreamReader(p.getInputStream()));
+			String line = null;
+			while ((line = stdInput.readLine()) != null) {
+				if (line.contains("java")) {
+					System.err.println("\t" + line.split("java")[0]);
+				}
+			}
+		}
+		catch (Exception e) {
+			// ignore
 		}
 	}
 	
