@@ -56,17 +56,17 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 			throw new IllegalArgumentException(".shp input only");
 		}
 		
-		final StatSink stats = new SQLiteWriter().connect("").createTables();
+//		final StatSink stats = new SQLiteWriter().connect("").createTables();
 		
 		final File inFile = new File(inPath);
 		
 		final ShapeReader reader = new ShapeReader(inFile);
 		final OsmDataset dataset = reader.osmDataset();
-		dataset.stats = stats;
+//		dataset.stats = stats;
 Combiner.printMemoryStatistics();
 		
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser(iterations < 0));
-		combiner.stats = stats;
+//		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
 		combiner.run();
 Combiner.printMemoryStatistics();
