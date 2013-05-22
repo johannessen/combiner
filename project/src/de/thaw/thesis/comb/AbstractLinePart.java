@@ -169,11 +169,22 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	/**
 	 * 
 	 */
-	public void splitAt (final OsmNode node, final SplitQueueListener listener) {
+	public void splitAt (OsmNode node, final SplitQueueListener listener) {
 		if (SimpleVector.distance(start, node) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(node, end) < MIN_FRAGMENT_LENGTH) {
 			// extremely short lines are of little use to us
 			return;
 		}
+		
+		/* :BUG:
+		 * We use the dataset-global node store to retrieve the canoncical node
+		 * instance for the split point's location. This enables us to compare
+		 * for identity (==) instead of equality. It may also help to conserve
+		 * memory by making the new node instances available to the garbage
+		 * collector right away.
+		 * The downside of this is that two not-identical nodes at the same
+		 * location (belonging to two different ways) are not supported.
+		 */
+		node = segment().way.dataset().getNode( node );
 		
 		final LineSegment segment = this.segment();
 		final LineFragment fragment1 = new LineFragment(start, node, segment);

@@ -70,19 +70,11 @@ public final class OsmDataset {
 	}
 	
 	
-	boolean addNode (final OsmNode node) {
-		return nodes.add(node);
-	}
-	
-	
 	/**
 	 * 
 	 */
-	public OsmNode getNodeAtEastingNorthing (final double e, final double n) {
-		
-		final OsmNode newNode = OsmNode.createWithEastingNorthing(e, n);
+	public OsmNode getNode (final OsmNode newNode) {
 		final boolean didAdd = nodes.add(newNode);
-		
 		if (! didAdd) {
 			final OsmNode existingNode = nodes.floor(newNode);
 			assert existingNode.equals(newNode) : newNode + " / " + existingNode;
@@ -93,6 +85,23 @@ public final class OsmDataset {
 		// if there is a node at this location (or very close by), we assume that this is in fact the node requested; otherwise, a new node is created
 		// consequence: `nodes` should be sorted (for speed)!
 		// (ideally we'd choose a hashmap and "ably" compute appropriate hashes to do this)
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public OsmNode getNodeAtEastingNorthing (final double e, final double n) {
+		return getNode( OsmNode.createWithEastingNorthing(e, n) );
+		/* This wastes some memory by creating an OsmNode instance that is only
+		 * used for retrieving the equal canonical instance already present in
+		 * the node collection. However, directly searching the node collection
+		 * for the primitive coordinates isn't possible because the Java
+		 * Collection Framework requires a single object for the comparison;
+		 * it can't use the decomposed parts. We /might/ be able to work around
+		 * this by creating our own SortedSet implementation (e. g. hand-tune
+		 * the java.util.TreeSet class's source code accordingly).
+		 */
 	}
 	
 	
