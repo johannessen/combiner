@@ -1,12 +1,10 @@
 #! /bin/bash
 
+# halt on error
+set -e
+
 
 ant build
-
-if [ "$?" -ne 0 ]
-then
-	exit "$?"
-fi
 
 
 IN=../data/testbed-nrw/koeln-classfied-nolinks.shp
