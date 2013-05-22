@@ -17,8 +17,10 @@ import de.thaw.thesis.comb.LineSegment;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmTags;
+import de.thaw.thesis.comb.io.WriterHelper;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
+import de.thaw.thesis.comb.util.SpatialFeature;
 
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
@@ -27,6 +29,7 @@ import org.geotools.feature.SchemaException;
 import org.geotools.data.DataUtilities;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -42,15 +45,12 @@ final class Output {
 	
 	final OsmDataset dataset;
 	
-	final int epsgCode;
-	
 	int verbose = 0;
 	
 	
 	
-	Output (final OsmDataset dataset, final int dataEpsgCode) {
+	Output (final OsmDataset dataset) {
 		this.dataset = dataset;
-		this.epsgCode = dataEpsgCode;
 	}
 	
 	
@@ -70,7 +70,7 @@ final class Output {
 				return null;
 			}
 		}
-		return new ShapeWriter(file, epsgCode);
+		return new ShapeWriter(file);
 	}
 	
 	
@@ -100,7 +100,7 @@ final class Output {
 			public SimpleFeatureType featureType () throws SchemaException {
 				// :BUG: may not work with 64 bit IDs
 				return DataUtilities.createType( "AllNodes",
-						"geometry:Point:srid=" + epsgCode
+						"geometry:Point:srid=" + writer.epsgCode()
 						+ ",id_osm:Integer"
 						+ ",gen_sects:Integer"
 						);
@@ -137,7 +137,7 @@ final class Output {
 			public SimpleFeatureType featureType () throws SchemaException {
 				// :BUG: may not work with 64 bit IDs
 				return DataUtilities.createType( "AllSegments",
-						"geometry:LineString:srid=" + epsgCode
+						"geometry:LineString:srid=" + writer.epsgCode()
 						+ ",id_way:Integer"
 						+ ",p_left:String"
 						+ ",p_right:String"
@@ -201,7 +201,7 @@ final class Output {
 			}
 		}
 		
-		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
+		writer.writeGeometries(geometries, new ShapeWriter.DefaultLineDelegate());
 		verbose(1, "Output: " + geometries.size() + " line parts.");
 	}
 	
@@ -251,7 +251,7 @@ final class Output {
 			geometries.add( writer.toLineString(node0, node1) );
 		}
 		
-		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
+		writer.writeGeometries(geometries, new ShapeWriter.DefaultLineDelegate());
 		verbose(1, "Output: " + geometries.size() + " fragment midpoint connectors.");
 	}
 	
@@ -286,7 +286,7 @@ final class Output {
 			geometries.add( writer.toLineString(node0, node1) );
 		}
 		
-		writer.writeGeometries(geometries, writer.new DefaultLineDelegate());
+		writer.writeGeometries(geometries, new ShapeWriter.DefaultLineDelegate());
 		verbose(1, "Output: " + geometries.size() + " midpoint connectors.");
 	}
 	
@@ -340,7 +340,7 @@ final class Output {
 			// positional arguments MUST be in same order in both methods
 			public SimpleFeatureType featureType () throws SchemaException {
 				return DataUtilities.createType( "AllNodes",
-						"geometry:LineString:srid=" + epsgCode
+						"geometry:LineString:srid=" + writer.epsgCode()
 						+ ",desc:String"
 						);
 			}
@@ -357,65 +357,45 @@ final class Output {
 	
 	
 	void writeAllLines (final GeneralisedLines gen, final String path) {
-		final ShapeWriter writer = writer(path);
-		if (writer == null) {
-			verbose(1, "Skipped writeAllLines (Writer creation failed for path: " + path + ").");
-			return;
-		}
-		
-		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final Line section : gen.lines()) {
-			assert section.size() > 0;
-			Geometry line = writer.toLineString( section );
-//			line.setUserData(section);
-			geometries.add( line );
-			
-/*
-			line = writer.toLineString( toNodeList(section.startConnector, section.combination.getFirst()) );
-			line.setUserData(null);
-			geometries.add( line );
-			line = writer.toLineString( toNodeList(section.endConnector, section.combination.getLast()) );
-			line.setUserData(null);
-			geometries.add( line );
-*/
-			
-		}
-/*
-		for (final Line section : gen.lines2()) {
-			assert section.size() > 0;
-			Geometry line = writer.toLineString( section );
-//			line.setUserData(section);
-			geometries.add( line );
-		}
-*/
-		
-		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
+		final WriterHelper allLinesHelper = new WriterHelper() {
 			
 			// positional arguments MUST be in same order in both methods
-			public SimpleFeatureType featureType () throws SchemaException {
-				return DataUtilities.createType( "AllLines",
-						"geometry:LineString:srid=" + epsgCode
-						+ ",gen:String"
-						+ ",highway:String"
-						+ ",ref:String"
-						);
+			public void defineSchema () {
+				this.geometryType = "LineString";
+				this.schema = Arrays.asList(
+					new AttributeDefinition("gen", String.class),
+					new AttributeDefinition("highway", String.class),
+					new AttributeDefinition("ref", String.class) );
 			}
 			
-			public List attributes (final Geometry geometry) {
-				final List<Object> attributes = new LinkedList<Object>();
-				Object userData = geometry.getUserData();
-				if (userData != null && ! (userData instanceof Line)) {
-					throw new AssertionError(userData.toString());
+			public List attributes (final SpatialFeature feature) {
+				if (feature != null && ! (feature instanceof Line)) {
+					throw new AssertionError(feature.toString());
 				}
-				Line section = (Line)userData;
+				Line section = (Line)feature;
 				OsmTags tags = section != null ? section.tags() : null;
-				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
-				attributes.add( tags != null ? tags.get("highway") : "road" );
-				attributes.add( tags != null ? tags.get("ref") : "" );
-				return attributes;
+				return Arrays.asList(
+					section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1",
+					tags != null ? tags.get("highway") : "road",
+					tags != null ? tags.get("ref") : "" );
 			}
-		});
-		verbose(1, "Output: " + geometries.size() + " lines.");
+			
+		};
+		
+			final ShapeWriter writer = writer(path);
+			if (writer == null) {
+				verbose(1, "Skipped writeAllLines (Shapefile writer creation failed for path: " + path + ").");
+				return;
+			}
+			
+			final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
+			for (final Line section : gen.lines()) {
+				assert section.size() > 0;
+				Geometry line = writer.toLineString( section );
+				geometries.add( line );
+			}
+			writer.writeGeometries(geometries, allLinesHelper);
+		verbose(1, "Output: " + gen.lines().size() + " lines.");
 	}
 	
 	
@@ -465,7 +445,7 @@ final class Output {
 			// positional arguments MUST be in same order in both methods
 			public SimpleFeatureType featureType () throws SchemaException {
 				return DataUtilities.createType( "AllLines",
-						"geometry:LineString:srid=" + epsgCode
+						"geometry:LineString:srid=" + writer.epsgCode()
 						+ ",gen:String"
 						+ ",highway:String"
 						+ ",ref:String"

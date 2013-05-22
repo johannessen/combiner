@@ -8,12 +8,14 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.SpatialFeature;
+
 import java.util.Collection;
 import java.util.List;
 
 
 
-public interface Line extends List<LineSegment> {
+public interface Line extends List<LineSegment>, SpatialFeature {
 	
 	OsmDataset dataset () ;  // optional
 	
@@ -27,7 +29,7 @@ public interface Line extends List<LineSegment> {
 	
 	int size () ;  // segment count!
 	
-	Iterable<OsmNode> combination () ;  // nodes
+	Iterable<OsmNode> coordinates () ;  // nodes
 	
 }
 

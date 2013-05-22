@@ -202,7 +202,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	}
 	
 	
-	public Iterable<OsmNode> combination () {
+	public Iterable<OsmNode> coordinates () {
 		// :BUG: implement a view for this; faster
 		// (inner list class with custom iterator)
 		

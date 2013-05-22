@@ -60,7 +60,6 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 		
 		final File inFile = new File(inPath);
 		
-		ShapeReader.VERBOSE = VERBOSE;
 		final ShapeReader reader = new ShapeReader(inFile);
 		final OsmDataset dataset = reader.osmDataset();
 		dataset.stats = stats;
@@ -73,7 +72,7 @@ Combiner.printMemoryStatistics();
 Combiner.printMemoryStatistics();
 		
 		if (Math.abs(iterations) > 1) {
-			combineLines2(Math.abs(iterations) - 1, combiner.gen, reader.epsgCode());
+			combineLines2(Math.abs(iterations) - 1, combiner.gen);
 			return;
 		}
 		
@@ -81,7 +80,7 @@ Combiner.printMemoryStatistics();
 		
 //		new Output2(dataset, reader.epsgCode()).writeAllNodes("test.sqlite");
 		
-		final Output out = new Output(dataset, reader.epsgCode());
+		final Output out = new Output(dataset);
 		out.verbose = VERBOSE;
 		out.writeAllNodes(nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
@@ -99,7 +98,7 @@ Combiner.printMemoryStatistics();
 	
 	
 	
-	void combineLines2 (final int count, final GeneralisedLines lines, final int epsgCode) {
+	void combineLines2 (final int count, final GeneralisedLines lines) {
 		
 		OsmDataset dataset = new OsmDataset();
 		addLinesToDataset(dataset, lines.lines());
@@ -110,14 +109,14 @@ Combiner.printMemoryStatistics();
 		combiner.run();
 		
 		if (count > 1) {
-			combineLines2(count - 1, combiner.gen, epsgCode);
+			combineLines2(count - 1, combiner.gen);
 			return;
 		}
 		
 		
 		System.out.println("Writing results...");
 		
-		final Output out = new Output(dataset, epsgCode);
+		final Output out = new Output(dataset);
 		out.verbose = VERBOSE;
 //		out.writeAllNodes(nodeOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
@@ -131,7 +130,7 @@ Combiner.printMemoryStatistics();
 	void addLinesToDataset (final OsmDataset dataset, final Collection<? extends Line> sections) {
 		for (final Line section : sections) {
 			final OsmWay way = dataset.createOsmWay(section.tags(), section.size());
-			for (OsmNode node : section.combination()) {
+			for (OsmNode node : section.coordinates()) {
 				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
 				
 				way.addLast(node);
