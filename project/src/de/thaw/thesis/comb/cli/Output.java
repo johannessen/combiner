@@ -18,6 +18,7 @@ import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.io.WriterHelper;
+import de.thaw.thesis.comb.io.GeoJsonWriter;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
 import de.thaw.thesis.comb.util.SpatialFeature;
@@ -71,6 +72,26 @@ final class Output {
 			}
 		}
 		return new ShapeWriter(file);
+	}
+	
+	
+	
+	private GeoJsonWriter writerJson (final String path) {
+		final File file = new File(path);
+		if (! file.canWrite()) {
+			if (file.exists()) {
+				return null;
+			}
+			try {
+				file.createNewFile();
+			}
+			catch (Exception e) {
+				// if this happens, the file couldn't be created
+				// (This code is no good, but what the heck.)
+				return null;
+			}
+		}
+		return new GeoJsonWriter(file);
 	}
 	
 	
@@ -382,6 +403,7 @@ final class Output {
 			
 		};
 		
+		if (path.endsWith(".shp")) {
 			final ShapeWriter writer = writer(path);
 			if (writer == null) {
 				verbose(1, "Skipped writeAllLines (Shapefile writer creation failed for path: " + path + ").");
@@ -395,6 +417,21 @@ final class Output {
 				geometries.add( line );
 			}
 			writer.writeGeometries(geometries, allLinesHelper);
+			
+		}
+		else if (path.endsWith(".json")) {
+			final GeoJsonWriter writer = writerJson(path);
+			if (writer == null) {
+				verbose(1, "Skipped writeAllLines (GeoJSON writer creation failed for path: " + path + ").");
+				return;
+			}
+			
+			writer.writeFeatures(gen.lines(), allLinesHelper);
+			
+		}
+		else {
+			throw new IllegalArgumentException(".json or .shp only please");
+		}
 		verbose(1, "Output: " + gen.lines().size() + " lines.");
 	}
 	
