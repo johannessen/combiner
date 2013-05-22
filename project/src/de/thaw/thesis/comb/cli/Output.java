@@ -259,7 +259,7 @@ final class Output {
 		
 		final Set<MidPointConnector> connectors = new LinkedHashSet<MidPointConnector>();
 		
-		for (final LinePart[] parts : dataset.parallelFragments) {
+		for (final LinePart[] parts : dataset.parallelFragments()) {
 			connectors.add(new MidPointConnector(parts[0], parts[1]));
 		}
 		

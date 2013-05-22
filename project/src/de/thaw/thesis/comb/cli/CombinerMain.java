@@ -14,8 +14,8 @@ import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmWay;
+import de.thaw.thesis.comb.io.InputDataset;
 import de.thaw.thesis.comb.io.ShapeReader;
-
 import de.thaw.thesis.comb.io.SQLiteWriter;
 import de.thaw.thesis.comb.StatSink;
 
@@ -100,9 +100,8 @@ Combiner.printMemoryStatistics();
 	
 	void combineLines2 (final int count, final GeneralisedLines lines) {
 		
-		OsmDataset dataset = new OsmDataset();
+		InputDataset dataset = new InputDataset();
 		addLinesToDataset(dataset, lines.lines());
-		dataset.setCompleted();
 		
 		final Combiner combiner = new Combiner(dataset, new MyAnalyser(false));
 		combiner.verbose = VERBOSE;
@@ -127,7 +126,7 @@ Combiner.printMemoryStatistics();
 	
 	
 	// make generalisation result into new dataset for repetition of generalisation
-	void addLinesToDataset (final OsmDataset dataset, final Collection<? extends Line> sections) {
+	void addLinesToDataset (final InputDataset dataset, final Collection<? extends Line> sections) {
 		for (final Line section : sections) {
 			final OsmWay way = dataset.createOsmWay(section.tags(), section.size());
 			for (OsmNode node : section.coordinates()) {

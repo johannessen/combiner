@@ -283,7 +283,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 			bestMatch.segment().leftRealParallels.add(segment());
 		}
 		
-		segment().way.dataset().parallelFragments.add(new LinePart[]{ bestMatch, this });
+		segment().way.dataset().parallelFragments().add(new LinePart[]{ bestMatch, this });
 	}
 	
 	
@@ -306,7 +306,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 			bestMatch.segment().rightRealParallels.add(segment());
 		}
 		
-		segment().way.dataset().parallelFragments.add(new LinePart[]{ bestMatch, this });
+		segment().way.dataset().parallelFragments().add(new LinePart[]{ bestMatch, this });
 	}
 	
 	

@@ -50,7 +50,6 @@ public final class Combiner {
 	 * 
 	 */
 	public Combiner (final OsmDataset dataset, final Analyser analyser) {
-		dataset.setCompleted();  // no data modifications beyond this point
 		this.dataset = dataset;
 		this.analyser = analyser;
 	}
@@ -155,7 +154,7 @@ Combiner.printMemoryStatistics();
 		final SplitQueueIterator iterator = new SplitQueueIterator();
 		
 		// :BUG: expensive; write our own Queue implementation and work directly on its Entry objects
-		for (final OsmWay way : dataset.ways) {
+		for (final OsmWay way : dataset.ways()) {
 			// we only have segments at the beginning, which means this is sufficient
 			// fragments are added later as they are created, see MutableIterator#add()
 			iterator.add(Collections.<LinePart>unmodifiableCollection( way ));

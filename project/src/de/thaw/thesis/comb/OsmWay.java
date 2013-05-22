@@ -29,12 +29,12 @@ public final class OsmWay extends AbstractLine {
 	OsmDataset dataset = null;
 	
 	
-	OsmWay (final OsmTags tags, final OsmDataset dataset) {
+	public OsmWay (final OsmTags tags, final OsmDataset dataset) {
 		this(tags, dataset, 10);
 	}
 	
 	
-	OsmWay (final OsmTags tags, final OsmDataset dataset, final int segmentCount) {
+	public OsmWay (final OsmTags tags, final OsmDataset dataset, final int segmentCount) {
 		super(segmentCount);
 		assert tags != null && dataset != null;
 		

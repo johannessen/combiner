@@ -50,7 +50,7 @@ public final class ShapeReader {
 	
 	private final Collection<LineString> lineStrings;
 	
-	private OsmDataset dataset;
+	private InputDataset dataset;
 	
 	// these shapefiles don't have node IDs, hence we invent new ones
 	private long nextNodeId = -100001L;
@@ -68,14 +68,6 @@ public final class ShapeReader {
 	 * identification.
 	 */
 	final static String OSM_ID_ATTRIBUTE = "osm_id";
-	
-	
-	private OsmDataset dataset () {
-		if (dataset == null) {
-			dataset = new OsmDataset();
-		}
-		return dataset;
-	}
 	
 	
 	public ShapeReader (final File file) {
@@ -96,49 +88,53 @@ public final class ShapeReader {
 	
 	private OsmNode toNode (final Coordinate coordinate) {
 		// add node to repository in dataset
-		OsmNode node = dataset().getNodeAtEastingNorthing(coordinate.x, coordinate.y);
+		OsmNode node = osmDataset().getNodeAtEastingNorthing(coordinate.x, coordinate.y);
 		node.id = nextNodeId--;
 		return node;
 	}
 	
 	
 	public OsmDataset osmDataset () {
-		final OsmDataset dataset = dataset();
-		
-		for (LineString lineString : lineStrings) {
+		if (dataset == null) {
+			dataset = new InputDataset();  // lazy initialisation
 			
-			final Object featureObject = lineString.getUserData();
-			if (! (featureObject instanceof SimpleFeature)) {
-				throw new ClassCastException();
-			}
-			final SimpleFeature feature = (SimpleFeature)featureObject;
+			// :TODO: move this builder over to InputDataset?
 			
-			// :HACK: diversify "simple" dataset by introducing reversed segments
-			Object id = feature.getAttribute("id");
-			if ("-5".equals(id) || "-1".equals(id) /*|| "-100".equals(id)*/ ) {
-				Object userData = lineString.getUserData();
-				lineString = (LineString)lineString.reverse();
-				lineString.setUserData(userData);
-			}
-			
-			final CoordinateSequence coordinates = lineString.getCoordinateSequence();
-			if (coordinates.size() < 2) {
-				continue;
-			}
-			
-			final ShapeTagsAdapter tags = new ShapeTagsAdapter(feature);
-			final OsmWay way = dataset.createOsmWay(tags, coordinates.size() - 1);
-			way.id = featureId(feature);
-			
-			for (int i = 0; i < coordinates.size(); i++) {
-				final OsmNode node = toNode( coordinates.getCoordinate(i) );
+			for (LineString lineString : lineStrings) {
 				
-				way.addLast(node);
+				final Object featureObject = lineString.getUserData();
+				if (! (featureObject instanceof SimpleFeature)) {
+					throw new ClassCastException();
+				}
+				final SimpleFeature feature = (SimpleFeature)featureObject;
+				
+				// :HACK: diversify "simple" dataset by introducing reversed segments
+				Object id = feature.getAttribute("id");
+				if ("-5".equals(id) || "-1".equals(id) /*|| "-100".equals(id)*/ ) {
+					Object userData = lineString.getUserData();
+					lineString = (LineString)lineString.reverse();
+					lineString.setUserData(userData);
+				}
+				
+				final CoordinateSequence coordinates = lineString.getCoordinateSequence();
+				if (coordinates.size() < 2) {
+					continue;
+				}
+				
+				final ShapeTagsAdapter tags = new ShapeTagsAdapter(feature);
+				final OsmWay way = dataset.createOsmWay(tags, coordinates.size() - 1);
+				way.id = featureId(feature);
+				
+				for (int i = 0; i < coordinates.size(); i++) {
+					final OsmNode node = toNode( coordinates.getCoordinate(i) );
+					
+					way.addLast(node);
+				}
+				
+				way.mutable(false);
 			}
-			
-			way.mutable(false);
 		}
-		dataset.setCompleted();
+		
 		return dataset;
 	}
 	
