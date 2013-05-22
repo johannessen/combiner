@@ -26,53 +26,13 @@ public class Section extends AbstractLine {
 	
 	
 	
-	Section () {
+	Section (final LineSegment startSegment) {
+		startAt(startSegment);
 	}
 	
 	
 	
-	public boolean valid () {
-		return valid;
-	}
-	
-	
-	
-	public long id () {
-		return OsmDataset.ID_NONEXISTENT;
-	}
-	
-	
-	
-	private static OsmNode other (final OsmNode node, final LineSegment segment) {
-		if (segment == null) {
-			return null;
-		}
-		if (segment.start.equals(node)) {
-			return segment.end;
-		}
-		else {
-			assert segment.end.equals(node);
-			return segment.start;
-		}
-	}
-	
-	
-	
-	private static LineSegment other (final LineSegment segment, final Collection<LineSegment> segments) {
-		if (segments.size() > 2) {
-			return null;  // "the other one" is only well-defined for at most two segments total
-		}
-		for (final LineSegment other : segments) {
-			if (other != segment) {
-				return other;
-			}
-		}
-		return null;
-	}
-	
-	
-	
-	void startAt (final LineSegment startSegment) {
+	private void startAt (final LineSegment startSegment) {
 		if (startSegment == null) {
 			valid = false;
 			return;
@@ -92,6 +52,7 @@ public class Section extends AbstractLine {
 			segment = startSegment;
 			node = forward ? startSegment.end : startSegment.start;
 			
+// wasGeneralised ??
 			startSegment.wasGeneralised -= 1;  // startSegment's counter will be incremented twice
 			while (node != null && segment.wasGeneralised <= 0) {
 				segment.wasGeneralised += 1;
@@ -146,6 +107,47 @@ public class Section extends AbstractLine {
 	
 	
 	
+	public boolean valid () {
+		return valid;
+	}
+	
+	
+	
+	public long id () {
+		return OsmDataset.ID_NONEXISTENT;
+	}
+	
+	
+	
+	private static OsmNode other (final OsmNode node, final LineSegment segment) {
+		if (segment == null) {
+			return null;
+		}
+		if (segment.start.equals(node)) {
+			return segment.end;
+		}
+		else {
+			assert segment.end.equals(node);
+			return segment.start;
+		}
+	}
+	
+	
+	
+	private static LineSegment other (final LineSegment segment, final Collection<LineSegment> segments) {
+		if (segments.size() > 2) {
+			return null;  // "the other one" is only well-defined for at most two segments total
+		}
+		for (final LineSegment other : segments) {
+			if (other != segment) {
+				return other;
+			}
+		}
+		return null;
+	}
+	
+	
+	
 	double length () {
 		if (size() < 2) {
 			return 0.0;
@@ -156,6 +158,7 @@ public class Section extends AbstractLine {
 	
 	
 	
+// häh?
 	void filterShortSection () {
 		assert valid == true;
 		

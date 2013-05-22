@@ -36,20 +36,9 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	GeneralisedSection (CorrelationGraph theGraph) {
-		graph = theGraph;
-	}
-	
-	
-	
-	boolean valid () {
-		return valid;
-	}
-	
-	
-	
-	public long id () {
-		return OsmDataset.ID_NONEXISTENT;
+	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final OsmNode node) {
+		this.graph = graph;
+		startAt(edge, node);
 	}
 	
 	
@@ -61,7 +50,7 @@ public class GeneralisedSection extends AbstractLine {
 	String osmHighway = null;
 	String osmRef = null;
 	
-	void startAt (final CorrelationEdge edge, final OsmNode node) {
+	private void startAt (final CorrelationEdge edge, final OsmNode node) {
 		startEdge = edge;
 		startNode = node;
 		
@@ -363,6 +352,18 @@ public class GeneralisedSection extends AbstractLine {
 		if (tag == "footway") { return 2; }
 		if (tag == "path") { return 1; }
 		return 0;
+	}
+	
+	
+	
+	boolean valid () {
+		return valid;
+	}
+	
+	
+	
+	public long id () {
+		return OsmDataset.ID_NONEXISTENT;
 	}
 	
 	

@@ -98,8 +98,7 @@ public class GeneralisedLines {
 	 * 
 	 */
 	private void generaliseSectionAt (final CorrelationEdge edge, final OsmNode node) {
-		final GeneralisedSection section = new GeneralisedSection(graph);
-		section.startAt(edge, node);
+		final GeneralisedSection section = new GeneralisedSection(graph, edge, node);
 		
 //		section.filterShortSection();
 		if ( ! section.valid() ) {
@@ -125,8 +124,7 @@ public class GeneralisedLines {
 			if (segment.wasGeneralised > 0) {
 				continue;
 			}
-			Section section = new Section();
-			section.startAt(segment);
+			Section section = new Section(segment);
 			
 /*
 			section.filterShortSection();
