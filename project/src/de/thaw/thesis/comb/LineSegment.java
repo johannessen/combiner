@@ -24,7 +24,7 @@ import java.util.Set;
  * A <code>LinePart</code> implementation representing segments as read from
  * the source data. May be split into two or more <code>LineFragment</code>s.
  */
-public final class LineSegment extends AbstractLinePart implements LinePart {
+public final class LineSegment extends AbstractLinePart {
 	
 	// :TODO: rework structure to better fit the Composite pattern
 	

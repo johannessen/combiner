@@ -20,6 +20,10 @@ import org.sqlite.SQLiteJDBCLoader;
 
 
 
+/**
+ * SQLite database output of non-spatial data. Limited support as of yet;
+ * intended for statistics.
+ */
 public class SQLiteWriter implements StatSink {
 	
 	Connection connection;

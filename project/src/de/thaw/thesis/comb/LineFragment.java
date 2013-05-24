@@ -20,7 +20,7 @@ import java.util.LinkedList;
  * A <code>LinePart</code> implementation representing incomplete
  * <em>fragments</em> of segments read from source data.
  */
-final class LineFragment extends AbstractLinePart implements LinePart {
+final class LineFragment extends AbstractLinePart {
 	
 	// :TODO: rework structure to better fit the Composite pattern
 	

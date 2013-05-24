@@ -16,13 +16,13 @@ public interface PlaneCoordinate {
 	
 	
 	/**
-	 * 
+	 * The ordinate (horizontal / longitudinal) aspect.
 	 */
 	double easting () ;
 	
 	
 	/**
-	 * 
+	 * The abscissa (vertical / latitudinal) aspect.
 	 */
 	double northing () ;
 	

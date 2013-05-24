@@ -28,6 +28,7 @@ public interface Line extends List<LineSegment>, SpatialFeature {
 	OsmNode end () ;
 	
 	int size () ;  // segment count!
+	// iterateable: segments
 	
 	Iterable<OsmNode> coordinates () ;  // nodes
 	
