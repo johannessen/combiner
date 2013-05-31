@@ -36,13 +36,6 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final OsmNode node) {
-		this.graph = graph;
-		startAt(edge, node);
-	}
-	
-	
-	
 	CorrelationEdge startEdge = null;  // E
 	OsmNode startNode = null;  // E_S
 	OsmWay startWay = null;
@@ -50,7 +43,9 @@ public class GeneralisedSection extends AbstractLine {
 	String osmHighway = null;
 	String osmRef = null;
 	
-	private void startAt (final CorrelationEdge edge, final OsmNode node) {
+	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final OsmNode node) {
+		this.graph = graph;
+		
 		startEdge = edge;
 		startNode = node;
 		

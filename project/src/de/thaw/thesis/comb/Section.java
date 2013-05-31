@@ -27,12 +27,7 @@ public class Section extends AbstractLine {
 	
 	
 	Section (final LineSegment startSegment) {
-		startAt(startSegment);
-	}
-	
-	
-	
-	private void startAt (final LineSegment startSegment) {
+		
 		if (startSegment == null) {
 			valid = false;
 			return;
