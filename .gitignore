@@ -3,6 +3,7 @@
 /project/lib/geotools-8.5
 /project/lib/geotools-8.7.zip
 /project/lib/geotools-9.0
+/project/lib/testng-6.8.jar
 *.swp
 /data/nrw-roads.zip
 /data/testbed-nrw

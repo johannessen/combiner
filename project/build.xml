@@ -83,18 +83,32 @@
 	<target name="run" depends="build">
 		<exec executable="./run-testbed.sh" dir="."/>
 	</target>
-<!--
-	<target name="run" depends="build">
-		<java classname="de.thaw.thesis.testbed.Testbed">
+	
+	
+	
+	<taskdef name="testng" classname="org.testng.TestNGAntTask" classpathref="libsRef"/>
+	
+	<target name="build-tests" depends="build">
+		<mkdir dir="build/classes"/>
+    	
+		<javac srcdir="test" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.5" target="1.5">
+			<compilerarg value="-Xlint:unchecked"/>
+			<compilerarg value="-Xlint:deprecation"/>
+		</javac>
+    	
+    </target>
+	
+	<target name="test" depends="build-tests">
+		<testng outputdir="build/test-report">
 			<classpath>
 				<pathelement path="build/classes"/>
 				<path refid="libsRef"/>
 			</classpath>
-			<arg path="../data/shape-test/simple.shp"/>
-			<arg path="build/out.shp"/>
-		</java>
+			<xmlfileset dir="test" includes="*.xml"/>
+		</testng>
 	</target>
--->
+	
+	<target name="cleantest" depends="clean, test" />
 	
 	
 	
@@ -102,6 +116,7 @@
 	
 	
 	
+<!--
 	<target name="espebu" depends="build">
 		<java classname="de.thaw.espebu.Espebu">
 			<classpath>
@@ -110,5 +125,6 @@
 			</classpath>
 		</java>
 	</target>
+-->
 	
 </project>
