@@ -15,18 +15,20 @@ time java -cp build/classes:lib/geotools-9.0/* -ea:de.thaw... \
 
 # -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms10999m -Xmx100999m
 
-echo "\n\n\n"
+echo ; echo ; echo
 date
-echo "\n\n\n"
+echo ; echo ; echo
 
 }
 
 
 
-date
-echo "\n\n\n"
+ant build
 
-runcomb /../data/de/roads-mtp-nolinks.shp | tee ../../log/de-roads-mtp-nolinks
+date
+echo ; echo ; echo
+
+runcomb /../data/de/roads-mtp-nolinks.shp | tee ../../log/de-roads-mtp-nolinks.log
 runcomb /../data/de/roads-classified-nolinks.shp | tee ../../log/de-roads-classified-nolinks.log
 runcomb /../data/de/roads-network-nolinks.shp | tee ../../log/de-roads-network-nolinks.log
 
@@ -37,3 +39,7 @@ runcomb /../data/gb/roads-network-nolinks.shp | tee ../../log/gb-roads-network-n
 runcomb /../data/it/roads-network-nolinks.shp | tee ../../log/it-roads-network-nolinks.log
 runcomb /../data/nl/roads-network-nolinks.shp | tee ../../log/nl-roads-network-nolinks.log
 runcomb /../data/de-nw/roads-network-nolinks.shp | tee ../../log/de_nw-roads-network-nolinks.log
+
+runcomb /../data/de/roads-mtp.shp | tee ../../log/de-roads-mtp.log
+runcomb /../data/de/roads-classified.shp | tee ../../log/de-roads-classified.log
+runcomb /../data/de/roads-network.shp | tee ../../log/de-roads-network.log
