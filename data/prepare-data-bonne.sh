@@ -3,15 +3,18 @@
 set -x
 set -e
 
-mkdir temp
-cd temp
-
-curl -L -O "$1"
-unzip *.zip
-
-mv roads.* ..
-cd ..
-rm -Rf temp
+if true
+then
+	mkdir temp
+	cd temp
+	
+	curl -L -O "$1"
+	unzip *.zip
+	
+	mv roads.* ..
+	cd ..
+	rm -Rf temp
+fi
 
 MTP_WITHLINKS="type = 'motorway' OR type = 'trunk' OR type = 'primary' OR type = 'motorway_link' OR type = 'trunk_link' OR type = 'primary_link'"
 CLASSIFIED_WITHLINKS="$MTP_WITHLINKS OR type = 'secondary' OR type = 'tertiary' OR type = 'secondary_link' OR type = 'tertiary_link'"
