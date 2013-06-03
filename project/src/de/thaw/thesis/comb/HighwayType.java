@@ -8,9 +8,6 @@
 
 package de.thaw.thesis.comb;
 
-import java.util.Arrays;
-import java.util.Comparator;
-
 
 final class HighwayType implements Comparable<HighwayType> {
 	
@@ -57,14 +54,6 @@ final class HighwayType implements Comparable<HighwayType> {
 		DEFAULT = types[types.length - 1];
 		
 		TYPES = types;
-/*
-		TYPES = Arrays.copyOf(types, types.length);
-		Arrays.sort(TYPES, new Comparator<HighwayType> () {
-			public int compare (final HighwayType o1, final HighwayType o2) {
-				return o1.name.compareTo( o2.name );
-			}
-		});
-*/
 	}
 	
 	
@@ -104,7 +93,7 @@ final class HighwayType implements Comparable<HighwayType> {
 	
 	
 	public boolean equals (HighwayType other) {
-		return this.compareTo(other) == 0;
+		return this == other;
 	}
 	
 	// :TODO: hashCode

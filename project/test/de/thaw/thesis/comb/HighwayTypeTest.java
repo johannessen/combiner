@@ -4,13 +4,6 @@ import org.testng.annotations.*;
 
 public class HighwayTypeTest {
 	
-/*
-@BeforeClass
-	public void setUp() {
-		// code that will be invoked when this test is instantiated
-	}
-*/
-	
 	
 	@Test( expectedExceptions = NullPointerException.class )
 	public void constructorNull () {
@@ -51,6 +44,8 @@ public class HighwayTypeTest {
 		assert ! HighwayType.valueOf("service").equals( HighwayType.valueOf("primary") );
 		assert ! HighwayType.valueOf("").equals( HighwayType.valueOf("secondary") );
 		assert ! HighwayType.valueOf("secondary").equals( HighwayType.valueOf("") );
+		
+		assert ! HighwayType.valueOf("").equals( null );
 	}
 	
 	// :TODO: test hashCode
@@ -72,10 +67,17 @@ public class HighwayTypeTest {
 	}
 
 	
+	@Test( expectedExceptions = NullPointerException.class )
+	public void comparisonNull () {
+		HighwayType.valueOf("").compareTo( null );
+		assert false;  // is never reached due to an exception
+	}
+
+	
 	@Test
 	public void nameValue () {
-		assert HighwayType.valueOf("motorway").name().equals( "motorway" );
-		assert HighwayType.valueOf("FOO").name().equals( "" );
+		assert HighwayType.valueOf("motorway").name() == "motorway";
+		assert HighwayType.valueOf("FOO").name() == "";
 	}
 	
 }
