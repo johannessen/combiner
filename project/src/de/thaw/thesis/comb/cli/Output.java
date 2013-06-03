@@ -496,10 +496,9 @@ final class Output {
 					throw new AssertionError(userData.toString());
 				}
 				Line section = (Line)userData;
-				OsmTags tags = section != null ? section.tags() : null;
 				attributes.add( section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1" );
-				attributes.add( tags != null ? tags.get("highway") : "road" );
-				attributes.add( tags != null ? tags.get("ref") : "" );
+				attributes.add( ! section.type().isUnknown() ? section.type() : "road" );
+				attributes.add( section.ref() );
 				return attributes;
 			}
 		});

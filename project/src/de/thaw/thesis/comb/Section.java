@@ -36,7 +36,7 @@ public class Section extends AbstractLine {
 		LineSegment segment = null;
 		OsmNode node = null;
 		Line way = startSegment.way;
-		String osmRef = way.tags().get("ref") != OsmTags.NO_VALUE ? way.tags().get("ref") : "";
+		HighwayRef osmRef = way.ref();
 		// special values for osmRef:
 		// "" -> no known ref; null -> conflicting refs
 		
@@ -58,18 +58,17 @@ public class Section extends AbstractLine {
 				node = other(node, segment);
 				
 				// analyse OSM tags
-				// NB: get() returns intern()ed value, so == is safe to use
 				if (segment != null && segment.way != way) {
-					if (segment.way.tags().get("highway") != way.tags().get("highway")) {
+					if (segment.way.type() != way.type()) {
 						break;
 					}
 					if (osmRef != null) {
 						// no conflicting refs encountered yet
-						final String segmentRef = segment.way.tags().get("ref");
-						if (osmRef == "" && segmentRef != OsmTags.NO_VALUE) {
+						final HighwayRef segmentRef = segment.way.ref();
+						if (osmRef.isEmpty()) {
 							osmRef = segmentRef;
 						}
-						else if (osmRef != "" && segmentRef != osmRef) {
+						else if (! segmentRef.equals(osmRef)) {
 							// conflicting refs encountered; stop processing refs
 							osmRef = null;
 						}
@@ -81,7 +80,9 @@ public class Section extends AbstractLine {
 		valid = size() > 0;
 		
 		if (valid) {
-			tags = new Tags(way.tags().get("highway"), osmRef);
+			highwayType = way.type();
+			highwayRef = osmRef == null ? HighwayRef.valueOf("") : osmRef;
+			tags = new Tags(highwayType.name(), highwayRef.toString());
 		}
 	}
 	

@@ -40,7 +40,7 @@ public class GeneralisedSection extends AbstractLine {
 	OsmNode startNode = null;  // E_S
 	OsmWay startWay = null;
 	
-	String osmHighway = null;
+	HighwayType osmHighway = null;
 	String osmRef = null;
 	
 	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final OsmNode node) {
@@ -85,7 +85,9 @@ public class GeneralisedSection extends AbstractLine {
 		valid = size() >= 2;
 		
 		if (valid) {
-			tags = new Tags(osmHighway, osmRef);
+			highwayType = osmHighway;
+			highwayRef = osmRef == null || osmRef.length() == 0 ? HighwayRef.valueOf("") : HighwayRef.valueOf(osmRef);
+			tags = new Tags(osmHighway.name(), osmRef);
 		}
 	}
 	
@@ -121,7 +123,7 @@ public class GeneralisedSection extends AbstractLine {
 			originalNodes.add(currentNode1);
 			originalNodes.add(currentNode2);
 			
-			osmHighway = segment1.way.tags().get("highway");
+			osmHighway = segment1.way.type();
 			osmRef = "";
 			// special values for osmRef:
 			// ""/OsmTags.NO_VALUE -> no known ref; null -> conflicting refs
@@ -131,16 +133,15 @@ public class GeneralisedSection extends AbstractLine {
 		// :TODO: this condition can surely be simplified
 		while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
 			
-			if (highwayClass(segment2.way.tags().get("highway")) != highwayClass(osmHighway)
-					&& highwayClass(segment1.way.tags().get("highway")) != highwayClass(osmHighway)) {
+			if (segment2.way.type() != osmHighway && segment1.way.type() != osmHighway) {
 //System.err.println(" --break1 " + segment2.way.tags.get("highway") + segment2.way.tags.get("ref") + " " + segment1.way.tags.get("highway") + segment1.way.tags.get("ref") + " " + osmHighway);
 				break;  // apparently the highway class has changed somewhere along the line; let's interrupt the generalised line and leave the continuation for the next run (which may then pick up the lower class)
 			}
-			if (segment2.way.tags().get("highway") != osmHighway) {  // get() returns intern()ed value
-				if (highwayClass(segment2.way.tags().get("highway")) > highwayClass(osmHighway)) {
-					osmHighway = segment2.way.tags().get("highway");
+//			if (segment2.way.type() != osmHighway) {
+				if (segment2.way.type().compareTo(osmHighway) > 0) {
+					osmHighway = segment2.way.type();
 				}
-			}
+//			}
 			if (osmRef != null) {
 				// osmRef == null  -> conflicting refs
 				// we're dealing with intern()ed values here, so == is safe to use
@@ -320,33 +321,6 @@ public class GeneralisedSection extends AbstractLine {
 			return currentSegment;
 		}
 		return nextSegment;
-	}
-	
-	
-	
-	int highwayClass (final String tag) {
-		if (tag == "motorway") { return 21; }
-		if (tag == "motorway_link") { return 20; }
-		if (tag == "trunk") { return 19; }
-		if (tag == "trunk_link") { return 18; }
-		if (tag == "primary") { return 17; }
-		if (tag == "primary_link") { return 16; }
-		if (tag == "secondary") { return 15; }
-		if (tag == "secondary_link") { return 14; }
-		if (tag == "tertiary") { return 13; }
-		if (tag == "tertiary_link") { return 12; }
-		if (tag == "unclassified") { return 11; }
-		if (tag == "unclassified_link") { return 10; }
-		if (tag == "residential") { return 9; }
-		if (tag == "residential_link") { return 8; }
-		if (tag == "service") { return 7; }
-		if (tag == "road") { return 6; }
-		if (tag == "track") { return 5; }
-		if (tag == "cycleway") { return 4; }
-		if (tag == "bridleway") { return 3; }
-		if (tag == "footway") { return 2; }
-		if (tag == "path") { return 1; }
-		return 0;
 	}
 	
 	

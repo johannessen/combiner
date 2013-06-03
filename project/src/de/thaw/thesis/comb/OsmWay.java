@@ -29,8 +29,13 @@ public final class OsmWay extends AbstractLine {
 	OsmDataset dataset = null;
 	
 	
-	public OsmWay (final OsmTags tags, final OsmDataset dataset) {
-		this(tags, dataset, 10);
+	public OsmWay (final HighwayType type, final HighwayRef ref, final OsmDataset dataset, final int segmentCount) {
+		super(segmentCount);
+		assert type != null && ref != null && dataset != null;
+		
+		super.highwayType = type;
+		super.highwayRef = ref;
+		this.dataset = dataset;
 	}
 	
 	
@@ -39,6 +44,8 @@ public final class OsmWay extends AbstractLine {
 		assert tags != null && dataset != null;
 		
 		super.tags = tags;
+		super.highwayType = HighwayType.valueOf(tags.get("highway"));
+		super.highwayRef = HighwayRef.valueOf(tags.get("ref"));
 		this.dataset = dataset;
 	}
 	

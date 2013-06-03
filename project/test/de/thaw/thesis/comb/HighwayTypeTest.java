@@ -72,12 +72,16 @@ public class HighwayTypeTest {
 		HighwayType.valueOf("").compareTo( null );
 		assert false;  // is never reached due to an exception
 	}
-
+	
 	
 	@Test
 	public void nameValue () {
 		assert HighwayType.valueOf("motorway").name() == "motorway";
 		assert HighwayType.valueOf("FOO").name() == "";
+		
+		assert ! HighwayType.valueOf("motorway").isUnknown();
+		assert HighwayType.valueOf("FOO").isUnknown();
+		assert HighwayType.valueOf("").isUnknown();
 	}
 	
 }

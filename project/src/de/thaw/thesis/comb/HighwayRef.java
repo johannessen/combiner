@@ -13,7 +13,7 @@ package de.thaw.thesis.comb;
 // ^--- Leerzeichen vereinheitlichen
 // ^--- static (?) method joinRef, um statistisch basiert den richtigen ref von mehreren ways zu ermitteln
 
-class HighwayRef implements Comparable<HighwayRef> {
+public class HighwayRef implements Comparable<HighwayRef> {
 	
 	private static final String NO_VALUE = "";
 	
@@ -36,7 +36,7 @@ class HighwayRef implements Comparable<HighwayRef> {
 	}
 	
 	
-	boolean isEmpty () {
+	public boolean isEmpty () {
 		return ref.length() == 0;
 	}
 	

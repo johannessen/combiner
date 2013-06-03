@@ -9,7 +9,7 @@
 package de.thaw.thesis.comb;
 
 
-final class HighwayType implements Comparable<HighwayType> {
+public final class HighwayType implements Comparable<HighwayType> {
 	
 	private final String name;
 	
@@ -83,7 +83,12 @@ final class HighwayType implements Comparable<HighwayType> {
 	
 	
 	public String toString () {
-		return name == "" ? "[unknown highway type]" : name;
+		return isUnknown() ? "[unknown highway type]" : name;
+	}
+	
+	
+	public boolean isUnknown () {
+		return name == "";
 	}
 	
 	
