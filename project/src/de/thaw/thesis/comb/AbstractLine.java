@@ -33,6 +33,10 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	
 	OsmTags tags = null;
 	
+	HighwayType highwayType = null;
+	
+	HighwayRef highwayRef = null;
+	
 	private boolean mutable = true;
 	
 	
@@ -226,6 +230,22 @@ System.err.println("segment reversed in AbstractLine.add");
 	 */
 	public OsmTags tags () {
 		return tags;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public HighwayType type () {
+		return highwayType;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public HighwayRef ref () {
+		return highwayRef;
 	}
 	
 	

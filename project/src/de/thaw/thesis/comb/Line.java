@@ -23,6 +23,10 @@ public interface Line extends List<LineSegment>, SpatialFeature {
 	
 	OsmTags tags () ;
 	
+	HighwayType type () ;
+	
+	HighwayRef ref () ;
+	
 	OsmNode start () ;
 	
 	OsmNode end () ;
