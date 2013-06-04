@@ -18,6 +18,25 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 
+/**
+ * Another attempt at an <code>Iterator</code> behaving like a FIFO queue.
+ * Adheres to the general contract of the <code>Iterator</code>, but is at the
+ * same <code>Iterable</code> so as to enable instances to work directly in
+ * foreach loops in an attempt to make the client's code a little cleaner.
+ * <p>
+ * This class offers methods to safely append items to the iterator while the
+ * iteration is ongoing. It also works directly on the collections added, which
+ * should yield runtime improvements over <code>MutableIterator</code>.
+ * <p>
+ * However, this class is <em>still</em> not ideal for the Combiner's split
+ * queue (for which it was designed in the first place) because it only accepts
+ * collections. What we <em>really</em> want is a <code>Collection</code> that
+ * offers an iterator that is safe to use (single-threadedly) while the
+ * collection is being modified.
+ * :TODO:
+ * 
+ * @author Arne Johannessen
+ */
 public class MutableIterator2<E> implements Iterator<E>, Iterable<E> {
 	
 	private final Queue<Collection<E>> queue = new LinkedList<Collection<E>>();

@@ -10,7 +10,10 @@ package de.thaw.thesis.comb.util;
 
 
 /**
- * An euclidian vector.
+ * An euclidian vector implementation. Objects are defined either by cartesian
+ * differences or -- at the client's option -- by distance and bearing.
+ * Instances represent free vectors: The initial and terminal points are not
+ * stored, only their difference.
  */
 public final class SimpleVector implements Vector {
 	
@@ -22,8 +25,16 @@ public final class SimpleVector implements Vector {
 	private SimpleVector reversed = null;
 	
 	
+	private SimpleVector () {
+	}
+	
+	
 	/**
+	 * Creates a vector from <code>start</code> to <code>end</code>.
 	 * 
+	 * @param start the initial point
+	 * @param end the terminal point
+	 * @throws NullPointerException iff <code>start == null || end == null</code>
 	 */
 	public SimpleVector (final PlaneCoordinate start, final PlaneCoordinate end) {
 		e = end.easting() - start.easting();
@@ -33,12 +44,13 @@ public final class SimpleVector implements Vector {
 	}
 	
 	
-	private SimpleVector () {
-	}
-	
-	
 	/**
+	 * Creates a vector given in polar coordinates.
 	 * 
+	 * @param distance the length
+	 * @param bearing the direction
+	 * @throws NullPointerException iff <code>start == null || end == null</code>
+	 * @see Vector#bearing
 	 */
 	static SimpleVector createFromDistanceBearing (final double distance, final double bearing) {
 		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
@@ -53,7 +65,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public double easting () {
 		if (Double.isNaN(e)) {
@@ -66,7 +77,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public double northing () {
 		if (Double.isNaN(n)) {
@@ -102,7 +112,13 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * Obtain the distance (in internal coordinates) between two points. This
+	 * distance is equivalent to the length of a vector created from the two
+	 * points, but this method forgoes creating a new object for this purpose.
 	 * 
+	 * @return distance between <code>point1</code> and <code>point2</code>
+	 * @throws NullPointerException
+	 *  iff <code>point1 == null || point2 == null</code>
 	 */
 	public static double distance (final PlaneCoordinate point1, final PlaneCoordinate point2) {
 		final double e = point2.easting() - point1.easting();
@@ -112,7 +128,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public double distance () {
 		if (Double.isNaN(d)) {
@@ -125,7 +140,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public double bearing () {
 		if (Double.isNaN(a)) {
@@ -153,16 +167,12 @@ public final class SimpleVector implements Vector {
 */
 	
 	
-	/**
-	 * 
-	 */
 	private double bearingDegrees () {
 		return bearing() * 180.0 / Math.PI;
 	}
 	
 	
 	/**
-	 * 
 	 */
 	public double relativeBearing (final Vector v) {
 		return normaliseRelativeBearing(v.bearing() - bearing());
@@ -170,7 +180,11 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * Reduces a bearing to the interval [0, 2 π). Bearings returned by this
+	 * method are safe to compare with <code>==</code> for congruency.
 	 * 
+	 * @param bearing the bearing to normalise
+	 * @return <code>bearing</code>, normalised
 	 */
 	public static double normaliseAbsoluteBearing (double bearing) {
 		while (bearing < 0.0) {
@@ -184,13 +198,17 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * Reduces a bearing to the interval [−π, π). Bearings returned by this
+	 * method are safe to compare with <code>==</code> for congruency.
 	 * 
+	 * @param bearing the bearing to normalise
+	 * @return <code>bearing</code>, normalised
 	 */
 	public static double normaliseRelativeBearing (double bearing) {
-		while (bearing < HALF_CIRCLE) {
+		while (bearing < SEMI_CIRCLE) {
 			bearing += FULL_CIRCLE;
 		}
-		while (bearing > HALF_CIRCLE) {
+		while (bearing >= SEMI_CIRCLE) {
 			bearing -= FULL_CIRCLE;
 		}
 		return bearing;
@@ -198,7 +216,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public SimpleVector reversed () {
 		if (reversed == null) {
@@ -206,7 +223,7 @@ public final class SimpleVector implements Vector {
 			reversed.e = -e;
 			reversed.n = -n;
 			reversed.d = d;
-			reversed.a = normaliseAbsoluteBearing(a + HALF_CIRCLE);
+			reversed.a = normaliseAbsoluteBearing(a + SEMI_CIRCLE);
 //			reversed.reversed = this;  // :BUG: memory leak through circular references if a reversed vector is again reversed
 		}
 		return reversed;
@@ -214,7 +231,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public SimpleVector aligned (final Vector v) {
 		if (! isAligned(v)) {
@@ -225,7 +241,6 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
-	 * 
 	 */
 	public boolean isAligned (final Vector v) {
 		return Math.abs(relativeBearing(v)) <= RIGHT_ANGLE;
@@ -233,7 +248,9 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * Returns a string representation of this object.
 	 * 
+	 * @return a string representation of this object
 	 */
 	public String toString () {
 		return "e=" + ((double)(int)(easting() * 10.0 + .5) / 10.0)
@@ -255,8 +272,16 @@ public final class SimpleVector implements Vector {
 	}
 	
 	
+	
 	/**
+	 * Obtain the distance in the ordinate (horizontal / longitudinal) aspect
+	 * of a vector given in polar coordinates. This distance is equivalent to
+	 * the {@link #easting} of a vector created from the polar coordinates, but
+	 * this method forgoes creating a new object for this purpose.
 	 * 
+	 * @param distance the length
+	 * @param bearing the direction
+	 * @return easting distance for the specified vector
 	 */
 	public static double eastingFromDistanceBearing (final double distance, final double bearing) {
 		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
@@ -266,7 +291,14 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * Obtain the distance in the abscissa (vertical / latitudinal) aspect of
+	 * a vector given in polar coordinates. This distance is equivalent to the
+	 * {@link #northing} of a vector created from the polar coordinates, but
+	 * this method forgoes creating a new object for this purpose.
 	 * 
+	 * @param distance the length
+	 * @param bearing the direction
+	 * @return northing distance for the specified vector
 	 */
 	public static double northingFromDistanceBearing (final double distance, final double bearing) {
 		assert ! Double.isNaN(distance + bearing) : distance + " / " + bearing;
