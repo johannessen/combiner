@@ -80,37 +80,67 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 \section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
 
 \begin{itemize}
-	\item hier: ohne Flächen zu berücksichtigen, obwohl dort evtl. ähnliche Probleme auftreten könnten
+%	\item hier: ohne Flächen zu berücksichtigen, obwohl dort evtl. ähnliche Probleme auftreten könnten
+% (ich glaube, ähnliche Probleme treten eigentlich nicht auf)
+	
 	\item Auswahl, Vergrößern und Betonen funktioniert zufriedenstellend
+		\item einfache Screenshots aus osm.org als Beispiele
+	
 	\item Problem bei Verdrängung: der Konflikt (dass z. B. dicht beieinander liegende parallele Linienzüge parallel sind) muss erkannt werden, bevor verdrängt werden kann
+		\item Skizze zur Erläuterung
+	
 	\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
 	\begin{itemize}
-		\item z. B. Fluss außerhalb des (unabhängig gemappten) Flussbetts \cite{Kla11}
-		\item z. B. ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise
+		\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cite{Kla11 57}
+			\item ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
+		\item Beispiel: ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise (Skizze oder Screenshot)
 	\end{itemize}
+	
 	\item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
-	\item Problem bei Zusammenfassung: Linienzüge müssen als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
+	
+	\item Problem bei Zusammenfassung: Linienzüge müssen (oft?) als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
+	
+	% Qualitätsumschlag? railway=rail -> landuse=railway ?
+	
 \end{itemize}
 
 
 \section{Zielsetzung der Arbeit}
 
-\textbf{offener Punkt: Redundanz mit Themenblatt}
+%\textbf{offener Punkt: Redundanz mit Themenblatt}
+
+% Gedankensprung!
+% (die Beispiele wiederholen sich => bessere Abgrenzung der Kapitel)
 
 \begin{itemize}
-	\item „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
+	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
+	
+	\item Erkennung als parallel ist bisher ein Problem
+	
 	\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
+		\item einfacher Screenshot von \url{http://www.itoworld.com/map/14?lon=8.06752&lat=49.22313&zoom=9}
+	
+	\item ein Problem nicht nur in kleinen, sondern auch in großen Maßstäben:
+	
 	\item Beispiel: unregelmäßige Lücken zwischen Autobahn-Richtungsfahrbahnen
-	\item Beispiele: untaugliche Formvereinfachungen (siehe vorgenannte Probleme)
-	\item ...
+		\item einfacher Screenshot von osm.org
+	
+	\item Formvereinfachungen von Parallelen ist ungelöst
+	% ||
+	\item Beispiele: untaugliche Formvereinfachungen (kurzer Verweis auf vorgenannte Probleme)
+	% nur hier nennen...? -> bessere Kapitelabgrenzung!
+	
+	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
+	
 	\item Visionen:
 	\begin{itemize}
 		\item kartographische Generalisierung => besseres Kartenbild
-		\item Verringerung der Datenmenge
-		\item MRDB
-		\item Vereinfachung der Weiternutzung
-		\item ...
+			\item Zusammenfassung der Attribute derart, dass die Möglichkeit zur Darstellung der Gesamtwerte besteht (z. B. Railway-Tracks / lanes)
+		\item Verringerung der Datenmenge => einfacheres Arbeiten mit Daten für große Gebiete, Vereinfachung der Weiternutzung
+			(möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
+		\item Zusammenfassung kann theoretisch auch das Erstellen von MRDBs vereinfachen
 	\end{itemize}
+	
 	\item \emph{nicht} Teil der Arbeit sind insbesondere:
 	\begin{itemize}
 		\item die Formvereinfachung selbst
