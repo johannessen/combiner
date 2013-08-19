@@ -23,12 +23,17 @@ OUT=../data/combiner/out.json
 #OUT_DEBUG2=../data/combiner/out-lineparts.shp
 #OUT_DEBUG3=../data/combiner/out-debug.shp
 
-time java -cp build/classes:lib/geotools-9.0/* -ea:de.thaw... \
+time java -cp build/classes:lib/*:lib/geotools-9.0/* -ea:de.thaw... \
 		-Djava.awt.headless=true \
 		-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
 		-Xms256m -Xmx2048m -XX:+UseParallelGC -XX:+UseParallelOldGC \
 		de.thaw.thesis.comb.cli.CombinerMain \
-		"$IN" "$OUT" "$OUT_DEBUG1" "$OUT_DEBUG2" "$OUT_DEBUG3" "$1"
+		--input "$IN" \
+		--output "$OUT" \
+		--out-nodes "$OUT_DEBUG1" \
+		--out-lineparts "$OUT_DEBUG2" \
+		--out-debug "$OUT_DEBUG3" \
+		$@
 
 # -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps
 # -Xms10999m -Xmx100999m -XX:+UseParallelGC -XX:+UseParallelOldGC

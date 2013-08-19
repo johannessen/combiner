@@ -33,6 +33,11 @@ unzip testng-6.8.zip
 mv testng-6.8/testng-6.8.jar .
 rm -R testng-6.8.zip testng-6.8
 
+# get args4j 2.0.21 (no other versions tested), <http://args4j.kohsuke.org/>
+
+cd project/lib
+curl -O http://maven.jenkins-ci.org/content/repositories/releases/args4j/args4j/2.0.21/args4j-2.0.21.jar
+
 
 # The class path consists of the lib directory and any _immediate_ subdirectories.
 

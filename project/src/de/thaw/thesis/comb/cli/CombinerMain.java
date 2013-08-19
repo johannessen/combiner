@@ -22,6 +22,9 @@ import de.thaw.thesis.comb.StatSink;
 import java.io.File;
 import java.util.Collection;
 
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.CmdLineException;
+
 
 /**
  * This Client's main class (executable).
@@ -142,34 +145,25 @@ Combiner.printMemoryStatistics();
 	
 	
 	public static void main (String[] args) {
-		if (args.length == 0) {
-			throw new IllegalArgumentException("Arguments: inFile outFile [nodeOutFile [lineOutFile [debugOutFile [repetions]]]]");
+		Options options = new Options();
+		CmdLineParser parser = new CmdLineParser(options);
+		try {
+			parser.parseArgument(args);
+		}
+		catch (CmdLineException e) {
+			System.err.println(e.getMessage());
+			parser.printUsage(System.err);
+			return;
 		}
 		
 		CombinerMain combiner = new CombinerMain();
-		combiner.inPath = args[0];
-		if (args.length > 1) {
-			combiner.outPath = args[1];
-		}
-		if (args.length > 2) {
-			combiner.nodeOutPath = args[2];
-		}
-		if (args.length > 3) {
-			combiner.linePartOutPath = args[3];
-		}
-		if (args.length > 4) {
-			combiner.debugOutPath = args[4];
-		}
-		if (args.length > 5) {
-			try {
-				combiner.iterations = Integer.parseInt(args[5]);
-			} catch (NumberFormatException e) {}
-		}
-		if (args.length > 6) {
-			try {
-				combiner.startId = Long.parseLong(args[6]);
-			} catch (NumberFormatException e) {}
-		}
+		combiner.inPath = options.input;
+		combiner.outPath = options.output;
+		combiner.nodeOutPath = options.outNodes;
+		combiner.linePartOutPath = options.outLineParts;
+		combiner.debugOutPath = options.outDebug;
+		combiner.iterations = options.iterations;
+		combiner.startId = options.startId;
 		
 		combiner.combineLines();
 	}
