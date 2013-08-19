@@ -24,6 +24,7 @@ OUT=../data/combiner/out.json
 #OUT_DEBUG3=../data/combiner/out-debug.shp
 
 time java -cp build/classes:lib/geotools-9.0/* -ea:de.thaw... \
+		-Djava.awt.headless=true \
 		-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
 		-Xms256m -Xmx2048m -XX:+UseParallelGC -XX:+UseParallelOldGC \
 		de.thaw.thesis.comb.cli.CombinerMain \
