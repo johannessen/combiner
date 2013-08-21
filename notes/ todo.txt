@@ -1,3 +1,7 @@
+Problemf√§lle identifizieren und kategorisieren (Deckel drauf)
+
+
+
 offene Punkte
 =============
 
@@ -11,29 +15,29 @@ offene Punkte
 (2) Normalisierung
 ------------------
 
-für Formvereinfachung (Douglas-Peucker)
+f√ºr Formvereinfachung (Douglas-Peucker)
 
-(bedingt Behandlung kurzer Stücke, profitiert vom Qualitätsumschlag)
+(bedingt Behandlung kurzer St√ºcke, profitiert vom Qualit√§tsumschlag)
 
-- Jochen: bei jeder Änderung wieder ganz von vorn anfangen? teuer, aber einfach
+- Jochen: bei jeder √Ñnderung wieder ganz von vorn anfangen? teuer, aber einfach
 
-- Jochen: alternativ zweite Datenstruktur komplett neu aufbauen, auch unveränderte Stücke übernehmen => kein Iterator-Problem
+- Jochen: alternativ zweite Datenstruktur komplett neu aufbauen, auch unver√§nderte St√ºcke √ºbernehmen => kein Iterator-Problem
 -> neue Klasse?
 
 - Jochen: nach Norm. brauche ich evtl. die ganze Node-Sammlung nicht mehr?
--> nur noch Koordinaten-Arrays für Stützpunkte
+-> nur noch Koordinaten-Arrays f√ºr St√ºtzpunkte
 
-- Jochen: wichtig: Refs ins Result übernehmen ("prüfen!")
+- Jochen: wichtig: Refs ins Result √ºbernehmen ("pr√ºfen!")
 
-- Jochen: Tags mergen: generischer als jetzt, vgl. Analyser (muss nicht voll implementiert sein, hauptsächlich doku reicht)
+- Jochen: Tags mergen: generischer als jetzt, vgl. Analyser (muss nicht voll implementiert sein, haupts√§chlich doku reicht)
 
 
-(3) Behandlung kurzer Stücke
+(3) Behandlung kurzer St√ºcke
 ----------------------------
 
-- kurze Stücke wegschmeißen: nur solche, die an max. einem Ende verbunden sind
+- kurze St√ºcke wegschmei√üen: nur solche, die an max. einem Ende verbunden sind
 
-- oder solche, die an beiden Enden Kreuzungen haben und die kürzeste von allen mind. 5 Stücken sind
+- oder solche, die an beiden Enden Kreuzungen haben und die k√ºrzeste von allen mind. 5 St√ºcken sind
 
 Connections:
 (1a) 0 / 0  => leave out section
@@ -43,11 +47,11 @@ Connections:
 (2c) 1 / 0  => change node to vertex
 (3) 2+ / 2+ => combine both nodes to a single one
 
-Idealergebnis: Qualitätsumschlag Kreuzungen
+Idealergebnis: Qualit√§tsumschlag Kreuzungen
 
-Offener Punkt: Oft sind (_relativ_) kurze Stücke Duplikate (z. B. nach relocateGeneralisedNodes()); entweder exakte Duplikate oder zwei Stücke mit jeweils gleichem Start- und Endpunkt, aber unterschiedlichen Stützpunkten. Fallen diese Duplikate als kurze Stücke automatisch weg, oder müssen die vorher (hinterher?) extra behandelt werden?
+Offener Punkt: Oft sind (_relativ_) kurze St√ºcke Duplikate (z. B. nach relocateGeneralisedNodes()); entweder exakte Duplikate oder zwei St√ºcke mit jeweils gleichem Start- und Endpunkt, aber unterschiedlichen St√ºtzpunkten. Fallen diese Duplikate als kurze St√ºcke automatisch weg, oder m√ºssen die vorher (hinterher?) extra behandelt werden?
 
-- Jochen: Lücken Zwei Enden nahe beienander, gleicher Ref => verknüpfen
+- Jochen: L√ºcken Zwei Enden nahe beienander, gleicher Ref => verkn√ºpfen
 
 
 (4) Heuristik verbessern
@@ -56,9 +60,9 @@ Offener Punkt: Oft sind (_relativ_) kurze Stücke Duplikate (z. B. nach relocateG
 oder es jedenfalls versuchen
 
 -> Statistik!
-- Heuristiken darüber definieren
+- Heuristiken dar√ºber definieren
 - Spatialite? nein, aber SQLite
-- Histogramm über z. B. Winkel etc.
+- Histogramm √ºber z. B. Winkel etc.
 - Geovisualiserung
 
 
@@ -70,11 +74,11 @@ Speicherbedarf? Grenzen?
 
 
 
-Aufräumen
+Aufr√§umen
 =========
 
 - view for LinePart
-(für Reverse, einfaches Holen von Nodes etc.)
+(f√ºr Reverse, einfaches Holen von Nodes etc.)
 
 - SectionInterface
 
@@ -82,6 +86,11 @@ Aufräumen
 
 - Vector
 ...
+
+- - -
+
+1. Section als AbstractLine
+2. GeneralisedSection als AbstractLine
 
 
 
@@ -91,17 +100,17 @@ rein optional
 (nicht den Kern betreffende, kleine Verbesserungen)
 
 - konvex/konkev -> Kreisverkehre etc.
-  (Winkeladdition? z. B. bei Kreisverkehren erhöht sich die Differenz, bei Kurven oder Verschwenkungen gleicht sie sich wieder aus)
+  (Winkeladdition? z. B. bei Kreisverkehren erh√∂ht sich die Differenz, bei Kurven oder Verschwenkungen gleicht sie sich wieder aus)
 
-- Connectors mit gemeinsamen Nodes verknüpfen (-----^-----)
+- Connectors mit gemeinsamen Nodes verkn√ºpfen (-----^-----)
 
-- CRS-Transformationen sind suboptimal, weil langsam. Kartesisch abgebildete Daten sind suboptimal wegen der Grenzen der kartesischen Systeme (UTM-Zonen etc.). Jochen: Unmittelbar in geogr. Kooridnaten zu arbeiten oder jedenfalls die Daten anstelle von Geotools lieber selbst zu transformieren (Plattkarte?), ist möglicherweise besser.
+- CRS-Transformationen sind suboptimal, weil langsam. Kartesisch abgebildete Daten sind suboptimal wegen der Grenzen der kartesischen Systeme (UTM-Zonen etc.). Jochen: Unmittelbar in geogr. Kooridnaten zu arbeiten oder jedenfalls die Daten anstelle von Geotools lieber selbst zu transformieren (Plattkarte?), ist m√∂glicherweise besser.
 
 - Nodes (derzeit unsortiert) sortieren nach Anzahl Kreuzungen, dann versuchen, Cluster zu bilden
 (oder noch besser: nach position sortieren... ;-) )
 
-- (am Ende der GeneralisedSections evtl. LineSegments folgen zur nächsten GeneralisedSection, ggf. verbinden?)
-(sollte eigentlich durch die Behandlung kurzer Stücke unnötig werden)
+- (am Ende der GeneralisedSections evtl. LineSegments folgen zur n√§chsten GeneralisedSection, ggf. verbinden?)
+(sollte eigentlich durch die Behandlung kurzer St√ºcke unn√∂tig werden)
 
 
 

@@ -1,0 +1,55 @@
+Java maximum available memory: 91932480 KB.
+SQLite driver running in native mode
+Reading content roads-mtp-nolinks
+Features read from Shapefile: 158702
+Java using 2759497 KB of 10793728 KB.
+	arne      2603  129  8.3 109900048 12431916 pts/0 Sl 15:00   2:36 
+	arne      3606  122  1.8 109900048 2814384 pts/0 Sl 15:02   0:12 
+9.894: [GC [PSYoungGen: 2815808K->469227K(3285056K)] 2815808K->1636458K(10793728K), 1.5229080 secs] [Times: user=12.43 sys=6.85, real=1.52 secs] 
+Total segment count: 965638
+Regionalisation done; on average 9 close segments, 6 close false parallels.
+Java using 2655716 KB of 10793728 KB.
+	arne      3606  203  3.0 109900048 4557732 pts/0 Sl 15:02   0:44 
+27.590: [GC [PSYoungGen: 3285035K->469248K(6100864K)] 4452266K->2244986K(13609536K), 1.3677110 secs] [Times: user=8.68 sys=3.78, real=1.36 secs] 
+47.837: [GC [PSYoungGen: 6100864K->469248K(6100864K)] 7876602K->2301138K(13609536K), 0.5510530 secs] [Times: user=4.08 sys=0.37, real=0.56 secs] 
+Splitting done.
+Java using 2522589 KB of 13609536 KB.
+	arne      3606  177  5.7 109900048 8570620 pts/0 Sl 15:02   1:27 
+Analysis done.
+Java using 5847395 KB of 13609536 KB.
+	arne      3606  154  5.7 109900048 8570828 pts/0 Sl 15:02   1:46 
+Node Correlation done.
+Java using 6789523 KB of 13609536 KB.
+	arne      3606  150  5.8 110096656 8730900 pts/0 Sl 15:02   1:55 
+78.240: [GC [PSYoungGen: 6100864K->469244K(11732480K)] 7932754K->3185854K(19241152K), 2.4431900 secs] [Times: user=13.98 sys=6.51, real=2.45 secs] 
+Done.
+Processing time: 71762 ms
+Java using 3845557 KB of 19241152 KB.
+	arne      3606  170  6.7 110096656 10087980 pts/0 Sl 15:02   2:19 
+	arne      4171 58.7  0.0 109683976 121964 pts/0 Sl  15:03   0:02 
+Writing results...
+Skipped writeAllNodes (Writer creation failed for path: ).
+Skipped writeAllSegments (Writer creation failed for path: ).
+Skipped writeMidPointConnectors (Writer creation failed for path: ).
+Exception in thread "main" java.lang.RuntimeException: java.lang.IllegalArgumentException: /home/arne/git/project/../data/combiner/out.json is not one of the files types that is known to be associated with a shapefile
+	at de.thaw.thesis.comb.io.ShapeWriter.writeGeometries(ShapeWriter.java:61)
+	at de.thaw.thesis.comb.cli.Output.writeAllLines(Output.java:392)
+	at de.thaw.thesis.comb.cli.CombinerMain.combineLines(CombinerMain.java:93)
+	at de.thaw.thesis.comb.cli.CombinerMain.main(CombinerMain.java:176)
+Caused by: java.lang.IllegalArgumentException: /home/arne/git/project/../data/combiner/out.json is not one of the files types that is known to be associated with a shapefile
+	at org.geotools.data.shapefile.ShpFiles.init(ShpFiles.java:148)
+	at org.geotools.data.shapefile.ShpFiles.<init>(ShpFiles.java:142)
+	at org.geotools.data.shapefile.ShapefileDataStoreFactory.createNewDataStore(ShapefileDataStoreFactory.java:288)
+	at de.thaw.thesis.testbed.ShapeWriter.createDataStore(ShapeWriter.java:131)
+	at de.thaw.thesis.testbed.ShapeWriter.writeGeometries(ShapeWriter.java:177)
+	at de.thaw.thesis.comb.io.ShapeWriter.writeGeometries(ShapeWriter.java:57)
+	... 3 more
+Heap
+ PSYoungGen      total 11732480K, used 1579485K [0x00007f3de0940000, 0x00007f40c9500000, 0x00007f4618be0000)
+  eden space 11263232K, 9% used [0x00007f3de0940000,0x00007f3e245781d0,0x00007f4090080000)
+  from space 469248K, 99% used [0x00007f40acac0000,0x00007f40c94ff298,0x00007f40c9500000)
+  to   space 469248K, 0% used [0x00007f4090080000,0x00007f4090080000,0x00007f40acac0000)
+ ParOldGen       total 7508672K, used 2716610K [0x00007f2d703e0000, 0x00007f2f3a890000, 0x00007f3de0940000)
+  object space 7508672K, 36% used [0x00007f2d703e0000,0x00007f2e160d0828,0x00007f2f3a890000)
+ PSPermGen       total 26624K, used 26541K [0x00007f2d65de0000, 0x00007f2d677e0000, 0x00007f2d703e0000)
+  object space 26624K, 99% used [0x00007f2d65de0000,0x00007f2d677cb638,0x00007f2d677e0000)

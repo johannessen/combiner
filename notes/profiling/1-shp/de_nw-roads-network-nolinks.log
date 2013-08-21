@@ -1,0 +1,62 @@
+Java maximum available memory: 91932480 KB.
+SQLite driver running in native mode
+Reading content roads-network-nolinks
+Features read from Shapefile: 162997
+10.237: [GC [PSYoungGen: 2815808K->469243K(3285056K)] 2815808K->1661410K(10793728K), 1.0236680 secs] [Times: user=7.06 sys=1.17, real=1.02 secs] 
+May 31, 2013 3:01:01 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de-nw/roads-network-nolinks.shp by org.geotools.data.shapefile.ng.shp.ShapefileReader
+May 31, 2013 3:01:01 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de-nw/roads-network-nolinks.shx by org.geotools.data.shapefile.ng.shp.IndexFile
+May 31, 2013 3:01:01 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de-nw/roads-network-nolinks.dbf by org.geotools.data.shapefile.ng.dbf.DbaseFileReader
+Java using 2055623 KB of 10793728 KB.
+	arne      2603  177  3.0 109900048 4595072 pts/0 Sl+ 15:00   0:21 
+Total segment count: 1146686
+Regionalisation done; on average 11 close segments, 4 close false parallels.
+Java using 3294590 KB of 10793728 KB.
+	arne      2603  145  3.1 109900048 4637052 pts/0 Sl+ 15:00   0:42 
+33.002: [GC [PSYoungGen: 3285051K->469248K(6100864K)] 4477218K->2529593K(13609536K), 1.6353940 secs] [Times: user=10.19 sys=5.06, real=1.64 secs] 
+55.463: [GC [PSYoungGen: 6100864K->469248K(6100864K)] 8161209K->2615241K(13609536K), 0.5411150 secs] [Times: user=4.00 sys=0.38, real=0.55 secs] 
+78.240: [GC [PSYoungGen: 6100864K->469248K(11732480K)] 8246857K->2667577K(19241152K), 0.6637200 secs] [Times: user=5.02 sys=0.41, real=0.67 secs] 
+Splitting done.
+Java using 3561884 KB of 19241152 KB.
+	arne      2603  143  6.3 109900048 9412076 pts/0 Sl+ 15:00   1:58 
+Analysis done.
+Java using 9115847 KB of 19241152 KB.
+	arne      2603  132  6.3 109900048 9412104 pts/0 Sl 15:00   2:26 
+	arne      3606  0.0  0.0    180     4 pts/0    D    15:02   0:00 [
+Node Correlation done.
+Java using 9675642 KB of 19241152 KB.
+	arne      2603  131  6.4 109900048 9644432 pts/0 Sl 15:00   2:32 
+	arne      3606  145  0.3 109833484 466452 pts/0 Sl  15:02   0:07 
+Done.
+Processing time: 108702 ms
+Java using 12471204 KB of 19241152 KB.
+	arne      2603  129  8.3 109900048 12431952 pts/0 Sl 15:00   2:36 
+	arne      3606  148  2.0 109900048 3056380 pts/0 Sl 15:02   0:14 
+Writing results...
+Skipped writeAllNodes (Writer creation failed for path: ).
+Skipped writeAllSegments (Writer creation failed for path: ).
+Skipped writeMidPointConnectors (Writer creation failed for path: ).
+Exception in thread "main" java.lang.RuntimeException: java.lang.IllegalArgumentException: /home/arne/git/project/../data/combiner/out.json is not one of the files types that is known to be associated with a shapefile
+	at de.thaw.thesis.comb.io.ShapeWriter.writeGeometries(ShapeWriter.java:61)
+	at de.thaw.thesis.comb.cli.Output.writeAllLines(Output.java:392)
+	at de.thaw.thesis.comb.cli.CombinerMain.combineLines(CombinerMain.java:93)
+	at de.thaw.thesis.comb.cli.CombinerMain.main(CombinerMain.java:176)
+Caused by: java.lang.IllegalArgumentException: /home/arne/git/project/../data/combiner/out.json is not one of the files types that is known to be associated with a shapefile
+	at org.geotools.data.shapefile.ShpFiles.init(ShpFiles.java:148)
+	at org.geotools.data.shapefile.ShpFiles.<init>(ShpFiles.java:142)
+	at org.geotools.data.shapefile.ShapefileDataStoreFactory.createNewDataStore(ShapefileDataStoreFactory.java:288)
+	at de.thaw.thesis.testbed.ShapeWriter.createDataStore(ShapeWriter.java:131)
+	at de.thaw.thesis.testbed.ShapeWriter.writeGeometries(ShapeWriter.java:177)
+	at de.thaw.thesis.comb.io.ShapeWriter.writeGeometries(ShapeWriter.java:57)
+	... 3 more
+Heap
+ PSYoungGen      total 11732480K, used 11170567K [0x00007f69b8d60000, 0x00007f6ca1920000, 0x00007f71f1000000)
+  eden space 11263232K, 95% used [0x00007f69b8d60000,0x00007f6c45fe1c70,0x00007f6c684a0000)
+  from space 469248K, 100% used [0x00007f6c84ee0000,0x00007f6ca1920000,0x00007f6ca1920000)
+  to   space 469248K, 0% used [0x00007f6c684a0000,0x00007f6c684a0000,0x00007f6c84ee0000)
+ ParOldGen       total 7508672K, used 2198329K [0x00007f5948800000, 0x00007f5b12cb0000, 0x00007f69b8d60000)
+  object space 7508672K, 29% used [0x00007f5948800000,0x00007f59ceace470,0x00007f5b12cb0000)
+ PSPermGen       total 26816K, used 26725K [0x00007f593e200000, 0x00007f593fc30000, 0x00007f5948800000)
+  object space 26816K, 99% used [0x00007f593e200000,0x00007f593fc194d0,0x00007f593fc30000)

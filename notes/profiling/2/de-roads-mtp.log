@@ -1,0 +1,54 @@
+Java maximum available memory: 91932480 KB.
+Reading content roads-mtp
+Features read from Shapefile: 213458
+7.502: [GC [PSYoungGen: 2815808K->469219K(3285056K)] 2815808K->1637065K(10793728K), 0.7365160 secs] [Times: user=8.10 sys=1.26, real=0.73 secs] 
+May 31, 2013 8:45:14 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-mtp.shp by org.geotools.data.shapefile.ng.shp.ShapefileReader
+May 31, 2013 8:45:14 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-mtp.shx by org.geotools.data.shapefile.ng.shp.IndexFile
+May 31, 2013 8:45:14 PM org.geotools.data.shapefile.ng.files.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-mtp.dbf by org.geotools.data.shapefile.ng.dbf.DbaseFileReader
+Java using 2538124 KB of 10793728 KB.
+Total segment count: 1313684
+29.008: [GC [PSYoungGen: 3285027K->469248K(6100864K)] 4452873K->3104228K(13609536K), 1.3080620 secs] [Times: user=13.69 sys=3.21, real=1.31 secs] 
+Regionalisation done; on average 16 close segments, 7 close false parallels.
+Java using 3215284 KB of 13609536 KB.
+48.259: [GC [PSYoungGen: 6100864K->469248K(6100864K)] 8735844K->3442644K(13609536K), 1.0350240 secs] [Times: user=9.31 sys=3.96, real=1.03 secs] 
+65.988: [GC [PSYoungGen: 6100864K->469248K(11732480K)] 9074260K->3484828K(19241152K), 0.2886760 secs] [Times: user=3.31 sys=0.41, real=0.29 secs] 
+101.364: [GC [PSYoungGen: 11732480K->469248K(11732480K)] 14748060K->3566092K(19241152K), 0.3811680 secs] [Times: user=4.29 sys=0.41, real=0.39 secs] 
+136.286: [GC [PSYoungGen: 11732480K->552512K(24716864K)] 14829324K->3649356K(32225536K), 0.3195920 secs] [Times: user=3.66 sys=0.46, real=0.32 secs] 
+Splitting done.
+Java using 18618685 KB of 32225536 KB.
+222.397: [GC [PSYoungGen: 23078976K->272288K(24783168K)] 26175820K->3793964K(32291840K), 1.3153650 secs] [Times: user=8.96 sys=7.98, real=1.31 secs] 
+Analysis done.
+Java using 17307185 KB of 32291840 KB.
+Node Correlation done.
+Java using 19109045 KB of 32291840 KB.
+Done.
+Processing time: 290845 ms
+Java using 21811786 KB of 32291840 KB.
+Writing results...
+Skipped writeAllNodes (Writer creation failed for path: ).
+Skipped writeAllSegments (Writer creation failed for path: ).
+Skipped writeMidPointConnectors (Writer creation failed for path: ).
+Output: 141542 lines.
+Java using 22712764 KB of 32291840 KB.
+304.517: [GC [PSYoungGen: 19641624K->1766214K(31798144K)] 23163301K->5324883K(39306816K), 4.4839520 secs] [Times: user=33.74 sys=24.33, real=4.49 secs] 
+309.002: [Full GC (System) [PSYoungGen: 1766214K->0K(31798144K)] [ParOldGen: 3558668K->5074085K(7508672K)] 5324883K->5074085K(39306816K) [PSPermGen: 24519K->24471K(49280K)], 10.0697880 secs] [Times: user=109.27 sys=2.68, real=10.06 secs] 
+Java using 5074085 KB of 39306816 KB.
+Heap
+ PSYoungGen      total 31798144K, used 2345069K [0x00007f0f60d60000, 0x00007f1799000000, 0x00007f1799000000)
+  eden space 29554816K, 7% used [0x00007f0f60d60000,0x00007f0feff7b628,0x00007f166cb80000)
+  from space 2243328K, 0% used [0x00007f1710140000,0x00007f1710140000,0x00007f1799000000)
+  to   space 2459904K, 0% used [0x00007f166cb80000,0x00007f166cb80000,0x00007f1702dc0000)
+ ParOldGen       total 7508672K, used 5074085K [0x00007efef0800000, 0x00007f00bacb0000, 0x00007f0f60d60000)
+  object space 7508672K, 67% used [0x00007efef0800000,0x00007f0026329698,0x00007f00bacb0000)
+ PSPermGen       total 49280K, used 24488K [0x00007efee6200000, 0x00007efee9220000, 0x00007efef0800000)
+  object space 49280K, 49% used [0x00007efee6200000,0x00007efee79ea168,0x00007efee9220000)
+
+
+
+Fri May 31 20:50:28 CEST 2013
+
+
+

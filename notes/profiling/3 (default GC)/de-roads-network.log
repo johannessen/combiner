@@ -1,0 +1,68 @@
+Java maximum available memory: 91932480 KB.
+Reading content roads-network
+7.950: [GC [PSYoungGen: 2815808K->469231K(3285056K)] 2815808K->1283709K(10793728K), 1.0451960 secs] [Times: user=12.50 sys=0.86, real=1.04 secs] 
+Jun 3, 2013 7:09:45 PM org.geotools.data.shapefile.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-network.dbf by org.geotools.data.shapefile.dbf.IndexedDbaseFileReader
+Jun 3, 2013 7:09:45 PM org.geotools.data.shapefile.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-network.shp by org.geotools.data.shapefile.shp.ShapefileReader
+Jun 3, 2013 7:09:45 PM org.geotools.data.shapefile.ShpFiles logCurrentLockers
+SEVERE: The following locker still has a lock: read on file:/home/arne/git/project/../../data/de/roads-network.shx by org.geotools.data.shapefile.shp.IndexFile
+Features read from Shapefile: 929130
+11.990: [GC [PSYoungGen: 3285039K->469235K(6100864K)] 4099517K->2934977K(13609536K), 1.1292600 secs] [Times: user=13.10 sys=1.51, real=1.12 secs] 
+21.005: [GC [PSYoungGen: 6100851K->469248K(6100864K)] 8566593K->6657533K(13609536K), 1.9966600 secs] [Times: user=23.11 sys=2.64, real=2.00 secs] 
+23.001: [Full GC [PSYoungGen: 469248K->0K(6100864K)] [PSOldGen: 6188285K->6656667K(15375744K)] 6657533K->6656667K(21476608K) [PSPermGen: 23829K->23829K(47680K)], 11.6945250 secs] [Times: user=11.48 sys=0.19, real=11.69 secs] 
+43.116: [GC [PSYoungGen: 5631616K->469248K(7957824K)] 12288283K->10259259K(23333568K), 1.5619640 secs] [Times: user=17.84 sys=2.39, real=1.57 secs] 
+Java using 13104778 KB of 23333568 KB.
+Total segment count: 7606864
+95.865: [GC [PSYoungGen: 7957824K->469248K(10122816K)] 17747835K->14516523K(25498560K), 2.7507740 secs] [Times: user=30.96 sys=4.58, real=2.75 secs] 
+98.616: [Full GC [PSYoungGen: 469248K->0K(10122816K)] [PSOldGen: 14047275K->14515653K(27727360K)] 14516523K->14515653K(37850176K) [PSPermGen: 23988K->23988K(54016K)], 31.1785720 secs] [Times: user=30.03 sys=1.10, real=31.18 secs] 
+Regionalisation done; on average 11 close segments, 4 close false parallels.
+Java using 17942117 KB of 37850176 KB.
+189.633: [GC [PSYoungGen: 9653568K->2386144K(15722176K)] 24169221K->16901797K(43449536K), 2.6385540 secs] [Times: user=17.75 sys=16.40, real=2.64 secs] 
+218.447: [GC [PSYoungGen: 12271712K->2665440K(15490176K)] 26787365K->17181093K(43217536K), 1.8870900 secs] [Times: user=15.23 sys=9.20, real=1.88 secs] 
+248.694: [GC [PSYoungGen: 12551008K->2731904K(16475328K)] 27066661K->17247557K(44202688K), 1.1178870 secs] [Times: user=12.90 sys=1.56, real=1.11 secs] 
+284.647: [GC [PSYoungGen: 14609472K->2744704K(16983104K)] 29125125K->17260357K(44710464K), 0.9313310 secs] [Times: user=10.82 sys=1.23, real=0.93 secs] 
+321.191: [GC [PSYoungGen: 14622272K->2792832K(17336512K)] 29137925K->17308485K(45063872K), 0.8877570 secs] [Times: user=11.12 sys=0.36, real=0.88 secs] 
+362.039: [GC [PSYoungGen: 15731392K->2882464K(17678144K)] 30247045K->17398117K(45405504K), 0.9343660 secs] [Times: user=11.49 sys=0.59, real=0.93 secs] 
+403.452: [GC [PSYoungGen: 15821024K->2971360K(17975168K)] 30336677K->17487013K(45702528K), 0.9414110 secs] [Times: user=11.69 sys=0.48, real=0.95 secs] 
+448.113: [GC [PSYoungGen: 16793056K->3064704K(18241344K)] 31308709K->17580357K(45968704K), 0.9835120 secs] [Times: user=12.72 sys=0.00, real=0.98 secs] 
+493.599: [GC [PSYoungGen: 16886400K->3162112K(18711296K)] 31402053K->17677765K(46438656K), 0.9925820 secs] [Times: user=12.37 sys=0.47, real=1.00 secs] 
+Splitting done.
+Java using 32065908 KB of 46438656 KB.
+544.257: [GC [PSYoungGen: 17744704K->3254080K(18847424K)] 32260357K->17769733K(46574784K), 5.2643290 secs] [Times: user=21.85 sys=46.34, real=5.26 secs] 
+616.052: [GC [PSYoungGen: 17836672K->3372448K(19677696K)] 32352325K->17888101K(47405056K), 1.3017940 secs] [Times: user=16.14 sys=0.70, real=1.31 secs] 
+684.434: [GC [PSYoungGen: 18929376K->3479872K(19814720K)] 33445029K->17995525K(47542080K), 2.0159870 secs] [Times: user=17.22 sys=8.87, real=2.02 secs] 
+754.665: [GC [PSYoungGen: 19036800K->3588416K(20433088K)] 33552453K->18104069K(48160448K), 1.3728490 secs] [Times: user=17.29 sys=0.49, real=1.37 secs] 
+Analysis done.
+Java using 20377768 KB of 48160448 KB.
+Node Correlation done.
+Java using 23298924 KB of 48160448 KB.
+800.870: [GC [PSYoungGen: 19720192K->4368569K(20500352K)] 34235845K->22944462K(48227712K), 8.2636380 secs] [Times: user=51.36 sys=55.66, real=8.26 secs] 
+Done.
+Processing time: 768219 ms
+Java using 31271397 KB of 48227712 KB.
+Writing results...
+Skipped writeAllNodes (Writer creation failed for path: ).
+Skipped writeAllSegments (Writer creation failed for path: ).
+Skipped writeMidPointConnectors (Writer creation failed for path: ).
+Output: 788672 lines.
+Java using 35437242 KB of 48227712 KB.
+834.690: [GC [PSYoungGen: 17183992K->5212729K(23062720K)] 35759885K->25513406K(50790080K), 8.5986830 secs] [Times: user=47.06 sys=64.37, real=8.60 secs] 
+843.289: [Full GC (System) [PSYoungGen: 5212729K->0K(23062720K)] [PSOldGen: 20300677K->25503818K(27727360K)] 25513406K->25503818K(50790080K) [PSPermGen: 25281K->25281K(52800K)], 60.1344300 secs] [Times: user=56.55 sys=3.49, real=60.13 secs] 
+Java using 25503818 KB of 50790080 KB.
+Heap
+ PSYoungGen      total 23062720K, used 1340984K [0x00007f953cd60000, 0x00007f9c71fd0000, 0x00007f9d75000000)
+  eden space 16856576K, 7% used [0x00007f953cd60000,0x00007f958eaee190,0x00007f9941ae0000)
+  from space 6206144K, 0% used [0x00007f9ad00c0000,0x00007f9ad00c0000,0x00007f9c4ad70000)
+  to   space 6526848K, 0% used [0x00007f9941ae0000,0x00007f9941ae0000,0x00007f9ad00c0000)
+ PSOldGen        total 27727360K, used 25503818K [0x00007f84cc800000, 0x00007f8b68d80000, 0x00007f953cd60000)
+  object space 27727360K, 91% used [0x00007f84cc800000,0x00007f8ae1212a98,0x00007f8b68d80000)
+ PSPermGen       total 52800K, used 25298K [0x00007f84c2200000, 0x00007f84c5590000, 0x00007f84cc800000)
+  object space 52800K, 47% used [0x00007f84c2200000,0x00007f84c3ab48c8,0x00007f84c5590000)
+
+
+
+Mon Jun  3 19:24:46 CEST 2013
+
+
+

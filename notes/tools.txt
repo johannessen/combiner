@@ -1,0 +1,15 @@
+Unix tools
+==========
+
+http://en.wikipedia.org/wiki/GNU_Screen
+
+http://en.wikipedia.org/wiki/Tmux
+
+lsof -p pid
+strace ...
+
+free	} Linux
+ps -x	}
+
+date	-> loggen
+

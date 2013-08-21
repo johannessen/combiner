@@ -1,0 +1,12 @@
+I/O checken: sollte zumindest für output nicht mehr als ~ 1 min dauern
+
+Zeiten zu verschieden Zeitpunkten ausgeben
+
+alle eigene Ausgaben grep-bar machen
+
+
+statsitik:
+- offene ende vorher/nachher vergl.
+- spitze winkel
+
+für ausarbeitung davon ausgehen, dass klassenuntersch. eingabaut ist

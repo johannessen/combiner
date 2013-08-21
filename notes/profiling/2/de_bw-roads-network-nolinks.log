@@ -1,0 +1,46 @@
+Java maximum available memory: 91932480 KB.
+Reading content roads-network-nolinks
+
+Features read from Shapefile: 114232
+10.609: [GC [PSYoungGen: 2815808K->469219K(3285056K)] 2815808K->1682617K(10793728K), 0.7930070 secs] [Times: user=8.85 sys=1.22, real=0.80 secs] 
+Java using 1795249 KB of 10793728 KB.
+Total segment count: 1089204
+Regionalisation done; on average 11 close segments, 4 close false parallels.
+Java using 2947133 KB of 10793728 KB.
+28.631: [GC [PSYoungGen: 3285027K->469248K(6100864K)] 4498425K->2351926K(13609536K), 1.1828130 secs] [Times: user=9.93 sys=5.40, real=1.19 secs] 
+47.512: [GC [PSYoungGen: 6100864K->469248K(6100864K)] 7983542K->2430542K(13609536K), 0.3478820 secs] [Times: user=4.02 sys=0.39, real=0.34 secs] 
+Splitting done.
+Java using 5002191 KB of 13609536 KB.
+70.419: [GC [PSYoungGen: 6100864K->469248K(11732480K)] 8062158K->2487006K(19241152K), 0.9260310 secs] [Times: user=6.87 sys=5.09, real=0.92 secs] 
+Analysis done.
+Java using 3381492 KB of 19241152 KB.
+Node Correlation done.
+Java using 4054008 KB of 19241152 KB.
+Done.
+Processing time: 69963 ms
+Java using 6962740 KB of 19241152 KB.
+Writing results...
+Skipped writeAllNodes (Writer creation failed for path: ).
+Skipped writeAllSegments (Writer creation failed for path: ).
+Skipped writeMidPointConnectors (Writer creation failed for path: ).
+Output: 94411 lines.
+Java using 7858878 KB of 19241152 KB.
+84.699: [GC [PSYoungGen: 6066392K->469222K(11732480K)] 8084151K->3549493K(19241152K), 2.1393740 secs] [Times: user=12.01 sys=15.57, real=2.14 secs] 
+86.839: [Full GC (System) [PSYoungGen: 469222K->0K(11732480K)] [ParOldGen: 3080270K->3502200K(7508672K)] 3549493K->3502200K(19241152K) [PSPermGen: 24648K->24600K(49280K)], 6.6110750 secs] [Times: user=73.10 sys=1.14, real=6.61 secs] 
+Java using 3502200 KB of 19241152 KB.
+Heap
+ PSYoungGen      total 11732480K, used 899424K [0x00007f0194d60000, 0x00007f047d920000, 0x00007f09cd000000)
+  eden space 11263232K, 7% used [0x00007f0194d60000,0x00007f01cbbb8040,0x00007f04444a0000)
+  from space 469248K, 0% used [0x00007f04444a0000,0x00007f04444a0000,0x00007f0460ee0000)
+  to   space 469248K, 0% used [0x00007f0460ee0000,0x00007f0460ee0000,0x00007f047d920000)
+ ParOldGen       total 7508672K, used 3502200K [0x00007ef124800000, 0x00007ef2eecb0000, 0x00007f0194d60000)
+  object space 7508672K, 46% used [0x00007ef124800000,0x00007ef1fa41e360,0x00007ef2eecb0000)
+ PSPermGen       total 49280K, used 24617K [0x00007ef11a200000, 0x00007ef11d220000, 0x00007ef124800000)
+  object space 49280K, 49% used [0x00007ef11a200000,0x00007ef11ba0a610,0x00007ef11d220000)
+
+
+
+Fri May 31 19:56:12 CEST 2013
+
+
+

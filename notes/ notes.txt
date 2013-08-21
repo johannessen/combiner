@@ -26,6 +26,35 @@ warning building way geometry for way 148157721: contains position (214.748,214.
 
 - - -
 
-
 http://stackoverflow.com/questions/6748432/java-heap-space-out-of-memory
 
+- - -
+
+wenn was funktioniert, _das_ verbessern, anstatt nach anderen Fehlern zu suchen
+
+ich bin am tiefsten im Problem drin von allen => Problem dokumentieren
+
+- - -
+
+mehr als zwei:
+
+- nach Generalisierung alle Segmente/Sections durchlaufen und in den Fällen, wo auf mindestens einer Seite Segmente gen >= 2, filtern (statistisch basiert ... wohl einzige möglichkeit)
+
+- im Prinzip alle gen = 2, aber gen ist tlws. buggy
+
+- das geht nicht vor oder mit der generalisierung, weil unklar ist, ob z. b. zuerst trunk+trunk oder trunk+trunk_link generalisiert wird
+
+[[
+- diese reihenfolge können wir recht einfach festlegen, indem wir tatsächlich die typen nacheinander betrachten
+- problem: wenn die typen gleich sind, hilft das wenig (z. b. link nicht als link getaggt)
+]]
+
+- alternativ: iteration der zusammenfassung, evtl. abwechselnd mit weiteren operationen:
++ zusammenfassung
++ kurze stücke (= filterung nach länge etc)
++ normalisierung
+
+- dafür wär's praktisch, wenn die verschiedenen stores dasselbe interface hätten:
+GeneneralisedLines <-> Dataset
+... und so, dass man halt das auch filtern und zusammenfassen kann
+... im Prinzip müsste der Reader direkt GeneralisedLines ausspucken
