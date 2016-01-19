@@ -25,4 +25,4 @@
 /project/lib/testng-6.8.jar
 /project/nohup.out
 
-/thesis/chapters/*.aux
+/thesis/chapter?/*.aux
