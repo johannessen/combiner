@@ -27,3 +27,24 @@ public interface OsmTags {
 	String get (String key) ;
 	
 }
+
+
+
+// HighwayType } neue Klassen mit Builder
+// HighwayREf  }
+// ^--- Leerzeichen vereinheitlichen
+// ^--- static (?) method joinRef, um statistisch basiert den richtigen ref von mehreren ways zu ermitteln
+// ^ singleton für null etc.
+// ^ interning?
+
+// test-driven design
+
+/*
+=> jeder way muss ein typ- und ein ref-objekt haben
+=> erzeugen durch factory method o. ä., beim builden des ways
+=> (später) interning möglich
+
+=> erst leeres gerüst schreiben
+=> dann tests schreiben
+=> dann code schreiben
+*/

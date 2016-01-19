@@ -15,6 +15,7 @@ import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.StatSink;
 import de.thaw.thesis.comb.OsmDataset;
+import de.thaw.thesis.comb.util.PlaneCoordinate;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -97,6 +98,16 @@ public final class InputDataset implements OsmDataset {
 		 * this by creating our own SortedSet implementation (e. g. hand-tune
 		 * the java.util.TreeSet class's source code accordingly).
 		 */
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public OsmNode getMidPoint (final PlaneCoordinate node1, final PlaneCoordinate node2) {
+		double e = (node1.easting() + node2.easting()) / 2.0;
+		double n = (node1.northing() + node2.northing()) / 2.0;
+		return getNodeAtEastingNorthing(e, n);
 	}
 	
 	

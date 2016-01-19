@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.PlaneCoordinate;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -46,6 +48,12 @@ public interface OsmDataset {
 	 * 
 	 */
 	OsmNode getNodeAtEastingNorthing (final double e, final double n) ;
+	
+	
+	/**
+	 * 
+	 */
+	OsmNode getMidPoint (final PlaneCoordinate node1, final PlaneCoordinate node2) ;
 	
 	
 	/**

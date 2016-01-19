@@ -74,6 +74,9 @@ public class GeneralisedLines {
 			for (int i = 0; i < 2; i++) {
 				OsmNode node = i == 0 ? edge.start : edge.end;
 				
+				
+// eigene funktion!
+				
 				// get segment with ID
 				for (final LineSegment segment : node.connectingSegments) {
 					if (segment.wasGeneralised > 0 || segment.notToBeGeneralised) {
@@ -150,6 +153,9 @@ public class GeneralisedLines {
 			}
 			final Section section = (Section)line;
 			
+// muss eigentlich methode in Line sein! (in GenSection dann nullop)
+			
+			
 			for (int i = 0; i < 2; i++) {
 				final OsmNode node = i == 0 ? section.start() : section.end();
 				
@@ -167,9 +173,14 @@ public class GeneralisedLines {
 				
 				// "move" (actually: replace) first/last nodes as appropriate
 				
+// eine function __in Edge__!!!: mittelpunkt!
+// "Edge" als Namen fuer Typ mit midpoint-logik
+				final OsmNode midPoint = graph.dataset.getMidPoint(theEdge.start, theEdge.end);
+/*
 				double e = (theEdge.start.e + theEdge.end.e) / 2.0;
 				double n = (theEdge.start.n + theEdge.end.n) / 2.0;
 				final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);
+*/
 				
 /*
 				if (midPoint.id == 0L) {
@@ -177,6 +188,7 @@ public class GeneralisedLines {
 				}
 */
 				
+// i als parameter für for-i-methode mitgeben
 				if (i == 0) {
 					section.set(0, midPoint);
 				}
