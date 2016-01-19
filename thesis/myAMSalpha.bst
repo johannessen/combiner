@@ -395,11 +395,11 @@ FUNCTION {format.names}
 FUNCTION {format.authors}
 { author empty$
     { "" }
-    { bysame "\bysame" =
-         { bysame }
+%    { bysame "\bysame" =
+%         { bysame }
          { author format.names }
-     if$
-    }
+%     if$
+%    }
   if$
 }
 

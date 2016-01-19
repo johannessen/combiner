@@ -1,58 +1,56 @@
 % UTF-8
 
 % single-chapter commands
-\documentclass{../thesis}
-\begin{document}
+\documentclass{../thesis} \setcounter{chapter}{1} \begin{document}
 
 
 \chapter{Analyse der Ausgangslage}
 
 \section{OpenStreetMap: Alles für Alle}
+Topographische Vermessungen führten ursprünglich nur zu relativ ungenauen Ergebnissen \cf[43]{Koh04}. Für die im 18.~und 19.~Jahrhundert erstmals durchgeführte systematische Landesaufnahme standen nur am Boden operierte Messinstrumente zur Verfügung. Bis in die zweite Hälfte des 20. Jahrhunderts waren der manuell horizontierte und abgelesene Theodolit und das Bandmaß die dabei primär eingesetzten Instrumente \cf[3–6]{WG06}. Deren Natur entsprechend ging dies mit einem immensen Aufwand an Arbeitskräften einher.
 
-Topographische Vermessungen führten ursprünglich nur zu relativ ungenauen Ergebnissen [Koh04 43]. Für die im 18.~und 19.~Jahrhundert erstmals durchgeführte systematische Landesaufnahme standen nur am Boden operierte Messinstrumente zur Verfügung. Bis in die zweite Hälfte des 20. Jahrhunderts waren der manuell horizontierte und abgelesene Theodolit und das Bandmaß die dabei primär eingesetzten Instrumente [WG06 3-6]. Deren Natur entsprechend ging dies mit einem immensen Aufwand an Arbeitskräften einher.
-
-Die schiere Menge der eingesetzten Vermesser machte im Laufe der Zeit auch mit einfachen Instrumenten zufriedenstellende Ergebnisse möglich. In den letzten Jahrzehnten haben Photogrammetrie, Fernerkundung und satellitengestützte Ortsbestimmung das Vermessungswesen revolutioniert. Genauere Resultate ließen sich in kürzerer Zeit und so auch mit geringeren Kosten erreichen. [??]
+Die schiere Menge der eingesetzten Vermesser machte im Laufe der Zeit auch mit einfachen Instrumenten zufriedenstellende Ergebnisse möglich. In den letzten Jahrzehnten haben Photogrammetrie, Fernerkundung und satellitengestützte Ortsbestimmung das Vermessungswesen revolutioniert. Genauere Resultate ließen sich in kürzerer Zeit und so auch mit geringeren Kosten erreichen. \noref
 
 % Ist die Kostendiskussion wirklich von Interesse? Eigentlich geht's ja nur um die ursprüngliche Motivation für OSM
 
-Obgleich die Kosten geringer als zuvor sind, liegen sie nach wie vor in mehrstelliger Millionenhöhe allein für die amtlichen Geobasisdaten [lgm05 3].
+Obgleich die Kosten geringer als zuvor sind, liegen sie nach wie vor in mehrstelliger Millionenhöhe allein für die amtlichen Geobasisdaten \cf[3]{lgm05}.
 % [lgm05 3 (LG München, Beschl. vom 9. Nov. 2005, Az. 21 O 7402/02, 3; in: GRUR 2006, 225)]
-In Europa [??] herrscht heutzutage [Fis01 119] die Auffassung vor, dass diese solcherart mit Steuergeldern erhobenen Daten der Allgemeinheit nicht kostfrei zur Weiternutzung zur Verfügung gestellt werden, sondern die \emph{konkreten} Nutzenden zusätzlich Lizenzgebühren zahlen sollen [??]. Diese Lizenzkosten schränken den Nutzen amtlicher Geodaten nicht nur für kommerzielle Zwecke [Böh07 336], sondern auch für Privatleute [??] erheblich ein [??].
+In Europa \noref herrscht heutzutage \cf[119]{Fis01} die Auffassung vor, dass diese solcherart mit Steuergeldern erhobenen Daten der Allgemeinheit nicht kostfrei zur Weiternutzung zur Verfügung gestellt werden, sondern die \emph{konkreten} Nutzenden zusätzlich Lizenzgebühren zahlen sollen \noref. Diese Lizenzkosten schränken den Nutzen amtlicher Geodaten nicht nur für kommerzielle Zwecke \cf[336]{Böh07}, sondern auch für Privatleute \noref erheblich ein \noref.
 
-% [Egg99 ??]
+% [Egg99 \noref]
 
-Heute haben selbst billige GPS-Empfänger eine Genauigkeit, welche die mancher Vermessung des 19. Jahrhunderts übertreffen kann [?? WG06 346]. Die „freie Weltkarte“ \eyecatcher{OpenStreetMap} (OSM) [RT09 3] macht sich dies zu Nutze, um mit Hilfe zehntausender Freiwilliger eine weltweite Datenbank mit Geobasisdaten aufzubauen und nachzuführen (Volunteered Geographic Information, VGI) [NZ12 147, 154]. Im Gegensatz zu vielen amtlichen Geobasisdaten dürfen OpenStreetMap-Daten lizenzkostenfrei verwendet werden, auch für kommerzielle Zwecke [RT09 217, 221 f].
+Heute haben selbst billige GPS-Empfänger eine Genauigkeit, welche die mancher Vermessung des 19. Jahrhunderts übertreffen kann \cf[346][\?]{WG06}. Die „freie Weltkarte“ \eyecatcher{OpenStreetMap} (OSM) \cf[3]{RT09} macht sich dies zu Nutze, um mit Hilfe zehntausender Freiwilliger eine weltweite Datenbank mit Geobasisdaten aufzubauen und nachzuführen (Volunteered Geographic Information, VGI) \cf[147, 154]{NZ12}. Im Gegensatz zu vielen amtlichen Geobasisdaten dürfen OpenStreetMap-Daten lizenzkostenfrei verwendet werden, auch für kommerzielle Zwecke \cf[217, 221\f]{RT09}.
 
 % ODBL? -> 3rd ed
 
 % fühlt sich alles _viel_ zu lang an … was davon brauche ich wirklich als Überleitung zu Fragmentierung und Process?
 % straff kürzen, unbekannte Begriffe a la KV-Pair einfach in Fußnote packen…
 
-Der Name OpenStreetMap mag fehlleitend sein, denn es handelt sich dabei nicht um eine Straßenkarte, sondern vielmehr um eine Geodatenbank mit Inhalten nahezu beliebiger Themen. Bei der Gründung von OSM im Jahr 2004 wurde auf das Festlegen starrer Klassifizierungsschemata oder Kartierschlüssel verzichtet. Statt dessen kann jedes Element in der Datenbank mit einer beliebigen Anzahl Attribute – sogenannter \term{tags} – versehen werden, die jeweils aus einem Schlüssel und einem Wert bestehen \term{(key-value-pair)}. [RT09 56]
+Der Name OpenStreetMap mag fehlleitend sein, denn es handelt sich dabei nicht um eine Straßenkarte, sondern vielmehr um eine Geodatenbank mit Inhalten nahezu beliebiger Themen. Bei der Gründung von OSM im Jahr 2004 wurde auf das Festlegen starrer Klassifizierungsschemata oder Kartierschlüssel verzichtet. Statt dessen kann jedes Element in der Datenbank mit einer beliebigen Anzahl Attribute – sogenannter \term{tags} – versehen werden, die jeweils aus einem Schlüssel und einem Wert bestehen \term{(key-value-pair)}. \cf[56]{RT09}
 
 % ways / relationen / fragmentierung !!
 
-Syntax und Semantik der einzelnen \term{tags} werden bei OpenStreetMap seit der Gründung fortlaufend von den Beitragenden diskutiert, gestützt auf bisherige Erfahrungen. Die Diskussion findet vornehmlich im Internet statt; Ergebnisse werden öffentlich dokumentiert und in Software wie z.~B. Renderern implementiert. Wer neue Inhalte erfasst, orientiert sich oft an den bisher in der Datenbank üblichen oder im Web dokumentierten Konventionen. [Top09 KN 59 (1) 48][RT09 17 f, 59-66]
+Syntax und Semantik der einzelnen \term{tags} werden bei OpenStreetMap seit der Gründung fortlaufend von den Beitragenden diskutiert, gestützt auf bisherige Erfahrungen. Die Diskussion findet vornehmlich im Internet statt; Ergebnisse werden öffentlich dokumentiert und in Software wie z.~B. Renderern implementiert. Wer neue Inhalte erfasst, orientiert sich oft an den bisher in der Datenbank üblichen oder im Web dokumentierten Konventionen. \cf[48]{Top09} \cf[17\f, 59–66]{RT09}
 
-Gegenüber einer vor der Erfassung detaillierten Ontologie [GOS09 ??] hat dieses System zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich interessiert und für wichtig halten. Jeder der Beitragenden entscheidet die Kriterien für die Erfassungsgeneralisierung für sich selbst. %Dies führt zu großen regionalen Unterschieden in Datendichte, -aktualität und -qualität.
+Gegenüber einer vor der Erfassung detaillierten Ontologie \cf[\?]{GOS09} hat dieses System zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich interessiert und für wichtig halten. Jeder der Beitragenden entscheidet die Kriterien für die Erfassungsgeneralisierung für sich selbst. %Dies führt zu großen regionalen Unterschieden in Datendichte, -aktualität und -qualität.
 % Regionalität ist nicht entscheidend für uns.
 
 % Verweis auf Sch09 deckt schon vieles ab; Kne09 eher knapp, Beh11 noch knapper, Kla11 umständlich
 
-Oft verfügen die OpenStreetMap-Daten über sehr hohen Detailreichtum. So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein. Veränderungen an diesen Attributen im Verlauf der Straße führen im OSM-Datenmodell zwangsläufig zu einer Fragmentierung in mehrere aufeinander folgende Linienabschnitte \term{(ways)}, jeweils mit unterschiedlichen \term{tags}  [RT09 57].
+Oft verfügen die OpenStreetMap-Daten über sehr hohen Detailreichtum. So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein. Veränderungen an diesen Attributen im Verlauf der Straße führen im OSM-Datenmodell zwangsläufig zu einer Fragmentierung in mehrere aufeinander folgende Linienabschnitte \term{(ways)}, jeweils mit unterschiedlichen \term{tags} \cf[57]{RT09}.
 
-Baulich getrennte Fahrbahnen wie etwa Autobahnen bildet OpenStreetMap mittels zweier paralleler Einbahn-Linienzüge ab [??]. Dies ist eine in der Geoinformatik gängige Vorgehensweise [Tho05 2 ??].
+Baulich getrennte Fahrbahnen wie etwa Autobahnen bildet OpenStreetMap mittels zweier paralleler Einbahn-Linienzüge ab \cf[62]{RT09}. Dies ist eine in der Geoinformatik gängige Vorgehensweise \cf[2][\?]{Tho05}.
 
-Sowohl die Fragmentierung als auch die parallelen Linienzüge führen zu Schwierigkeiten in der Weiterverarbeitung und Visualisierung [?? Mig12 ?? u. a.].
+Sowohl die Fragmentierung als auch die parallelen Linienzüge führen zu Schwierigkeiten in der Weiterverarbeitung und Visualisierung \noref[Mig12 u. a.].
 % Abbildungen:
 % - Marker-Wucherung
-% - stark unregelmäßige Plazierung von Namen [Mig12]
+% - stark unregelmäßige Plazierung von Namen \cf{Mig12}
 % - Blitzer/Freistellung
-% - Doppelnamen [Mig12]
+% - Doppelnamen \cf{Mig12}
 % o. ä.
-Offensichtlich ist, dass eine Verkettung der Fragmente bzw. parallelen Linienzüge als Bestandteil des Datenmodells die Probleme wesentlich verkleinern, wenn nicht gar gänzlich lösen würde. Für eine hierarchisch orientierte Organisation wie etwa Vermessungsämter wäre eine solche Lösung naheliegend. Über \term{relations} ist dies auch in OpenStreetMap möglich [RT09 57]. Das oben beschriebene Fehlen interner Strukturen unter den zu OpenStreetMap Beitragenden (der \term{community}) macht es jedoch unmöglich, „mal eben“ die Regeln für die Erfassung und Kodierung der Geodaten zu ändern [Sch09].
+Offensichtlich ist, dass eine Verkettung der Fragmente bzw. parallelen Linienzüge als Bestandteil des Datenmodells die Probleme wesentlich verkleinern, wenn nicht gar gänzlich lösen würde. Für eine hierarchisch orientierte Organisation wie etwa Vermessungsämter wäre eine solche Lösung naheliegend. Über \term{relations} ist dies auch in OpenStreetMap möglich \cf[57]{RT09}. Das oben beschriebene Fehlen interner Strukturen unter den zu OpenStreetMap Beitragenden (der \term{community}) macht es jedoch unmöglich, „mal eben“ die Regeln für die Erfassung und Kodierung der Geodaten zu ändern \cf{Sch09}.
 
-Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden. Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schwieriger wird, je geringer der unmittelbare Einfluss der Datenbank-Änderungen auf das in Karten sichtbare Ergebnis ist [??].
+Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden. Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schwieriger wird, je geringer der unmittelbare Einfluss der Datenbank-Änderungen auf das in Karten sichtbare Ergebnis ist \noref.
 
 
 
@@ -71,11 +69,13 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 	\begin{itemize}
 		\item nahe beieinander liegende Punktsignaturen werden willkürlich selektiert, Linearsignaturen überdecken einander
 	\end{itemize}
-	\item insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. \cite{MWG12} oder Haltestellen-Relationen)
+	\item insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. \cf{MWG12} oder Haltestellen-Relationen)
 \end{itemize}
 
 % Angesichts dessen wären automatisiert abgeleitete, generalisierte Datenbanken für kleinere Maßstäbe zur Weiterverwendung wünschenswert, existieren jedoch bisher nicht. Entsprechend sind auch die aus OSM-Daten hergestellten Karten in aller Regel nicht kartographisch generalisiert: Nahe beieinander liegende Objekte überdecken einander scheinbar wahllos, Mindestgrößen und notwendige Formvereinfachungen werden von den automatischen Renderern ignoriert.
-% Erschwert wird die Generalisierung von OSM-Daten unter anderem durch den hohen Grad der Fragmentierung von Linienzügen. Das Verknüpfen solcher zusammengehörenden, einzelnen ways durch Relationen in der Datenbank ist technisch möglich, wird aber von den Mitwirkenden aus unterschiedlichen Gründen nur sehr selten durchgeführt. Eine automatisierte Generalisierung durch Formvereinfachung (zur Reduktion der node-Anzahl) bedingt daher, dass die zusammengehörenden ways  dabei  als solche identifiziert werden. Gleiches gilt für die Generalisierung durch Zusammenfassung oder Verdrängung parallel verlaufender Linienzüge, beispielsweise Straßen mit begleitendem Radweg oder mehrgleisigen Bahnstrecken.
+
+% Erschwert wird die Generalisierung von OSM-Daten unter anderem durch den hohen Grad der Fragmentierung von Linienzügen. Das Verknüpfen solcher zusammengehörenden, einzelnen ways durch Relationen in der Datenbank ist technisch möglich, wird aber von den Mitwirkenden aus unterschiedlichen Gründen nur sehr selten durchgeführt. Eine automatisierte Generalisierung durch Formvereinfachung (zur Reduktion der node-Anzahl) bedingt daher, dass die zusammengehörenden ways  dabei  als solche identifiziert werden. Gleiches gilt für die Generalisierung durch Zusammenfassung oder Verdrängung parallel verlaufender Linienzüge, beispielsweise Straßen mit begleitendem Radweg oder mehrgleisigen Bahnstrecken.
+
 
 \section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
 
@@ -91,7 +91,7 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 	
 	\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
 	\begin{itemize}
-		\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cite{Kla11 57}
+		\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cf[57]{Kla11}
 			\item ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
 		\item Beispiel: ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise (Skizze oder Screenshot)
 	\end{itemize}
@@ -154,7 +154,7 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 \begin{itemize}
 
 	% ! Puffer
-	\item Puffer [OHSZ10 2-3]
+	\item Puffer \cf[2–3]{OHSZ10}
 % - für eine Darstellung von OSM-Daten als Teil eiens 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
@@ -163,7 +163,7 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 % - löst Zusammenfassung nicht; evtl. inward offset (um wieviel?) oder eher -> Skeleton
 
 	% ! Skeleton
-	\item Skeleton [LM96] [Mig12] [All11 ??]
+	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
 
 % Mig12: <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
 % <http://twak.blogspot.de/2009/01/that-straight-skeleton-again.html>
@@ -171,20 +171,20 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 
 	% ! OS MasterMap
 	\item OS MasterMap
-	% [CM05]
-	[Tho05]
+	% \cf{CM05}
+	\cf{Tho05}
 
 	% ! Strokes
-	\item Strokes \cite{Tho06b, EM00}
+	\item Strokes \cf{Tho06b} \cf{EM00}
 
 	% ! graphbasiert
-	\item graphbasiert \cite{JC04, MM99, HAS05, TR95, Kne09}
+	\item graphbasiert \cf{JC04} \cf{MM99} \cf{HAS05} \cf{TR95} \cf{Kne09}
 
 	% ! Relational Constraints
-	\item Relational Constraints \cite{TBDJRG12}
+	\item Relational Constraints \cf{TBDJRG12}
 
 	% ! Conflict Detection
-	\item Conflict Detection \cite{KP98}, \cite{Tho06a}
+	\item Conflict Detection \cf{KP98} \cf{Tho06a}
 
 	% ! -> Christian Stern
 	\item …
@@ -199,7 +199,10 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 (jeweils einschließlich Anwendbarkeit auf die vorliegende Fragestellung, ggf. Vor- und Nachteilen, ggf. Bezug der darin verwendeten Fachsprache zur in dieser Arbeit verwendeten Terminologie)
 
 
+
+\nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
+
 % single-chapter commands
-%\bibliographystyle{../myAMSalpha}
-%\bibliography{../thesis}{}
+\listoffigures %\listoftables
+\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}
 \end{document}

@@ -8,6 +8,22 @@
 %\date{Arbeitsentwurf}
 %\dedication{}
 
+% je4
+%\pdfinfo{
+%  /Author (Name)
+%  /Title (Titel der Diplomarbeit)
+%  /Producer     (pdfeTex 3.14159-1.30.6-2.2)
+%  /Keywords ()
+%}
+%\hypersetup{
+%pdftitle=Titel der Diplomarbeit,
+%pdfauthor=Name,
+%pdfsubject={Diplomarbeit},
+%pdfproducer={pdfeTex 3.14159-1.30.6-2.2},
+%colorlinks=false,
+%%pdfborder=0 0 0	% keine Box um die Links!
+%}
+
 \begin{document}
 
 \maketitle
@@ -24,6 +40,10 @@
 \include{chapters/Ergebniskritik}
 \include{chapters/Schlussfolgerung}
 \include{chapters/Zusammenfassung}
+
+\listoffigures
+\listoftables
+% unified list: see KOMAscript 135
 
 \nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
 \setbibpreamble{Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert. Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par\bigskip\bigskip}
