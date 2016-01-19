@@ -45,7 +45,7 @@ Zielgruppe: wie für Einleitung
   + manuelle Generalisierung ist nicht zielführend außer für nicht nachzuführende Einzelanfertigungen
 - in der Praxis fast nur einfache semantische Modellgeneralisierung unmittelbar im Tile-Renderer, keine kartographische Generalisierung oder Folgekarten bzw. -datenbanken
   + nahe beieinander liegende Punktsignaturen werden willkürlich selektiert, Linearsignaturen überdecken einander
-- insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. [MGW12] oder Haltestellen-Relationen)
+- insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. [MGW12] oder Haltestellen-Relationen {**z. B. Konrad-Adenauer-Platz Beuel**})
 
 ### 2.3  Automatisierte Linien-Generalisierung von OpenStreetMap-Daten  (7 %)
 
