@@ -311,6 +311,120 @@ Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltun
 
 \section{Zielsetzung der Arbeit}
 
+Im Falle paralleler Linienzüge treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf. Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße. Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt. An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
+
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{b256@2-z16}
+    \caption{variierende Abstände von Richtungsfahrbahnen, B\,256n (50~\%, bearbeitet)}\label{fig:b256}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{kombinierte Signatur für autobahnähnliche Straße}\label{fig:dual-carriageway}
+  \end{minipage}
+\end{figure}
+
+In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine statt dessen mittig zwischen den beiden Fahrbahnen gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}). Da jedoch in \osm{} eine Erfassung der Mittellinie unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
+
+% 256 (großer maßstab)
+% dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
+
+\newcommand{\tag}{\textit}
+
+In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk}. Allerdings bildet die \osm-Straßenklassifizierung das britische System ab, wo \term{trunk} auch für schmalere Landstraßen ohne besonderen Ausbauzustand verwendet wird. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{trunk in NO}\label{fig:trunk-norway}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+% hier: Beispiele, wo's nicht funktioniert; daran die Motivation etc. herleiten
+
+% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
+    \caption{utrecht14}\label{fig:utrecht14}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z15}
+    \caption{utrecht15}\label{fig:utrecht15}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
+    \caption{gera13}\label{fig:gera13}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
+    \caption{gera14}\label{fig:gera14}
+\end{figure}
+
+% google
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
+    \caption{google-traffic}\label{fig:google-traffic}
+\end{figure}
+
+% track
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{tracks-small}\label{fig:tracks-small}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{tracks-large}\label{fig:tracks-large}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{passenger_lines-europe}
+    \caption{passenger-lines}\label{fig:passenger_lines}
+\end{figure}
+
+% stülinghausen/verdrängung
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen-me}
+    \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
+\end{figure}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
+    \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
+\end{figure}
+
+% überkreuzen
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{bab3-a}
+    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3}
+\end{figure}
+
+
+% zu tracks=* - Überleitung evtl:
+% Folge der oben beschriebenen offenen Arbeitsweise von \osm ist, dass das Herstellen einer Einigung über bestimmte Tagging-Varianten und deren Anwendung durch die Community oft ein langsamer Prozess ist. \noref[Sch09, forum 485926 s.u.]
+
+
 %\textbf{offener Punkt: Redundanz mit Themenblatt}
 
 % Gedankensprung!
@@ -320,9 +434,12 @@ Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltun
 	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
 	
 	\item Erkennung als parallel ist bisher ein Problem
+	% [CTGV14] benennen?
+	% _war_ bisher! oder "ist gewesen"...
 	
 	\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
 		\item einfacher Screenshot von \\ \url{http://www.itoworld.com/map/231?lon=8.06752&lat=49.22313&zoom=9}
+		% gibt's nicht mehr, siehe http://forum.openstreetmap.org/viewtopic.php?pid=485926#p485926
 	
 	\item ein Problem nicht nur in kleinen, sondern auch in großen Maßstäben:
 	
