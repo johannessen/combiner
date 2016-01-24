@@ -333,20 +333,100 @@ In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte m
 % 256 (großer maßstab)
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
 
-\newcommand{\tag}{\textit}
+In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. \noref[wiki DE] Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. \noref[wiki EN] Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
 
-In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk}. Allerdings bildet die \osm-Straßenklassifizierung das britische System ab, wo \term{trunk} auch für schmalere Landstraßen ohne besonderen Ausbauzustand verwendet wird. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
+% TODO: Relationen-Probleme erläutern? -> eher weiter vorne!
+
+% Ev39 Kalandseidet, > 6 m aber Karte zeigt "mitten im Dorf"
+% Ev39 Søfteland, Bild noch besser, aber keine Häuser in Karte
+% Ev39 nach Nesttun rein, ginge auch, aber mit Radweg
+%   https://goo.gl/maps/jYRgZVXft912
+% Ev39 Vallaheiene wohl das beste hier
+%   https://goo.gl/maps/wMHPCocqsSH2
+% Rv13 Låtefossen, würde auch ohne Häuser in Karte funktionieren, < 6 m
+% oder so Serpentinen, z. B. Granvin, gutes Bild aber keine Bebauung in Karte
+%   https://goo.gl/maps/Y4NwWfRWSZ82
+
+%\begin{figure}[ht]
+%  \begin{minipage}{.5\linewidth}
+%    \centering
+%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-rv13-photo}
+%    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (Rv13, Låtefossen)}\label{fig:trunk-norway}
+%  \end{minipage}%
+%  \begin{minipage}{.5\linewidth}
+%    \centering
+%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-rv13-map1}
+%    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+%  \end{minipage}
+%\end{figure}
 
 \begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
-    \caption{trunk in NO}\label{fig:trunk-norway}
+    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-photo2}
+    \caption{typischer \tag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}\label{fig:trunk-norway}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-map1}
+    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+  \end{minipage}
 \end{figure}
 
+%\begin{figure}[ht]
+%  \begin{minipage}{.5\linewidth}
+%    \centering
+%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-serp-photo}
+%    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (ehem. Rv13, Skjervet)}\label{fig:trunk-norway}
+%  \end{minipage}%
+%  \begin{minipage}{.5\linewidth}
+%    \centering
+%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-map1}
+%    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+%  \end{minipage}
+%\end{figure}
 
+Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Straßenzustand oft nicht hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
+% Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
 
+Ein unklares Kartenbild ist jedoch auch in weniger exotischen Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise eine scheinbare Variation der Breite von auf \url{osm.org} gezeichneten Straßen. Abbildung~\ref{fig:utrecht14} zeigt, wie die als Sammelstraße klassifizierte Croeselaan mit breiterem Strich gezeichnet wird als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). Ebenfalls auffallend ist in Abbildung~\ref{fig:utrecht14} die wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
 
+% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
+    \caption{Utrecht, \term{zoom} 14}\label{fig:utrecht14}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z16}
+    \caption{Utrecht, \term{zoom} 16}\label{fig:utrecht16}
+  \end{minipage}
+\end{figure}
 
+% zweite Abbildung mit überlagerten Ways?
+
+Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme. Die Strichbreite der aus Südosten in die Stadt hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert. Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen an Debschwitz vorbei auf einmal wieder schmaler.
+
+Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildungen~\ref{fig:b256} und~\ref{fig:utrecht16} gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
+
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
+    \caption{Gera, \term{zoom} 13}\label{fig:gera13}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
+    \caption{Gera, \term{zoom} 14}\label{fig:gera14}
+  \end{minipage}
+\end{figure}
+
+In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unschönes Kartenbild. Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke. In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist. In kleinem Maßstab (Abbildung~\ref{fig:gera13}) wird die Straße an dieser Stelle dagegen scheinbar schmaler.
+
+Dies liegt daran, dass an dieser Stelle, wo eine bauliche Trennung beginnt, im kleineren Maßstab die Bahnstrecke die Straße in der Karte teilweise verdeckt. Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung (siehe weiter unten).
 
 
 
@@ -357,28 +437,6 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 
 % hier: Beispiele, wo's nicht funktioniert; daran die Motivation etc. herleiten
 
-% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
-    \caption{utrecht14}\label{fig:utrecht14}
-\end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z15}
-    \caption{utrecht15}\label{fig:utrecht15}
-\end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
-    \caption{gera13}\label{fig:gera13}
-\end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
-    \caption{gera14}\label{fig:gera14}
-\end{figure}
-
 % google
 \begin{figure}[ht]
     \centering
@@ -388,14 +446,16 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 
 % track
 \begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../image-missing}
     \caption{tracks-small}\label{fig:tracks-small}
-\end{figure}
-\begin{figure}[ht]
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../image-missing}
     \caption{tracks-large}\label{fig:tracks-large}
+  \end{minipage}
 \end{figure}
 \begin{figure}[ht]
     \centering
@@ -405,14 +465,16 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 
 % stülinghausen/verdrängung
 \begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{stuelinghausen-me}
     \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
-\end{figure}
-\begin{figure}[ht]
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
     \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
+  \end{minipage}
 \end{figure}
 
 % überkreuzen

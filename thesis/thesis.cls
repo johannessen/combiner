@@ -93,6 +93,8 @@
 % a foreign-language or jargon term is italicised to highlight it
 \newcommand{\term}{\textit}
 
+\newcommand{\tag}{\textit}
+
 % drafting aids
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
 %\RequirePackage{comment}
