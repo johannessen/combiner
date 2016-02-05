@@ -328,12 +328,14 @@ Im Falle paralleler Linienzüge treten immer wieder in verschiedenen Situationen
   \end{minipage}
 \end{figure}
 
-In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine statt dessen mittig zwischen den beiden Fahrbahnen gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}). Da jedoch in \osm{} eine Erfassung der Mittellinie unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
+In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine statt dessen mittig zwischen den beiden Fahrbahnen gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}). Da jedoch in \osm{} eine gesonderte Erfassung einer Mittellinie als Straßenachse unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
 
 % 256 (großer maßstab)
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
 
 In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. \noref[wiki DE] Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. \noref[wiki EN] Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
+
+% TODO: schauen, ob Karte von Dolkviktunnelen / Rv557 besser passt, weil beide Richtungen des Problems gezeigt werden (analog Tracks)!
 
 % TODO: Relationen-Probleme erläutern? -> eher weiter vorne!
 
@@ -369,7 +371,7 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
   \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-map1}
-    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+    \caption{Die hier für \tag{highway=trunk} gewählte Signatur lässt einen weit besseren Ausbauzustand vermuten als in Norwegen zum Teil vorhanden (Vallaheiane).}\label{fig:trunk-norway-osm-de}
   \end{minipage}
 \end{figure}
 
@@ -389,7 +391,9 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Straßenzustand oft nicht hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
 % Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
 
-Ein unklares Kartenbild ist jedoch auch in weniger exotischen Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise eine scheinbare Variation der Breite von auf \url{osm.org} gezeichneten Straßen. Abbildung~\ref{fig:utrecht14} zeigt, wie die als Sammelstraße klassifizierte Croeselaan mit breiterem Strich gezeichnet wird als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). Ebenfalls auffallend ist in Abbildung~\ref{fig:utrecht14} die wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
+Ein unklares Kartenbild ist jedoch auch in weniger exotischen
+% "näher liegenden"?
+Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise eine scheinbare Variation der Breite von auf \url{osm.org} gezeichneten Straßen. Abbildung~\ref{fig:utrecht14} zeigt, wie die als Sammelstraße klassifizierte Croeselaan mit breiterem Strich gezeichnet wird als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). In kleinerem Maßstab überlappen sich die Striche der beiden Fahrbahnen und fließen zusammen. Ebenfalls auffallend ist in Abbildung~\ref{fig:utrecht14} die wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
 
 % gera/utrecht - evtl. MapQuest / osm.de hier einbringen
 \begin{figure}[ht]
@@ -407,9 +411,12 @@ Ein unklares Kartenbild ist jedoch auch in weniger exotischen Konstellationen zu
 
 % zweite Abbildung mit überlagerten Ways?
 
-Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme. Die Strichbreite der aus Südosten in die Stadt hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert. Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen an Debschwitz vorbei auf einmal wieder schmaler.
+Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme. Die Strichbreite der aus Südosten in die Stadt Gera hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert. Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen am Ortsteil Debschwitz vorbei auf einmal wieder schmaler.
 
-Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildungen~\ref{fig:b256} und~\ref{fig:utrecht16} gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
+% Absatz etwas unklar, insb. letzter Satz (implizit)
+Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildung~\ref{fig:b256}
+%und~\ref{fig:utrecht16}
+gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
 
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
@@ -424,44 +431,9 @@ Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche
   \end{minipage}
 \end{figure}
 
-In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unschönes Kartenbild. Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke. In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist. In kleinem Maßstab (Abbildung~\ref{fig:gera13}) wird die Straße an dieser Stelle dagegen scheinbar schmaler.
+In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unklares Kartenbild. Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke. In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist. In kleinem Maßstab (Abbildung~\ref{fig:gera13}) erscheint dieses Verhältnis umgekehrt. Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte Fahrbahnen hat, in kleinerem Maßstab aber teilweise durch die Bahnstrecke verdeckt wird. 
 
-Dies liegt daran, dass an dieser Stelle, wo eine bauliche Trennung beginnt, im kleineren Maßstab die Bahnstrecke die Straße in der Karte teilweise verdeckt. Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung (siehe weiter unten).
-
-
-
-
-
-
-
-
-% hier: Beispiele, wo's nicht funktioniert; daran die Motivation etc. herleiten
-
-% google
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
-    \caption{google-traffic}\label{fig:google-traffic}
-\end{figure}
-
-% track
-\begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
-    \caption{tracks-small}\label{fig:tracks-small}
-  \end{minipage}%
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
-    \caption{tracks-large}\label{fig:tracks-large}
-  \end{minipage}
-\end{figure}
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{passenger_lines-europe}
-    \caption{passenger-lines}\label{fig:passenger_lines}
-\end{figure}
+Solcherart einander verdeckende Linien sind ebenfalls verbreitet. Abbildungen~\ref{fig:stuelinghausen-mapnik} und~\ref{fig:stuelinghausen-maps.me} zeigen, wie ein straßenbegleitender Radweg mal „über“, mal „unter“ der Straße zu liegen kommt. Keiner dieser beiden Ansätze ist kartographisch gelungen. Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung (siehe weiter unten).
 
 % stülinghausen/verdrängung
 \begin{figure}[ht]
@@ -475,6 +447,43 @@ Dies liegt daran, dass an dieser Stelle, wo eine bauliche Trennung beginnt, im k
     \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
     \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
   \end{minipage}
+\end{figure}
+
+
+
+
+
+
+
+
+
+% hier: Beispiele, wo's nicht funktioniert; daran die Motivation etc. herleiten
+
+% track
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{tracks-small}
+    \caption{tracks-small}\label{fig:tracks-small}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{tracks-large}
+    \caption{tracks-large}\label{fig:tracks-large}
+  \end{minipage}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{passenger_lines-europe}
+    \caption{passenger-lines}\label{fig:passenger_lines}
+\end{figure}
+
+% google
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
+    \caption{google-traffic}\label{fig:google-traffic}
 \end{figure}
 
 % überkreuzen
@@ -497,22 +506,21 @@ Dies liegt daran, dass an dieser Stelle, wo eine bauliche Trennung beginnt, im k
 \begin{itemize}
 	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
 	
-	\item Erkennung als parallel ist bisher ein Problem
+	%\item Erkennung als parallel ist bisher ein Problem
 	% [CTGV14] benennen?
 	% _war_ bisher! oder "ist gewesen"...
 	
-	\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
-		\item einfacher Screenshot von \\ \url{http://www.itoworld.com/map/231?lon=8.06752&lat=49.22313&zoom=9}
+	%\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
+		%\item einfacher Screenshot von \\ \url{http://www.itoworld.com/map/231?lon=8.06752&lat=49.22313&zoom=9}
 		% gibt's nicht mehr, siehe http://forum.openstreetmap.org/viewtopic.php?pid=485926#p485926
 	
-	\item ein Problem nicht nur in kleinen, sondern auch in großen Maßstäben:
+	%\item ein Problem nicht nur in kleinen, sondern auch in großen Maßstäben:
 	
-	\item Beispiel: unregelmäßige Lücken zwischen Autobahn-Richtungsfahrbahnen
-		\item einfacher Screenshot von osm.org
+	%\item Beispiel: unregelmäßige Lücken zwischen Autobahn-Richtungsfahrbahnen
+		%\item einfacher Screenshot von osm.org
 	
-	\item Formvereinfachungen von Parallelen ist ungelöst
-	% ||
-	\item Beispiele: untaugliche Formvereinfachungen (kurzer Verweis auf vorgenannte Probleme)
+	\item Formvereinfachungen von Parallelen ist ungelöst; Beispiele: untaugliche Formvereinfachungen (kurzer Verweis auf vorgenannte Probleme)
+	% -> Google Traffic, Überkreuzen
 	% nur hier nennen...? -> bessere Kapitelabgrenzung!
 	
 	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
@@ -523,7 +531,7 @@ Dies liegt daran, dass an dieser Stelle, wo eine bauliche Trennung beginnt, im k
 			\item Zusammenfassung der Attribute derart, dass die Möglichkeit zur Darstellung der Gesamtwerte besteht (z. B. Railway-Tracks / lanes)
 		\item Verringerung der Datenmenge => einfacheres Arbeiten mit Daten für große Gebiete, Vereinfachung der Weiternutzung
 			(möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
-		\item Zusammenfassung kann theoretisch auch das Erstellen von MRDBs vereinfachen
+		\item Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 	\end{itemize}
 	
 	\item \emph{nicht} Teil der Arbeit sind insbesondere:
