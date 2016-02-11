@@ -120,7 +120,7 @@
 %http://texwelt.de/wissen/fragen/2528/wie-funktionieren-gleitobjekte-und-wie-kann-man-ihre-positionierung-beeinflussen
 \addtokomafont{caption}{\small}
 \addtokomafont{captionlabel}{\bfseries}
-\renewcommand*{\captionformat}{.\enskip}
+%\renewcommand*{\captionformat}{.\enskip}  % keep the colon! -TA
 %\addto\captionsngerman{\renewcommand\figurename{Abb.}}
 
 % graphics
