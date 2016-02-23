@@ -472,59 +472,57 @@ Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wir
 Analog kann in Abbildung~\ref{fig:tracks-small} der Eindruck entstehen, dass von der eingleisigen Strecke (2) zwei doppelgleisige Strecken (3) und (4) derart abzweigen, dass am unteren Bildrand insgesamt fünf Gleise nebeneinander liegen. In größerem Maßstab (Abbildung~\ref{fig:tracks-large}) wird (2) plötzlich der Realität entsprechend als zwei parallele Gleise erkennbar, deren Signaturen im kleineren Maßstab zusammengeflossen waren. Der Abzweig (3) und (4) besteht tatsächlich aus jeweils einem einzelnen Gleis, das fälschlich \tag{tracks=2} gesetzt hat.
 
 % Fußnote?
-Insgesamt ist diese Karte mit \tag{tracks=*} wenig gelungen. Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird. Das unglücklich benannte \tag{passenger\_lines} reicht für manche Anwendungen aus, wird jedoch nicht nur auf speziellen Karten angezeigt, so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
+Insgesamt ist diese Karte mit \tag{tracks=*} wenig gelungen. Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird. Das unglücklich benannte \tag{passenger\_lines} reicht für manche Anwendungen aus, wird jedoch nur auf speziellen Karten angezeigt,
+% zu implizit?
+so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
 
 \begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{passenger_lines-europe}
     \caption{passenger-lines}\label{fig:passenger_lines}
-\end{figure}
-
-
-
-% hier: Beispiele, wo's nicht funktioniert; daran die Motivation etc. herleiten
-
-% google
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
-    \caption{google-traffic}\label{fig:google-traffic}
-\end{figure}
-
-% überkreuzen
-\begin{figure}[ht]
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    % überkreuzen
     \centering
     \includegraphics[width=\ScaleIfNeeded]{bab3-a}
     \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3}
+    % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
+  \end{minipage}
 \end{figure}
 
+% mit heißer Nadel geschrieben...
+Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3}).
+% (kurzer Verweis auf vorgenannte Probleme)
 
-
+%\item Erkennung als parallel ist bisher ein Problem
+% [CTGV14] benennen?
+% _war_ bisher! oder "ist gewesen"...
 
 %\textbf{offener Punkt: Redundanz mit Themenblatt}
 
-% Gedankensprung!
 % (die Beispiele wiederholen sich => bessere Abgrenzung der Kapitel)
+
+% -> Google Traffic
+% nur hier nennen...? -> bessere Kapitelabgrenzung!
+
+% google
+%\begin{figure}[ht]
+%    \centering
+%    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
+%    \caption{google-traffic}\label{fig:google-traffic}
+%\end{figure}
+
+\eyecatcher{Ziel der Arbeit}
+
+
+
+
+
+
 
 \begin{itemize}
 	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
-	
-	%\item Erkennung als parallel ist bisher ein Problem
-	% [CTGV14] benennen?
-	% _war_ bisher! oder "ist gewesen"...
-	
-	%\item Beispiel: Eisenbahnkarte mit untauglicher Darstellung von ein- und mehrgleisigen Strecken
-		%\item einfacher Screenshot von \\ \url{http://www.itoworld.com/map/231?lon=8.06752&lat=49.22313&zoom=9}
-		% gibt's nicht mehr, siehe http://forum.openstreetmap.org/viewtopic.php?pid=485926#p485926
-	
-	%\item ein Problem nicht nur in kleinen, sondern auch in großen Maßstäben:
-	
-	%\item Beispiel: unregelmäßige Lücken zwischen Autobahn-Richtungsfahrbahnen
-		%\item einfacher Screenshot von osm.org
-	
-	\item Formvereinfachungen von Parallelen ist ungelöst; Beispiele: untaugliche Formvereinfachungen (kurzer Verweis auf vorgenannte Probleme)
-	% -> Google Traffic, Überkreuzen
-	% nur hier nennen...? -> bessere Kapitelabgrenzung!
 	
 	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
 	
