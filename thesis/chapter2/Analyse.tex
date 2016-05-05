@@ -513,37 +513,57 @@ Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als z
 %    \caption{google-traffic}\label{fig:google-traffic}
 %\end{figure}
 
-\eyecatcher{Ziel der Arbeit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \eyecatcher{Ziel der Arbeit}
+% im Prinzip sollte NUR dieser Unterabschnitt in Kapitel 2.4 stehen, alles hierüber sollte in 2.3 (das jedenfalls war das ursprüngliche Konzept)!
+% Mal sehen, ob das noch aktuell ist ... 2.4 würde dann ja SEHR kurz(?).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\section{(2.4) Zielsetzung der Arbeit}
+
+Das automatisierte Zusammenfassen paralleler Linienzüge kann zur Vermeidung einiger der oben diskutierten Probleme bei der Generalisierung und Darstellung von Geodaten beitragen.
+
+Bereits das Zusammenfassen selbst ist ein Vorgang der kartographischen Generalisierung. Es kann das Kartenbild vereinfachen und verbessern.
+% TODO: Abgleich mit oben
+
+Beim Zusammenfassen können Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben. Beispielsweise kann beim Zusammenfassen paralleler Gleise die in \tag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden. Die so vereinfachten Geodaten können dann entsprechend ihrer Attribute visualisiert werden. Die Gefahr von missverständlichen oder unschönen Kartenbildern, die wie oben gezeigt etwa durch Überlagerung entstehen können, wird so verringert.
+
+Ebenfalls verringert wird die Datenmenge an sich. Das Arbeiten mit Geodaten für große Gebiete, aber auch die Weiternutzung für andere Zwecke wird so unter Umständen einfacher.
+% (möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
+
+Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf parallele Linienzüge mehr genommen werden muss (siehe Beispiel oben mit überkreuzenden Linien).
+% TODO: Referenz
+% Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
+
+Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm{}. Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere weder eine Formvereinfachung noch eine Verdrängung.
 
 
+%\begin{itemize}
+%	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
+%	
+%	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
+%	
+%	\item Visionen:
+%	\begin{itemize}
+%		\item kartographische Generalisierung => besseres Kartenbild
+%			\item Zusammenfassung der Attribute derart, dass die Möglichkeit zur Darstellung der Gesamtwerte besteht (z. B. Railway-Tracks / lanes)
+%		\item Verringerung der Datenmenge => einfacheres Arbeiten mit Daten für große Gebiete, Vereinfachung der Weiternutzung
+%			(möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
+%		\item Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
+%	\end{itemize}
+%	
+%	\item \emph{nicht} Teil der Arbeit sind insbesondere:
+%	\begin{itemize}
+%		\item die Formvereinfachung selbst
+%		\item eine wie auch immer geartete Verdrängung (obgleich eine solche durch diese Arbeit vielleicht erleichtert werden könnte)
+%	\end{itemize}
+%\end{itemize}
 
 
-
-\begin{itemize}
-	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
-	
-	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
-	
-	\item Visionen:
-	\begin{itemize}
-		\item kartographische Generalisierung => besseres Kartenbild
-			\item Zusammenfassung der Attribute derart, dass die Möglichkeit zur Darstellung der Gesamtwerte besteht (z. B. Railway-Tracks / lanes)
-		\item Verringerung der Datenmenge => einfacheres Arbeiten mit Daten für große Gebiete, Vereinfachung der Weiternutzung
-			(möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
-		\item Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
-	\end{itemize}
-	
-	\item \emph{nicht} Teil der Arbeit sind insbesondere:
-	\begin{itemize}
-		\item die Formvereinfachung selbst
-		\item eine wie auch immer geartete Verdrängung (obgleich eine solche durch diese Arbeit vielleicht erleichtert werden könnte)
-	\end{itemize}
-\end{itemize}
-
-
-\section[Diskussion existierender Ansätze]{Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
+\section[Diskussion existierender Ansätze]{(2.5) Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 
 \begin{itemize}
 
