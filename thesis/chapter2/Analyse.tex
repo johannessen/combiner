@@ -574,35 +574,108 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
 % => Epsilon benötigt
 % - Buffer orthogonal zur Linie würde reichen; die Endrundungen können wegfallen
-% - löst Zusammenfassung nicht; evtl. inward offset (um wieviel?) oder eher -> Skeleton
-
+% - löst Zusammenfassung nicht, da keine unmittelbare Rückführung zur Linie allein mit diesem Ansatz möglich (was für das erklärte Ziel 3D aber eh nix ausmacht, insofern ist der Ansatz gut, aber eben nicht gut für mich); evtl. inward offset (um wieviel?) oder eher -> Skeleton
+% - löst auch Erkennung nicht
+	
 	% ! Skeleton
 	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
-
-% Mig12: <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
-% <http://twak.blogspot.de/2009/01/that-straight-skeleton-again.html>
-% <http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
-
+	% LM96: Straßen_flächen_ -> Einzellinie
+	% - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
+	% - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
+	% - ways werden verdichtet auf einen node alle 30 cm, um eine gesmoothte Mittellinie zu erhalten
+	% - ausgehend von nodes wird ein Voronoi-Diagramm gebaut, aus dem sich direkt die Mittellinie ergibt (nach filtern)
+	% - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
+	% - "Suspect situations" kommen vor und werden manuell beseitigt
+	% - 7 man-months
+	% Mig12: Projekt für "schöne" topo. Karte
+	% <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
+	% <http://mike.teczno.com/img/terrain-stamen-post/>
+	% - erwähnt kurz Probleme von dual carriageways
+	% - eines der Probleme: unschöne versetzte Doppelungen von Straßennamen
+	% - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
+	% - Ziel letztlich "nur" Shields und Straßennamen
+	% HS04: straight skeleton for MRDB
+	% <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
+	% - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
+	% - Ziel: Framework für MRDB (automatisch)
+	% - erwähnt Chordal Axis (Prasad, 1997) ********
+	% - verwendet straight skeleton plus eine handvoll Regeln, um Kreuzungen etc. zu behandeln; immer noch etwas verwurstet, aber sieht wesentlich besser/systematischer aus als LM96
+	% - schlägt angeblich fehl an komplizierteren Stellen
+	% - ermittelt eine Relation zwischen ALK ATKIS
+	% Skeletron [Mig11/ME11 (?)]:
+	% <https://github.com/migurski/Skeletron>
+	% - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
+	%  All11: ????
+	
 	% ! OS MasterMap
 	\item OS MasterMap
 	% \cf{CM05}
+	% CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network
+	% - arbeitet primär mit Strokes; Problem dabei: "good continuation" sieht an Gabelungen u. U. je nach Seite unterschiedlich aus; zur Lösung werden Attribute herangezogen
+	% - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
+	% - hebt Kreuzungsproblem als ungelöst hervor
+	
 	\cf{Tho05}
-
+	% (ähnelt grob meinem Ansatz)
+	% Tho05: speziell meine Problemstellung!
+	% - Ziel: Hilfe bei automatischer Folgekartenableitung beim Ordnance Survey
+	% - 3 wichtigste Teile: Kreuzungsproblem, Verdrängung und Zusammenfassung von Parallelen [2]
+	% - arbeitet mit Strokes basierend auf one-way-Attributen; Probleme an manchen Kreuzungen, die aber automatisch erkannt und behoben werden sollen
+	% - Paarbildung erfolgt abhängig von Klassifizierung der Strokes (z. B. bei Verkehrsinseln kleinere Höchstschwelle als bei normalen Straßen)
+	% - klappt nicht in allen Fällen (einzelne Fehlerfälle)
+	% - benutzt Skeleton zur tatsächlichen Zusammenfassung der erkannten Paare
+	% - funktioniert meistens, aber nicht immer; manche der Restfälle manuell als nicht lösbar erkannt
+	% - one-way-Attribut war "essential"
+	% - Ergebnis hat noch keine Topologie (future work)
+	% - erst mit Topologie ist Unterbrechung der Signatur möglich, um Ampelkreuzungen im Dual Carriageway darzustellen
+	% - Kreisverkehre werden bisher ignoriert
+	
 	% ! Strokes
 	\item Strokes \cf{Tho06b} \cf{EM00}
-
+	% Tho06b: Netzwerk-Generalisierung und -Analyse
+	% - perzeptueller Ansatz zur Defragmentierung und Auswahl-Generalisierung
+	% - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
+	% - "perceptual grouping" [684]
+	% EM00:
+	% - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
+	% - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b
+	
 	% ! graphbasiert
 	\item graphbasiert \cf{JC04} \cf{MM99} \cf{HAS05} \cf{TR95} \cf{Kne09}
-
+	% JC04: connectivity graph für urban street network
+	% - dreht Straßen-Graph logisch um (Knoten=Straße, Kante=Verbindung)
+	% - filtert nach Graphkriterien ("centralities" degree, closeness, betweenness)
+	% - Ergebnis ist ein nach natürlich Kriterien modellgeneralisiertes Netz, denn Straßen mit besserer Verbindung werden häufiger benutzt und sind somit wichtiger
+	% - Parallelen im Straßennetz zeichnen sich durch Redundanz und Symmetrie aus (oft gegeneinander gerichtete Einbahnstraßen) und sind damit höchstens! in einem sehr unregelmäßigen Netz theoretisch! erkennbar; tatsächlich werden im Beispiel im Paper die Parallelen nicht generalisiert [168]
+	% MM99: Simplification of Junctions
+	% - "Brücken von Königsberg" als Beispiel für junction simplification und Zusammenfassung von Parallelen, aber das ist wohl etwas zu sehr vereinfacht! [188]
+	% - evtl. werden durch Zusammenfassen der Kreuzung von Parallelen jene zu Duplikaten und können so erkannt und zusammengefasst werden; Nachteil: klappt wirklich nicht ohne Kreuzungen (diese Methode wird anscheinend nicht explizit erwähnt)
+	% HAS05: will typische Muster erkennen
+	% - erwähnt für Strokes Problem dort, wo Richtungsfahrbahnen beginnen, mitsamt theoretischer Lösung [3.2]
+	% - evtl. können Parallelen in einem Netzwerk durch Musteranalyse erkannt werden (typischerweise sehr lang und schmal); jedoch vmtl. Probleme an Kreuzungen etc.
+	% TR95: Graphentheorie in der Generalisierung von Straßennetzen
+	% - betont, dass autom. Generalisierung oft Darstellungs-zentriert ist und Topologie des Ergebnisses vernachlässigt [1871]
+	% Kne09: Anwendung von Graphentheorie in OSM, wenig hilfreich für uns
+	% MB93: Graphentheorie in der Generalisierung allgemein
+	% - durch Prüfung der Einbahn-Richtung erkennen, ob insgesamt ein verbundener Graph vorliegt (zweimal Einbahn => einmal Zweibahn)
+	
 	% ! Relational Constraints
 	\item Relational Constraints \cf{TBDJRG12}
-
+	% - hat keinen Algorithmus, sondern nur Konzepte
+	% - führ constraint ontology ein als mögl. Hilfswerkzeug
+	% evtl. als Grundlage für Kap. 4 interessant
+	
 	% ! Conflict Detection
 	\item Conflict Detection \cf{KP98} \cf{Tho06a}
-
-	% ! -> Christian Stern
-	\item …
-
+	% KP98:
+	% - Ziel: gesamtes Straßennetz
+	% - detektiert Fälle, in denen Linien einander zu nahe kommen (wobei Bereiche nahe der Endknoten jeweils ausgeschlossen werden)
+	% - nutzt Voronoi region
+	% - eigentlich nicht speziell für parallelen gedacht oder geeignet (nutzt Dijkstra, um längeren von zwei Wegen zu eliminieren), aber speziell der "Second step: eliminate conflicts" könnte anwendbar sein, und der Voronoi-Kram gibt zumindest ein paar hübsche Bilder
+	% Tho06a: ? Bib, einzelne Fotos in "neu"
+	% - erwähnt ausdrücklich mein Problem als "hilfreich" (in gelöstem Zustand)
+	% - Skeleton??
+	
 \end{itemize}
 
 % + RoadMatcher 
