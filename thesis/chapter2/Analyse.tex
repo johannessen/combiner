@@ -565,10 +565,7 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 
 \section[Diskussion existierender Ansätze]{(2.5) Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 
-\begin{itemize}
-
-	% ! Puffer
-	\item Puffer \cf[2–3]{OHSZ10}
+\subsection{Linien zusammenfassen mit Puffer}
 % - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
@@ -576,36 +573,58 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 % - Buffer orthogonal zur Linie würde reichen; die Endrundungen können wegfallen
 % - löst Zusammenfassung nicht, da keine unmittelbare Rückführung zur Linie allein mit diesem Ansatz möglich (was für das erklärte Ziel 3D aber eh nix ausmacht, insofern ist der Ansatz gut, aber eben nicht gut für mich); evtl. inward offset (um wieviel?) oder eher -> Skeleton
 % - löst auch Erkennung nicht
+
+Das Projekt „OSM-3D“ verwendet \osm-Daten automatisiert zum Aufbau eines 3D-Modells für die ganze Welt. Die \term{ways} aus \osm{} werden für die 3D-Szene durch Pufferung mit attributabhängigem Radius in Polygone gewandelt, um ein Gesamtbild mit realistischen Breiten von Straßen, Wegen und Bahnlinien zu erzeugen. Um dabei durch Überlappungen von eng parallelen \term{ways} entstehende unnötig große Datenmengen zu vermeiden, werden diese Polygone anschließend vereinigt. \cf[2–3]{OHSZ10}
+
+Durch diesen Ansatz werden unerwünschte Parallelen beseitigt. Allerdings ist die für diese Arbeit erwünschte Rückführung des durch das Puffern entstandenden Flächen zu einer Linie nicht ohne Weiteres möglich. Auch werden Parallelen nicht als solche erkannt, sondern entfallen restlos durch die Polygonvereinigung. Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrundeliegenden Fragestellung nicht geeignet.
+
+
+\subsection{Bildung von Skelettlinien}
+% - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
+
+Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung. Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt. Hierfür existieren unterschiedliche Algorithmen. [wikipedia.....]
+
+% HS04: straight skeleton for MRDB
+% <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
+% - Ziel: Framework für MRDB (automatisch)
+% - erwähnt Chordal Axis (Prasad, 1997) ********
+% - verwendet straight skeleton plus eine handvoll Regeln, um Kreuzungen etc. zu behandeln; immer noch etwas verwurstet, aber sieht wesentlich besser/systematischer aus als LM96
+% - schlägt angeblich fehl an komplizierteren Stellen
+% - ermittelt eine Relation zwischen ALK ATKIS
+
+Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten. Der Algorithmus von Eppstein und Erickson \cf{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Netz auf die gewünschten Mittellinien der Flächen zu reduzieren. Dennoch kam es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden konnten. \cf[4–6]{HS04}
+
+% Mig12: Projekt für "schöne" topo. Karte
+% <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
+% <http://mike.teczno.com/img/terrain-stamen-post/> *******
+% - erwähnt kurz Probleme von dual carriageways
+% - eines der Probleme: unschöne versetzte Doppelungen von Straßennamen
+% - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
+% - Ziel letztlich "nur" Shields und Straßennamen
+
+Migurski setzt eine Skelettierung ein, um für eine topographische Karte auf \osm-Basis Straßennamen und -nummern graphisch ansprechend darzustellen. 
+
+
+% Skeletron [ME11]:
+% <https://github.com/migurski/Skeletron>
+% - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
+% LM96: Straßen_flächen_ -> Einzellinie
+% - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
+% - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
+% - ways werden verdichtet auf einen node alle 30 cm, um eine gesmoothte Mittellinie zu erhalten
+% - ausgehend von nodes wird ein Voronoi-Diagramm gebaut, aus dem sich direkt die Mittellinie ergibt (nach filtern)
+% - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
+% - "Suspect situations" kommen vor und werden manuell beseitigt
+% - 7 man-months
+%  All11: ????
+
+
+
+\subsection{weitere Ansätze}
+\begin{itemize}
 	
 	% ! Skeleton
-	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
-	% HS04: straight skeleton for MRDB
-	% <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
-	% - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
-	% - Ziel: Framework für MRDB (automatisch)
-	% - erwähnt Chordal Axis (Prasad, 1997) ********
-	% - verwendet straight skeleton plus eine handvoll Regeln, um Kreuzungen etc. zu behandeln; immer noch etwas verwurstet, aber sieht wesentlich besser/systematischer aus als LM96
-	% - schlägt angeblich fehl an komplizierteren Stellen
-	% - ermittelt eine Relation zwischen ALK ATKIS
-	% Mig12: Projekt für "schöne" topo. Karte
-	% <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
-	% <http://mike.teczno.com/img/terrain-stamen-post/>
-	% - erwähnt kurz Probleme von dual carriageways
-	% - eines der Probleme: unschöne versetzte Doppelungen von Straßennamen
-	% - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
-	% - Ziel letztlich "nur" Shields und Straßennamen
-	% Skeletron [Mig11/ME11 (?)]:
-	% <https://github.com/migurski/Skeletron>
-	% - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
-	% LM96: Straßen_flächen_ -> Einzellinie
-	% - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
-	% - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
-	% - ways werden verdichtet auf einen node alle 30 cm, um eine gesmoothte Mittellinie zu erhalten
-	% - ausgehend von nodes wird ein Voronoi-Diagramm gebaut, aus dem sich direkt die Mittellinie ergibt (nach filtern)
-	% - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
-	% - "Suspect situations" kommen vor und werden manuell beseitigt
-	% - 7 man-months
-	%  All11: ????
+%	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
 	
 	% ! Strokes
 	\item Strokes \cf{Tho06b} \cf{EM00} \cf{TR99}
