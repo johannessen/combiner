@@ -569,7 +569,7 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 
 	% ! Puffer
 	\item Puffer \cf[2–3]{OHSZ10}
-% - für eine Darstellung von OSM-Daten als Teil eiens 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
+% - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
 % => Epsilon benötigt
@@ -579,21 +579,6 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 	
 	% ! Skeleton
 	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
-	% LM96: Straßen_flächen_ -> Einzellinie
-	% - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
-	% - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
-	% - ways werden verdichtet auf einen node alle 30 cm, um eine gesmoothte Mittellinie zu erhalten
-	% - ausgehend von nodes wird ein Voronoi-Diagramm gebaut, aus dem sich direkt die Mittellinie ergibt (nach filtern)
-	% - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
-	% - "Suspect situations" kommen vor und werden manuell beseitigt
-	% - 7 man-months
-	% Mig12: Projekt für "schöne" topo. Karte
-	% <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
-	% <http://mike.teczno.com/img/terrain-stamen-post/>
-	% - erwähnt kurz Probleme von dual carriageways
-	% - eines der Probleme: unschöne versetzte Doppelungen von Straßennamen
-	% - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
-	% - Ziel letztlich "nur" Shields und Straßennamen
 	% HS04: straight skeleton for MRDB
 	% <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
 	% - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
@@ -602,14 +587,38 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 	% - verwendet straight skeleton plus eine handvoll Regeln, um Kreuzungen etc. zu behandeln; immer noch etwas verwurstet, aber sieht wesentlich besser/systematischer aus als LM96
 	% - schlägt angeblich fehl an komplizierteren Stellen
 	% - ermittelt eine Relation zwischen ALK ATKIS
+	% Mig12: Projekt für "schöne" topo. Karte
+	% <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
+	% <http://mike.teczno.com/img/terrain-stamen-post/>
+	% - erwähnt kurz Probleme von dual carriageways
+	% - eines der Probleme: unschöne versetzte Doppelungen von Straßennamen
+	% - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
+	% - Ziel letztlich "nur" Shields und Straßennamen
 	% Skeletron [Mig11/ME11 (?)]:
 	% <https://github.com/migurski/Skeletron>
 	% - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
+	% LM96: Straßen_flächen_ -> Einzellinie
+	% - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
+	% - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
+	% - ways werden verdichtet auf einen node alle 30 cm, um eine gesmoothte Mittellinie zu erhalten
+	% - ausgehend von nodes wird ein Voronoi-Diagramm gebaut, aus dem sich direkt die Mittellinie ergibt (nach filtern)
+	% - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
+	% - "Suspect situations" kommen vor und werden manuell beseitigt
+	% - 7 man-months
 	%  All11: ????
 	
+	% ! Strokes
+	\item Strokes \cf{Tho06b} \cf{EM00} \cf{TR99}
+	% Tho06b: Netzwerk-Generalisierung und -Analyse
+	% - perzeptueller Ansatz zur Defragmentierung und Auswahl-Generalisierung
+	% - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
+	% - "perceptual grouping" [684]
+	% EM00:
+	% - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
+	% - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
+	
 	% ! OS MasterMap
-	\item OS MasterMap
-	% \cf{CM05}
+	\item OS MasterMap \cf{CM05}
 	% CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network
 	% - arbeitet primär mit Strokes; Problem dabei: "good continuation" sieht an Gabelungen u. U. je nach Seite unterschiedlich aus; zur Lösung werden Attribute herangezogen
 	% - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
@@ -629,16 +638,6 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 	% - Ergebnis hat noch keine Topologie (future work)
 	% - erst mit Topologie ist Unterbrechung der Signatur möglich, um Ampelkreuzungen im Dual Carriageway darzustellen
 	% - Kreisverkehre werden bisher ignoriert
-	
-	% ! Strokes
-	\item Strokes \cf{Tho06b} \cf{EM00}
-	% Tho06b: Netzwerk-Generalisierung und -Analyse
-	% - perzeptueller Ansatz zur Defragmentierung und Auswahl-Generalisierung
-	% - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
-	% - "perceptual grouping" [684]
-	% EM00:
-	% - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
-	% - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b
 	
 	% ! graphbasiert
 	\item graphbasiert \cf{JC04} \cf{MM99} \cf{HAS05} \cf{TR95} \cf{Kne09}
@@ -662,7 +661,7 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 	% ! Relational Constraints
 	\item Relational Constraints \cf{TBDJRG12}
 	% - hat keinen Algorithmus, sondern nur Konzepte
-	% - führ constraint ontology ein als mögl. Hilfswerkzeug
+	% - führt constraint ontology ein als mögl. Hilfswerkzeug
 	% evtl. als Grundlage für Kap. 4 interessant
 	
 	% ! Conflict Detection
