@@ -565,7 +565,7 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 
 \section[Diskussion existierender Ansätze]{(2.5) Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 
-\subsection{Linien zusammenfassen mit Puffer}
+\subsection{Linien zusammenfassen mit Puffer} \label{buffer}
 % - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
@@ -592,7 +592,7 @@ Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skeletti
 % - schlägt angeblich fehl an komplizierteren Stellen
 % - ermittelt eine Relation zwischen ALK ATKIS
 
-Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten. Der Algorithmus von Eppstein und Erickson \cf{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Netz auf die gewünschten Mittellinien der Flächen zu reduzieren. Dennoch kam es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden konnten. \cf[4–6]{HS04}
+Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten. Der Algorithmus von Eppstein und Erickson \cf{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Netz auf die gewünschten Mittellinien der Flächen zu reduzieren. Dennoch kommt es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden können. \cf[4–6]{HS04}
 
 % Mig12: Projekt für "schöne" topo. Karte
 % <http://mike.teczno.com/notes/osm-us-terrain-layer/foreground.html>
@@ -602,12 +602,14 @@ Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automati
 % - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
 % - Ziel letztlich "nur" Shields und Straßennamen
 
-Migurski setzt eine Skelettierung ein, um für eine topographische Karte auf \osm-Basis Straßennamen und -nummern graphisch ansprechend darzustellen. 
-
+Migurski setzt eine Skelettierung ein, um für eine topographische Karte auf \osm-Basis Straßennamen und -nummern graphisch ansprechend darzustellen. Im Falle von zwei zueinander parallelen Fahrbahnen derselben Straße sollen Nummer und Name so gezeichnet werden, dass sie für beide Fahrbahnen gelten und unschöne Doppelungen des Namens vermieden werden. Hierzu benutzt Migurski die Software Skeletron \cf{ME11}. \cf{Mig12}
 
 % Skeletron [ME11]:
 % <https://github.com/migurski/Skeletron>
 % - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
+
+Skeletron benutzte ursprünglich ein Straight Skeleton nach dem erwähnten Ansatz von Haunert und Sester, was aber letztlich nicht besonders gut funktioniert hat („ultimately didn't work very well“) \cf[Readme]{ME11}. Inzwischen wird die von Ladak und Martinez für diesen Zweck beschriebene Thiessen-Polygon-Methode eingesetzt.
+
 % LM96: Straßen_flächen_ -> Einzellinie
 % - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
 % - gute Ausgangsdaten seien entscheidend fürs Projekt gewesen (1:1000, mit Straßenflächen!)
@@ -616,47 +618,63 @@ Migurski setzt eine Skelettierung ein, um für eine topographische Karte auf \os
 % - erzeugt schwierig zu filternde Dangles / Forks dort, wo Parallelen enden; Auflösung durch zusätzliche Angaben aus der Datenquelle ('The "true end" of the road is determined by temporarily appending the appropriate road extent arcs from the original Urban layer.')
 % - "Suspect situations" kommen vor und werden manuell beseitigt
 % - 7 man-months
-%  All11: ????
+
+Hierbei werden ausgehend von einer sehr detaillierten Straßenfläche zunächst deren Kanten verdichtet auf mehrere Knoten pro Meter, bevor ausgehend von diesen Knoten mittels Delaunay-Triangulierung ein Voronoi-Diagramm berechnet wird, dessen Kanten die Skelettlinien der Straßenfläche sind. Auch hier ergeben sich allerdings erhebliche Probleme an allen Kreuzungen, die trotz Einbeziehung von Metadaten nur teilweise automatisch gefiltert werden. Solche Fälle können immerhin automatisch erkannt und dann manuell beseitigt werden. Der Aufwand für die Implementierung wird mit sieben Mann-Monaten beschrieben. \cf{LM96}
+
+Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thiessen-Polygon-Methode erst möglich wird, puffert Skeletron zuvor die \osm-\term{ways} wie in Abschnitt~\ref{buffer} beschrieben. \cf{ME11}
+
+%  All11: \cf[][\?]{All11} ????
+
+
+%\subsection{Kognitive Wahrnehmung}
+\subsection{Visuelle Wahrnehmung}
+
+% Tho06b: Netzwerk-Generalisierung und -Analyse
+% - perzeptueller Ansatz zur Defragmentierung und Auswahl-Generalisierung
+% - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
+% - "perceptual grouping" [684]
+
+Thomson beschreibt, wie das menschliche Gehirn optisch wahrgenommene Elemente selbst dann „spontan organisiert“, wenn deren Semantik völlig unbekannt ist. Er bezeichnet dieses Konzept als „perceptual grouping“ und zählt unter den dazu herangezogenen geometrischen Eigenschaften neben Nähe, Ähnlichkeit und Symmetrie auch Parallelität und Kontinuität auf. \cf[683–684]{Tho06b}
+
+% EM00:
+% - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
+% - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
+
+Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“) \cf{TR99}. Edwardes und Mackaness nutzen diesen Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen \cf{EM00}.
+% ################ "hanging streets" erwähnen?
+% ################ forward pointer zu graphbasiert????
+%Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde meines Wissens bisher nicht konkret untersucht.
+
+% ! OS MasterMap
+% CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network
+% - arbeitet primär mit Strokes; Problem dabei: "good continuation" sieht an Gabelungen u. U. je nach Seite unterschiedlich aus; zur Lösung werden Attribute herangezogen
+% - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
+% - hebt Kreuzungsproblem als ungelöst hervor
+
+Chaudry und Mackaness schlagen das Konzept von \term{strokes} zur Generalisierung von Straßennetzen für die digitale OS~MasterMap des Ordnance Survey vor. Sie betonen jedoch, dass trotz ermutigender Resultate noch weitere Probleme gelöst werden müssen. Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
+
+% (ähnelt grob meinem Ansatz)
+% Tho05: speziell meine Problemstellung!
+% - Ziel: Hilfe bei automatischer Folgekartenableitung beim Ordnance Survey
+% - 3 wichtigste Teile: Kreuzungsproblem, Verdrängung und Zusammenfassung von Parallelen [2]
+% - arbeitet mit Strokes basierend auf one-way-Attributen; Probleme an manchen Kreuzungen, die aber automatisch erkannt und behoben werden sollen
+% - Paarbildung erfolgt abhängig von Klassifizierung der Strokes (z. B. bei Verkehrsinseln kleinere Höchstschwelle als bei normalen Straßen)
+% - Ausgangsdaten sind klassifiziert nach "dual carriageway" oder nicht (DESHALB nicht 1:1 auf OSM anwendbar, denn es gibt keinen solchen tag)
+% - klappt nicht in allen Fällen (einzelne Fehlerfälle)
+% - benutzt Skeleton zur tatsächlichen Zusammenfassung der erkannten Paare
+% - funktioniert meistens, aber nicht immer; manche der Restfälle manuell als nicht lösbar erkannt
+% - one-way-Attribut war "essential"
+% - Ergebnis hat noch keine Topologie (future work)
+% - erst mit Topologie ist Unterbrechung der Signatur möglich, um Ampelkreuzungen im Dual Carriageway darzustellen
+% - Kreisverkehre werden bisher ignoriert
+
+Thom beschreibt eine Methode zum Zusammenfassen getrennter Richtungsfahrbahnen von Schnellstraßen auf eine gemeinsame Mittellinie für die OS~MasterMap.
+...
 
 
 
 \subsection{weitere Ansätze}
 \begin{itemize}
-	
-	% ! Skeleton
-%	\item Skeleton \cf{LM96} \cf{Mig12} \cf[][\?]{All11}
-	
-	% ! Strokes
-	\item Strokes \cf{Tho06b} \cf{EM00} \cf{TR99}
-	% Tho06b: Netzwerk-Generalisierung und -Analyse
-	% - perzeptueller Ansatz zur Defragmentierung und Auswahl-Generalisierung
-	% - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
-	% - "perceptual grouping" [684]
-	% EM00:
-	% - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
-	% - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
-	
-	% ! OS MasterMap
-	\item OS MasterMap \cf{CM05}
-	% CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network
-	% - arbeitet primär mit Strokes; Problem dabei: "good continuation" sieht an Gabelungen u. U. je nach Seite unterschiedlich aus; zur Lösung werden Attribute herangezogen
-	% - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
-	% - hebt Kreuzungsproblem als ungelöst hervor
-	
-	\cf{Tho05}
-	% (ähnelt grob meinem Ansatz)
-	% Tho05: speziell meine Problemstellung!
-	% - Ziel: Hilfe bei automatischer Folgekartenableitung beim Ordnance Survey
-	% - 3 wichtigste Teile: Kreuzungsproblem, Verdrängung und Zusammenfassung von Parallelen [2]
-	% - arbeitet mit Strokes basierend auf one-way-Attributen; Probleme an manchen Kreuzungen, die aber automatisch erkannt und behoben werden sollen
-	% - Paarbildung erfolgt abhängig von Klassifizierung der Strokes (z. B. bei Verkehrsinseln kleinere Höchstschwelle als bei normalen Straßen)
-	% - klappt nicht in allen Fällen (einzelne Fehlerfälle)
-	% - benutzt Skeleton zur tatsächlichen Zusammenfassung der erkannten Paare
-	% - funktioniert meistens, aber nicht immer; manche der Restfälle manuell als nicht lösbar erkannt
-	% - one-way-Attribut war "essential"
-	% - Ergebnis hat noch keine Topologie (future work)
-	% - erst mit Topologie ist Unterbrechung der Signatur möglich, um Ampelkreuzungen im Dual Carriageway darzustellen
-	% - Kreisverkehre werden bisher ignoriert
 	
 	% ! graphbasiert
 	\item graphbasiert \cf{JC04} \cf{MM99} \cf{HAS05} \cf{TR95} \cf{Kne09}

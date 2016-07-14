@@ -99,7 +99,7 @@
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
 %\RequirePackage{comment}
 
-\newcommand{\osm}{OpenStreetMap}
+\newcommand{\osm}{Open\-Street\-Map}
 
 % Hinweis auf fehlende Referenz
 %\newcommand{\noref}[1]{[#1\ifthenelse{\isempty{#1}}{}{ }\?] }
