@@ -576,7 +576,7 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 
 Das Projekt „OSM-3D“ verwendet \osm-Daten automatisiert zum Aufbau eines 3D-Modells für die ganze Welt. Die \term{ways} aus \osm{} werden für die 3D-Szene durch Pufferung mit attributabhängigem Radius in Polygone gewandelt, um ein Gesamtbild mit realistischen Breiten von Straßen, Wegen und Bahnlinien zu erzeugen. Um dabei durch Überlappungen von eng parallelen \term{ways} entstehende unnötig große Datenmengen zu vermeiden, werden diese Polygone anschließend vereinigt. \cf[2–3]{OHSZ10}
 
-Durch diesen Ansatz werden unerwünschte Parallelen beseitigt. Allerdings ist die für diese Arbeit erwünschte Rückführung des durch das Puffern entstandenden Flächen zu einer Linie nicht ohne Weiteres möglich. Auch werden Parallelen nicht als solche erkannt, sondern entfallen restlos durch die Polygonvereinigung. Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrundeliegenden Fragestellung nicht geeignet.
+Durch diesen Ansatz werden unerwünschte Parallelen beseitigt. Allerdings ist die für diese Arbeit erwünschte Rückführung des durch das Puffern entstandenden Flächen zu einer Linie nicht ohne Weiteres möglich. Auch werden Parallelen nicht als solche erkannt, sondern entfallen restlos durch die Polygonvereinigung. Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrundeliegende Fragestellung nicht geeignet.
 
 
 \subsection{Bildung von Skelettlinien}
@@ -626,6 +626,26 @@ Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thi
 %  All11: \cf[][\?]{All11} ????
 
 
+\subsection{Konflikterkennung}
+
+%\item Conflict Detection \cf{KP98} \cf{Tho06a}
+% KP98:
+% - Ziel: gesamtes Straßennetz
+% - detektiert Fälle, in denen Linien einander zu nahe kommen (wobei Bereiche nahe der Endknoten jeweils ausgeschlossen werden)
+% - nutzt Voronoi region
+% - eigentlich nicht speziell für parallelen gedacht oder geeignet (nutzt Dijkstra, um längeren von zwei Wegen zu eliminieren), aber speziell der "Second step: eliminate conflicts" könnte anwendbar sein, und der Voronoi-Kram gibt zumindest ein paar hübsche Bilder
+
+Von Kreveld und Peschier beschreiben eine Möglichkeit, bei der automatischen Ableitung von Straßenkarten Konflikte nahe beieinander liegender Straßen zu erkennen und durch Auswahl nur einer der beteiligten Straßen aufzulösen. Neben anderen Bedingungen werden so auch graphische Mindestabstände eingehalten. \cf{KP98}
+
+Es liegt auf der Hand, dass sich parallele Straßen meist durch ein Unterschreiten dieser Mindestabstände auf ihrer gesamten Länge auszeichnen. Das beschriebene Verfahren untersucht allerdings lediglich den minimalen Abstand zweier Straßen. Das Untersuchen der gesamten Länge der Straße wäre erheblich teurer \cf[4.]{KP98}. Dieser Ansatz erscheint daher für diese Arbeit wenig erfolgversprechend.
+
+% Tho06a: ? Bib, einzelne Fotos in "neu"
+% - erwähnt ausdrücklich mein Problem als "hilfreich" (in gelöstem Zustand)
+% - Skeleton??
+
+Thom erwähnt ausdrücklich, dass die Erkennung eines Konflikts von parallelen Straßenabschnitten für die automatische Generalisierung hilfreich wäre („... recognizing stretches of parallel road sections would help their automatic generalization“ \cf[676]{Tho06a}), allerdings ohne dabei eine mögliche Lösung anzudeuten.
+
+
 %\subsection{Kognitive Wahrnehmung}
 \subsection{Visuelle Wahrnehmung}
 
@@ -640,10 +660,10 @@ Thomson beschreibt, wie das menschliche Gehirn optisch wahrgenommene Elemente se
 % - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
 % - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
 
-Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“) \cf{TR99}. Edwardes und Mackaness nutzen diesen Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen \cf{EM00}.
+Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“) \cf{TR99}. Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen \cf{EM00}.
 % ################ "hanging streets" erwähnen?
 % ################ forward pointer zu graphbasiert????
-%Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde meines Wissens bisher nicht konkret untersucht.
+Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde meines Wissens bisher nicht konkret untersucht.
 
 % ! OS MasterMap
 % CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network
@@ -651,7 +671,7 @@ Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kon
 % - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
 % - hebt Kreuzungsproblem als ungelöst hervor
 
-Chaudry und Mackaness schlagen das Konzept von \term{strokes} zur Generalisierung von Straßennetzen für die digitale OS~MasterMap des Ordnance Survey vor. Sie betonen jedoch, dass trotz ermutigender Resultate noch weitere Probleme gelöst werden müssen. Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
+Chaudry und Mackaness schlagen das Konzept von \term{strokes} zur Generalisierung von Straßennetzen durch Auswahl wichtiger Straßen für die digitale OS~MasterMap des Ordnance Survey vor. Sie betonen jedoch, dass trotz ermutigender Resultate noch weitere Probleme gelöst werden müssen. Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
 
 % (ähnelt grob meinem Ansatz)
 % Tho05: speziell meine Problemstellung!
@@ -668,58 +688,60 @@ Chaudry und Mackaness schlagen das Konzept von \term{strokes} zur Generalisierun
 % - erst mit Topologie ist Unterbrechung der Signatur möglich, um Ampelkreuzungen im Dual Carriageway darzustellen
 % - Kreisverkehre werden bisher ignoriert
 
-Thom beschreibt eine Methode zum Zusammenfassen getrennter Richtungsfahrbahnen von Schnellstraßen auf eine gemeinsame Mittellinie für die OS~MasterMap.
-...
+Thom beschreibt vier Schritte zum Zusammenfassen getrennter Richtungsfahrbahnen von zweibahnigen Straßen und Verkehrsinseln auf eine gemeinsame Mittellinie für die OS~MasterMap. Zunächst werden unter Nutzung von \term{strokes} und Attributen durchgehende Linienzüge für die Gesamtlänge der getrennten Richtungsfahrbahnen erzeugt, die dann durch Graphenanalyse ihrer jeweiligen Enden einander zugeordnet werden können. Anschließend kann durch Skelettierung die Mittellinie der zugeordneten Linienzüge berechnet und im letzten Schritt noch Korrekturen an deren Enden vorgenommen werden. \cf[3–10]{Tho05}
+
+Diese Schritte liefern in vielen Fällen ein gutes Ergebnis, was Thom der Attributierung der Ausgangsdaten zuschreibt. Entscheidend ist insbesondere das „one~way“–Attribut sowie die Klassifikation nach Bauart der Straße (einbahnig, zweibahnig, Verkehrsinsel, Kreisverkehr etc.). \cf[14]{Tho05}
 
 
+\subsection{Graphenanalyse}
 
-\subsection{weitere Ansätze}
-\begin{itemize}
-	
-	% ! graphbasiert
-	\item graphbasiert \cf{JC04} \cf{MM99} \cf{HAS05} \cf{TR95} \cf{Kne09}
-	% JC04: connectivity graph für urban street network
-	% - dreht Straßen-Graph logisch um (Knoten=Straße, Kante=Verbindung)
-	% - filtert nach Graphkriterien ("centralities" degree, closeness, betweenness)
-	% - Ergebnis ist ein nach natürlich Kriterien modellgeneralisiertes Netz, denn Straßen mit besserer Verbindung werden häufiger benutzt und sind somit wichtiger
-	% - Parallelen im Straßennetz zeichnen sich durch Redundanz und Symmetrie aus (oft gegeneinander gerichtete Einbahnstraßen) und sind damit höchstens! in einem sehr unregelmäßigen Netz theoretisch! erkennbar; tatsächlich werden im Beispiel im Paper die Parallelen nicht generalisiert [168]
-	% MM99: Simplification of Junctions
-	% - "Brücken von Königsberg" als Beispiel für junction simplification und Zusammenfassung von Parallelen, aber das ist wohl etwas zu sehr vereinfacht! [188]
-	% - evtl. werden durch Zusammenfassen der Kreuzung von Parallelen jene zu Duplikaten und können so erkannt und zusammengefasst werden; Nachteil: klappt wirklich nicht ohne Kreuzungen (diese Methode wird anscheinend nicht explizit erwähnt)
-	% HAS05: will typische Muster erkennen
-	% - erwähnt für Strokes Problem dort, wo Richtungsfahrbahnen beginnen, mitsamt theoretischer Lösung [3.2]
-	% - evtl. können Parallelen in einem Netzwerk durch Musteranalyse erkannt werden (typischerweise sehr lang und schmal); jedoch vmtl. Probleme an Kreuzungen etc.
-	% TR95: Graphentheorie in der Generalisierung von Straßennetzen
-	% - betont, dass autom. Generalisierung oft Darstellungs-zentriert ist und Topologie des Ergebnisses vernachlässigt [1871]
-	% Kne09: Anwendung von Graphentheorie in OSM, wenig hilfreich für uns
-	% MB93: Graphentheorie in der Generalisierung allgemein
-	% - durch Prüfung der Einbahn-Richtung erkennen, ob insgesamt ein verbundener Graph vorliegt (zweimal Einbahn => einmal Zweibahn)
-	
-	% ! Relational Constraints
-	\item Relational Constraints \cf{TBDJRG12}
-	% - hat keinen Algorithmus, sondern nur Konzepte
-	% - führt constraint ontology ein als mögl. Hilfswerkzeug
-	% evtl. als Grundlage für Kap. 4 interessant
-	
-	% ! Conflict Detection
-	\item Conflict Detection \cf{KP98} \cf{Tho06a}
-	% KP98:
-	% - Ziel: gesamtes Straßennetz
-	% - detektiert Fälle, in denen Linien einander zu nahe kommen (wobei Bereiche nahe der Endknoten jeweils ausgeschlossen werden)
-	% - nutzt Voronoi region
-	% - eigentlich nicht speziell für parallelen gedacht oder geeignet (nutzt Dijkstra, um längeren von zwei Wegen zu eliminieren), aber speziell der "Second step: eliminate conflicts" könnte anwendbar sein, und der Voronoi-Kram gibt zumindest ein paar hübsche Bilder
-	% Tho06a: ? Bib, einzelne Fotos in "neu"
-	% - erwähnt ausdrücklich mein Problem als "hilfreich" (in gelöstem Zustand)
-	% - Skeleton??
-	
-\end{itemize}
+% TR95: Graphentheorie in der Generalisierung von Straßennetzen
+% - betont, dass autom. Generalisierung oft Darstellungs-zentriert ist und Topologie des Ergebnisses vernachlässigt [1871]
+
+% MB93: Graphentheorie in der Generalisierung allgemein
+% - durch Prüfung der Einbahn-Richtung erkennen, ob insgesamt ein verbundener Graph vorliegt (zweimal Einbahn => einmal Zweibahn)
+%\cf{MB93}
+
+Frühe Entwicklungen der automatisierten Generalisierung versuchten oft, unter Vernachlässigung der Topologie des Ergebnisses den Fokus des Kartographen auf der Visualisierung nachzuahmen \cf[1871]{TR95}. Ansätze der Graphentheorie können jedoch nicht nur wie zuvor beschrieben andere Methoden unterstützen, sondern auch direkt zur Generalisierung eingesetzt werden.
+
+% HAS05: will typische Muster erkennen
+% - erwähnt für Strokes Problem dort, wo Richtungsfahrbahnen beginnen, mitsamt theoretischer Lösung [3.2]
+% - evtl. können Parallelen in einem Netzwerk durch Musteranalyse erkannt werden (typischerweise sehr lang und schmal); jedoch vmtl. Probleme an Kreuzungen etc.
+
+Heinzle et~al. zeigen Methoden, um typische Muster in Straßennetzen zu erkennen und daraus Informationen abzuleiten. 
+Es liegt auf der Hand, dass parallele Fahrbahnen einer zweibahnigen Straße ein typisches Muster sein können, jedoch werden diese nur beiläufig erwähnt \cf[3.2.]{HAS05}.
+
+% JC04: connectivity graph für urban street network
+% - dreht Straßen-Graph logisch um (Knoten=Straße, Kante=Verbindung)
+% - filtert nach Graphkriterien ("centralities" degree, closeness, betweenness)
+% - Ergebnis ist ein nach natürlich Kriterien modellgeneralisiertes Netz, denn Straßen mit besserer Verbindung werden häufiger benutzt und sind somit wichtiger
+% - Parallelen im Straßennetz zeichnen sich durch Redundanz und Symmetrie aus (oft gegeneinander gerichtete Einbahnstraßen) und sind damit höchstens! in einem sehr unregelmäßigen Netz theoretisch! erkennbar; tatsächlich werden im Beispiel im Paper die Parallelen nicht generalisiert [168]
+
+Jiang und Claramunt verwenden Zentralitätsmaße, um die wesentliche Struktur eines Straßennetzes zu identifizeren und bei der Generalisierung zu erhalten. Dieser Ansatz entspricht dem Prinzip, dass schlechter ans Netz angebundene Straßen weniger wichtig sind als jene, die gut angebunden sind („less connected streets are less important than those well connected from a structural point of view“ \cf[161]{JC04}). \cf{JC04} Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähnlich gut an den Rest des Netzes angebunden sind, weswegen dieses Kriterium für diese Arbeit nicht als nützlich erscheint.
+
+% MM99: Simplification of Junctions
+% - "Brücken von Königsberg" als Beispiel für junction simplification und Zusammenfassung von Parallelen, aber das ist wohl etwas zu sehr vereinfacht! [188]
+% - evtl. werden durch Zusammenfassen der Kreuzung von Parallelen jene zu Duplikaten und können so erkannt und zusammengefasst werden; Nachteil: klappt wirklich nicht ohne Kreuzungen (diese Methode wird anscheinend nicht explizit erwähnt)
+
+Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt. Mackaness und Mackechnie demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen \cf{MM99}. Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals parallelen Kanten zu zwei identischen Kanten im Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe. Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings nicht.
+
+
+%\begin{itemize}
+%\item \cf{Kne09}
+% Kne09: Anwendung von Graphentheorie in OSM, wenig hilfreich für uns
+% ! Relational Constraints
+%\item Relational Constraints \cf{TBDJRG12}
+% - hat keinen Algorithmus, sondern nur Konzepte
+% - führt constraint ontology ein als mögl. Hilfswerkzeug
+% evtl. als Grundlage für Kap. 4 interessant
+%\end{itemize}
 
 % + RoadMatcher 
 % <http://wiki.openstreetmap.org/wiki/Roadmatcher>
 % + http://sourceforge.net/projects/jump-pilot/files/OpenJUMP_plugins/More%20Plugins/Matching%20PlugIn/
 % <http://sourceforge.net/projects/jump-pilot/files/OpenJUMP_plugins/More%20Plugins/Matching%20PlugIn/>
 
-(jeweils einschließlich Anwendbarkeit auf die vorliegende Fragestellung, ggf. Vor- und Nachteilen, ggf. Bezug der darin verwendeten Fachsprache zur in dieser Arbeit verwendeten Terminologie)
+%(jeweils einschließlich Anwendbarkeit auf die vorliegende Fragestellung, ggf. Vor- und Nachteilen, ggf. Bezug der darin verwendeten Fachsprache zur in dieser Arbeit verwendeten Terminologie)
 
 
 
