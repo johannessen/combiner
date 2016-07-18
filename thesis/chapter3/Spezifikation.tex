@@ -1,3 +1,9 @@
+% UTF-8
+
+% single-chapter commands
+\documentclass{../thesis} \setcounter{chapter}{2} \begin{document}
+
+
 \chapter{Spezifikation der zu untersuchenden Fälle}
 
 % Plural oder Singular?
@@ -38,3 +44,12 @@
 	\item Ergebnis u. U. übertragbar auf den Fall von mehrgleisigen Eisenbahnstrecken
 	
 \end{itemize}
+
+
+
+\nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
+
+% single-chapter commands
+%\listoffigures %\listoftables
+\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}
+\end{document}
