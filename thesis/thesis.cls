@@ -47,6 +47,8 @@
 [\ifthenelse{\isempty{#2}}{}{#2 }#3\ifthenelse{\isempty{#1}}{}{, #1}]%
 }
 
+% switch the comment symbol above to control BibTeX!
+
 \newcommand{\?}{\textbf{??}}
 \newcommand{\p}{p.\,}
 \newcommand{\f}{ seq.}
@@ -113,6 +115,9 @@
 \RequirePackage[all]{hypcap}
 
 % figures and tables
+\RequirePackage[raggedrightboxes]{ragged2e}
+%\usepackage{caption}
+%\captionsetup{format=plain,font=small,labelfont=bf,labelsep=colon,justification=RaggedRight}
 \RequirePackage{chngcntr}
 \counterwithout{figure}{chapter}
 \counterwithout{table}{chapter}

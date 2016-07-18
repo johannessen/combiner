@@ -86,7 +86,7 @@ Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben
 % just in time: http://wiki.openstreetmap.org/wiki/Mod_tile
 
 Diese schnelle Aktualisierung ist für OpenStreetMap besonders wichtig, um den freiwillig Mitwirkenden nach einem Beitrag zur Datenbank ein schnelles Erfolgserlebnis zu geben, indem der Beitrag in der Karte weltweit für jeden sofort sichtbar wird.
-Aus diesem Grund muss jede Generalisierung der Karte automatisiert ablaufen. Weiterhin bedeutet die Zahl der Beiträge mit teilweise über 1000 \term{changesets} pro Stunde, \cf{osm15}
+Aus diesem Grund muss jede Generalisierung der Karte automatisiert ablaufen. Weiterhin bedeutet die Zahl der Beiträge mit teilweise über 1000 \term{changesets} pro Stunde, \cf[\?]{osm15}
 % http://osmstats.neis-one.org/?item=changesets&date=7-11-2015
 % http://neis-one.org/2013/08/osm-activity-report-2013/
 dass der Arbeitsaufwand für eine manuelle Generalisierung prohibitiv hoch wäre. Klassische kartographische Generalisierung von Hand kommt daher nur für nicht nachzuführende und geographisch begrenzte Einzelanfertigungen in Betracht, etwa wenn auf Basis von OpenStreetMap eine traditionelle gedruckte Karte hergestellt werden soll.
@@ -250,7 +250,7 @@ Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen
 % zB Lahntalbahn http://www.openstreetmap.org/#map=7/51/8
 % "kartographische Formvereinfachung" erklären?
 
-Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert. Dies betrifft auch \osm. Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker [\noref DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:bab3}).
+Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert. Dies betrifft auch \osm. Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker [\noref DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:bab3-a}).
 
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
@@ -261,7 +261,7 @@ Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals ei
   \begin{minipage}{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
-    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3}
+    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3-a}
   \end{minipage}
 \end{figure}
 
@@ -486,13 +486,13 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
     % überkreuzen
     \centering
     \includegraphics[width=\ScaleIfNeeded]{bab3-a}
-    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3}
+    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3-b}
     % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
   \end{minipage}
 \end{figure}
 
 % mit heißer Nadel geschrieben...
-Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3}).
+Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3-b}).
 % (kurzer Verweis auf vorgenannte Probleme)
 
 %\item Erkennung als parallel ist bisher ein Problem
@@ -660,7 +660,7 @@ Thomson beschreibt, wie das menschliche Gehirn optisch wahrgenommene Elemente se
 % - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
 % - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
 
-Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“) \cf{TR99}. Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen \cf{EM00}.
+Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“) \cf{TR99}. Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen \cf{EM00a}.
 % ################ "hanging streets" erwähnen?
 % ################ forward pointer zu graphbasiert????
 Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde meines Wissens bisher nicht konkret untersucht.
@@ -745,9 +745,8 @@ Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt. Mackaness un
 
 
 
-\nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
-
 % single-chapter commands
 \listoffigures %\listoftables
+%\nocite{*}  % include works not cited (for debugging)
 \bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}
 \end{document}
