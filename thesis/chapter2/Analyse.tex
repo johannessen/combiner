@@ -82,7 +82,7 @@ Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} e
     \caption{Projekt-Homepage von OpenStreetMap während des Ladevorgangs}\label{fig:osm.org}
 \end{figure}
 
-Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet. Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank. \noref % evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
+Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \noref. Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank. \noref % evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
 % just in time: http://wiki.openstreetmap.org/wiki/Mod_tile
 
 Diese schnelle Aktualisierung ist für OpenStreetMap besonders wichtig, um den freiwillig Mitwirkenden nach einem Beitrag zur Datenbank ein schnelles Erfolgserlebnis zu geben, indem der Beitrag in der Karte weltweit für jeden sofort sichtbar wird.
@@ -147,6 +147,8 @@ Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf
 
 Wie im Folgenden einige Beispiele zeigen, lassen sich Auswahl auf Basis der Objektklasse sowie Betonung und Vergrößerung durch veränderte Strichbreite vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt. Andere Arten kartographischer Generalisierung wie etwa die Formvereinfachung oder der Qualitätsumschlag verändern die Geometrie und sind damit schwieriger zu implementieren.
 
+
+
 \subsection{Generalisierung durch Objektauswahl}
 
 Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{Zoomstufe} eine Auswahl der jeweils  darzustellenden Objektklassen vorgenommen. Beispielsweise werden Anliegerstraßen \term{(residentials)} unterhalb von \term{zoom}~12 nicht mehr dargestellt (Abbildungen~\ref{fig:kampen11} und~\ref{fig:kampen12}). Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berechnende Datenmenge für den Renderer.
@@ -167,9 +169,6 @@ Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{
     \caption{Oslo, \term{zoom} 11}\label{fig:kampen11}
   \end{minipage}
 \end{figure}
-
-
-
 
 %\begin{figure}[ht]
 %  \begin{minipage}{.5\linewidth}
@@ -195,32 +194,8 @@ Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{
 
 
 
-
-\subsection{Generalisierung durch Bewertung}
-
-
-Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich dargestellten Objekte vorgenommen, auch dies abhängig vom Maßstab. So werden Anliegerstraßen auf \term{zoom}~12 als schmaler, einfacher Strich gezeichnet, ab \term{zoom}~13 jedoch als weißer Breitstrich mit grauem Rand (Abbildungen~\ref{fig:kampen12} und~\ref{fig:kampen13}).
-
-% Ist dies Bewertung? Sicherstellen in HGM02 o. ä.
-% Hake, Grünreich, Meng 2002 Kartographie (8)
-
-% screenshots residentials z14 + z13
-
-\begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z13}
-    \caption{Oslo, \term{zoom} 13}\label{fig:kampen13}
-  \end{minipage}%
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z14}
-    \caption{Oslo, \term{zoom} 14}\label{fig:kampen14}
-  \end{minipage}
-\end{figure}
-
-
 \subsection{Generalisierung durch Vergrößerung}
+% Vergrößerung -> maßstabsbedingt notwendig
 
 Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Generalisierung durch Vergrößerung, indem für bestimmte Maßstäbe eine Strichbreite gewählt wird, welche im Abbildungsmaßstab die tatsächliche Größe des Objekts übersteigt. Anliegerstraßen haben für die \term{Zoomstufen} 14 bis 19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen17} und~\ref{fig:kampen14}). Die Breite von $\unit[3]{px}$ auf \term{zoom} 14 entspräche ca.~$\unit[27]{m}$ in der Realität \cf[155]{RT09}. Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
 
@@ -239,6 +214,86 @@ Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Genera
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z17}
     \caption{Oslo, \term{zoom} 17}\label{fig:kampen17}
 \end{figure}
+
+
+
+\subsection{Generalisierung durch Bewertung}
+% Bewertung -> nach Bedeutung für den Kartenzweck
+
+Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich dargestellten Objekte vorgenommen, auch dies abhängig vom Maßstab. So werden Anliegerstraßen auf \term{zoom}~12 als schmaler, einfacher Strich gezeichnet, ab \term{zoom}~13 jedoch als weißer Breitstrich mit grauem Rand (Abbildungen~\ref{fig:kampen12} und~\ref{fig:kampen13}).
+
+% Ist dies Bewertung? Sicherstellen in HGM02 o. ä.
+% Hake, Grünreich, Meng 2002 Kartographie (8)
+
+% weitere Fälle von Bewertung: evtl. Klassifizierung nach primary, secondary etc mit unterschiedlich definierten Strichbreiten? TODO: verifizieren
+
+% screenshots residentials z14 + z13
+
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z13}
+    \caption{Oslo, \term{zoom} 13}\label{fig:kampen13}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z14}
+    \caption{Oslo, \term{zoom} 14}\label{fig:kampen14}
+  \end{minipage}
+\end{figure}
+
+% ++++++++++++++++++
+
+%Ein unklares Kartenbild ist jedoch auch in weniger exotischen
+% "näher liegenden"?
+%Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise
+%In vielen Fällen lässt sich allerdings ein unklares Kartenbild
+
+Ein weit verbreitetes unklares Kartenbild lässt sich allerdings als scheinbare Betonung einiger auf \url{osm.org} gezeichneten Straßen missverstehen, wie Abbildung~\ref{fig:utrecht14} beispielhaft zeigt.
+Die als Sammelstraße klassifizierte Croeselaan wird mit breiterem Strich gezeichnet als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Striche der beiden Fahrbahnen und fließen zusammen. 
+Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
+
+% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
+    \caption{Utrecht, \term{zoom} 14}\label{fig:utrecht14}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{utrecht-z16}
+    \caption{Utrecht, \term{zoom} 16}\label{fig:utrecht16}
+  \end{minipage}
+\end{figure}
+
+% zweite Abbildung mit überlagerten Ways?
+
+Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme. Die Strichbreite der aus Südosten in die Stadt Gera hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert. Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen am Ortsteil Debschwitz vorbei auf einmal wieder schmaler.
+
+% Absatz etwas unklar, insb. letzter Satz (implizit)
+Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildung~\ref{fig:b256}
+%und~\ref{fig:utrecht16}
+gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
+
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
+    \caption{Gera, \term{zoom} 13}\label{fig:gera13}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
+    \caption{Gera, \term{zoom} 14}\label{fig:gera14}
+  \end{minipage}
+\end{figure}
+
+In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unklares Kartenbild. Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke. In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist. In kleinem Maßstab (Abbildung~\ref{fig:gera13}) erscheint dieses Verhältnis umgekehrt. Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte Fahrbahnen hat, in kleinerem Maßstab aber teilweise durch die Bahnstrecke verdeckt wird.
+
+(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
+
+
 
 \subsection{Generalisierung durch Formvereinfachung}
 
@@ -267,18 +322,25 @@ Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals ei
 
 Ein weiteres Hindernis stellt die Fragmentierung der \osm-Linien dar. Bevor etwa über den Ramer-Douglas-Peucker eine nennenswerte Verringerung der \term{node}-Anzahl erreicht werden kann, müssen zunächst die einzelnen \term{ways} entlang des zu vereinfachenden Linienzugs miteinander verknüpft werden.
 
-%Im Übrigen führt eine Verringerung der Zahl der Stützpunkte nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung. Beispielsweise hatten Douglas und Peucker das Ziel \noref{Spekulation}, anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt. \noref
-
+% Textbausteine Formvereinfachung:
 \begin{itemize}
-%	\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
-	\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cf[57]{Kla11}
-		\item ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
-	\item Beispiel: ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise (Skizze oder Screenshot)
+\item Im Übrigen führt eine Verringerung der Zahl der Stützpunkte nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung. Beispielsweise hatten Douglas und Peucker das Ziel \noref{Spekulation}, anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt. \noref
 
-	\item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
-	
-	\item Aus diesen Gründen ist Formvereinfachung in kartographisch relevantem Ausmaß nur bei ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert. Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses. Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden. \cf[90][\? evtl.]{skg02} Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert. Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte. Dies ist derzeit nicht der Fall.
+%\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
+\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cf[57]{Kla11}; ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
+\item Beispiel: ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise (Skizze oder Screenshot)
+
+\item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
+
+\item Aus diesen Gründen ist Formvereinfachung in kartographisch relevantem Ausmaß nur bei ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert. Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses. Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden. \cf[90][\? evtl.]{skg02} Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert. Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte. Dies ist derzeit nicht der Fall.
+
+% +++++++++++++++++++++
+
+% mit heißer Nadel geschrieben...
+\item Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3-b}).
+
 \end{itemize}
+
 
 
 \subsection{Generalisierung durch Verdrängung}
@@ -291,29 +353,47 @@ Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltun
     \caption{Typisches Generalisierungsergebnis in Web-Karten; fiktives Beispiel nach [sgk02, 49]}\label{fig:verdraengung}
 \end{figure}
 
-% Bevor eine Generalisierung durch Verdrängung stattfinden kann, muss zunächst der ohne Verdrängung entstehende Konflikt [das Hindernis] erkannt werden.
 % Skizze zur Erläuterung (?)
+%Solcherart einander verdeckende Linien sind ebenfalls verbreitet.
+Abbildungen~\ref{fig:stuelinghausen-mapnik} und~\ref{fig:stuelinghausen-maps.me} zeigen beispielhaft, wie ein straßenbegleitender Radweg mal „über“, mal „unter“ der Straße zu liegen kommt. Keiner dieser beiden Ansätze ist kartographisch gelungen.
+% Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung (siehe weiter unten).
+Bevor eine Generalisierung durch Verdrängung stattfinden kann, muss zunächst der Konflikt zwischen Straße und Radweg erkannt werden. Es ist denkbar, dass dies durch Untersuchen auf Parallelität geschehen oder erleichtert werden könnte.
+
+% stülinghausen/verdrängung
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen-me}
+    \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
+    \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
+  \end{minipage}
+\end{figure}
+
 
 
 \subsection{Generalisierung durch Zusammenfassung}
 
-\begin{itemize}
+%\begin{itemize}
 %	\item hier: ohne Flächen zu berücksichtigen, obwohl dort evtl. ähnliche Probleme auftreten könnten
 % (ich glaube, ähnliche Probleme treten eigentlich nicht auf)
 	
 %	\item Auswahl, Vergrößern und Betonen funktioniert zufriedenstellend
 %		\item einfache Screenshots aus osm.org als Beispiele
 	
-	\item Problem bei Zusammenfassung: Linienzüge müssen (oft?) als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
+%	\item Problem bei Zusammenfassung: Linienzüge müssen (oft?) als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
 	
-	% Qualitätsumschlag? railway=rail -> landuse=railway ?
-	
-\end{itemize}
+%\end{itemize}
 
+Die Generalisierung durch Zusammenfassung von Linienzügen kommt vor allem bei Parallelität in Betracht.
+% +++++++++++++++++++++
+%Im Falle paralleler Linienzüge
+Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 
-\section{Zielsetzung der Arbeit}
-
-Im Falle paralleler Linienzüge treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf. Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße. Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt. An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
+Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße. Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt. An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
 
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
@@ -332,6 +412,7 @@ In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte m
 
 % 256 (großer maßstab)
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
+% Grund für folgenden Absatz: zeigen, dass Verfahren von osm.de keine Lösung ist
 
 In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. \noref[wiki DE] Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. \noref[wiki EN] Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
 
@@ -388,66 +469,11 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %  \end{minipage}
 %\end{figure}
 
-Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Straßenzustand oft nicht hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
+Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
 % Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
 
-Ein unklares Kartenbild ist jedoch auch in weniger exotischen
-% "näher liegenden"?
-Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise eine scheinbare Variation der Breite von auf \url{osm.org} gezeichneten Straßen. Abbildung~\ref{fig:utrecht14} zeigt, wie die als Sammelstraße klassifizierte Croeselaan mit breiterem Strich gezeichnet wird als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). In kleinerem Maßstab überlappen sich die Striche der beiden Fahrbahnen und fließen zusammen. Ebenfalls auffallend ist in Abbildung~\ref{fig:utrecht14} die wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
 
-% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
-\begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
-    \caption{Utrecht, \term{zoom} 14}\label{fig:utrecht14}
-  \end{minipage}%
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z16}
-    \caption{Utrecht, \term{zoom} 16}\label{fig:utrecht16}
-  \end{minipage}
-\end{figure}
-
-% zweite Abbildung mit überlagerten Ways?
-
-Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme. Die Strichbreite der aus Südosten in die Stadt Gera hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert. Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen am Ortsteil Debschwitz vorbei auf einmal wieder schmaler.
-
-% Absatz etwas unklar, insb. letzter Satz (implizit)
-Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildung~\ref{fig:b256}
-%und~\ref{fig:utrecht16}
-gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
-
-\begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
-    \caption{Gera, \term{zoom} 13}\label{fig:gera13}
-  \end{minipage}%
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
-    \caption{Gera, \term{zoom} 14}\label{fig:gera14}
-  \end{minipage}
-\end{figure}
-
-In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unklares Kartenbild. Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke. In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist. In kleinem Maßstab (Abbildung~\ref{fig:gera13}) erscheint dieses Verhältnis umgekehrt. Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte Fahrbahnen hat, in kleinerem Maßstab aber teilweise durch die Bahnstrecke verdeckt wird. 
-
-Solcherart einander verdeckende Linien sind ebenfalls verbreitet. Abbildungen~\ref{fig:stuelinghausen-mapnik} und~\ref{fig:stuelinghausen-maps.me} zeigen, wie ein straßenbegleitender Radweg mal „über“, mal „unter“ der Straße zu liegen kommt. Keiner dieser beiden Ansätze ist kartographisch gelungen. Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung (siehe weiter unten).
-
-% stülinghausen/verdrängung
-\begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen-me}
-    \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
-  \end{minipage}%
-  \begin{minipage}{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
-    \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
-  \end{minipage}
-\end{figure}
+% --------------------
 
 % zu tracks=* - Überleitung evtl:
 % Folge der oben beschriebenen offenen Arbeitsweise von \osm ist, dass das Herstellen einer Einigung über bestimmte Tagging-Varianten und deren Anwendung durch die Community oft ein langsamer Prozess ist. \noref[Sch09, forum 485926 s.u.]
@@ -491,17 +517,22 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
   \end{minipage}
 \end{figure}
 
-% mit heißer Nadel geschrieben...
-Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3-b}).
-% (kurzer Verweis auf vorgenannte Probleme)
+
+
+%\subsection{Generalisierung durch Qualitätsumschlag}
+
+%Beispiele für Qualitätsumschläge in Web-Karten sind schwierig zu finden. Oft handelt es sich bei entsprechenden graphischen Effekten technisch um eine Generalisierung durch Auswahl, durch die ein bisher verdecktes Element zum Vorschein kommt.
+% Qualitätsumschlag? railway=rail -> landuse=railway ?
+
+
+
+%\subsection{„Zielsetzung der Arbeit“ (alt) TBD}
 
 %\item Erkennung als parallel ist bisher ein Problem
 % [CTGV14] benennen?
 % _war_ bisher! oder "ist gewesen"...
 
 %\textbf{offener Punkt: Redundanz mit Themenblatt}
-
-% (die Beispiele wiederholen sich => bessere Abgrenzung der Kapitel)
 
 % -> Google Traffic
 % nur hier nennen...? -> bessere Kapitelabgrenzung!
@@ -513,16 +544,13 @@ Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als z
 %    \caption{google-traffic}\label{fig:google-traffic}
 %\end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \eyecatcher{Ziel der Arbeit}
-% im Prinzip sollte NUR dieser Unterabschnitt in Kapitel 2.4 stehen, alles hierüber sollte in 2.3 (das jedenfalls war das ursprüngliche Konzept)!
-% Mal sehen, ob das noch aktuell ist ... 2.4 würde dann ja SEHR kurz(?).
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\section{(2.4) Zielsetzung der Arbeit}
+\section{Zielsetzung der Arbeit}
+
+% Kapitel ist nach Reorganisation jetzt kürzer als geplant
+% => Text insgesamt überarbeiten, auf flüssiges Lesen und logischen Zusammenhang optimieren
+% eventuell Norwegen-Beispiel hierhin oder zur Spezifikation (Kap. 3)
 
 Das automatisierte Zusammenfassen paralleler Linienzüge kann zur Vermeidung einiger der oben diskutierten Probleme bei der Generalisierung und Darstellung von Geodaten beitragen.
 
@@ -539,7 +567,6 @@ Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, w
 % Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 
 Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm{}. Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere weder eine Formvereinfachung noch eine Verdrängung.
-
 
 %\begin{itemize}
 %	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
@@ -563,7 +590,8 @@ Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierun
 %\end{itemize}
 
 
-\section[Diskussion existierender Ansätze]{(2.5) Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
+
+\section[Diskussion existierender Ansätze]{Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 
 \subsection{Linien zusammenfassen mit Puffer} \label{buffer}
 % - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
