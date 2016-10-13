@@ -9,6 +9,62 @@
 % Plural oder Singular?
 % (vgl. Themenblatt)
 
+
+\section{Vergleich verschiedener Problemfälle der automatisierten Linien-Generalisierung}
+
+% (Vergleich unter dem Gesichtspunkt der Eignung als „Spezialfall“ für diese DA, vgl. Themenblatt)
+% evtl. jeweils ein (Ab)satz zu "worum genau geht es bei diesem Problem" (was nur teilweise offensichtlich ist) und ein (Ab)satz zur Eignung
+
+\subsection{mehrgleisige Eisenbahnstrecken}
+
+Das Problem der Auswertung der Gleisanzahl mehrgleisiger Bahnstrecken ist bereits in Abschnitt 2.4 beschrieben. Neben der Erkennung solcher Gleise als parallel kann die geometrische Ermittlung der Bahnachse hilfreich für eine ansprechende Visualisierung sein. Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm wird sie jedoch nicht erfasst.
+
+% "Bahnachse" https://www-docs.tu-cottbus.de/verkehrswesen/public/Lehre/Lehrbuch/Grundlagen/0-3Zeichnung.pdf
+
+
+\subsection{Richtungsfahrbahnen im Straßenraum mit baulicher Trennung}
+
+
+\subsection{parallele Fahrbahnen/Wege für unterschiedliche Verkehrsmittel/-arten}
+\begin{itemize}
+	\item z. B. zweibahnige Straße außerorts mit parallelem Zweirichtungsradweg
+	\item z. B. Nebenfahrbahnen (Frontage Roads)
+	\item z. B. straßenbündiger oder -paralleler Bahnkörper (Straße mit Gleisen für Straßenbahn oder Street-Running)
+	\item z. B. komplexe innerstädtische Straße mit mehreren parallelen getrennten Radwegen, Gehwegen,
+Richtungsfahrbahnen, Nebenfahrbahnen, besonderem Stadtbahn-Gleiskörper (mehrgleisig), Adress-
+interpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
+	\item z. B. Rampen für Anschlussstellen vom Typ SPUI (der „Fall Kriegsstraße“) oder Diamant
+\end{itemize}
+
+
+\subsection{Grenzen}
+\begin{itemize}
+	\item z. B. von PLZ-Gebieten entlang eines Straßenzugs
+	\item z. B. von Verwaltungsgebieten entlang eines Flusses
+	\item z. B. von zwei Gebieten mit Schifffahrtsbeschränkungen
+\end{itemize}
+
+
+\subsection{Vegetationsgrenzen entlang von Verkehrswegen}
+
+
+\subsection{grundrisstreu erfasste linienhafte Objekte}
+\begin{itemize}
+	\item z. B. parallele Flussufer
+	\item z. B. Rollbahnen
+\end{itemize}
+
+
+\subsection{Bachläufe und Verkehrswege}
+% das klassische Problem
+
+
+
+
+
+
+\section{Auswahl der in dieser Arbeit zu behandelnden Spezialfälle}
+
 \begin{itemize}
 	
 	% Welcher konkrete Spezialfall wird in dieser Arbeit stellvertretend untersucht?
@@ -22,11 +78,15 @@
 	
 	\item Grund: es ist zu erwarten, dass für Straßen das Tagging weitgehend passt
 	\begin{itemize}
+		% - da straßen für eine weit größere zielgruppe interessant sind
 		\item da Tags für viele Details existieren und genutzt werden (Beispiele)
 		\item da viele Details fürs Straßennetz in den Standard-Karten von OSM gerendert werden
 		\item wegen der praktischen Relevanz für Karten und Anwendungen in ganz allgemeinen Fällen
 			(-> Allgemeinbevölkerung / gemeiner Mapper)
 	\end{itemize}
+	% - Grund: mehr probleme bei straßen (?)
+	\item Grund: die bereits existierenden Ansätze beziehen sich hauptsächlich auf Straßen
+	\item Grund: Bahn ist einfacher (?) / Straße ist evtl. allgemeiner (?)
 	
 	% Kann das Ergebnis dieser Arbeit auf andere Spezialfälle oder auf die Gesamtheit verallgemeinert werden?
 	% (kurze, grobe Abschätzung auf Basis der zuvor benannten Beispiele)

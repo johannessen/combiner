@@ -82,8 +82,9 @@ Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} e
     \caption{Projekt-Homepage von OpenStreetMap während des Ladevorgangs}\label{fig:osm.org}
 \end{figure}
 
-Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \noref. Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank. \noref % evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
-% just in time: http://wiki.openstreetmap.org/wiki/Mod_tile
+Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \noref.
+% http://wiki.openstreetmap.org/wiki/Tile_usage_policy#Bulk_Downloading
+Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank. \noref % evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
 
 Diese schnelle Aktualisierung ist für OpenStreetMap besonders wichtig, um den freiwillig Mitwirkenden nach einem Beitrag zur Datenbank ein schnelles Erfolgserlebnis zu geben, indem der Beitrag in der Karte weltweit für jeden sofort sichtbar wird.
 Aus diesem Grund muss jede Generalisierung der Karte automatisiert ablaufen. Weiterhin bedeutet die Zahl der Beiträge mit teilweise über 1000 \term{changesets} pro Stunde, \cf[\?]{osm15}
@@ -111,7 +112,7 @@ Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf
 % obiges trifft auf Linien, Punkte, Flächen gleichermaßen zu; hier darauf eingehen?
 
 
-% LVAs verwenden (?) kartographische Hints, um die Ableitung von FOlge-DLMs zu erleichtern (?) [ML12, KN 62 (5) 263]. Das geht bei OSM nicht, weil auch das eben die Generalisierung und damti auch die Kartenherstellung verzögern und somit das schnelle ERfolgserlebnis verhindern würde. Es muss eben tatsächlich vollautomatisch ablaufen, wie auch immer.
+% LVAs verwenden (?) kartographische Hints, um die Ableitung von FOlge-DLMs zu erleichtern (?) [ML12, KN 62 (5) 263]. Das geht bei OSM nicht, weil auch das eben die Generalisierung und damit auch die Kartenherstellung verzögern und somit das schnelle ERfolgserlebnis verhindern würde. Es muss eben tatsächlich vollautomatisch ablaufen, wie auch immer.
 
 % lesen: -> KN 56 (4) 191ff Modellgeneralisierung in ATKIS
 
