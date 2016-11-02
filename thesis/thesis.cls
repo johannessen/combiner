@@ -13,6 +13,10 @@
 %	captions=tableheading,  % (not sure if this works)
 ]{scrreprt}
 
+\RequirePackage{subfiles}
+\newcommand{\onlyinsubfile}[1]{#1}
+%\newcommand{\notinsubfile}[1]{}
+
 % enable UTF-8 input support
 \RequirePackage{fontspec}
 \XeTeXinputnormalization=1

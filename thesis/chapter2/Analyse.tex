@@ -1,7 +1,8 @@
 % UTF-8
 
-% single-chapter commands
-\documentclass{../thesis} \setcounter{chapter}{1} \begin{document}
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{1}}  % single-chapter command
+\begin{document}
 
 
 \chapter{Analyse der Ausgangslage}
@@ -258,12 +259,12 @@ Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende we
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z14}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z14}
     \caption{Utrecht, \term{zoom} 14}\label{fig:utrecht14}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{utrecht-z16}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z16}
     \caption{Utrecht, \term{zoom} 16}\label{fig:utrecht16}
   \end{minipage}
 \end{figure}
@@ -280,12 +281,12 @@ gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und 
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z13}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z13}
     \caption{Gera, \term{zoom} 13}\label{fig:gera13}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{gera-z14}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z14}
     \caption{Gera, \term{zoom} 14}\label{fig:gera14}
   \end{minipage}
 \end{figure}
@@ -364,12 +365,12 @@ Bevor eine Generalisierung durch Verdrängung stattfinden kann, muss zunächst d
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen-me}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen-me}
     \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{stuelinghausen@2-z17}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen@2-z17}
     \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
   \end{minipage}
 \end{figure}
@@ -399,7 +400,7 @@ Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Ric
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{b256@2-z16}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/b256@2-z16}
     \caption{variierende Abstände von Richtungsfahrbahnen, B\,256n (50~\%, bearbeitet)}\label{fig:b256}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
@@ -434,12 +435,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %\begin{figure}[ht]
 %  \begin{minipage}{.5\linewidth}
 %    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-rv13-photo}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-rv13-photo}
 %    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (Rv13, Låtefossen)}\label{fig:trunk-norway}
 %  \end{minipage}%
 %  \begin{minipage}{.5\linewidth}
 %    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-rv13-map1}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-rv13-map1}
 %    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
 %  \end{minipage}
 %\end{figure}
@@ -447,12 +448,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-photo2}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-photo2}
     \caption{typischer \tag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}\label{fig:trunk-norway}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-map1}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
     \caption{Die hier für \tag{highway=trunk} gewählte Signatur lässt einen weit besseren Ausbauzustand vermuten als in Norwegen zum Teil vorhanden (Vallaheiane).}\label{fig:trunk-norway-osm-de}
   \end{minipage}
 \end{figure}
@@ -460,12 +461,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %\begin{figure}[ht]
 %  \begin{minipage}{.5\linewidth}
 %    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-serp-photo}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-serp-photo}
 %    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (ehem. Rv13, Skjervet)}\label{fig:trunk-norway}
 %  \end{minipage}%
 %  \begin{minipage}{.5\linewidth}
 %    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{trunk-no-ev39-map1}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
 %    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
 %  \end{minipage}
 %\end{figure}
@@ -486,12 +487,12 @@ Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wir
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{tracks-small}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-small}
     \caption{tracks-small}\label{fig:tracks-small}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{tracks-large}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-large}
     \caption{tracks-large}\label{fig:tracks-large}
   \end{minipage}
 \end{figure}
@@ -506,13 +507,13 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
 \begin{figure}[ht]
   \begin{minipage}{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{passenger_lines-europe}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/passenger_lines-europe}
     \caption{passenger-lines}\label{fig:passenger_lines}
   \end{minipage}%
   \begin{minipage}{.5\linewidth}
     % überkreuzen
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{bab3-a}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
     \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3-b}
     % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
   \end{minipage}
@@ -541,7 +542,7 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
 % google
 %\begin{figure}[ht]
 %    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{google-traffic}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/google-traffic}
 %    \caption{google-traffic}\label{fig:google-traffic}
 %\end{figure}
 
@@ -775,7 +776,7 @@ Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt. Mackaness un
 
 
 % single-chapter commands
-\listoffigures %\listoftables
-%\nocite{*}  % include works not cited (for debugging)
-\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}
+\onlyinsubfile{\listoffigures} %\onlyinsubfile{\listoftables}
+%\onlyinsubfile{\nocite{*}}  % include works not cited (for debugging)
+\onlyinsubfile{\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}}
 \end{document}

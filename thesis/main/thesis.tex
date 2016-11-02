@@ -1,5 +1,5 @@
 
-\documentclass{thesis}
+\documentclass{../thesis}
 
 \subtitle{Diplomarbeit}
 \title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap\\ für konkrete Spezialfälle}
@@ -32,14 +32,18 @@
 %\end{abstract}
 
 \tableofcontents
-\include{chapters/Einleitung}
-\include{chapter2/Analyse}
-\include{chapter3/Spezifikation}
-\include{chapter4/Algorithmen}
-\include{chapters/Implementierung}
-\include{chapters/Ergebniskritik}
-\include{chapters/Schlussfolgerung}
-\include{chapters/Zusammenfassung}
+
+\renewcommand{\onlyinsubfile}[1]{}
+%\renewcommand{\notinsubfile}[1]{#1}
+
+\setcounter{chapter}{1} %\include{chapters/Einleitung}
+\subfile{../chapter2/Analyse}
+\subfile{../chapter3/Spezifikation}
+%\include{chapter4/Algorithmen}
+%\include{chapters/Implementierung}
+%\include{chapters/Ergebniskritik}
+%\include{chapters/Schlussfolgerung}
+%\include{chapters/Zusammenfassung}
 
 \listoffigures
 \listoftables
@@ -47,8 +51,8 @@
 
 \nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
 \setbibpreamble{Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert. Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par\bigskip\bigskip}
-\bibliographystyle{myAMSalpha}
-\bibliography{thesis}{}
+\bibliographystyle{../myAMSalpha}
+\bibliography{../thesis}{}
 
 %\appendix
 %\chapter{Glossar}

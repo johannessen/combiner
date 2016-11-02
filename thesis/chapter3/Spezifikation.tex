@@ -1,7 +1,9 @@
 % UTF-8
 
 % single-chapter commands
-\documentclass{../thesis} \setcounter{chapter}{2} \begin{document}
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{2}}  % single-chapter command
+\begin{document}
 
 
 \chapter{Spezifikation der zu untersuchenden Fälle}
@@ -108,7 +110,7 @@ interpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
 
 
 % single-chapter commands
-%\listoffigures %\listoftables
-\nocite{*}  % include works not cited (for debugging)
-\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}
+%\onlyinsubfile{\listoffigures} \onlyinsubfile{\listoftables}
+\onlyinsubfile{\nocite{*}}  % include works not cited (for debugging)
+\onlyinsubfile{\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}}
 \end{document}
