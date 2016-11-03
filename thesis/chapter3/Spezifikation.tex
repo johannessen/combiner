@@ -17,49 +17,103 @@
 % (Vergleich unter dem Gesichtspunkt der Eignung als „Spezialfall“ für diese DA, vgl. Themenblatt)
 % evtl. jeweils ein (Ab)satz zu "worum genau geht es bei diesem Problem" (was nur teilweise offensichtlich ist) und ein (Ab)satz zur Eignung
 
-\subsection{mehrgleisige Eisenbahnstrecken}
+An dieser Stelle werden zunächst unterschiedliche Spezialfälle beschrieben, in denen die automatisierte Identifikation und Zusammenfassung parallel verlaufender Linienzüge hilfreich wäre.
+Der darauf folgende Abschnitt begründet die Auswahl der entsprechend der Aufgabenstellung im Rahmen dieser Arbeit im Weiteren zu behandelnden Spezialfälle.
 
-Das Problem der Auswertung der Gleisanzahl mehrgleisiger Bahnstrecken ist bereits in Abschnitt 2.4 beschrieben. Neben der Erkennung solcher Gleise als parallel kann die geometrische Ermittlung der Bahnachse hilfreich für eine ansprechende Visualisierung sein. Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm wird sie jedoch nicht erfasst.
+
+\subsection{Mehrgleisige Eisenbahnstrecken}
+
+Das Problem der Auswertung der Gleisanzahl mehrgleisiger Bahnstrecken ist bereits in Abschnitt~\ref{railway-case} beschrieben.
+Neben der Erkennung solcher Gleise als parallel kann die geometrische Ermittlung der Bahnachse hilfreich für eine ansprechende Visualisierung sein.
+Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm{} wird sie jedoch nicht erfasst.
 
 % "Bahnachse" https://www-docs.tu-cottbus.de/verkehrswesen/public/Lehre/Lehrbuch/Grundlagen/0-3Zeichnung.pdf
 
 
 \subsection{Richtungsfahrbahnen im Straßenraum mit baulicher Trennung}
+\label{dual-highway-case-desc}
+
+Auch für zweibahnige Straßen, welche in \osm{} als zwei parallele Linienzüge modelliert sind, wird im Gegensatz zum deutschen amtlichen Vermessungswesen \cf[107]{adv08} in \osm{} keine Mittellinie als Achse der Straße erfasst.
+Die sich daraus für \osm{} ergebenden Probleme wurden bereits in Abschnitten~\ref{dual-highway-case-1} und~\ref{dual-highway-case-2} beschrieben.
+
+% ATKIS-Objektartenkatalog Basis-DLM 6 (2008)
+% http://www.geodatenzentrum.de/docpdf/ATKIS-OK%20Basis-DLM%206_0.pdf
 
 
-\subsection{parallele Fahrbahnen/Wege für unterschiedliche Verkehrsmittel/-arten}
+\subsection{Parallele Wege für unterschiedliche Arten von Verkehr}
+
+Ein oft zu beobachtendes Muster sind zusammengehörende, jedoch baulich getrennte und damit jeweils als eigene Linienzüge modellierte Verkehrswege für unterschiedliche Fahrzeugtypen, Geschwindigkeitsbereiche oder Zwecke des Verkehrs.
+Im Straßenraum zählen dazu:
+
 \begin{itemize}
-	\item z. B. zweibahnige Straße außerorts mit parallelem Zweirichtungsradweg
-	\item z. B. Nebenfahrbahnen (Frontage Roads)
-	\item z. B. straßenbündiger oder -paralleler Bahnkörper (Straße mit Gleisen für Straßenbahn oder Street-Running)
-	\item z. B. komplexe innerstädtische Straße mit mehreren parallelen getrennten Radwegen, Gehwegen,
-Richtungsfahrbahnen, Nebenfahrbahnen, besonderem Stadtbahn-Gleiskörper (mehrgleisig), Adress-
-interpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
-	\item z. B. Rampen für Anschlussstellen vom Typ SPUI (der „Fall Kriegsstraße“) oder Diamant
+	\item straßenbegleitende Fuß- und Radwege,
+	\item Nebenfahrbahnen \term{(frontage roads)} für Anliegerverkehr, von dem die Hauptfahrbahn freigehalten werden soll,
+	% Beispiele: Autobahnen, Kaiserstraße
+	\item langgezogene Rampen an teilplanfreien Anschlussstellen insbesondere der Bauformen Diamant und \term{SPUI,}
+	% https://de.wikipedia.org/wiki/Anschlussstelle_(Autobahn)
+	\item Verteilerfahrbahnen an Doppelanschlussstellen und Autobahnkreuzen,
+	% https://de.wikipedia.org/wiki/Autobahnkreuz#Bauteile
+	% https://de.wikipedia.org/wiki/Doppelanschlussstelle
+	\item Sonderfahrbahnen für Busse, Fahrgemeinschaften oder Mautzahler,
+	% https://de.wikipedia.org/wiki/High-occupancy_vehicle_lane#Ausf.C3.BChrung
+	\item straßenbündige oder -parallele Bahnkörper, und
+	\item die Kombination mehrerer der genannten Punkte, etwa als Teil einer komplexen innerstädtischen Straße mit parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen und besonderem Stadtbahn-Gleiskörper.
 \end{itemize}
+
+Die sich in solchen Fällen ergebenden Probleme sind vergleichbar zu Abschnitt~\ref{dual-highway-case-desc}, jedoch komplexer, weil die beteiligten Verkehrsarten jeweils unterschiedliche Voraussetzungen haben.
+So sind z.~B. straßenbegleitende Radwege aufgrund der geringeren gefahrenen Geschwindigkeiten oft kurviger als die Fahrbahn für Kraftfahrzeuge, sollten aber dennoch als parallel zu ihr gelten können.
+Auch erfordern die Unterschiede in Kombination mit Platzmangel oft individuelle bauliche Lösungen, was die Automatisierung der Verarbeitung der Geodaten nicht vereinfacht.
 
 
 \subsection{Grenzen}
-\begin{itemize}
-	\item z. B. von PLZ-Gebieten entlang eines Straßenzugs
-	\item z. B. von Verwaltungsgebieten entlang eines Flusses
-	\item z. B. von zwei Gebieten mit Schifffahrtsbeschränkungen
-\end{itemize}
+
+Bisher noch nicht erwähnt wurden unsichtbare Grenzen, deren Verlauf dem physischer Objekte folgt oder zu ihnen parallel ist.
+Beispielhaft zu nennen wären Postleitzahlgebiete, deren Grenze einem Straßenzug folgt, oder administrative Grenzen entlang eines Wasserlaufs.
+In diesen Fällen setzt die Kartographie die Grenze vom verlaufsgebenden Objekt ab, damit beide Signaturen klar erkennbar sind.
+% sg01 ??
+In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
+% wie werden die Daten statt dessen umgesetzt?
+% Streit, ob Unsichtbares überhaupt in OSM rein soll
+
+Ein weiteres Beispiel sind zwei aneinander angrenzende Gebiete mit Schifffahrtsbeschränkungen.
+Nach den Zeichenregeln für Seekarten ist in solchen Fällen die übliche T-Signatur \cf[B-439.2]{iho13} nur für das gefährlichere der beiden Gebiete zu zeichnen („For coincident limits, the limit symbol (line) portraying the area which is considered to be potentially the most dangerous to navigation […] has priority.“ \cf[B-439.6 a.]{iho13}).
+% S4_4.4.0_EN_Sep13
+Eine derartige Abwägung dürfte zwar schon aus rechtlichen Gründen nicht automatisationsfähig sein.
+Eine Verbesserung der gegenwärtig unbefriedigenden Darstellung in der auf \osm-Daten basierenden Karte „OpenSeaMap“ wäre allerdings möglich und anzustreben.
+
+Insgesamt erscheinen Grenzen jedoch im Kontext dieser Arbeit als ein eher schwieriges Feld.
+%Während in bestimmten Fällen die üblichen \osm-Karten klare Defizite haben, sind die Fälle, in denen Parallelität eine Rolle spielt, unregelmäßig und 
+% Geht das vielleicht schon zu weit?
+
+
+\subsection{Grundrisstreu erfasste linienhafte Objekte}
+\label{ground-plan-linear-objects-case-desc}
+
+Mit zunehmendem Grad der Detaillierung in \osm{} wird versucht, eigentlich linienhafte Objekte als grundrisstreue Fläche zu erfassen. Für Flüsse ist dies bereits üblich \cf[72]{RT09}, für Straßen und Rollbahnen unter Diskussion.
+% http://wiki.openstreetmap.org/w/index.php?title=Key:area&oldid=865108#Highway.2Fpavement_areas
+% http://wiki.openstreetmap.org/w/index.php?title=Tag:aeroway%3Drunway&oldid=1218356#How_to_Map
+Dadurch entstehen sehr lange und schmale Flächen, deren Ränder größtenteils parallel zueinander sind.
+Wenigstens bei Flüssen ist es allerdings etabliert, zusätzlich zur Fläche auch eine Mittellinie in \osm{} zu erfassen.
+Daher stellen diese Fälle in der Praxis kein Problem dar und sind für diese Arbeit nicht weiter interessant.
 
 
 \subsection{Vegetationsgrenzen entlang von Verkehrswegen}
 
+Ein Sonderfall der in Abschnitt~\ref{ground-plan-linear-objects-case-desc} beschriebenen langen und schmalen Flächen sind Waldschneisen.
+Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einer durch den Wald führenden Straße auch die sich durch die Straße ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm{} in zwei Flächen links und rechts der Straße aufgeteilt wird.
 
-\subsection{grundrisstreu erfasste linienhafte Objekte}
-\begin{itemize}
-	\item z. B. parallele Flussufer
-	\item z. B. Rollbahnen
-\end{itemize}
+Einerseits ermöglicht dies eine präzisere Modellierung der Wirklichkeit, indem die womöglich die Breite der Straße übersteigende Breite der Schneise modelliert werden kann.
+Andererseits werden große Wälder ohnehin gerne in mehrere kleinere Flächen aufgeteilt, um das Arbeiten mit den Geodaten zu vereinfachen.
+Schneisen bieten sich dabei als natürliche Stelle zum Aufteilen an.
+
+Je nach den verwendeten Zeichenregeln werden solche Schneisen in \osm-Karten jedoch stärker betont als wünschenswert.
+Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durch Zusammenfassen der Waldfläche das Kartenbild zu verbessern und gleichzeitig zu verhindern, dass durch diese Art der Modellierung entstehende kleinere, von Schneisen umringte Waldparzellen aufgrund von Mindestgrößen automatisch wegfallen.
 
 
 \subsection{Bachläufe und Verkehrswege}
 % das klassische Problem
 
+…
 
 
 

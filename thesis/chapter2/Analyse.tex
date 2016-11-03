@@ -251,6 +251,8 @@ Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich 
 %Konstellationen zu beobachten. Ein weit verbreitetes Problem ist beispielsweise
 %In vielen Fällen lässt sich allerdings ein unklares Kartenbild
 
+\label{dual-highway-case-1}
+
 Ein weit verbreitetes unklares Kartenbild lässt sich allerdings als scheinbare Betonung einiger auf \url{osm.org} gezeichneten Straßen missverstehen, wie Abbildung~\ref{fig:utrecht14} beispielhaft zeigt.
 Die als Sammelstraße klassifizierte Croeselaan wird mit breiterem Strich gezeichnet als Teile der Hauptstraßen. Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}). In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Striche der beiden Fahrbahnen und fließen zusammen. 
 Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
@@ -395,6 +397,8 @@ Die Generalisierung durch Zusammenfassung von Linienzügen kommt vor allem bei P
 %Im Falle paralleler Linienzüge
 Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 
+\label{dual-highway-case-2}
+
 Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße. Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt. An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
 
 \begin{figure}[ht]
@@ -479,6 +483,8 @@ Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} ei
 
 % zu tracks=* - Überleitung evtl:
 % Folge der oben beschriebenen offenen Arbeitsweise von \osm ist, dass das Herstellen einer Einigung über bestimmte Tagging-Varianten und deren Anwendung durch die Community oft ein langsamer Prozess ist. \noref[Sch09, forum 485926 s.u.]
+
+\label{railway-case}
 
 Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht. Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar. Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke. Tatsächlich liegen insgesamt vier einzelne Gleise. Möglicherweise hat ein \osm-Beitragender \tag{tracks=*} missverstanden als die Gesamtanzahl der Gleise [Forum], wofür jedoch ein anderer \term{tag} steht (\tag{passenger\_lines=*}).
 % http://lists.openstreetmap.org/pipermail/tagging/2012-August/011066.html
