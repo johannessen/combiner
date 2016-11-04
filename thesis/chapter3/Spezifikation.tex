@@ -69,17 +69,30 @@ Auch erfordern die Unterschiede in Kombination mit Platzmangel oft individuelle 
 
 Bisher noch nicht erwähnt wurden unsichtbare Grenzen, deren Verlauf dem physischer Objekte folgt oder zu ihnen parallel ist.
 Beispielhaft zu nennen wären Postleitzahlgebiete, deren Grenze einem Straßenzug folgt, oder administrative Grenzen entlang eines Wasserlaufs.
-In diesen Fällen setzt die Kartographie die Grenze vom verlaufsgebenden Objekt ab, damit beide Signaturen klar erkennbar sind.
+In diesen Fällen setzt die Kartographie die Grenze vom verlaufsgebenden Objekt ab, damit beide Signaturen klar erkennbar sind (Abbildung~\ref{fig:administrative-borders}).
 % sg01 ??
 In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
 % wie werden die Daten statt dessen umgesetzt?
 % Streit, ob Unsichtbares überhaupt in OSM rein soll
 
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{administrative-borders}\label{fig:administrative-borders}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter3/restricted-area-oseam}
+    \caption{restricted-area-oseam}\label{fig:restricted-area-oseam}
+  \end{minipage}
+\end{figure}
+
 Ein weiteres Beispiel sind zwei aneinander angrenzende Gebiete mit Schifffahrtsbeschränkungen.
 Nach den Zeichenregeln für Seekarten ist in solchen Fällen die übliche T-Signatur \cf[B-439.2]{iho13} nur für das gefährlichere der beiden Gebiete zu zeichnen („For coincident limits, the limit symbol (line) portraying the area which is considered to be potentially the most dangerous to navigation […] has priority.“ \cf[B-439.6 a.]{iho13}).
 % S4_4.4.0_EN_Sep13
 Eine derartige Abwägung dürfte zwar schon aus rechtlichen Gründen nicht automatisationsfähig sein.
-Eine Verbesserung der gegenwärtig unbefriedigenden Darstellung in der auf \osm-Daten basierenden Karte „OpenSeaMap“ wäre allerdings möglich und anzustreben.
+Eine Verbesserung der gegenwärtig unbefriedigenden Darstellung in der auf \osm-Daten basierenden Karte „OpenSeaMap“ (Abbildung~\ref{fig:restricted-area-oseam}) wäre allerdings möglich und anzustreben.
 
 Insgesamt erscheinen Grenzen jedoch im Kontext dieser Arbeit als ein eher schwieriges Feld.
 %Während in bestimmten Fällen die üblichen \osm-Karten klare Defizite haben, sind die Fälle, in denen Parallelität eine Rolle spielt, unregelmäßig und 
@@ -100,13 +113,26 @@ Daher stellen diese Fälle in der Praxis kein Problem dar und sind für diese Ar
 \subsection{Vegetationsgrenzen entlang von Verkehrswegen}
 
 Ein Sonderfall der in Abschnitt~\ref{ground-plan-linear-objects-case-desc} beschriebenen langen und schmalen Flächen sind Waldschneisen.
-Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einer durch den Wald führenden Straße auch die sich durch die Straße ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm{} in zwei Flächen links und rechts der Straße aufgeteilt wird.
+Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einem durch den Wald führenden Weg auch die sich durch den Weg ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm{} in zwei Flächen links und rechts der Straße aufgeteilt wird (Abbildung~\ref{fig:vegetation-swath-z16}).
 
-Einerseits ermöglicht dies eine präzisere Modellierung der Wirklichkeit, indem die womöglich die Breite der Straße übersteigende Breite der Schneise modelliert werden kann.
+Einerseits ermöglicht dies eine präzisere Modellierung der Wirklichkeit, indem die womöglich die Breite des Wegs übersteigende Breite der Schneise modelliert werden kann.
 Andererseits werden große Wälder ohnehin gerne in mehrere kleinere Flächen aufgeteilt, um das Arbeiten mit den Geodaten zu vereinfachen.
 Schneisen bieten sich dabei als natürliche Stelle zum Aufteilen an.
 
-Je nach den verwendeten Zeichenregeln werden solche Schneisen in \osm-Karten jedoch stärker betont als wünschenswert.
+\begin{figure}[ht]
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter3/vegetation-swath-z16}
+    \caption{vegetation-swath-z16}\label{fig:vegetation-swath-z16}
+  \end{minipage}%
+  \begin{minipage}{.5\linewidth}
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter3/vegetation-swath-z12}
+    \caption{vegetation-swath-z12}\label{fig:vegetation-swath-z12}
+  \end{minipage}
+\end{figure}
+
+Je nach den verwendeten Zeichenregeln werden solche Schneisen in \osm-Karten jedoch stärker betont als wünschenswert (Abbildung~\ref{fig:vegetation-swath-z12}).
 Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durch Zusammenfassen der Waldfläche das Kartenbild zu verbessern und gleichzeitig zu verhindern, dass durch diese Art der Modellierung entstehende kleinere, von Schneisen umringte Waldparzellen aufgrund von Mindestgrößen automatisch wegfallen.
 
 
@@ -149,13 +175,13 @@ Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durc
 	% ==================================================================
 	
 	\item Ergebnis u. U. übertragbar auf den Fall von parallelen Fahrbahnen/Wege für unterschiedliche Verkehrsmittel/-arten
-	\begin{itemize}
-		\item z. B. zweibahnige Straße außerorts mit parallelem Zweirichtungsradweg
-		\item z. B. Nebenfahrbahnen (Frontage Roads)
-		\item z. B. straßenbündiger Bahnkörper (Straße mit Gleisen für Straßenbahn oder Street-Running)
-		\item z. B. komplexe innerstädtische Straße mit mehreren parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen, besonderem Stadtbahn-Gleiskörper (mehrgleisig), Adressinterpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
-		\item z. B. Rampen für Anschlussstellen vom Typ SPUI (der "Fall Kriegsstraße") oder Diamant
-	\end{itemize}
+%	\begin{itemize}
+%		\item z. B. zweibahnige Straße außerorts mit parallelem Zweirichtungsradweg
+%		\item z. B. Nebenfahrbahnen (Frontage Roads)
+%		\item z. B. straßenbündiger Bahnkörper (Straße mit Gleisen für Straßenbahn oder Street-Running)
+%		\item z. B. komplexe innerstädtische Straße mit mehreren parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen, besonderem Stadtbahn-Gleiskörper (mehrgleisig), Adressinterpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
+%		\item z. B. Rampen für Anschlussstellen vom Typ SPUI (der "Fall Kriegsstraße") oder Diamant
+%	\end{itemize}
 	
 	\item Ergebnis u. U. übertragbar auf den Fall von mehrgleisigen Eisenbahnstrecken
 	
@@ -165,6 +191,6 @@ Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durc
 
 % single-chapter commands
 %\onlyinsubfile{\listoffigures} \onlyinsubfile{\listoftables}
-\onlyinsubfile{\nocite{*}}  % include works not cited (for debugging)
-\onlyinsubfile{\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}}
+%\onlyinsubfile{\nocite{*}}  % include works not cited (for debugging)
+%\onlyinsubfile{\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}}
 \end{document}
