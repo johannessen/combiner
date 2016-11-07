@@ -105,6 +105,7 @@
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
 %\RequirePackage{comment}
 
+% shortcut for frequently-used abbreviation (for use where using the abbreviation in the final text might be appropriate)
 \newcommand{\osm}{Open\-Street\-Map}
 
 % Hinweis auf fehlende Referenz
@@ -115,8 +116,17 @@
 
 % URLS and links
 % should be the last packages imported to avoid issues (says <https://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_url> without mentioning specifics)
-\RequirePackage{hyperref}
+% see http://ctan.space-pro.be/tex-archive/macros/latex/contrib/hyperref/doc/manual.html#x1-140004
+\RequirePackage[colorlinks=false]{hyperref}
 \RequirePackage[all]{hypcap}
+% break URLs at arbitrary positions to avoid ugly word spacing in justified text:
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
 
 % figures and tables
 \RequirePackage[raggedrightboxes]{ragged2e}

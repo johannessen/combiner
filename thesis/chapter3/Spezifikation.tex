@@ -76,12 +76,12 @@ In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
 % Streit, ob Unsichtbares überhaupt in OSM rein soll
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../image-missing}
     \caption{administrative-borders}\label{fig:administrative-borders}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter3/restricted-area-oseam}
     \caption{restricted-area-oseam}\label{fig:restricted-area-oseam}
@@ -89,7 +89,7 @@ In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
 \end{figure}
 
 Ein weiteres Beispiel sind zwei aneinander angrenzende Gebiete mit Schifffahrtsbeschränkungen.
-Nach den Zeichenregeln für Seekarten ist in solchen Fällen die übliche T-Signatur \cf[B-439.2]{iho13} nur für das gefährlichere der beiden Gebiete zu zeichnen („For coincident limits, the limit symbol (line) portraying the area which is considered to be potentially the most dangerous to navigation […] has priority.“ \cf[B-439.6 a.]{iho13}).
+Nach den Zeichenregeln für Seekarten ist in solchen Fällen die übliche T-Signatur \cf[B-439.2]{iho13} nur für das gefährlichere der beiden Gebiete zu zeichnen („For coincident limits, the limit symbol (line) portraying the area which is considered to be potentially the most dangerous to navigation [...] has priority.“ \cf[B-439.6~a.]{iho13}).
 % S4_4.4.0_EN_Sep13
 Eine derartige Abwägung dürfte zwar schon aus rechtlichen Gründen nicht automatisationsfähig sein.
 Eine Verbesserung der gegenwärtig unbefriedigenden Darstellung in der auf \osm-Daten basierenden Karte „OpenSeaMap“ (Abbildung~\ref{fig:restricted-area-oseam}) wäre allerdings möglich und anzustreben.
@@ -120,20 +120,23 @@ Andererseits werden große Wälder ohnehin gerne in mehrere kleinere Flächen au
 Schneisen bieten sich dabei als natürliche Stelle zum Aufteilen an.
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter3/vegetation-swath-z16}
-    \caption{vegetation-swath-z16}\label{fig:vegetation-swath-z16}
+    \caption{Waldbegrenzung in dieser \osm-Karte dargestellt durch grüne Linie, \term{zoom}~16 (©~Thunderforest)}\label{fig:vegetation-swath-z16}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter3/vegetation-swath-z12}
-    \caption{vegetation-swath-z12}\label{fig:vegetation-swath-z12}
+    \caption{in kleinerem Maßstab Waldschneisen durch grüne Linien unangemessen betont, \term{zoom}~12 (©~Thunderforest)}\label{fig:vegetation-swath-z12}
   \end{minipage}
 \end{figure}
+% http://www.thunderforest.com/maps/landscape/
 
 Je nach den verwendeten Zeichenregeln werden solche Schneisen in \osm-Karten jedoch stärker betont als wünschenswert (Abbildung~\ref{fig:vegetation-swath-z12}).
 Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durch Zusammenfassen der Waldfläche das Kartenbild zu verbessern und gleichzeitig zu verhindern, dass durch diese Art der Modellierung entstehende kleinere, von Schneisen umringte Waldparzellen aufgrund von Mindestgrößen automatisch wegfallen.
+
+% allerdings vielleicht hier puffer-methode besser geeignet, schließlich geht es eigentlich um die fläche
 
 
 \subsection{Bachläufe und Verkehrswege}

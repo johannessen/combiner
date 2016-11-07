@@ -67,7 +67,7 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 
 \section{Kartenherstellung mit OpenStreetMap} \label{kartenherstellung}
 
-Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \url{osm.org} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
+Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
 % Erkläung zu "wohl" in Fußnote übertrieben, da Zusammenhang trivial; siehe Mail Dietmar.
 Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 20 verschiedenen Maßstäben angeboten werden von etwa $1 \colon 2000$ bis $1 \colon 500~\unit{Mio.}$ \cf[154–155]{RT09}
 % http://wiki.openstreetmap.org/wiki/Zoom_levels <-- ersetzt RT09 154f, ist auch aktueller; RT09 hat nur 19 zoomlevel!
@@ -160,12 +160,12 @@ Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{
 % screenshots residentials z12 + z11
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z12}
     \caption{Oslo, \term{zoom} 12}\label{fig:kampen12}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z11}
     \caption{Oslo, \term{zoom} 11}\label{fig:kampen11}
@@ -232,12 +232,12 @@ Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich 
 % screenshots residentials z14 + z13
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z13}
     \caption{Oslo, \term{zoom} 13}\label{fig:kampen13}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z14}
     \caption{Oslo, \term{zoom} 14}\label{fig:kampen14}
@@ -259,12 +259,12 @@ Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende we
 
 % gera/utrecht - evtl. MapQuest / osm.de hier einbringen
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z14}
     \caption{Utrecht, \term{zoom} 14}\label{fig:utrecht14}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z16}
     \caption{Utrecht, \term{zoom} 16}\label{fig:utrecht16}
@@ -281,12 +281,12 @@ Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche
 gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren. Die bauliche Trennung ist überdies nicht überall vorhanden.
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z13}
     \caption{Gera, \term{zoom} 13}\label{fig:gera13}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z14}
     \caption{Gera, \term{zoom} 14}\label{fig:gera14}
@@ -309,18 +309,19 @@ Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen
 % zB Lahntalbahn http://www.openstreetmap.org/#map=7/51/8
 % "kartographische Formvereinfachung" erklären?
 
-Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert. Dies betrifft auch \osm. Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker [\noref DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:bab3-a}).
+Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert. Dies betrifft auch \osm. Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker [\noref DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:crossing-parallels}).
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/kardemomme}
     \caption{Topologieverlust}\label{fig:kardemomme}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
-    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3-a}
+    \caption{Überkreuzen paralleler Linienzüge}\label{fig:crossing-parallels}
+    % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
   \end{minipage}
 \end{figure}
 
@@ -341,7 +342,7 @@ Ein weiteres Hindernis stellt die Fragmentierung der \osm-Linien dar. Bevor etwa
 % +++++++++++++++++++++
 
 % mit heißer Nadel geschrieben...
-\item Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:bab3-b}).
+\item Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden. Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:crossing-parallels}).
 
 \end{itemize}
 
@@ -365,12 +366,12 @@ Bevor eine Generalisierung durch Verdrängung stattfinden kann, muss zunächst d
 
 % stülinghausen/verdrängung
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen-me}
     \caption{stuelinghausen-me}\label{fig:stuelinghausen-maps.me}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen@2-z17}
     \caption{stuelinghausen@2-z17}\label{fig:stuelinghausen-mapnik}
@@ -402,12 +403,12 @@ Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße. Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt. An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/b256@2-z16}
     \caption{variierende Abstände von Richtungsfahrbahnen, B\,256n (50~\%, bearbeitet)}\label{fig:b256}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../image-missing}
     \caption{kombinierte Signatur für autobahnähnliche Straße}\label{fig:dual-carriageway}
@@ -450,12 +451,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %\end{figure}
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-photo2}
     \caption{typischer \tag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}\label{fig:trunk-norway}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
     \caption{Die hier für \tag{highway=trunk} gewählte Signatur lässt einen weit besseren Ausbauzustand vermuten als in Norwegen zum Teil vorhanden (Vallaheiane).}\label{fig:trunk-norway-osm-de}
@@ -491,12 +492,12 @@ Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wir
 
 % track
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-small}
     \caption{tracks-small}\label{fig:tracks-small}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-large}
     \caption{tracks-large}\label{fig:tracks-large}
@@ -511,16 +512,16 @@ Insgesamt ist diese Karte mit \tag{tracks=*} wenig gelungen. Hier zeigt sich ein
 so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
 
 \begin{figure}[ht]
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/passenger_lines-europe}
     \caption{passenger-lines}\label{fig:passenger_lines}
   \end{minipage}%
-  \begin{minipage}{.5\linewidth}
+  \begin{minipage}[t]{.5\linewidth}
     % überkreuzen
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
-    \caption{Überkreuzen paralleler Linienzüge}\label{fig:bab3-b}
+%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
+%    \caption{Überkreuzen paralleler Linienzüge}\label{fig:crossing-parallels}
     % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
   \end{minipage}
 \end{figure}
@@ -570,7 +571,7 @@ Beim Zusammenfassen können Attribute der beteiligten \term{ways} derart aggregi
 Ebenfalls verringert wird die Datenmenge an sich. Das Arbeiten mit Geodaten für große Gebiete, aber auch die Weiternutzung für andere Zwecke wird so unter Umständen einfacher.
 % (möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
 
-Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf parallele Linienzüge mehr genommen werden muss (siehe Beispiel oben mit überkreuzenden Linien).
+Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf parallele Linienzüge mehr genommen werden muss (siehe Abbildung~\ref{fig:crossing-parallels}).
 % TODO: Referenz
 % Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 
