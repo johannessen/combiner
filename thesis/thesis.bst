@@ -1,7 +1,7 @@
 %%% ====================================================================
 %%%  @BibTeX-style-file{
-%%%     filename        = "myAMSalpha.bst",
-%%%     version         = "0.1",
+%%%     filename        = "thesis.bst",
+%%%     version         = "0.2",
 %%%     date            = "2012-11-07",
 %%%     author          = "Arne Johannessen",
 %%%     address         = "Arne Johannessen,
@@ -9,8 +9,8 @@
 %%%                        76185 Karlsruhe,
 %%%                        Germany",
 %%%     telephone       = "+49 721 8248222",
-%%%     FAX             = "+49 32 22-9965777",
-%%%     email           = "arne@thaw.de",
+%%%     FAX             = "+49 2264 4194995",
+%%%     email           = "joar0011@hs-karlsruhe.de",
 %%%     copyright       = "Copyright 1995 American Mathematical Society,
 %%%                        all rights reserved.  Copying of this file is
 %%%                        authorized only if either:
@@ -95,6 +95,8 @@
 %%
 %% UNPUBLISHED -- A document having an author and title, but not formally
 %% published.
+%%
+%% WEBPAGE
 
 % See the file btxbst.doc for extra documentation other than
 % what is included here.  And see btxhak.tex for a description
@@ -116,6 +118,8 @@ ENTRY
     journal
     key
     language
+    location
+    locationnote
     month
     mrnumber
     note
@@ -125,6 +129,7 @@ ENTRY
     publisher
     school
     series
+    sitetitle
     title
     type
     volume
@@ -772,7 +777,14 @@ FUNCTION {article}
   if$
   format.language *
   note output
-  fin.entry
+  location missing$
+    { fin.entry
+    }
+    { add.period$ write$ newline$ newline$
+      location output
+      write$
+    }
+  if$
 }
 
 FUNCTION {book}
@@ -1002,6 +1014,27 @@ FUNCTION {unpublished}
   format.title "title" output.check
   note "note" output.check
   format.date output
+  fin.entry
+}
+
+FUNCTION {webpage}
+{ output.bibitem
+  sitetitle output
+  format.authors output
+  format.title output
+  note output
+  add.period$ write$ newline$ newline$
+  location output
+  write$
+  locationnote missing$
+    { skip$
+    }
+    { newline$ newline$
+      "(" write$
+      locationnote write$
+      ")" write$
+    }
+  if$
   fin.entry
 }
 

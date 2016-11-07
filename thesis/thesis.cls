@@ -33,9 +33,9 @@
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
 
 % set bibliography style (default)
-\AfterBibliographyPreamble{\raggedright}
-\RequirePackage[square]{natbib}
-%\bibliographystyle{myamsa}  % path relative to .tex file, so keep this outta here
+%\AfterBibliographyPreamble{\raggedright}  % doesn't appear to work
+\RequirePackage[square,numbers]{natbib}  % no clue what "numbers" does in there, but adding it removes spurious warnings
+\bibliographystyle{../thesis}  % path relative to .tex files
 
 % enable German bibliography style
 % (NB: some of the statements for 'default' above don't work as intended if babelbib is enabled)

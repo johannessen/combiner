@@ -69,10 +69,10 @@ Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzepti
 
 Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
 % Erkläung zu "wohl" in Fußnote übertrieben, da Zusammenhang trivial; siehe Mail Dietmar.
-Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 20 verschiedenen Maßstäben angeboten werden von etwa $1 \colon 2000$ bis $1 \colon 500~\unit{Mio.}$ \cf[154–155]{RT09}
-% http://wiki.openstreetmap.org/wiki/Zoom_levels <-- ersetzt RT09 154f, ist auch aktueller; RT09 hat nur 19 zoomlevel!
+Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 19 verschiedenen Maßstäben angeboten werden von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ \cf{osm:ZoomLevels}
+% \cf[154–155]{RT09} hat nur 19 zoomlevel (allerdings ist osm:ZoomLevels von August 2013)
 Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} eine Maßstabswahl und macht den Kartenausschnitt verschiebbar, so dass jeder im eingesetzten Kartennetz abbildbare Punkt der Erde angezeigt werden kann.
-\noref %evtl. irgendwas aus RT09 für Kachelanzahl im größten Maßstab}
+%\noref %evtl. irgendwas aus RT09 für Kachelanzahl im größten Maßstab}
 % evtl. Datenmenge etc. betonen
 
 % Zoomstufe deutsch? -> alles im Duden checken! Konsistenz ist für \term entscheidend -DGD
@@ -83,8 +83,7 @@ Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} e
     \caption{Projekt-Homepage von OpenStreetMap während des Ladevorgangs}\label{fig:osm.org}
 \end{figure}
 
-Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \noref.
-% http://wiki.openstreetmap.org/wiki/Tile_usage_policy#Bulk_Downloading
+Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \cf{osm:TileUsagePolicy}.
 Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank. \noref % evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
 
 Diese schnelle Aktualisierung ist für OpenStreetMap besonders wichtig, um den freiwillig Mitwirkenden nach einem Beitrag zur Datenbank ein schnelles Erfolgserlebnis zu geben, indem der Beitrag in der Karte weltweit für jeden sofort sichtbar wird.
@@ -337,7 +336,7 @@ Ein weiteres Hindernis stellt die Fragmentierung der \osm-Linien dar. Bevor etwa
 
 \item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
 
-\item Aus diesen Gründen ist Formvereinfachung in kartographisch relevantem Ausmaß nur bei ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert. Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses. Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden. \cf[90][\? evtl.]{skg02} Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert. Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte. Dies ist derzeit nicht der Fall.
+\item Aus diesen Gründen ist Formvereinfachung in kartographisch relevantem Ausmaß nur bei ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert. Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses. Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden. \cf[90][\? evtl.]{sgk02} Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert. Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte. Dies ist derzeit nicht der Fall.
 
 % +++++++++++++++++++++
 
@@ -421,7 +420,7 @@ In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte m
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
 % Grund für folgenden Absatz: zeigen, dass Verfahren von osm.de keine Lösung ist
 
-In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. \noref[wiki DE] Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. \noref[wiki EN] Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}).
+In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}). \cf{osm:HighwayTrunk}
 
 % TODO: schauen, ob Karte von Dolkviktunnelen / Rv557 besser passt, weil beide Richtungen des Problems gezeigt werden (analog rail tracks) -- theoretisch ja, aber vmtl. schwierig umzusetzen
 
@@ -484,11 +483,11 @@ Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} ei
 
 % zu tracks=* - Überleitung evtl:
 % Folge der oben beschriebenen offenen Arbeitsweise von \osm ist, dass das Herstellen einer Einigung über bestimmte Tagging-Varianten und deren Anwendung durch die Community oft ein langsamer Prozess ist. \noref[Sch09, forum 485926 s.u.]
+% https://forum.openstreetmap.org/viewtopic.php?pid=485926
 
 \label{railway-case}
 
-Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht. Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar. Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke. Tatsächlich liegen insgesamt vier einzelne Gleise. Möglicherweise hat ein \osm-Beitragender \tag{tracks=*} missverstanden als die Gesamtanzahl der Gleise [Forum], wofür jedoch ein anderer \term{tag} steht (\tag{passenger\_lines=*}).
-% http://lists.openstreetmap.org/pipermail/tagging/2012-August/011066.html
+Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht. Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar. Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke. Tatsächlich liegen insgesamt vier einzelne Gleise. Möglicherweise hat ein \osm-Beitragender \tag{tracks=*} missverstanden als die Gesamtanzahl der Gleise \cf{Fox12}, wofür jedoch ein anderer \term{tag} steht (\tag{passenger\_lines=*}).
 
 % track
 \begin{figure}[ht]
@@ -619,7 +618,7 @@ Durch diesen Ansatz werden unerwünschte Parallelen beseitigt. Allerdings ist di
 \subsection{Bildung von Skelettlinien}
 % - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
 
-Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung. Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt. Hierfür existieren unterschiedliche Algorithmen. [wikipedia.....]
+Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung. Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt. Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 
 % HS04: straight skeleton for MRDB
 % <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
@@ -784,6 +783,5 @@ Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt. Mackaness un
 
 % single-chapter commands
 \onlyinsubfile{\listoffigures} %\onlyinsubfile{\listoftables}
-%\onlyinsubfile{\nocite{*}}  % include works not cited (for debugging)
-\onlyinsubfile{\bibliographystyle{../myAMSalpha} \bibliography{../thesis}{}}
+\onlyinsubfile{\input{../bibliography}}
 \end{document}
