@@ -1,0 +1,12 @@
+Beim ersten Lesen des Source Codes nach Jahren aufgefallene Punkte:
+
+- ShapeReader.osmDataset hat einen Hack, um eingelesene Daten zu "diversifizieren" (anscheinend, um mehr Spezialfälle zu testen); dies sollte wohl besser durch entsprechend spezialisierte Eingabedaten gelöst werden
+- CombinerMain.addLinesToDataset ermöglicht, den Algorithmus gleich mehrfmals durchlaufen zu lassen; ist das getestet?
+- Die Analyser-Implementierung ist Teil des cli-Pakets. Sollte sie nicht besser im Haupt-Paket liegen als public abstract oder so, damit Clients quasi eine Basis haben?
+- Kommentar in Analyser "nutzt keine tags" ist falsch.
+- AbstractLine.mutable hat unzusammenhängenden Kommentar. Außerdem müsste der Zeck des Konzepts erklärt werden.
+- An mehreren stellen wird lazy initialisation eingesetzt. Es wäre zu testen, ob das die Sache tatsächlich beschleunigt (oder ob Speicher das Problem ist).
+- Wo landen die gesplitteten Fragmente, und werden die Eltern-LineParts removed? (Anscheinend wird rekursiv ein Baum von Fragmenten gebaut und bei den Eltern wird nur ein Flag wasSplit gesetzt (?).)
+- Was ist der Zweck des CorrelationGraphs? Warum können die Linien nicht direkt generalisiert werden?
+- docs suck! Mehr javadoc dringend benötigt
+- Die Output-Varianten sind unklar.

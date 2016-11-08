@@ -1,21 +1,81 @@
 % UTF-8
 
 % single-chapter commands
-\documentclass{../thesis} \setcounter{chapter}{3} \begin{document}
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{3}}  % single-chapter command
+\begin{document}
 
 
 \chapter{Algorithmen zur Generalisierung}
 
 \section{Vorgehensweise}
 
+...
+
+% -> alte Unterlagen durchgehen
+
+% aus der Erinnerung:
+% damals sehr früh (noch vor Anmeldung) den Algorithmus in groben Zügen aufgestellt und implementiert
+% Vorgehen war im Prinzip, das Problem graphisch/geometrisch anzugehen und auf Papier zu lösen, dann in Code zu übertragen
+% anschließend nur noch (sehr umfangreiche) Verbessserungen vorgenommen, insbesondere zur Flexibilisierung (individuellere Analyse, unterschiedliche Testdaten, Spezialfälle)
+
+% an dieser Stelle außerdem Überleitung (?) -- big picture: wie hängen die folgenden teile zusammen?
+% -> lt. Themenblatt soll das Analyseergebnis auch separat von der Generalisierung zu verwenden sein!
+% d.h. die Main-Klasse / Fassade muss gar nicht unbedingt hier beschrieben werden, das kann auch ein Implementierungsdetail sein (in welchem Fall es evtl. unter Kap. 5 beschrieben werden sollte, wozu aber Kap. 5 wohl etwas umorganisiert werden müsste)
+
+% im CLI sieht's im Moment in etwa so aus:
+% 1. create OsmDataset (als InputDataset-Instanz, via ShapeReader)
+% 2. Combiner.run
+% 3. output
+% also eigentlich nichts, was algorithmisch einer besonderen Beschreibung bedarf
+
+
 \section{Beschreibung der Algorithmen}
+
+...
 
 \subsection{Identifikation parallel verlaufender Linien-Fragmente}
 
+Konzept (abstrakt):
+
+1. nur Segmente betrachten (gerade Linienabschnitte, definiert durch zwei Punkte)
+
+2. alle nahe beieinander liegenden Segmente auf Parallelität untersuchen
+
+Die Segmente sind jedoch unterschiedlich lang und liegen teilweise etwas „verstreut“ im Raum, was die Untersuchung erschwert.
+Deshalb werden die Segmente zunächst fragmentiert, indem benachbarte Segmente „geschickt“ weiter in kürzere Segmente unterteilt werden, so dass parallele Segmente immer ähnlich lang sind und einander gegenüberstehen.
+
+Im Detail:
+
+1. geometrische Indizierung (R-Tree) der Eingabedaten, um Suche nach nahen LineParts zu ermöglichen [regionalise]
+
+2. $\forall$ LineParts: AbstractLinePart.splitCloseParallels, um gut vergleichbare Stücke zu erhalten (reentrant/rekursiv, d. h. neu erzeugte Fragmente werden bis zu einer Mindestgröße immer weiter aufgeteilt) [split]
+
+3. $\forall$ LineParts: $\forall$ nahe Parallelen (laut Index): [analyse]
+
+3.1 Vorprüfung (boolean)
+
+3.2 Hauptprüfung (double)
+
+3.3 best matches (links/rechts getrennt) speichern (keine Nachprüfung => falls das best match nicht passt, wird es trotzdem genommen, sofern nicht schon die vorprüfung die sache abgebrochen hat)
+
+% graphisch erklären, was genau passiert
+
+
 \subsection{Generalisierung durch Zusammenfassung}
+
+% 1. new CorrelationGraph
+% 2. new GeneralisedLines
+
+...
+
 
 \subsection{Verknüpfung von Linienfragmenten zu einem einzigen kontinuierlichen Linienzug}
 
+...
+
 
 % single-chapter commands
+%\onlyinsubfile{\listoffigures} \onlyinsubfile{\listoftables}
+%\onlyinsubfile{\input{../bibliography}}
 \end{document}
