@@ -12,12 +12,15 @@
 
 ...
 
-% -> alte Unterlagen durchgehen
+% -> alte Unterlagen durchgehen (geht erst nach 2016-11-20)
 
 % aus der Erinnerung:
 % damals sehr früh (noch vor Anmeldung) den Algorithmus in groben Zügen aufgestellt und implementiert
 % Vorgehen war im Prinzip, das Problem graphisch/geometrisch anzugehen und auf Papier zu lösen, dann in Code zu übertragen
 % anschließend nur noch (sehr umfangreiche) Verbessserungen vorgenommen, insbesondere zur Flexibilisierung (individuellere Analyse, unterschiedliche Testdaten, Spezialfälle)
+% zeitaufwändig: Probleme im Workflow lösen (z. B. I/O), OOP, die Details des Alg. so hinbekommen, dass er halbwegs "rund" läuft
+% habe versucht, ein wenig Test-Driven Development zu lernen, was mir schwer fiel, weil ich ständig die Struktur änderte
+% erst versucht, rein geometrisch zu arbeiten, dann festgestellt (mit Jochen), dass bei Autobahnen etc Tags idR passen und die Sache erleichtern
 
 % an dieser Stelle außerdem Überleitung (?) -- big picture: wie hängen die folgenden teile zusammen?
 % -> lt. Themenblatt soll das Analyseergebnis auch separat von der Generalisierung zu verwenden sein!
@@ -33,6 +36,8 @@
 \section{Beschreibung der Algorithmen}
 
 ...
+
+% erst Grundprinzip beschreiben, dann Edge Cases
 
 \subsection{Identifikation parallel verlaufender Linien-Fragmente}
 
@@ -58,14 +63,29 @@ Im Detail:
 3.2 Hauptprüfung (double)
 
 3.3 best matches (links/rechts getrennt) speichern (keine Nachprüfung => falls das best match nicht passt, wird es trotzdem genommen, sofern nicht schon die vorprüfung die sache abgebrochen hat)
+% offen: "realParallels"-Konzept
+% geprüft werden die Fragmente, gespeichert werden die Segmente
 
 % graphisch erklären, was genau passiert
 
 
 \subsection{Generalisierung durch Zusammenfassung}
 
-% 1. new CorrelationGraph
+Konzept (in den allgemeinsten Begriffen):
+
+1. Endpunkte der parallelen Segmente einander zuordnen
+
+2. Der gesamte Graph wird "durchgehangelt", indem von einer CorrelationEdge ausgehend immer entlang der Segmente das nächste CorrelationEdge gefunden wird; diese Edges werden dann durch neu erzeugte Mittelpunkte miteinander verbunden.
+
+
+
+% 1. new CorrelationGraph = nach oben erfolgter Einzelanalyse (welche Segmente könnten für sich genommen als parallel zueinander gelten) nun die Gesamtanalyse (welche der als parallel geltenden Segmente sind tatsächlich parallel zueinander, wenn auch andere Segmente in der Nähe liegen)
+% (Der CorrelationGraph ist ein Graph, in dem CorrelationEdges einander gegenüberliegende Knoten von parallelen Segmenten verbinden.)
+
 % 2. new GeneralisedLines
+% - beliebige CorrelationEdge auswählen und von ihr ausgehend den angrenzenden Segmenten erst in die eine, dann die andere Richtung folgen, bis das Folgen nicht mehr eindeutig möglich ist (z. B. wegen einer Abzweigung)
+% - dabei Mittelpunkte der CorrelationEdges jeweils einer neuen GeneralisedSection hinzufügen
+% - Segmente, die nicht zusammengefasst wurden (weil keine Parallelen existieren), werden in Sections umgewandelt und ebenfalls den GeneralisedLines hinzugefügt, um einen homogenen Ergebnisdatensatz zu erhalten
 
 ...
 
