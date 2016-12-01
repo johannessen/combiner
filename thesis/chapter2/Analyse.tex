@@ -103,7 +103,7 @@ Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/osm-datenfluss}
-    \caption{OSM-Datenfluss}\label{fig:osm-datenfluss}
+    \caption{typischer OSM-Datenfluss (vereinfacht dargestellt)}\label{fig:osm-datenfluss}
 \end{figure}
 
 % mapnik nur ein beispiel
@@ -198,9 +198,9 @@ Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{
 \subsection{Generalisierung durch Vergrößerung}
 % Vergrößerung -> maßstabsbedingt notwendig
 
-Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Generalisierung durch Vergrößerung, indem für bestimmte Maßstäbe eine Strichbreite gewählt wird, welche im Abbildungsmaßstab die tatsächliche Größe des Objekts übersteigt. Anliegerstraßen haben für die \term{Zoomstufen} 14 bis 19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen17} und~\ref{fig:kampen14}). Die Breite von $\unit[3]{px}$ auf \term{zoom} 14 entspräche ca.~$\unit[27]{m}$ in der Realität \cf[155]{RT09}. Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
+Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Generalisierung durch Vergrößerung, indem für bestimmte Maßstäbe eine Strichbreite gewählt wird, welche im Abbildungsmaßstab die tatsächliche Größe des Objekts übersteigt. Anliegerstraßen haben für die \term{Zoomstufen} 14 bis 19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen17} und~\ref{fig:kampen14}) \cf{All13}. Die Breite von $\unit[3]{px}$ auf \term{zoom} 14 entspräche ca.~$\unit[27]{m}$ in der Realität \cf[155]{RT09}. Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
 
-% screenshots residentials z19 o. ä. + CartoCSS/MapCSS-mockup:
+% z13+z14 erst 2015 exakt gleiche Strichbreite:
 % https://github.com/gravitystorm/openstreetmap-carto/blob/fe4f8d48757cf85bb692129b5d9755ba5cadbbee/roads.mss
 %@residential-width-z13:           3;
 %@residential-width-z14:           3;
@@ -212,7 +212,7 @@ Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Genera
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z17}
+    \includegraphics[width=7cm]{../chapter2/kampen-z17}
     \caption{Oslo, \term{zoom} 17}\label{fig:kampen17}
 \end{figure}
 
@@ -296,6 +296,8 @@ In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unklares Karten
 
 (Dies könnte durch Verdrängung gelöst werden; siehe dort.)
 
+% Fraglich, ob Platz für beide Beispiele Gera+Utrecht geopfert werden soll. Die Probleme sind ja recht ähnlich. Es zeigt so eigentlich nur, dass es kein Einzelfall ist. Eventuell beide Beispiele nehmen, aber nur auszugsweise beschreiben?
+
 
 
 \subsection{Generalisierung durch Formvereinfachung}
@@ -307,6 +309,22 @@ Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen
 % zB Trollstigen - Screenshots auch mit Vergleich zu Kartverket! http://arne.johannessen.de/osm/geocode-adapter/kartverket/?lat=62.459954&lon=7.6703534&zoom=15&layers=B
 % zB Lahntalbahn http://www.openstreetmap.org/#map=7/51/8
 % "kartographische Formvereinfachung" erklären?
+
+Eine bloße Verringerung der Zahl der Stützpunkte ist automatisiert möglich, führt aber nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung.
+Insbesondere bei mehreren voneinander unabhängigen Objekten im Modell, die gemeinsam ein komplexes Objekt der Realität darstellen, lässt das Ergebnis abhängig von den Parametern oft zu wünschen übrig.
+
+% einzelnen, jedoch zusammengehörenden Features
+
+% Beispielsweise Algorithmen wie etwa Ramer-Douglas-Peucker berücksichtigen jedoch nur die einzelne Linie 
+
+
+
+% Eine bloße Verringerung der Zahl der Stützpunkte führt nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung.
+Beispielsweise hatten Douglas und Peucker das Ziel \noref[Spekulation], anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt
+
+
+
+
 
 Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert. Dies betrifft auch \osm. Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker [\noref DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:crossing-parallels}).
 
@@ -328,7 +346,8 @@ Ein weiteres Hindernis stellt die Fragmentierung der \osm-Linien dar. Bevor etwa
 
 % Textbausteine Formvereinfachung:
 \begin{itemize}
-\item Im Übrigen führt eine Verringerung der Zahl der Stützpunkte nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung. Beispielsweise hatten Douglas und Peucker das Ziel \noref{Spekulation}, anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt. \noref
+%\item Im Übrigen führt eine Verringerung der Zahl der Stützpunkte nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung. Beispielsweise hatten Douglas und Peucker das Ziel \noref[Spekulation], anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt. \noref
+% Ram72 deutet dieses Ziel in der Introduction an: "_efficient_ representation"
 
 %\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
 \item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cf[57]{Kla11}; ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
@@ -353,7 +372,7 @@ Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltun
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/verdraengung}
     \caption{Typisches Generalisierungsergebnis in Web-Karten; fiktives Beispiel nach [sgk02, 49]}\label{fig:verdraengung}
 \end{figure}
 
@@ -405,12 +424,12 @@ Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Ric
   \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/b256@2-z16}
-    \caption{variierende Abstände von Richtungsfahrbahnen, B\,256n (50~\%, bearbeitet)}\label{fig:b256}
+    \caption{variierende Abstände von Richtungsfahrbahnen, B\,256n (44~\%, bearbeitet)}\label{fig:b256}
   \end{minipage}%
   \begin{minipage}[t]{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
-    \caption{kombinierte Signatur für autobahnähnliche Straße}\label{fig:dual-carriageway}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter2/combined-symbols}
+    \caption{kombinierte Signaturen für autobahnähnliche Straßen}\label{fig:dual-carriageway}
   \end{minipage}
 \end{figure}
 
