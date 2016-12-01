@@ -8,18 +8,23 @@ Beim ersten Lesen des Source Codes nach Jahren aufgefallene Punkte:
 - An mehreren stellen wird lazy initialisation eingesetzt. Es wäre zu testen, ob das die Sache tatsächlich beschleunigt (oder ob Speicher das Problem ist).
 - Wo landen die gesplitteten Fragmente, und werden die Eltern-LineParts removed? (Anscheinend wird rekursiv ein Baum von Fragmenten gebaut und bei den Eltern wird nur ein Flag wasSplit gesetzt (?).)
 - Was ist der Zweck des CorrelationGraphs? Warum können die Linien nicht direkt generalisiert werden?
+ => "Meine" Generalisierung versucht, den CorrelationGraph zu durchlaufen und kann dabei relativ einfach die Linien zusammenfassen. Dafür braucht man aber halt diese Zuordnungen! Kurz gesagt:
+  > Analyse -> welche Segmente gehören zusammen?
+  > Zuordnung -> welche Nodes gehören zusammen?
+  > Generalisierung
 - docs suck! Mehr javadoc dringend benötigt
 - Die Output-Varianten sind unklar.
 
 - LineParts(Segments) sollte evtl. Iterable sein (für die nodes, vgl. CorrelationGraph.createGraph; in gleicher Weise könnte LineSegment evtl. eine konstante Collection liefern, über die mit foreach iteriert werden kann, um beide Seiten zu bekommen
-- CorrelationGraph wird für segments erzeugt, wobei für mehrere Parallelen der jeweils nahegelegenste Node gesucht wird; dies ist inkonsequent und funktioniert bei versetzten Paralleln vmtl. nicht gut
+- CorrelationGraph wird für segments erzeugt, wobei für mehrere Parallelen der jeweils nahegelegenste Node gesucht wird; dies ist inkonsequent, nachdem bei der Analyse extra fragmentiwert wurde und funktioniert bei versetzten Paralleln vmtl. nicht gut
 - Es fühlt sich ein wenig so an, als würde der CoerrelationGraph Arbeit duplizieren, die schon zuvor beim Splitten erledigt wurde.
 - Es fühlt sich ein wenig so an, als würde GeneralisedSection Arbeit duplizieren, die schon zuvor beim Korrelieren erledigt wurde.
+=> Ist es möglich, hier mehrere Dinge auf einmal zu erledigen? Vermutlich nicht, aber der CorrelationGraph sollte evtl. die Fragmente nutzen, vielleicht geht es dann einfacher?
 - Warum ist CorrelationEdge Comparable -- nur wegen dem Binary Search im CorrelationGraph? Nach welchen Kriterien wird vorgegangen?
 - Warum existiert CorrelationGraph.intern? Warum sollten Klone erzeugt werden? Gibt es wirklich keinen eleganteren Weg?
 - Generalised* auf den ersten Blick erstaunlich komplex
 - GeneralisedSection-Konstruktor hat Schleife, die vom Input-Node maximal zwei seiner connectingSegments betrachtet. Es gibt aber offenbar keine Garantie dafür, dass die zusammenzufassenden Segmente überhaupt darunter sind. Bug?
 - GeneralisedSection.traverse hat plötzlich hart gecodete OSM-Tag-Checks, die wohl besser im Analyser sein sollten (?); auffallend: die sehr spezialisierten Highway*-Klassen
-- Nicht sicher, ob CorrelationGraph der richtige Ansatz ist.
+- Nicht sicher, ob CorrelationGraph der richtige Ansatz ist. -> Wird benötigt für "meine" Generalisierung.
 - evtl. fehlender Check bei Analyse: überlappen die beiden Segmente sich überhaupt? (vgl. screenshot "no-overlap")
 - GeneralisedSection.traverseGraph:134 if(forward) ist offenbar code, der nur beim ersten Durchführen ausgeführt werden soll, und hat mit vorwärts nix zu tun

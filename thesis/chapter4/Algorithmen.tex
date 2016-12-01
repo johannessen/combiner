@@ -22,9 +22,10 @@
 % habe versucht, ein wenig Test-Driven Development zu lernen, was mir schwer fiel, weil ich ständig die Struktur änderte
 % erst versucht, rein geometrisch zu arbeiten, dann festgestellt (mit Jochen), dass bei Autobahnen etc Tags idR passen und die Sache erleichtern
 
-% an dieser Stelle außerdem Überleitung (?) -- big picture: wie hängen die folgenden teile zusammen?
+% an dieser Stelle außerdem big picture: wie hängen die folgenden teile zusammen?
 % -> lt. Themenblatt soll das Analyseergebnis auch separat von der Generalisierung zu verwenden sein!
 % d.h. die Main-Klasse / Fassade muss gar nicht unbedingt hier beschrieben werden, das kann auch ein Implementierungsdetail sein (in welchem Fall es evtl. unter Kap. 5 beschrieben werden sollte, wozu aber Kap. 5 wohl etwas umorganisiert werden müsste)
+% anstatt des Analyser-Outputs ist tatsächlich eher der CorrelationGraph das Analyseergebnis
 
 % im CLI sieht's im Moment in etwa so aus:
 % 1. create OsmDataset (als InputDataset-Instanz, via ShapeReader)
@@ -32,12 +33,16 @@
 % 3. output
 % also eigentlich nichts, was algorithmisch einer besonderen Beschreibung bedarf
 
+% an dieser Stelle außerdem Überleitung (?): was kann man aus 2.5 für lehren/erkenntnisse ziehen? irgendwas anwendbares dabei? wenn ja, warum nicht?
+
 
 \section{Beschreibung der Algorithmen}
 
 ...
 
 % erst Grundprinzip beschreiben, dann Edge Cases
+
+Grundprinzip: zu jedem Node, der Teil zweier zusammenzufassender Linienzüge ist, ein passendes Gegenüber auf dem anderen Linienzug finden, dann die Mittelpunkte zwischen diesen Nodes bestimmen und zu einem neuen Linienzug zusammensetzen
 
 \subsection{Identifikation parallel verlaufender Linien-Fragmente}
 
