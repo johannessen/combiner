@@ -441,7 +441,7 @@ In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte m
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
 % Grund für folgenden Absatz: zeigen, dass Verfahren von osm.de keine Lösung ist
 
-In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \tag{highway=trunk} aufgrund ihres Ausbauzustands. Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. Unter Umständen wird \tag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}). \cf{osm:HighwayTrunk}
+In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \osmtag{highway=trunk} aufgrund ihres Ausbauzustands. Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden. Unter Umständen wird \osmtag{highway=trunk} somit auch für schmalere Landstraßen verwendet. Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}). \cf{osm:HighwayTrunk}
 
 % TODO: schauen, ob Karte von Dolkviktunnelen / Rv557 besser passt, weil beide Richtungen des Problems gezeigt werden (analog rail tracks) -- theoretisch ja, aber vmtl. schwierig umzusetzen
 
@@ -461,12 +461,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %  \begin{minipage}{.5\linewidth}
 %    \centering
 %    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-rv13-photo}
-%    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (Rv13, Låtefossen)}\label{fig:trunk-norway}
+%    \caption{ein \osmtag{highway=trunk} im ländlichen Norwegen (Rv13, Låtefossen)}\label{fig:trunk-norway}
 %  \end{minipage}%
 %  \begin{minipage}{.5\linewidth}
 %    \centering
 %    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-rv13-map1}
-%    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+%    \caption{Die für \osmtag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
 %  \end{minipage}
 %\end{figure}
 
@@ -474,12 +474,12 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
   \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-photo2}
-    \caption{typischer \tag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}\label{fig:trunk-norway}
+    \caption{typischer \osmtag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}\label{fig:trunk-norway}
   \end{minipage}%
   \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
-    \caption{Die hier für \tag{highway=trunk} gewählte Signatur lässt einen weit besseren Ausbauzustand vermuten als in Norwegen zum Teil vorhanden (Vallaheiane).}\label{fig:trunk-norway-osm-de}
+    \caption{Die hier für \osmtag{highway=trunk} gewählte Signatur lässt einen weit besseren Ausbauzustand vermuten als in Norwegen zum Teil vorhanden (Vallaheiane).}\label{fig:trunk-norway-osm-de}
   \end{minipage}
 \end{figure}
 
@@ -487,16 +487,16 @@ In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als 
 %  \begin{minipage}{.5\linewidth}
 %    \centering
 %    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-serp-photo}
-%    \caption{ein \tag{highway=trunk} im ländlichen Norwegen (ehem. Rv13, Skjervet)}\label{fig:trunk-norway}
+%    \caption{ein \osmtag{highway=trunk} im ländlichen Norwegen (ehem. Rv13, Skjervet)}\label{fig:trunk-norway}
 %  \end{minipage}%
 %  \begin{minipage}{.5\linewidth}
 %    \centering
 %    \includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
-%    \caption{Die für \tag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
+%    \caption{Die für \osmtag{highway=trunk} gewählte Signatur lässt in Norwegen zum Teil einen weit besseren Ausbauzustand vermuten als vorhanden.}\label{fig:trunk-norway-osm-de}
 %  \end{minipage}
 %\end{figure}
 
-Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
+Wird den Gepflogenheiten in Deutschland entsprechend für \osmtag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}). Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
 % Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
 
 
@@ -508,7 +508,7 @@ Wird den Gepflogenheiten in Deutschland entsprechend für \tag{highway=trunk} ei
 
 \label{railway-case}
 
-Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht. Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar. Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke. Tatsächlich liegen insgesamt vier einzelne Gleise. Möglicherweise hat ein \osm-Beitragender \tag{tracks=*} missverstanden als die Gesamtanzahl der Gleise \cf{Fox12}, wofür jedoch ein anderer \term{tag} steht (\tag{passenger\_lines=*}).
+Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \osmtag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht. Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar. Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke. Tatsächlich liegen insgesamt vier einzelne Gleise. Möglicherweise hat ein \osm-Beitragender \osmtag{tracks=*} missverstanden als die Gesamtanzahl der Gleise \cf{Fox12}, wofür jedoch ein anderer \term{tag} steht (\osmtag{passenger\_lines=*}).
 
 % track
 \begin{figure}[ht]
@@ -524,10 +524,10 @@ Die Probleme sind nicht auf das Straßennetz beschränkt. Mit \tag{tracks=*} wir
   \end{minipage}
 \end{figure}
 
-Analog kann in Abbildung~\ref{fig:tracks-small} der Eindruck entstehen, dass von der eingleisigen Strecke (2) zwei doppelgleisige Strecken (3) und (4) derart abzweigen, dass am unteren Bildrand insgesamt fünf Gleise nebeneinander liegen. In größerem Maßstab (Abbildung~\ref{fig:tracks-large}) wird (2) plötzlich der Realität entsprechend als zwei parallele Gleise erkennbar, deren Signaturen im kleineren Maßstab zusammengeflossen waren. Der Abzweig (3) und (4) besteht tatsächlich aus jeweils einem einzelnen Gleis, das fälschlich \tag{tracks=2} gesetzt hat.
+Analog kann in Abbildung~\ref{fig:tracks-small} der Eindruck entstehen, dass von der eingleisigen Strecke (2) zwei doppelgleisige Strecken (3) und (4) derart abzweigen, dass am unteren Bildrand insgesamt fünf Gleise nebeneinander liegen. In größerem Maßstab (Abbildung~\ref{fig:tracks-large}) wird (2) plötzlich der Realität entsprechend als zwei parallele Gleise erkennbar, deren Signaturen im kleineren Maßstab zusammengeflossen waren. Der Abzweig (3) und (4) besteht tatsächlich aus jeweils einem einzelnen Gleis, das fälschlich \osmtag{tracks=2} gesetzt hat.
 
 % Fußnote?
-Insgesamt ist diese Karte mit \tag{tracks=*} wenig gelungen. Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird. Das unglücklich benannte \tag{passenger\_lines} reicht für manche Anwendungen aus, wird jedoch nur auf speziellen Karten angezeigt,
+Insgesamt ist diese Karte mit \osmtag{tracks=*} wenig gelungen. Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird. Das unglücklich benannte \osmtag{passenger\_lines} reicht für manche Anwendungen aus, wird jedoch nur auf speziellen Karten angezeigt,
 % zu implizit?
 so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
 
@@ -586,7 +586,7 @@ Das automatisierte Zusammenfassen paralleler Linienzüge kann zur Vermeidung ei
 Bereits das Zusammenfassen selbst ist ein Vorgang der kartographischen Generalisierung. Es kann das Kartenbild vereinfachen und verbessern.
 % TODO: Abgleich mit oben
 
-Beim Zusammenfassen können Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben. Beispielsweise kann beim Zusammenfassen paralleler Gleise die in \tag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden. Die so vereinfachten Geodaten können dann entsprechend ihrer Attribute visualisiert werden. Die Gefahr von missverständlichen oder unschönen Kartenbildern, die wie oben gezeigt etwa durch Überlagerung entstehen können, wird so verringert.
+Beim Zusammenfassen können Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben. Beispielsweise kann beim Zusammenfassen paralleler Gleise die in \osmtag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden. Die so vereinfachten Geodaten können dann entsprechend ihrer Attribute visualisiert werden. Die Gefahr von missverständlichen oder unschönen Kartenbildern, die wie oben gezeigt etwa durch Überlagerung entstehen können, wird so verringert.
 
 Ebenfalls verringert wird die Datenmenge an sich. Das Arbeiten mit Geodaten für große Gebiete, aber auch die Weiternutzung für andere Zwecke wird so unter Umständen einfacher.
 % (möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)

@@ -25,9 +25,10 @@
 \RequirePackage[ngerman]{babel}
 \selectlanguage{ngerman}
 
-% math support
+% math and symbol support
 \RequirePackage{units}
-%\RequirePackage{mathtools}
+\RequirePackage{mathtools}  % includes amsmath
+\RequirePackage{amssymb}  % includes amsfonts
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
@@ -99,7 +100,7 @@
 % a foreign-language or jargon term is italicised to highlight it
 \newcommand{\term}{\textit}
 
-\newcommand{\tag}{\textit}
+\newcommand{\osmtag}{\textit}
 
 % drafting aids
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
@@ -154,3 +155,26 @@
 \fi
 }
 \makeatother
+
+% algorithms
+\RequirePackage[plain]{algorithm}
+\floatname{algorithm}{Algorithmus}
+\renewcommand{\listalgorithmname}{Algorithmenverzeichnis}
+\RequirePackage[noend]{algpseudocode}
+% replace english words with symbols, mimicking Sar06
+%\def\myAlgMethodSymbol{ $\stackrel{\text{\tiny def}}{=}$}
+\def\myAlgMethodSymbol{ $\equiv$}
+\algdef{SE}[PROCEDURE]{Procedure}{EndProcedure}%
+   [2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}\myAlgMethodSymbol}%
+   {\algorithmicend}%
+\algtext*{EndProcedure}%
+\algdef{SE}[FUNCTION]{Function}{EndFunction}%
+   [2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}\myAlgMethodSymbol}%
+   {\algorithmicend}%
+\algtext*{EndFunction}%
+%\algrenewcommand{\algorithmicforall}{\textbf{$\forall$}}
+\algrenewcommand{\algorithmicforall}{\textbf{für alle}}
+\algrenewcommand{\algorithmicdo}{}
+%\algnewcommand\algorithmicdo{\textbf{do}}
+% own pseudo-code commands
+%\newcommand*\Let[2]{\State $#1 \gets #2$}
