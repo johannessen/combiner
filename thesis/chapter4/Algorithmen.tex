@@ -73,7 +73,14 @@ Um diese Problematik zu umgehen, verwenden die in dieser Arbeit vorgestellten Al
 Die Verbindung zweier benachbarter \term{nodes} in einem \term{way} als kürzestmögliche lineare Einheit in den \osm-Ausgangsdaten (früher als \term{segment} bezeichnet \cf[57]{RT09}) ist allerdings für einen Vergleich nicht viel besser geeignet als der vollständige \term{way}%
 % warum nicht? (wenig spezifisch formuliert)
 , wie aus Abbildung~\ref{fig:motorway-fragments} ersichtlich ist.
-Daher werden die \term{segments} für die Analyse auf Parallelität zunächst solange immer weiter unterteilt, bis schließlich ein einfacher geometrischer Vergleich möglich ist.
+Daher werden die \term{segments} für die Analyse auf Parallelität zunächst solange immer weiter unterteilt, bis schließlich ein einfacher geometrischer Vergleich möglich ist (Abbildung~\ref{fig:comparable-fragments}).
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \caption{comparable-fragments}\label{fig:comparable-fragments}
+\end{figure}
+
 
 
 \section{Operationen}
@@ -90,15 +97,17 @@ Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 
 % Zur Vereinfachung Vorbedingungen der Eingabedaten: ...
 
+% Definitionen: Ways haben Nodes; Segmente haben exakt zwei Nodes, welche mit folgender "Funktion zu erhalten sind; ...
+
 
 \subsection{Segmente unterteilen}
 
-In \osm-Daten sind seit Oktober~2007 Segmente nicht mehr als eigene Objekte enthalten \cf[57]{RT09}. Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
+In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}. Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
 
 \begin{algorithm}[H]
 \caption{Segmentierung}\label{alg:Segmentierung}
 \begin{algorithmic}
-\Procedure{Segmentierung}{$W$}%\Comment{$W$ ist die Menge aller \term{ways} der Datenquelle}
+\Function{Segmentierung}{$W$}%\Comment{$W$ ist die Menge aller \term{ways} der Datenquelle}
 	\State $S \gets \varnothing$
 	\ForAll{$w \textbf{ mit } w \in W $}
 %		\State $N \gets$ alle \term{nodes} von $w$
@@ -108,25 +117,45 @@ In \osm-Daten sind seit Oktober~2007 Segmente nicht mehr als eigene Objekte enth
 %		\ForAll{$n$ \textbf{mit} $n \in N \wedge \exists$ $m : m$ ist Vorgänger von $n$}
 		\ForAll{$n$ \textbf{mit} $n \in w.nodes \wedge \exists$ $m : m$ ist Vorgänger von $n$ in $w$}
 %			\State \textbf{füge} neues Segment $(m, n)$ \textbf{zu} $S$ \textbf{hinzu}
-			\State $S \gets \{S,(m,n)\}$\Comment{neues Segment $(m, n)$ zu $S$ hinzufügen}
+			\State $S \gets S \cup \{(m,n)\}$\Comment{neues Segment $(m, n)$ zu $S$ hinzufügen}
 		\EndFor
 	\EndFor
 	\State \textbf{Ergebnis} $S$
-\EndProcedure
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 
-
-Als potenzielle Parallelen kommen für jedes Segment von vornherein nur wenige andere Segmente in Frage, nämlich solche, die weder zu weit entfernt sind noch deren Ausrichtung zu sehr abweicht.
+Für jedes Segment können viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt sind. Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
 
 %2. Regionalisierung
 %- ∀ Segmente : Liste der "nahen" anderen Segmente
 %→ Spatial Index / Array (sortiert)
 
+%\begin{algorithm}[H]
+%\caption{nahe Segmente}\label{alg:NaheSegmente}
+%R-Baum $\mathcal{R}$
+%\begin{algorithmic}
+%\Function{NaheSegmente}{$s$}
+%	\State $N \gets \{t : t \in \mathcal{R} \wedge H(s) \cap H(t) \neq \varnothing\}$\Comment{erweiterte Hülle $H$}
+%	\State \textbf{Ergebnis} $N$
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
+
 ...
+\begin{algorithm}[H]
+\caption{nahe Segmente}\label{alg:NaheSegmente}
+\begin{algorithmic}
+\Function{NaheSegmente}{$s$}
+	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{n : n \in \mathcal{R}\}$ der im Baum enthaltenen Segmente, deren Hülle $H(n)$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $d/2$ vergrößerte rechteckige Hülle, wobei $d$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
+
+%, die weder zu weit entfernt sind noch deren Ausrichtung zu sehr abweicht.
 
 ...
 
@@ -144,6 +173,44 @@ Als potenzielle Parallelen kommen für jedes Segment von vornherein nur wenige a
 %(`splitTargets()`: Liste der "nahen" anderen Segmente)
 
 ...
+
+% Skizze der Geometrie?
+
+Fußpunkt: Fusspunkt
+
+\begin{algorithm}[H]
+\caption{Fußpunkt}\label{alg:Fusspunkt}
+\begin{algorithmic}
+\Function{Fußpunkt}{$n,t$}
+%	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
+	\State Ergebnis sei der Lotfußpunkt $f$ von $n$ auf $t$. Liegt $f$ außerhalb der Endpunkte von $t$ oder näher an einem der beiden Endpunkte als die festzulegende Mindestlänge eines Fragments, gibt es kein Ergebnis.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Splitten}\label{alg:Splitten}
+$\textbf{Variable } gesplittet : Fragment \rightarrow bool$
+\\$\textbf{Anfangswert } gesplittet(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
+\begin{algorithmic}
+\Function{Splitten}{$S$}
+	\State $B \gets S$\Comment{$B$ ist Liste zu splittender Segmente}
+	\ForAll{$b \textbf{ mit } b \in B $}\Comment{Segment $b = (n_1, n_2)$}
+		\ForAll{$n \textbf{ mit } n \in \{n_1, n_2\} $}
+			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
+				\State $\{f_1, f_2\} \gets \{(p_1, p_F), (p_F, p_2)\}$
+%				\State $B \gets B \setminus \{t\} \cup \{f_1, f_2\}$
+				\State $B \gets B \cup \{f_1, f_2\}$\Comment{Fragmente $f_1$ und $f_2$ rekursiv weiter aufteilen}
+				\State $gesplittet(t) \gets ja$
+			\EndFor
+		\EndFor
+	\EndFor
+	\State \textbf{Ergebnis} $B$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+% logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
 
 
 \subsection{Analysieren}
