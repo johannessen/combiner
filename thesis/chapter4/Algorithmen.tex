@@ -53,12 +53,12 @@ Aufgrund der nicht immer gleichen Anzahl und Verteilung der \term{nodes} kommt e
 \begin{figure}[ht]
   \begin{minipage}[t]{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter4/general-approach}
     \caption{general-approach}\label{fig:general-approach}
   \end{minipage}%
   \begin{minipage}[t]{.5\linewidth}
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter4/motorway-fragments}
     \caption{motorway-fragments}\label{fig:motorway-fragments}
   \end{minipage}
 \end{figure}
@@ -77,7 +77,7 @@ Daher werden die \term{segments} für die Analyse auf Parallelität zunächst so
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../image-missing}
+    \includegraphics[width=\ScaleIfNeeded]{../chapter4/comparable-fragments}
     \caption{comparable-fragments}\label{fig:comparable-fragments}
 \end{figure}
 
@@ -125,68 +125,7 @@ In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term
 \end{algorithmic}
 \end{algorithm}
 
-Für jedes Segment können viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt sind. Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
-
-%2. Regionalisierung
-%- ∀ Segmente : Liste der "nahen" anderen Segmente
-%→ Spatial Index / Array (sortiert)
-
-%\begin{algorithm}[H]
-%\caption{nahe Segmente}\label{alg:NaheSegmente}
-%R-Baum $\mathcal{R}$
-%\begin{algorithmic}
-%\Function{NaheSegmente}{$s$}
-%	\State $N \gets \{t : t \in \mathcal{R} \wedge H(s) \cap H(t) \neq \varnothing\}$\Comment{erweiterte Hülle $H$}
-%	\State \textbf{Ergebnis} $N$
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
-
-...
-\begin{algorithm}[H]
-\caption{nahe Segmente}\label{alg:NaheSegmente}
-\begin{algorithmic}
-\Function{NaheSegmente}{$s$}
-	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{n : n \in \mathcal{R}\}$ der im Baum enthaltenen Segmente, deren Hülle $H(n)$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $d/2$ vergrößerte rechteckige Hülle, wobei $d$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-%3. Orientierungs-Ausschluss
-%- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
-
-%, die weder zu weit entfernt sind noch deren Ausrichtung zu sehr abweicht.
-
-...
-
-%4. Splitten ("re-entrant") in Fragmente
-%Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
-%- _∀ B : P₁, P₂_
-%    - _∀ P_ als p
-%        - _∀ `splitTargets()`_ : (_target noch nicht gesplittet_ -> next;)
-%            - Fußpunkt PF für p auf target suchen
-%            - falls nicht außerhalb target (✐) / falls ≠ target.P₁, target.P₂: *Split* target bei PF
-%                - neue Fragmente f₁, f₂ mit P₁–PF und PF–P₂ erzeugen
-%                - beide f₁, f₂ an Controller melden (für Basis-Iterator: hinten anhängen an Liste zu splittender Segmente)
-%                - Basis und target als gesplittet / "fertig" markieren
-%                - … mehr an Controller melden…?
-%(`splitTargets()`: Liste der "nahen" anderen Segmente)
-
-...
-
-% Skizze der Geometrie?
-
-Fußpunkt: Fusspunkt
-
-\begin{algorithm}[H]
-\caption{Fußpunkt}\label{alg:Fusspunkt}
-\begin{algorithmic}
-\Function{Fußpunkt}{$n,t$}
-%	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
-	\State Ergebnis sei der Lotfußpunkt $f$ von $n$ auf $t$. Liegt $f$ außerhalb der Endpunkte von $t$ oder näher an einem der beiden Endpunkte als die festzulegende Mindestlänge eines Fragments, gibt es kein Ergebnis.
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
+Die Segmente $S$ werden anschließend durch \textproc{Splitten} derart in Fragmente aufgeteilt, dass ein geometrischer Vergleich leicht möglich wird (Abbildung~\ref{fig:comparable-fragments}).
 
 \begin{algorithm}[H]
 \caption{Splitten}\label{alg:Splitten}
@@ -212,6 +151,88 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 
 % logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
 
+Für jedes Segment können dabei viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind. Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
+
+%2. Regionalisierung
+%- ∀ Segmente : Liste der "nahen" anderen Segmente
+%→ Spatial Index / Array (sortiert)
+
+%\begin{algorithm}[H]
+%\caption{Regionalisierung}\label{alg:Regionalisierung}
+%$\textbf{Variable } naheSegmente : Segment \rightarrow \{Segmente\}$
+%\\$\textbf{Anfangswert } naheSegmente(s) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $s$
+%\begin{algorithmic}
+%\Procedure{Regionalisierung}{$S$}
+%	\State neuer R-Baum $\mathcal{R}$
+%	\ForAll{$s \textbf{ mit } s \in S $}
+%		\State $s$ in $\mathcal{R}$ einfügen
+%	\EndFor
+%	\State $\mathcal{R}$ packen\Comment{R-Baum für Abfragen optimieren}
+%	\ForAll{$s \textbf{ mit } s \in S $}
+%		\State $N \gets$ Ergebnis der R-Baum-Abfrage für $s$
+%		\State $naheSegmente(s) \gets N \setminus \{s\}$
+%	\EndFor
+%\EndProcedure
+%\end{algorithmic}
+%\end{algorithm}
+
+%\begin{algorithm}[H]
+%\caption{nahe Segmente}\label{alg:NaheSegmente}
+%R-Baum $\mathcal{R}$
+%\begin{algorithmic}
+%\Function{NaheSegmente}{$s$}
+%	\State $N \gets \{t : t \in \mathcal{R} \wedge H(s) \cap H(t) \neq \varnothing\}$\Comment{erweiterte Hülle $H$}
+%	\State \textbf{Ergebnis} $N$
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{nahe Segmente}\label{alg:NaheSegmente}
+\begin{algorithmic}
+\Function{NaheSegmente}{$s$}
+	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{r : r \in \mathcal{R}\}$ der im Baum enthaltenen Segmente $r$, deren Hülle $H(n) : n \in N$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $d/2$ vergrößerte rechteckige Hülle, wobei $d$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+%3. Orientierungs-Ausschluss
+%- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
+
+%, die weder zu weit entfernt sind noch deren Ausrichtung zu sehr abweicht.
+
+%...
+
+%4. Splitten ("re-entrant") in Fragmente
+%Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
+%- _∀ B : P₁, P₂_
+%    - _∀ P_ als p
+%        - _∀ `splitTargets()`_ : (_target noch nicht gesplittet_ -> next;)
+%            - Fußpunkt PF für p auf target suchen
+%            - falls nicht außerhalb target (✐) / falls ≠ target.P₁, target.P₂: *Split* target bei PF
+%                - neue Fragmente f₁, f₂ mit P₁–PF und PF–P₂ erzeugen
+%                - beide f₁, f₂ an Controller melden (für Basis-Iterator: hinten anhängen an Liste zu splittender Segmente)
+%                - Basis und target als gesplittet / "fertig" markieren
+%                - … mehr an Controller melden…?
+%(`splitTargets()`: Liste der "nahen" anderen Segmente)
+
+Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\ref{fig:footpoint}).
+
+\begin{algorithm}[H]
+\caption{Fußpunkt}\label{alg:Fusspunkt}
+\begin{algorithmic}
+\Function{Fußpunkt}{$n,t$}
+%	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
+	\State Ergebnis sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ außerhalb der Endpunkte~$t_1, t_2$ von~$t$ oder näher an~$t_1$ oder~$t_2$ als die festzulegende Mindestlänge~$m$ eines Fragments, gibt es kein Ergebnis.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}
+    \caption{footpoint}\label{fig:footpoint}
+\end{figure}
 
 \subsection{Analysieren}
 
