@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-% for the time being I mostly work on single-chapter drafts, thus I make the ../ path component part of the class name
+% the ../ path component is part of the class name because all TeX files are in sub-directories
 \ProvidesClass{../thesis}[2012/12/13 HSKA-DA Arne Johannessen]
 \LoadClass[
 	version=3.19,  % request that Koma typeset this document just like the Koma version it was written with would have
@@ -29,6 +29,7 @@
 \RequirePackage{units}
 \RequirePackage{mathtools}  % includes amsmath
 \RequirePackage{amssymb}  % includes amsfonts
+%\RequirePackage[scale=1.0]{ccicons}
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
@@ -48,17 +49,22 @@
 \RequirePackage{xparse}
 \RequirePackage{xifthen}
 \DeclareDocumentCommand{\cfx}{ O{} O{} m }{%
-%\cite[#2][#1]{#3}%
-[\ifthenelse{\isempty{#2}}{}{#2 }#3\ifthenelse{\isempty{#1}}{}{, #1}]%
+\ifthenelse{\equal{\BibTeXenabled}{1}}%
+{\cite[#2][#1]{#3}}%
+{[\ifthenelse{\isempty{#2}}{}{#2 }#3\ifthenelse{\isempty{#1}}{}{, #1}]}%
 }
 
-% switch the comment symbol above to control BibTeX!
+\newcommand{\BibTeXenabled}{}
 
 \newcommand{\?}{\textbf{??}}
 \newcommand{\p}{p.\,}
 \newcommand{\f}{ seq.}
 \newcommand{\ff}{ seqq.}
 \DeclareDocumentCommand{\cf}{ O{} O{} m }{%
+\ifthenelse{\isempty{#1}}{\cfx[][#2cf.]{#3}}{\cfx[#1][#2cf.]{#3}}%
+}
+
+\DeclareDocumentCommand{\citex}{ O{} O{} m }{%
 \ifthenelse{\isempty{#1}}{\cfx[][#2]{#3}}{\cfx[#1][#2]{#3}}%
 }
 
