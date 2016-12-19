@@ -38,7 +38,8 @@
 
 %\section{Beschreibung der Algorithmen}
 
-Im Folgenden werden die gefundenen Algorithmen zunächst in allgemeinen Begriffen beschrieben, wobei der Fokus auf ihrem Zusammenwirken und ihren Abhängigkeiten voneinander liegt. Im Anschluss daran folgt ihre formale Beschreibung.
+Im Folgenden werden die gefundenen Algorithmen zunächst in allgemeinen Begriffen beschrieben, wobei der Fokus auf ihrem Zusammenwirken und ihren Abhängigkeiten voneinander liegt.
+Im Anschluss daran folgt ihre formale Beschreibung.
 
 % erst Grundprinzip / -idee / -ansatz beschreiben, dann Edge Cases
 
@@ -102,7 +103,8 @@ Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 
 \subsection{Segmente unterteilen}
 
-In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}. Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
+In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}.
+Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
 
 \begin{algorithm}[H]
 \caption{Segmentierung}\label{alg:Segmentierung}
@@ -151,7 +153,8 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 
 % logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
 
-Für jedes Segment können dabei viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind. Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
+Für jedes Segment können dabei viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind.
+Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
 
 %2. Regionalisierung
 %- ∀ Segmente : Liste der "nahen" anderen Segmente
@@ -236,7 +239,8 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 
 \subsection{Analysieren}
 
-Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur Analyse auf Parallelität. Hierfür werden Geometrie und Attribute näher verglichen.
+Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur Analyse auf Parallelität.
+Hierfür werden Geometrie und Attribute näher verglichen.
 
 %5. Analyse der Fragmente
 %∀ Fragmente:
@@ -306,7 +310,9 @@ Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur Analyse au
 
 \subsection{Identifikation parallel verlaufender Linien-Fragmente}
 
-Ansatz: Dieser Algorithmus eignet sich insgesamt weniger gut zur Identifikation als zur Generalisierung. Die Identifikation erfolgt, indem festgestellt wird, ob eine Generalisierung notwendig ist oder nicht; falls sie notwendig ist, kann sie dann aber auch bereits recht billig durchgeführt werden. Andererseits ist fraglich, welchen "praxistauglichen" Einsatz eine reine Identifikation ohne anschließende Generalisierung hätte.
+Ansatz: Dieser Algorithmus eignet sich insgesamt weniger gut zur Identifikation als zur Generalisierung.
+Die Identifikation erfolgt, indem festgestellt wird, ob eine Generalisierung notwendig ist oder nicht; falls sie notwendig ist, kann sie dann aber auch bereits recht billig durchgeführt werden.
+Andererseits ist fraglich, welchen "praxistauglichen" Einsatz eine reine Identifikation ohne anschließende Generalisierung hätte.
 
 Konzept (abstrakt):
 
