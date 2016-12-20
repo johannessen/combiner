@@ -136,7 +136,7 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 \begin{algorithmic}
 \Function{Splitten}{$S$}
 	\State $B \gets S$\Comment{$B$ ist Liste zu splittender Segmente}
-	\ForAll{$b \textbf{ mit } b \in B $}\Comment{Segment $b = (n_1, n_2)$}
+	\ForAll{$b := (n_1, n_2) \textbf{ mit } b \in B $}%\Comment{Segment $b = (n_1, n_2)$}
 		\ForAll{$n \textbf{ mit } n \in \{n_1, n_2\} $}
 			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
 				\State $\{f_1, f_2\} \gets \{(p_1, p_F), (p_F, p_2)\}$
@@ -226,7 +226,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \begin{algorithmic}
 \Function{Fußpunkt}{$n,t$}
 %	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
-	\State Ergebnis sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ außerhalb der Endpunkte~$t_1, t_2$ von~$t$ oder näher an~$t_1$ oder~$t_2$ als die festzulegende Mindestlänge~$m$ eines Fragments, gibt es kein Ergebnis.
+	\State Ergebnis sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten~$t_1, t_2$, welche $t$ definieren, oder liegt~$f$ näher an~$t_1$ oder~$t_2$ als die festzulegende Mindestlänge~$m$ eines Fragments, dann gibt es kein Ergebnis.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -250,6 +250,18 @@ Hierfür werden Geometrie und Attribute näher verglichen.
 %- best match(es) für _Segmente_ eintragen in eine Liste (und zwar reziprok) (→ eigentlich unnötig??) (∀ Segmente: ∃ 2 Listen "paralleler" Segmente) L+R (|||)
 
 ...
+
+\begin{algorithm}[H]
+\caption{Analyse TBD}\label{alg:Analyse}
+$\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente)$
+\\$\textbf{Anfangswert } parallel(a) \stackrel{\text{\tiny def}}{=} (b, \varnothing)$ $\forall$ $a,b$
+\begin{algorithmic}
+\Function{Analyse}{}
+	\State \textbf{Ergebnis} $parallel$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
 
 %6. Links/Rechts filtern
 %(Albaufstieg vs. Verteilerfahrbahnen)
@@ -279,6 +291,27 @@ Hierfür werden Geometrie und Attribute näher verglichen.
 %- alle Segmente/Zuordnungen für je ein ursprüngliches Segment als Teil eines "Blocks" markieren (könnte später evtl. Auffinden eines Anfangs zur Generalisierung erleichtern)
 
 ...
+
+\begin{algorithm}[H]
+\caption{Nodes Zuordnen}\label{alg:Zuordnen}
+%$\textbf{Variable } fertig7 : Segment \rightarrow bool$
+%\\$\textbf{Anfangswert } fertig7(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
+\begin{algorithmic}
+\Function{NodesZuordnen}{$S,P$}
+	\State $C \gets \varnothing$
+	\ForAll{$s := (n_1, n_2) \textbf{ mit } s \in S$}% \wedge \neg$ $fertig7(t)$}
+		\ForAll{$t_1 \textbf{ mit } t_1 \in \{n_1, n_2\} $}
+			\ForAll{$p := (q_1, q_2) \textbf{ mit } p \in P(d,s)$ $\forall$ $d$}
+				\State $t_2 \gets \begin{cases}q_1 & \text{für } ||t_1 - q_1|| \textless ||t_1 - q_2||\\q_2 & \text{sonst}\end{cases}$
+				\State $C \gets C \cup (t_1, t_2)$\Comment{$t_2$ ist der $t_1$ am nächsten gelegene \term{node} von $p$}
+			\EndFor
+		\EndFor
+%		\State $fertig7(s) \gets ja$
+	\EndFor
+	\State \textbf{Ergebnis} $C$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 \subsection{Parallelen zusammenfassen}
