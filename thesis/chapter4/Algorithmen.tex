@@ -102,6 +102,7 @@ Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 
 
 \subsection{Segmente unterteilen}
+\label{ch:split-algorithm}
 
 In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}.
 Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
@@ -129,6 +130,8 @@ Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird dah
 
 Die Segmente $S$ werden anschließend durch \textproc{Splitten} derart in Fragmente aufgeteilt, dass ein geometrischer Vergleich leicht möglich wird (Abbildung~\ref{fig:comparable-fragments}).
 
+% TODO: Lingo erklären: alle Fragmente sind neue Segmente, also Verbindung zw. zwei Punkten
+
 \begin{algorithm}[H]
 \caption{Splitten}\label{alg:Splitten}
 $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
@@ -138,8 +141,9 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 	\State $B \gets S$\Comment{$B$ ist Liste zu splittender Segmente}
 	\ForAll{$b := (n_1, n_2) \textbf{ mit } b \in B $}%\Comment{Segment $b = (n_1, n_2)$}
 		\ForAll{$n \textbf{ mit } n \in \{n_1, n_2\} $}
-			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
-				\State $\{f_1, f_2\} \gets \{(p_1, p_F), (p_F, p_2)\}$
+			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b, S) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
+				\State $t =: (n_3, n_4)$
+				\State $\{f_1, f_2\} \gets \{(n_3, p_F), (p_F, n_4)\}$
 %				\State $B \gets B \setminus \{t\} \cup \{f_1, f_2\}$
 				\State $B \gets B \cup \{f_1, f_2\}$\Comment{Fragmente $f_1$ und $f_2$ rekursiv weiter aufteilen}
 				\State $gesplittet(t) \gets ja$
@@ -153,8 +157,12 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 
 % logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
 
-Für jedes Segment können dabei viele andere Segmente von vornherein als potenzielle Parallelen ausgeschlossen werden, beispielsweise solche, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind.
-Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
+Es ist nicht notwendig, jedes Segment mit allen anderen Segmenten zu vergleichen.
+Segmente, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind, können von vornherein als potenzielle Parallelen ausgeschlossen werden.
+Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelität in Frage kommen, wird für jedes Segment eine \textproc{Hülle} gebildet, welche etwas größer als das jeweilige Segment ist, so dass sich die Hüllen von nahe beieinander liegenden Segmenten überschneiden.
+% TODO: Grafik und/oder Literaturverweis
+
+%Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und somit statisch sind, bietet sich hierzu der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
 
 %2. Regionalisierung
 %- ∀ Segmente : Liste der "nahen" anderen Segmente
@@ -179,25 +187,39 @@ Nachdem die \osm-Eingangsdaten für die Generalisierung vollständig bekannt und
 %\end{algorithmic}
 %\end{algorithm}
 
-%\begin{algorithm}[H]
-%\caption{nahe Segmente}\label{alg:NaheSegmente}
-%R-Baum $\mathcal{R}$
-%\begin{algorithmic}
-%\Function{NaheSegmente}{$s$}
-%	\State $N \gets \{t : t \in \mathcal{R} \wedge H(s) \cap H(t) \neq \varnothing\}$\Comment{erweiterte Hülle $H$}
-%	\State \textbf{Ergebnis} $N$
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
-
 \begin{algorithm}[H]
 \caption{nahe Segmente}\label{alg:NaheSegmente}
 \begin{algorithmic}
-\Function{NaheSegmente}{$s$}
-	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{r : r \in \mathcal{R}\}$ der im Baum enthaltenen Segmente $r$, deren Hülle $H(n) : n \in N$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $d/2$ vergrößerte rechteckige Hülle, wobei $d$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+\Function{NaheSegmente}{$s, S$}\Comment{Menge aller Segmente $S$}
+	\State \textbf{Ergebnis} $\{t : t \in S \wedge \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \varnothing\}$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+Aus Gründen der Effizienz bietet es sich an, diese \textproc{Hülle} rechteckig im Koordinatensystem anzulegen.
+Folge daraus ist, dass die Größe des Puffers von der Orientierung des Segments abhängt.
+Im Ergebnis wird später zu sehen sein, dass diagonal zum Koordinatennetz ausgerichtete Segmente bei größeren Abständen zueinander als parallel erkannt werden als solche Segmente, die orthogonal zum Koordinatennetz ausgerichtet sind.
+Für die Korrektheit der Algorithmen spielt dies jedoch keine Rolle.
+% weil?
+% TODO: Grafik?
+
+\begin{algorithm}[H]
+\caption{Definition der erweiterten Hüllfunktion für \textproc{NaheSegmente}}\label{alg:Huelle}
+\begin{algorithmic}
+\Function{Hülle}{$s$}
+	\State \textbf{Ergebnis} sei die nach allen Seiten um $\mu/2$ vergrößerte rechteckige Hülle um das Segment $s$, wobei $\mu$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+%\begin{algorithm}[H]
+%\caption{nahe Segmente}\label{alg:NaheSegmente}
+%\begin{algorithmic}
+%\Function{NaheSegmente}{$s$}
+%	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{r : r \in \mathcal{R}\}$ der im Baum enthaltenen Segmente $r$, deren Hülle $H(n) : n \in N$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $\mu/2$ vergrößerte rechteckige Hülle, wobei $\mu$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
@@ -227,6 +249,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \Function{Fußpunkt}{$n,t$}
 %	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
 	\State Ergebnis sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten~$t_1, t_2$, welche $t$ definieren, oder liegt~$f$ näher an~$t_1$ oder~$t_2$ als die festzulegende Mindestlänge~$m$ eines Fragments, dann gibt es kein Ergebnis.
+% Der zweite Satz ist ein wesentliches, aber nicht unbedingt offensichtliches Detail, deshalb sollte auch das an sich einfache Konzept "Lotfußpunkt" formal beschrieben werden.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
@@ -238,9 +261,11 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \end{figure}
 
 \subsection{Analysieren}
+\label{ch:analyse-algorithm}
 
-Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur Analyse auf Parallelität.
+Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur \textproc{Analyse} auf Parallelität.
 Hierfür werden Geometrie und Attribute näher verglichen.
+Für jedes Segment wird beidseitig jeweils genau ein anderes Segment als parallel gekennzeichnet, sofern auf der jeweiligen Seite wenigstens ein nahes paralleles Segment existiert.
 
 %5. Analyse der Fragmente
 %∀ Fragmente:
@@ -252,16 +277,47 @@ Hierfür werden Geometrie und Attribute näher verglichen.
 ...
 
 \begin{algorithm}[H]
-\caption{Analyse TBD}\label{alg:Analyse}
-$\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente)$
-\\$\textbf{Anfangswert } parallel(a) \stackrel{\text{\tiny def}}{=} (b, \varnothing)$ $\forall$ $a,b$
+\caption{Analyse}\label{alg:Analyse}
+$\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
+\\$\textbf{Anfangswert } parallelLinks(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
+\\$\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
+\\$\textbf{Anfangswert } parallelRechts(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
 \begin{algorithmic}
-\Function{Analyse}{}
-	\State \textbf{Ergebnis} $parallel$
+\Function{Analyse}{$S$}
+	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}
+		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)\}$
+		\State $L \gets \{t : t \in T, t =: (n_3, n_4) \wedge \sphericalangle (s, n_3 - n_1) < 0 \wedge \sphericalangle (s, n_4 - n_1) < 0\}$
+		\State $R \gets \{t : t \in T, t =: (n_3, n_4) \wedge \sphericalangle (s, n_3 - n_1) > 0 \wedge \sphericalangle (s, n_4 - n_1) > 0\}$
+		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
+		\ForAll{$l \textbf{ mit } l \in L$}\Comment{Menge $L$ aller nahen Parallelen linksseitig}
+			\State $parallelLinks(s) \gets l \textbf{ falls } 0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')$ $\forall$ $l' \in L$
+		\EndFor
+		\ForAll{$r \textbf{ mit } r \in R$}\Comment{Menge $R$ aller nahen Parallelen rechtsseitig}
+			\State $parallelRechts(s) \gets r \textbf{ falls } 0 < \textproc{Distanz}(s, r) \leqslant \textproc{Distanz}(s, r')$ $\forall$ $r' \in R$
+		\EndFor
+	\EndFor
+	\State \textbf{Ergebnis} $parallelLinks, parallelRechts$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
+\begin{algorithm}[H]
+\caption{Parallel TBD}\label{alg:Parallel}
+\begin{algorithmic}
+\Function{Parallel}{$s_1, s_2$}
+	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie ähnlich ausgerichtet sind (closeParallels-Winkel) und die für den speziellen Anwendungsfall festgelegten Bedingungen auf die zugehörigen OSM-Ways zutreffen (Analyser-Bedingungen: shouldEvaluate und evaluate); siehe Kapitel 3 (TBD).
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Distanz TBD}\label{alg:Distanz}
+\begin{algorithmic}
+\Function{Distanz}{$s_1, s_2$}
+	\State Distanz der Segmente $s_1$ und $s_2$ z. B. einfach die Summer der Distanz der jeweils nächsten Endpunkte (siehe MyAnalyser.evaluate) oder die Distanz der Mittelpunkte (evtl. einfacher zu definieren) – TBD.
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 %6. Links/Rechts filtern
 %(Albaufstieg vs. Verteilerfahrbahnen)
@@ -275,6 +331,7 @@ $\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente
 
 
 \subsection{Punktezuordnung}
+\label{ch:correlation-algorithm}
 
 %7. Punktzuordnungen erzeugen (Vorstufe Generalisierung)
 %
@@ -297,13 +354,13 @@ $\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente
 %$\textbf{Variable } fertig7 : Segment \rightarrow bool$
 %\\$\textbf{Anfangswert } fertig7(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
 \begin{algorithmic}
-\Function{NodesZuordnen}{$S,P$}
+\Function{NodesZuordnen}{$S$}
 	\State $C \gets \varnothing$
-	\ForAll{$s := (n_1, n_2) \textbf{ mit } s \in S$}% \wedge \neg$ $fertig7(t)$}
-		\ForAll{$t_1 \textbf{ mit } t_1 \in \{n_1, n_2\} $}
-			\ForAll{$p := (q_1, q_2) \textbf{ mit } p \in P(d,s)$ $\forall$ $d$}
-				\State $t_2 \gets \begin{cases}q_1 & \text{für } ||t_1 - q_1|| \textless ||t_1 - q_2||\\q_2 & \text{sonst}\end{cases}$
-				\State $C \gets C \cup (t_1, t_2)$\Comment{$t_2$ ist der $t_1$ am nächsten gelegene \term{node} von $p$}
+	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}% \wedge \neg$ $fertig7(t)$}
+		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}, t =: (n_3, n_4)$}
+			\ForAll{$e_1 \textbf{ mit } e_1 \in \{n_1, n_2\} $}
+				\State $e_2 \gets \begin{cases}n_3 & \text{für } ||e_1 - n_3|| < ||e_1 - n_4||\\n_4 & \text{sonst}\end{cases}$
+				\State $C \gets C \cup (e_1, e_2)$\Comment{$e_2$ ist der $e_1$ am nächsten gelegene \term{node} von $t$}
 			\EndFor
 		\EndFor
 %		\State $fertig7(s) \gets ja$
@@ -315,6 +372,7 @@ $\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente
 
 
 \subsection{Parallelen zusammenfassen}
+\label{ch:generalisation-algorithm}
 
 %8. Generalisierung
 %
@@ -335,8 +393,127 @@ $\textbf{Variable } parallel : Segment \rightarrow (Seite links/rechts, Segmente
 
 ...
 
+Diese Beschreibung des Algorithmus zum \textproc{Zusammenfassen} bildet der Übersichtlichkeit halber nur den trivialen Fall ab, dass es keine Kreuzungen gibt und dass es für jede Zusammenfassung genau zwei Segmente gibt, die durch sie wegfallen.
 
-% hier noch ein weiterer Abschnitt 4.4 für den Gesamtüberblick
+% TODO: dies scheint mit Segments, nicht mit Fragments zu laufen -- prüfen, ob das hier richtig abgebildet wird
+
+\begin{algorithm}[H]
+\caption{Zusammenfassen}\label{alg:Zusammenfassen}
+\begin{algorithmic}
+\Function{Zusammenfassen}{$S, C$}
+	\State generalisierter Graph $\mathcal{G} \gets$ leer
+	\ForAll{Segmente $s$, die noch nicht als zusammengefasst markiert sind}
+		\ForAll{Zuordnungen $e$, die mit dem Start-Node $n$ von $s$ verknüpft sind}
+			\State zusammengefasster Linienzug $L \gets$ leer
+			\State $t \gets$ mit dem jeweils anderem Node von $e$ verknüpftes Segment, welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
+			\While{es eine nächste Zuordnung $f$ gibt, die $s$ und $t$ an deren anderen Ende ebenfalls einander zuordnet}
+				\State $m \gets$ Mittelpunkt von $e$
+				\State $m' \gets$ Mittelpunkt von $f$
+				\State füge Segment $(m, m')$ zu $L$ hinzu
+				\State markiere $s$ und $t$ als zusammengefasst
+				\State $s \gets$ Segment, das $s$ nach $f$ fortführt
+				\State $t \gets$ Segment, das $t$ nach $f$ fortführt
+			\EndWhile
+			\State füge $L$ zu $\mathcal{G}$ hinzu
+		\EndFor
+	\EndFor
+	\State füge alle nicht zusammengefassten Segmente zu $\mathcal{G}$ hinzu
+	\State \textbf{Ergebnis} $\mathcal{G}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+
+% mit vorwärts/rückwärts-Logik (nur sinnvoll, wenn man das Verketten für Wesentlich hält, was das Themenblatt nicht tut ("Verkettung, soweit zum Zusammenfassen nötig")
+%\begin{algorithm}[H]
+%\caption{Zusammenfassen}\label{alg:Zusammenfassen}
+%\begin{algorithmic}
+%\Function{Zusammenfassen}{$S, C$}
+%	\State generalisierter Graph $\mathcal{G} \gets$ leer
+%	\ForAll{Segmente $s$, die noch nicht als zusammengefasst markiert sind}
+%		\ForAll{Zuordnungen $e$, die mit dem Start-Node $n$ von $s$ verknüpft sind}
+%			\State zusammengefasster Linienzug $L \gets$ leer
+%			\State $t \gets$ mit dem jeweils anderem Node von $e$ verknüpftes Segment, welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
+%			\While{es eine nächste Zuordnung $f$ gibt, die $s$ und $t$ an deren anderen Ende ebenfalls einander zuordnet}
+%				\State $m \gets$ Mittelpunkt von $e$
+%				\State $m' \gets$ Mittelpunkt von $f$
+%				\State füge Segment $(m, m')$ am Ende von $L$ hinzu
+%				\State markiere $s$ und $t$ als zusammengefasst
+%				\State $s \gets$ Segment, das $s$ nach $f$ fortführt
+%				\State $t \gets$ Segment, das $t$ nach $f$ fortführt
+%			\EndWhile
+%			\State $s \gets$ Segment, das $s$ in die Gegenrichtung fortführt
+%			\State $t \gets$ mit dem jeweils anderem Node von $e$ verknüpftes Segment, welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
+%			\While{es eine nächste Zuordnung $f$ gibt, die $s$ und $t$ an deren anderen Ende ebenfalls einander zuordnet}
+%				\State $m \gets$ Mittelpunkt von $e$
+%				\State $m' \gets$ Mittelpunkt von $f$
+%				\State füge Segment $(m, m')$ am Anfang von $L$ hinzu
+%				\State markiere $s$ und $t$ als zusammengefasst
+%				\State $s \gets$ Segment, das $s$ nach $f$ fortführt
+%				\State $t \gets$ Segment, das $t$ nach $f$ fortführt
+%			\EndWhile
+%			\State füge $L$ zu $\mathcal{G}$ hinzu
+%		\EndFor
+%	\EndFor
+%	\State füge alle nicht zusammengefassten Segmente zu $\mathcal{G}$ hinzu
+%	\State \textbf{Ergebnis} $\mathcal{G}$
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
+
+% Versuche mit Formelsatz
+%\begin{algorithm}[H]
+%\caption{Zusammenfassen}\label{alg:Zusammenfassen}
+%%$\textbf{Variable } zusammengefasst : Segment \rightarrow bool$
+%%\\$\textbf{Anfangswert } zusammengefasst(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
+%% \neg$ $zusammengefasst(s)
+%\begin{algorithmic}
+%\Function{Zusammenfassen}{$S, C$}
+%	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}
+%		\ForAll{$e \textbf{ mit } e \in C, e =: (e_1, e_2) \wedge (e_1 = n_1 \vee e_2 = n_1)$}
+%			\State $T \gets \{t : t \in S, t =: (n_3, n_4) \wedge |\{e_1, e_2, n_3, n_4\}| < 4\}$
+%			% T <- alle Segmente von ET
+%			\ForAll{$t \textbf{ mit } t \in T, t =: (n_3, n_4)$}
+%				
+%				\State $ $ % hierhin jetzt die "cases" für die Drehung/Unterscheidung, damit bei 2.->1. das richtige ES/ET kommt
+%			% ^--- "in die gleiche Richtung zeigt wie S" - wie ist das gemeint?
+%				
+%				
+%			\EndFor
+%		\EndFor
+%	\EndFor
+%	
+%	
+%%	\State $C \gets \varnothing$
+%%	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}% \wedge \neg$ $fertig7(t)$}
+%%		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}, t =: (n_3, n_4)$}
+%%			\ForAll{$e_1 \textbf{ mit } e_1 \in \{n_1, n_2\} $}
+%%				\State $e_2 \gets \begin{cases}n_3 & \text{für } ||e_1 - n_3|| \textless ||e_1 - n_4||\\n_4 & \text{sonst}\end{cases}$
+%%				\State $C \gets C \cup (e_1, e_2)$\Comment{$e_2$ ist der $e_1$ am nächsten gelegene \term{node} von $t$}
+%%			\EndFor
+%%		\EndFor
+%%%		\State $fertig7(s) \gets ja$
+%%	\EndFor
+%%	\State \textbf{Ergebnis} $C$
+%\EndFunction
+%\end{algorithmic}
+%\end{algorithm}
+
+
+\section{Gesamtüberblick}
+
+\begin{algorithm}[H]
+\caption{Generalisierung}\label{alg:Generalisierung}
+\begin{algorithmic}
+\Function{Generalisierung}{$W$}
+	\State $S \gets \textproc{Splitten}(\textproc{Segmentierung}(W))$\Comment{Segmente unterteilen, Abschnitt~\ref{ch:split-algorithm}}
+	\State $\textproc{Analyse}(S)$\Comment{auf Parallelität analysieren, Abschnitt~\ref{ch:analyse-algorithm}}
+	\State $C \gets \textproc{NodesZuordnen}(S)$\Comment{Generalisierung vorbereiten, Abschnitt~\ref{ch:correlation-algorithm}}
+	\State $\mathcal{G} \gets \textproc{Zusammenfassen}(S, C)$\Comment{Generalisierung durchführen, Abschnitt~\ref{ch:generalisation-algorithm}}
+	\State \textbf{Ergebnis} $\mathcal{G}$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 
 \section{alte Einteilung}

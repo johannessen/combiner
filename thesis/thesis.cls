@@ -180,6 +180,7 @@
 \algtext*{EndFunction}%
 %\algrenewcommand{\algorithmicforall}{\textbf{$\forall$}}
 \algrenewcommand{\algorithmicforall}{\textbf{für alle}}
+\algrenewcommand{\algorithmicwhile}{\textbf{solange}}
 \algrenewcommand{\algorithmicdo}{}
 %\algnewcommand\algorithmicdo{\textbf{do}}
 % own pseudo-code commands
