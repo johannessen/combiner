@@ -139,11 +139,10 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 \begin{algorithmic}
 \Function{Splitten}{$S$}
 	\State $B \gets S$\Comment{$B$ ist Liste zu splittender Segmente}
-	\ForAll{$b := (n_1, n_2) \textbf{ mit } b \in B $}%\Comment{Segment $b = (n_1, n_2)$}
-		\ForAll{$n \textbf{ mit } n \in \{n_1, n_2\} $}
+	\ForAll{$b \textbf{ mit } b \in B$}
+		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(b), \textproc{Ende}(b)\} $}
 			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b, S) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
-				\State $t =: (n_3, n_4)$
-				\State $\{f_1, f_2\} \gets \{(n_3, p_F), (p_F, n_4)\}$
+				\State $\{f_1, f_2\} \gets \{(\textproc{Start}(t), p_F), (p_F, \textproc{Ende}(t))\}$
 %				\State $B \gets B \setminus \{t\} \cup \{f_1, f_2\}$
 				\State $B \gets B \cup \{f_1, f_2\}$\Comment{Fragmente $f_1$ und $f_2$ rekursiv weiter aufteilen}
 				\State $gesplittet(t) \gets ja$
@@ -156,6 +155,32 @@ $\textbf{Variable } gesplittet : Fragment \rightarrow bool$
 \end{algorithm}
 
 % logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
+
+Um Verbindungen zwischen zwei \term{nodes} deterministisch beschreiben zu können, werden diese hier als Kanten in einem gerichteten Graphen betrachtet.
+Dies betrifft sowohl alle Segmente als auch die später behandelten Punktezuordnungen (Abschnitt~\ref{ch:correlation-algorithm}).
+Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichnet.
+
+% TODO: reicht hier schon die Prosa?
+
+\begin{algorithm}[H]
+\caption{Start}\label{alg:Start}
+\begin{algorithmic}
+\Function{Start}{$s$}
+	\State $s =: (n_1, n_2)$
+	\State \textbf{Ergebnis} $n_1$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\caption{Ende}\label{alg:Ende}
+\begin{algorithmic}
+\Function{Ende}{$s$}
+	\State $s =: (n_1, n_2)$
+	\State \textbf{Ergebnis} $n_2$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 Es ist nicht notwendig, jedes Segment mit allen anderen Segmenten zu vergleichen.
 Segmente, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind, können von vornherein als potenzielle Parallelen ausgeschlossen werden.
@@ -248,7 +273,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \begin{algorithmic}
 \Function{Fußpunkt}{$n,t$}
 %	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
-	\State Ergebnis sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten~$t_1, t_2$, welche $t$ definieren, oder liegt~$f$ näher an~$t_1$ oder~$t_2$ als die festzulegende Mindestlänge~$m$ eines Fragments, dann gibt es kein Ergebnis.
+	\State \textbf{Ergebnis} sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten $\textproc{Start}(t)$ und $\textproc{Ende}(t)$ oder liegt~$f$ näher an $\textproc{Start}(t)$ oder $\textproc{Ende}(t)$ als die festzulegende Mindestlänge~$m$ eines Fragments, dann gibt es kein Ergebnis.
 % Der zweite Satz ist ein wesentliches, aber nicht unbedingt offensichtliches Detail, deshalb sollte auch das an sich einfache Konzept "Lotfußpunkt" formal beschrieben werden.
 \EndFunction
 \end{algorithmic}
@@ -286,8 +311,8 @@ $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
 \Function{Analyse}{$S$}
 	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}
 		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)\}$
-		\State $L \gets \{t : t \in T, t =: (n_3, n_4) \wedge \sphericalangle (s, n_3 - n_1) < 0 \wedge \sphericalangle (s, n_4 - n_1) < 0\}$
-		\State $R \gets \{t : t \in T, t =: (n_3, n_4) \wedge \sphericalangle (s, n_3 - n_1) > 0 \wedge \sphericalangle (s, n_4 - n_1) > 0\}$
+		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t) - \textproc{Start}(s)) < 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) < 0\}$
+		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t)  - \textproc{Start}(s)) > 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) > 0\}$
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
 		\ForAll{$l \textbf{ mit } l \in L$}\Comment{Menge $L$ aller nahen Parallelen linksseitig}
 			\State $parallelLinks(s) \gets l \textbf{ falls } 0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')$ $\forall$ $l' \in L$
@@ -356,11 +381,11 @@ $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
 \begin{algorithmic}
 \Function{NodesZuordnen}{$S$}
 	\State $C \gets \varnothing$
-	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}% \wedge \neg$ $fertig7(t)$}
-		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}, t =: (n_3, n_4)$}
-			\ForAll{$e_1 \textbf{ mit } e_1 \in \{n_1, n_2\} $}
-				\State $e_2 \gets \begin{cases}n_3 & \text{für } ||e_1 - n_3|| < ||e_1 - n_4||\\n_4 & \text{sonst}\end{cases}$
-				\State $C \gets C \cup (e_1, e_2)$\Comment{$e_2$ ist der $e_1$ am nächsten gelegene \term{node} von $t$}
+	\ForAll{$s \textbf{ mit } s \in S$}% \wedge \neg$ $fertig7(t)$}
+		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}$}
+			\ForAll{$n_1 \textbf{ mit } n_1 \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
+				\State $n_2 \gets \begin{cases}\textproc{Start}(t) & \text{für } ||n_1 - \textproc{Start}(t)|| < ||n_1 - \textproc{Ende}(t)||\\\textproc{Ende}(t) & \text{sonst}\end{cases}$
+				\State $C \gets C \cup (n_1, n_2)$\Comment{$n_2$ ist der $n_1$ am nächsten gelegene \term{node} von $t$}
 			\EndFor
 		\EndFor
 %		\State $fertig7(s) \gets ja$
