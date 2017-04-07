@@ -105,12 +105,12 @@ Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 \label{ch:split-algorithm}
 
 In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}.
-Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente $S$ ermittelt.
+Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente ermittelt.
 
 \begin{algorithm}[H]
 \caption{Segmentierung}\label{alg:Segmentierung}
 \begin{algorithmic}
-\Function{Segmentierung}{$W$}%\Comment{$W$ ist die Menge aller \term{ways} der Datenquelle}
+\Function{Segmentierung}{$W$}\Comment{Menge aller \term{ways} $W$}
 	\State $S \gets \varnothing$
 	\ForAll{$w \textbf{ mit } w \in W $}
 %		\State $N \gets$ alle \term{nodes} von $w$
@@ -128,55 +128,51 @@ Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} $W$ wird dah
 \end{algorithmic}
 \end{algorithm}
 
-Die Segmente $S$ werden anschließend durch \textproc{Splitten} derart in Fragmente aufgeteilt, dass ein geometrischer Vergleich leicht möglich wird (Abbildung~\ref{fig:comparable-fragments}).
+Die Segmente werden anschließend durch \textproc{Splitten} derart aufgeteilt, dass ein geometrischer Vergleich leicht möglich wird (Abbildung~\ref{fig:comparable-fragments}).
+Die so zerteilten Fragmente sind keine Segmente im Sinne der früheren gleichnamigen \osm-Objekte, da der Punkt, an dem sie zerteilt wurden, keinen \term{node} in OpenStreetMap darstellt.
+Im Folgenden werden sie dennoch vereinfachend als Segmente bezeichnet.
 
-% TODO: Lingo erklären: alle Fragmente sind neue Segmente, also Verbindung zw. zwei Punkten
+Aufgeteilt werden Segmente jeweils am \textproc{Fußpunkt} eines Lots, das von einem \term{node} eines anderen Segments gefällt wird.
+Der gewählte Algorithmus für das \textproc{Splitten} arbeitet geometrisch rekursiv:
+Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und somit immer weiter aufgeteilt, bis kein \textproc{Fußpunkt} mehr gefunden wird.
 
 \begin{algorithm}[H]
 \caption{Splitten}\label{alg:Splitten}
-$\textbf{Variable } gesplittet : Fragment \rightarrow bool$
-\\$\textbf{Anfangswert } gesplittet(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
 \begin{algorithmic}
-\Function{Splitten}{$S$}
-	\State $B \gets S$\Comment{$B$ ist Liste zu splittender Segmente}
-	\ForAll{$b \textbf{ mit } b \in B$}
-		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(b), \textproc{Ende}(b)\} $}
-			\ForAll{$t \textbf{ mit } t \in \textproc{NaheSegmente}(b, S) \wedge \neg$ $gesplittet(t) \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
-				\State $\{f_1, f_2\} \gets \{(\textproc{Start}(t), p_F), (p_F, \textproc{Ende}(t))\}$
-%				\State $B \gets B \setminus \{t\} \cup \{f_1, f_2\}$
-				\State $B \gets B \cup \{f_1, f_2\}$\Comment{Fragmente $f_1$ und $f_2$ rekursiv weiter aufteilen}
-				\State $gesplittet(t) \gets ja$
+\Function{Splitten}{$S$}\Comment{Menge aller Segmente $S$}
+	\ForAll{$s \textbf{ mit } s \in S$}
+		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
+			\State $T \gets \textproc{NaheSegmente}(s, S)$
+			\ForAll{$t \textbf{ mit } t \in T \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
+				\State $t_1 \gets (\textproc{Start}(t), p_F)$
+				\State $t_2 \gets (p_F, \textproc{Ende}(t))$
+				\State $S \gets \{t_1, t_2\} \cup S \setminus \{t\}$
 			\EndFor
 		\EndFor
 	\EndFor
-	\State \textbf{Ergebnis} $B$
+	\State \textbf{Ergebnis} $S$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
-% logisches Problem: Fragmente werden nicht dem R-Baum hinzugefügt, aber NaheSegmente liefert nur _Segmente_ aus dem R-Baum, folglich *keine* Rekursion (genauer: Rekursion nur von Fragmenten auf Segmente, nicht Fragmente auf Fragmente)
 
 Um Verbindungen zwischen zwei \term{nodes} deterministisch beschreiben zu können, werden diese hier als Kanten in einem gerichteten Graphen betrachtet.
 Dies betrifft sowohl alle Segmente als auch die später behandelten Punktezuordnungen (Abschnitt~\ref{ch:correlation-algorithm}).
 Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichnet.
 
+Geometrisch betrachtet entsprechen \term{nodes} Punkten, die durch vom Koordinatenursprung ausgehende Vektoren in der euklidischen Ebene definiert sind.
+Segmente als gerichtete Verbindungen zweier solcher Punkte lassen sich dann ebenfalls als Vektoren auffassen und als geordnetes Paar notieren.
+
+So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch dem Vektor $b - a$ entspräche.
+
 % TODO: reicht hier schon die Prosa?
 
 \begin{algorithm}[H]
-\caption{Start}\label{alg:Start}
+\caption{Start / Ende}\label{alg:StartEnde}
 \begin{algorithmic}
-\Function{Start}{$s$}
-	\State $s =: (n_1, n_2)$
+\Function{Start}{$s =: (n_1, n_2)$}
 	\State \textbf{Ergebnis} $n_1$
 \EndFunction
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[H]
-\caption{Ende}\label{alg:Ende}
-\begin{algorithmic}
-\Function{Ende}{$s$}
-	\State $s =: (n_1, n_2)$
+\Function{Ende}{$s =: (n_1, n_2)$}
 	\State \textbf{Ergebnis} $n_2$
 \EndFunction
 \end{algorithmic}
@@ -193,25 +189,6 @@ Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelit
 %- ∀ Segmente : Liste der "nahen" anderen Segmente
 %→ Spatial Index / Array (sortiert)
 
-%\begin{algorithm}[H]
-%\caption{Regionalisierung}\label{alg:Regionalisierung}
-%$\textbf{Variable } naheSegmente : Segment \rightarrow \{Segmente\}$
-%\\$\textbf{Anfangswert } naheSegmente(s) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $s$
-%\begin{algorithmic}
-%\Procedure{Regionalisierung}{$S$}
-%	\State neuer R-Baum $\mathcal{R}$
-%	\ForAll{$s \textbf{ mit } s \in S $}
-%		\State $s$ in $\mathcal{R}$ einfügen
-%	\EndFor
-%	\State $\mathcal{R}$ packen\Comment{R-Baum für Abfragen optimieren}
-%	\ForAll{$s \textbf{ mit } s \in S $}
-%		\State $N \gets$ Ergebnis der R-Baum-Abfrage für $s$
-%		\State $naheSegmente(s) \gets N \setminus \{s\}$
-%	\EndFor
-%\EndProcedure
-%\end{algorithmic}
-%\end{algorithm}
-
 \begin{algorithm}[H]
 \caption{nahe Segmente}\label{alg:NaheSegmente}
 \begin{algorithmic}
@@ -221,30 +198,25 @@ Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelit
 \end{algorithmic}
 \end{algorithm}
 
-Aus Gründen der Effizienz bietet es sich an, diese \textproc{Hülle} rechteckig im Koordinatensystem anzulegen.
-Folge daraus ist, dass die Größe des Puffers von der Orientierung des Segments abhängt.
+Als \textproc{Hülle} könnte ein Puffer dienen.
+Aus Gründen der Effizienz bietet es sich jedoch an, die \textproc{Hülle} rechteckig im Koordinatennetz anzulegen.
+Für diesen Fall hängt die Größe der Hülle auch von der Orientierung des Segments ab.
 Im Ergebnis wird später zu sehen sein, dass diagonal zum Koordinatennetz ausgerichtete Segmente bei größeren Abständen zueinander als parallel erkannt werden als solche Segmente, die orthogonal zum Koordinatennetz ausgerichtet sind.
-Für die Korrektheit der Algorithmen spielt dies jedoch keine Rolle.
-% weil?
+
+Weiterhin hängen diese Erkennungsabstände vom gewählten Koordinatennetz ab.
+Wird beispielsweise mit geographischen Koordinaten gearbeitet, variiert das Verhältnis der Erkennungsabstände in Ost/West- und in Nord/Süd-Richtung mit der geographischen Breite.
+Insbesondere auf höheren Breiten bietet sich daher der Einsatz einer winkeltreuen Abbildung wie etwa Gauß-Krüger an, um diese Einflüsse zu minimieren.
+Für die Korrektheit der Algorithmen spielen beide Arten von Variationen jedoch keine Rolle, solange die Erkennungsabstände nicht fest vorgegeben sind.
 % TODO: Grafik?
 
 \begin{algorithm}[H]
 \caption{Definition der erweiterten Hüllfunktion für \textproc{NaheSegmente}}\label{alg:Huelle}
 \begin{algorithmic}
 \Function{Hülle}{$s$}
-	\State \textbf{Ergebnis} sei die nach allen Seiten um $\mu/2$ vergrößerte rechteckige Hülle um das Segment $s$, wobei $\mu$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
+	\State \textbf{Ergebnis} sei die nach allen Kardinalrichtungen um $\eta/2$ vergrößerte rechteckige Hülle um das Segment $s$, wobei $\eta$ der festzulegende Höchstabstand sei, für den zwei Segmente als „nahe“ gelten dürfen.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
-
-%\begin{algorithm}[H]
-%\caption{nahe Segmente}\label{alg:NaheSegmente}
-%\begin{algorithmic}
-%\Function{NaheSegmente}{$s$}
-%	\State Es sei $\mathcal{R}$ der bereits erzeugte und gepackte R-Baum. Ergebnis sei diejenige Teilmenge $N \subseteq \{r : r \in \mathcal{R}\}$ der im Baum enthaltenen Segmente $r$, deren Hülle $H(n) : n \in N$ die Hülle $H(s)$ des vorgegebenen Segments oder Fragments schneidet. Die Hüllfunktion $H$ liefere dabei die nach allen Seiten um $\mu/2$ vergrößerte rechteckige Hülle, wobei $\mu$ der festzulegende Höchstabstand sei, für den zwei Segmente oder Fragmente als „nahe“ gelten dürfen.
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
@@ -273,7 +245,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \begin{algorithmic}
 \Function{Fußpunkt}{$n,t$}
 %	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
-	\State \textbf{Ergebnis} sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten $\textproc{Start}(t)$ und $\textproc{Ende}(t)$ oder liegt~$f$ näher an $\textproc{Start}(t)$ oder $\textproc{Ende}(t)$ als die festzulegende Mindestlänge~$m$ eines Fragments, dann gibt es kein Ergebnis.
+	\State \textbf{Ergebnis} sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten $\textproc{Start}(t)$ und $\textproc{Ende}(t)$ oder liegt~$f$ näher an $\textproc{Start}(t)$ oder $\textproc{Ende}(t)$ als die festzulegende Mindestlänge~$\mu$ eines Fragments, dann gibt es kein Ergebnis.
 % Der zweite Satz ist ein wesentliches, aber nicht unbedingt offensichtliches Detail, deshalb sollte auch das an sich einfache Konzept "Lotfußpunkt" formal beschrieben werden.
 \EndFunction
 \end{algorithmic}
@@ -292,6 +264,8 @@ Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur \textproc{
 Hierfür werden Geometrie und Attribute näher verglichen.
 Für jedes Segment wird beidseitig jeweils genau ein anderes Segment als parallel gekennzeichnet, sofern auf der jeweiligen Seite wenigstens ein nahes paralleles Segment existiert.
 
+Die Unterscheidung der Seiten links und rechts erfolgt durch Bestimmung der Winkel zu den \term{nodes} des jeweils anderen Segments.
+
 %5. Analyse der Fragmente
 %∀ Fragmente:
 %- Ähnlichkeitsmaß zu allen anderen in Frage kommenden Fragmenten bestimmen (⇐ `closeParallels`), sortieren
@@ -303,13 +277,13 @@ Für jedes Segment wird beidseitig jeweils genau ein anderes Segment als paralle
 
 \begin{algorithm}[H]
 \caption{Analyse}\label{alg:Analyse}
-$\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
-\\$\textbf{Anfangswert } parallelLinks(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
-\\$\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
-\\$\textbf{Anfangswert } parallelRechts(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
 \begin{algorithmic}
+\State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
+\State $\textbf{Anfangswert } parallelLinks(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
+\State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
+\State $\textbf{Anfangswert } parallelRechts(a) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $a$
 \Function{Analyse}{$S$}
-	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}
+	\ForAll{$s \textbf{ mit } s \in S$}
 		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)\}$
 		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t) - \textproc{Start}(s)) < 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) < 0\}$
 		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t)  - \textproc{Start}(s)) > 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) > 0\}$
@@ -331,15 +305,32 @@ $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
 \begin{algorithmic}
 \Function{Parallel}{$s_1, s_2$}
 	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie ähnlich ausgerichtet sind (closeParallels-Winkel) und die für den speziellen Anwendungsfall festgelegten Bedingungen auf die zugehörigen OSM-Ways zutreffen (Analyser-Bedingungen: shouldEvaluate und evaluate); siehe Kapitel 3 (TBD).
+	\State (dazu gehörend auch maximale Distanz $\zeta$)
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+Aus der Menge aller parallelen Segmente auf einer Seite wird dasjenige mit der kürzesten \textproc{Distanz} als Parallele ausgewählt.
+Auf welche Weise die Distanz zwischen zwei Segmenten bestimmt wird, kann vom speziellen Anwendungsfall abhängen und soll hier nicht definiert werden.
+
+% tatsächlich implementiert: Summe der Abstände der jeweils nächsten Nodes (siehe MyAnalyser.evaluate)
+% alternativ denkbar: _kleinster_ Abstand zweier Nodes
+
+\begin{algorithm}[H]
+\caption{Beispielhafte Bestimmung der Distanz zweier Segmente}\label{alg:Distanz}
+\begin{algorithmic}
+\Function{Distanz}{$s_1, s_2$}
+	\State \textbf{Ergebnis} $ $ % TODO: Distanz der Mittelpunkte
+	\State Distanz der Segmente $s_1$ und $s_2$ z. B. einfach die Summer der Distanz der jeweils nächsten Endpunkte (siehe MyAnalyser.evaluate) oder die Distanz der Mittelpunkte (evtl. einfacher zu definieren) – TBD.
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
 
 \begin{algorithm}[H]
-\caption{Distanz TBD}\label{alg:Distanz}
+\caption{Mittelpunkt}\label{alg:Mittelpunkt}
 \begin{algorithmic}
-\Function{Distanz}{$s_1, s_2$}
-	\State Distanz der Segmente $s_1$ und $s_2$ z. B. einfach die Summer der Distanz der jeweils nächsten Endpunkte (siehe MyAnalyser.evaluate) oder die Distanz der Mittelpunkte (evtl. einfacher zu definieren) – TBD.
+\Function{Mittelpunkt}{$a$}
+	\State \textbf{Ergebnis} $\frac{\textproc{Start}(a) + \textproc{Ende}(a)}{2}$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
