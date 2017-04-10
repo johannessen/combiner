@@ -135,6 +135,9 @@
   \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
   \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
 
+% compact lists
+\RequirePackage{enumitem}
+
 % figures and tables
 \RequirePackage[raggedrightboxes]{ragged2e}
 %\usepackage{caption}
@@ -183,5 +186,7 @@
 \algrenewcommand{\algorithmicwhile}{\textbf{solange}}
 \algrenewcommand{\algorithmicdo}{}
 %\algnewcommand\algorithmicdo{\textbf{do}}
+\algrenewcommand{\algorithmicif}{\textbf{falls}}
+\algrenewcommand{\algorithmicthen}{}
 % own pseudo-code commands
 %\newcommand*\Let[2]{\State $#1 \gets #2$}
