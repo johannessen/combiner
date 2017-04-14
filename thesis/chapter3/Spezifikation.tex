@@ -13,6 +13,7 @@
 
 
 \section{Vergleich verschiedener Problemfälle der automatisierten Linien-Generalisierung}
+\label{ch:case-comparison}
 
 % (Vergleich unter dem Gesichtspunkt der Eignung als „Spezialfall“ für diese DA, vgl. Themenblatt)
 % evtl. jeweils ein (Ab)satz zu "worum genau geht es bei diesem Problem" (was nur teilweise offensichtlich ist) und ein (Ab)satz zur Eignung
@@ -31,10 +32,11 @@ Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm{
 
 
 \subsection{Richtungsfahrbahnen im Straßenraum mit baulicher Trennung}
-\label{dual-highway-case-desc}
+\label{ch:dual-highway-case-desc}
 
 Auch für zweibahnige Straßen, welche in \osm{} als zwei parallele Linienzüge modelliert sind, wird im Gegensatz zum deutschen amtlichen Vermessungswesen \cf[107]{adv08} in \osm{} keine Mittellinie als Achse der Straße erfasst.
 Die sich daraus für \osm{} ergebenden Probleme wurden bereits in Abschnitten~\ref{dual-highway-case-1} und~\ref{dual-highway-case-2} beschrieben.
+Konkrete Beispiele für solche Straßen sind Autobahnen, aber auch zweibahnige innerstädtische oder Überlandstraßen.
 
 % ATKIS-Objektartenkatalog Basis-DLM 6 (2008)
 % http://www.geodatenzentrum.de/docpdf/ATKIS-OK%20Basis-DLM%206_0.pdf
@@ -60,7 +62,7 @@ Im Straßenraum zählen dazu:
 	\item die Kombination mehrerer der genannten Punkte, etwa als Teil einer komplexen innerstädtischen Straße mit parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen und besonderem Stadtbahn-Gleiskörper.
 \end{itemize}
 
-Die sich in solchen Fällen ergebenden Probleme sind vergleichbar zu Abschnitt~\ref{dual-highway-case-desc}, jedoch komplexer, weil die beteiligten Verkehrsarten jeweils unterschiedliche Voraussetzungen haben.
+Die sich in solchen Fällen ergebenden Probleme sind vergleichbar zu Abschnitt~\ref{ch:dual-highway-case-desc}, jedoch komplexer, weil die beteiligten Verkehrsarten jeweils unterschiedliche Voraussetzungen haben.
 So sind z.~B. straßenbegleitende Radwege aufgrund der geringeren gefahrenen Geschwindigkeiten oft kurviger als die Fahrbahn für Kraftfahrzeuge, sollten aber dennoch als parallel zu ihr gelten können.
 Auch erfordern die Unterschiede in Kombination mit Platzmangel oft individuelle bauliche Lösungen, was die Automatisierung der Verarbeitung der Geodaten nicht vereinfacht.
 
@@ -140,10 +142,10 @@ Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durc
 % allerdings vielleicht hier puffer-methode besser geeignet, schließlich geht es eigentlich um die fläche
 
 
-\subsection{Bachläufe und Verkehrswege}
-% das klassische Problem
-
-…
+%\subsection{Bachläufe und Verkehrswege}
+%% das klassische Problem
+%
+%…
 
 
 
@@ -151,45 +153,28 @@ Hier wäre eine Erkennung der parallelen Ränder der Schneise hilfreich, um durc
 
 \section{Auswahl der in dieser Arbeit zu behandelnden Spezialfälle}
 
-\begin{itemize}
-	
-	% Welcher konkrete Spezialfall wird in dieser Arbeit stellvertretend untersucht?
-	% Gibt es einen wesentlichen, die Auswahl entscheidenden Grund?
-	% =============================================================
-	
-	\item als zu untersuchender Fall gewählt:
-	
-	\item Richtungsfahrbahnen im Straßenraum mit baulicher Trennung
-		(autobahnähnliche Straßen, zweibahnige innerstädtische oder Überlandstraßen)
-	
-	\item Grund: es ist zu erwarten, dass für Straßen das Tagging weitgehend passt
-	\begin{itemize}
-		% - da straßen für eine weit größere zielgruppe interessant sind
-		\item da Tags für viele Details existieren und genutzt werden (Beispiele)
-		\item da viele Details fürs Straßennetz in den Standard-Karten von OSM gerendert werden
-		\item wegen der praktischen Relevanz für Karten und Anwendungen in ganz allgemeinen Fällen
-			(-> Allgemeinbevölkerung / gemeiner Mapper)
-	\end{itemize}
-	% - Grund: mehr probleme bei straßen (?)
-	\item Grund: die bereits existierenden Ansätze beziehen sich hauptsächlich auf Straßen
-	\item Grund: Bahn ist einfacher (?) / Straße ist evtl. allgemeiner (?)
-	
-	% Kann das Ergebnis dieser Arbeit auf andere Spezialfälle oder auf die Gesamtheit verallgemeinert werden?
-	% (kurze, grobe Abschätzung auf Basis der zuvor benannten Beispiele)
-	% ==================================================================
-	
-	\item Ergebnis u. U. übertragbar auf den Fall von parallelen Fahrbahnen/Wege für unterschiedliche Verkehrsmittel/-arten
-%	\begin{itemize}
-%		\item z. B. zweibahnige Straße außerorts mit parallelem Zweirichtungsradweg
-%		\item z. B. Nebenfahrbahnen (Frontage Roads)
-%		\item z. B. straßenbündiger Bahnkörper (Straße mit Gleisen für Straßenbahn oder Street-Running)
-%		\item z. B. komplexe innerstädtische Straße mit mehreren parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen, besonderem Stadtbahn-Gleiskörper (mehrgleisig), Adressinterpolationen, PLZ-Grenze und unterirdischer Fernwärmeleitung
-%		\item z. B. Rampen für Anschlussstellen vom Typ SPUI (der "Fall Kriegsstraße") oder Diamant
-%	\end{itemize}
-	
-	\item Ergebnis u. U. übertragbar auf den Fall von mehrgleisigen Eisenbahnstrecken
-	
-\end{itemize}
+Viele der bisherigen Arbeiten zur automatisierten Zusammenfassung haben sich mit Straßen beschäftigt (Abschnitt~\ref{ch:existing-approaches}).
+In mehreren dieser Arbeiten betonten die Autoren die Wichtigkeit von Ausgangsdaten mit hoher Qualität.
+Im Falle von OpenStreetMap ist zu erwarten, dass die Datenqualität für Elemente des Straßennetzes höher ist als die von manch anderen Elementen der \osm-Datenbank.
+
+So gibt es Anhaltspunkte für eine Korrelation zwischen Datenqualität und dem Umstand, ob diese Daten in der Standard-Visualisierung dargestellt werden. \cf[18]{NZZ11}
+Dies ist auch anschaulich klar, denn leicht sichtbare Fehler fallen schneller auf und werden somit auch schneller korrigiert als andere Fehler.
+Die Standard-Visualisierung der Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} berücksichtigt viele Details des Straßennetzes.
+Unter anderem werden Name und Nummer von Straßen dargestellt, nicht jedoch beispielsweise von Eisenbahnstrecken.
+% Highways: Tags für viele Details existieren und werden genutzt. Mehr als für Railways? Vergleich evtl. durch TagInfo möglich, entweder mit historischen Daten (Geofabrik?) oder aber mit aktuellen plus qualitative Überlegung (wann entstand openrailwaymap?)
+
+Hinzu kommt die hohe praktische Relevanz des Straßennetzes, die bereits im Namen „OpenStreetMap“ Ausdruck findet, für die \osm-Beitragenden genau wie auch für die Allgemeinbevölkerung.
+\osm-Daten werden nicht mehr nur zur visuellen Darstellung, sondern auch zur Navigation verwendet.
+Auch dies geht mit einer erhöhten Datenqualität einher. \cf[17–18]{NZZ11}
+% Quelle für diesen Punkt nicht großartig; kann dies anhand von Changesets quantifiziert werden?
+Verbesserte Algorithmen könnten hier besonders vielen Nutzern zugutekommen.
+
+Aus diesen Gründen wird von den zuvor in Abschnitt~\ref{ch:case-comparison} beschriebenen Anwendungsfällen für eine automatisierte Linienzusammenfassung der Fall von \textbf{baulich getrennten Richtungsfahrbahnen im Straßenraum} für diese Arbeit ausgewählt (Abschnitt~\ref{ch:dual-highway-case-desc}).
+Solche Straßen sind nahezu allgegenwärtig und die mit deren Darstellung verbundenen Probleme verbreitet.
+
+Die in Abschnitt~\ref{} beschriebenen Fälle paralleler Wege für unterschiedliche Verkehrsarten bieten sich aufgrund ihrer Komplexität nicht an, solange nicht der einfachere Fall von Richtungsfahrbahnen zufriedenstellend gelöst ist.
+Es ist jedoch denkbar, dass eine Lösung für bauliche getrennte Richtungsfahrbahnen auch auf einige solcher Fälle übertragbar ist.
+Auch auf mehrgleisige Eisenbahnstrecken könnte das Ergebnis dieser Arbeit übertragbar sein.
 
 
 
