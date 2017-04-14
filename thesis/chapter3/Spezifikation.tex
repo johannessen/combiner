@@ -26,7 +26,7 @@ Der darauf folgende Abschnitt begründet die Auswahl der entsprechend der Aufgab
 
 Das Problem der Auswertung der Gleisanzahl mehrgleisiger Bahnstrecken ist bereits in Abschnitt~\ref{railway-case} beschrieben.
 Neben der Erkennung solcher Gleise als parallel kann die geometrische Ermittlung der Bahnachse hilfreich für eine ansprechende Visualisierung sein.
-Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm{} wird sie jedoch nicht erfasst.
+Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm\ wird sie jedoch nicht erfasst.
 
 % "Bahnachse" https://www-docs.tu-cottbus.de/verkehrswesen/public/Lehre/Lehrbuch/Grundlagen/0-3Zeichnung.pdf
 
@@ -34,8 +34,8 @@ Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm{
 \subsection{Richtungsfahrbahnen im Straßenraum mit baulicher Trennung}
 \label{ch:dual-highway-case-desc}
 
-Auch für zweibahnige Straßen, welche in \osm{} als zwei parallele Linienzüge modelliert sind, wird im Gegensatz zum deutschen amtlichen Vermessungswesen \cf[107]{adv08} in \osm{} keine Mittellinie als Achse der Straße erfasst.
-Die sich daraus für \osm{} ergebenden Probleme wurden bereits in Abschnitten~\ref{dual-highway-case-1} und~\ref{dual-highway-case-2} beschrieben.
+Auch für zweibahnige Straßen, welche in \osm\ als zwei parallele Linienzüge modelliert sind, wird im Gegensatz zum deutschen amtlichen Vermessungswesen \cf[107]{adv08} in \osm\ keine Mittellinie als Achse der Straße erfasst.
+Die sich daraus für \osm\ ergebenden Probleme wurden bereits in Abschnitten~\ref{dual-highway-case-1} und~\ref{dual-highway-case-2} beschrieben.
 Konkrete Beispiele für solche Straßen sind Autobahnen, aber auch zweibahnige innerstädtische oder Überlandstraßen.
 
 % ATKIS-Objektartenkatalog Basis-DLM 6 (2008)
@@ -58,7 +58,7 @@ Im Straßenraum zählen dazu:
 	% https://de.wikipedia.org/wiki/Doppelanschlussstelle
 	\item Sonderfahrbahnen für Busse, Fahrgemeinschaften oder Mautzahler,
 	% https://de.wikipedia.org/wiki/High-occupancy_vehicle_lane#Ausf.C3.BChrung
-	\item straßenbündige oder -parallele Bahnkörper, und
+	\item straßenbündige oder -parallele Bahnkörper,
 	\item die Kombination mehrerer der genannten Punkte, etwa als Teil einer komplexen innerstädtischen Straße mit parallelen getrennten Radwegen, Gehwegen, Richtungsfahrbahnen, Nebenfahrbahnen und besonderem Stadtbahn-Gleiskörper.
 \end{itemize}
 
@@ -104,19 +104,19 @@ Insgesamt erscheinen Grenzen jedoch im Kontext dieser Arbeit als ein eher schwie
 \subsection{Grundrisstreu erfasste linienhafte Objekte}
 \label{ground-plan-linear-objects-case-desc}
 
-Mit zunehmendem Grad der Detaillierung in \osm{} wird versucht, eigentlich linienhafte Objekte als grundrisstreue Fläche zu erfassen.
+Mit zunehmendem Grad der Detaillierung in \osm\ wird versucht, eigentlich linienhafte Objekte als grundrisstreue Fläche zu erfassen.
 Für Flüsse ist dies bereits üblich \cf[72]{RT09}, für Straßen und Rollbahnen unter Diskussion.
 % http://wiki.openstreetmap.org/w/index.php?title=Key:area&oldid=865108#Highway.2Fpavement_areas
 % http://wiki.openstreetmap.org/w/index.php?title=Tag:aeroway%3Drunway&oldid=1218356#How_to_Map
 Dadurch entstehen sehr lange und schmale Flächen, deren Ränder größtenteils parallel zueinander sind.
-Wenigstens bei Flüssen ist es allerdings etabliert, zusätzlich zur Fläche auch eine Mittellinie in \osm{} zu erfassen.
+Wenigstens bei Flüssen ist es allerdings etabliert, zusätzlich zur Fläche auch eine Mittellinie in \osm\ zu erfassen.
 Daher stellen diese Fälle in der Praxis kein Problem dar und sind für diese Arbeit nicht weiter interessant.
 
 
 \subsection{Vegetationsgrenzen entlang von Verkehrswegen}
 
 Ein Sonderfall der in Abschnitt~\ref{ground-plan-linear-objects-case-desc} beschriebenen langen und schmalen Flächen sind Waldschneisen.
-Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einem durch den Wald führenden Weg auch die sich durch den Weg ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm{} in zwei Flächen links und rechts der Straße aufgeteilt wird (Abbildung~\ref{fig:vegetation-swath-z16}).
+Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einem durch den Wald führenden Weg auch die sich durch den Weg ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm\ in zwei Flächen links und rechts des Wegs aufgeteilt wird (Abbildung~\ref{fig:vegetation-swath-z16}).
 
 Einerseits ermöglicht dies eine präzisere Modellierung der Wirklichkeit, indem die womöglich die Breite des Wegs übersteigende Breite der Schneise modelliert werden kann.
 Andererseits werden große Wälder ohnehin gerne in mehrere kleinere Flächen aufgeteilt, um das Arbeiten mit den Geodaten zu vereinfachen.

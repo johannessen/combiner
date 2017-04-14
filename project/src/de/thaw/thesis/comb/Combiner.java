@@ -119,6 +119,7 @@ Combiner.printMemoryStatistics();
 		int c = 0;
 		int p = 0;
 		
+		// the first call to AbstractSTRtree.query builds (packs) the tree
 		for (final LineSegment segment : allSegments) {
 			final List<LineSegment> closeSegments = index.query(segment.envelope());
 			closeSegments.remove(segment);  // keep segments from being compared with themselves down the road

@@ -67,7 +67,7 @@ Aufgrund der nicht immer gleichen Anzahl und Verteilung der \term{nodes} kommt e
 Um zwei gegenüberliegende \term{nodes} einander zuordnen zu können, müssen zunächst die Linien, deren Teil sie sind, als zueinander parallel erkannt werden.
 Auch hierbei ist die erwähnte ungleichmäßige Fragmentierung in bestimmten Fällen problematisch.
 Beispielsweise müssten die einzelnen \term{ways} in Abbildung~\ref{fig:motorway-fragments}, aus denen die beiden dargestellten Parallelen bestehen, zunächst zu einem längeren Linienzug verknüpft werden, um einen Vergleich zu ermöglichen.
-Dies entspräche dem in Abschnitt~\ref{os-mastermap} beschriebenen Ansatz von Thom, der damit zufriedenstellende Resultate erzielte, dabei jedoch die hohe Qualität seiner Ausgangsdaten betonte, welche bei wie für \osm{} von Freiwilligen erfassten Geodaten nicht vorausgesetzt werden kann.
+Dies entspräche dem in Abschnitt~\ref{os-mastermap} beschriebenen Ansatz von Thom, der damit zufriedenstellende Resultate erzielte, dabei jedoch die hohe Qualität seiner Ausgangsdaten betonte, welche bei wie für \osm\ von Freiwilligen erfassten Geodaten nicht vorausgesetzt werden kann.
 % lässt sich diese aussage belegen?
 
 Um diese Problematik zu umgehen, verwenden die in dieser Arbeit vorgestellten Algorithmen möglichst \emph{kurze} Liniensegmente anstelle möglichst \emph{langer} Linienzüge.
@@ -130,7 +130,7 @@ So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren
 %			\State $n \gets$ \term{node} $i$ aus $N$
 %			\State \textbf{füge} neues Segment ... \textbf{zu} $S$ \textbf{hinzu}
 %		\ForAll{$n$ \textbf{mit} $n \in N \wedge \exists$ $m : m$ ist Vorgänger von $n$}
-		\ForAll{$n$ \textbf{mit} $n \in w.nodes \wedge \exists$ $m : m$ ist Vorgänger von $n$ in $w$}
+		\ForAll{$n$ \textbf{mit} $n \in w.nodes \wedge \exists\ m : m$ ist Vorgänger von $n$ in $w$}
 %			\State \textbf{füge} neues Segment $(m, n)$ \textbf{zu} $S$ \textbf{hinzu}
 			\State $S \gets S \cup \{(m,n)\}$\Comment{neues Segment $(m, n)$ zu $S$ hinzufügen}
 		\EndFor
@@ -154,13 +154,13 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 \caption{Splitten}\label{alg:Splitten}
 \begin{algorithmic}
 \State $\textbf{Variable } wurzel : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } wurzel(s) \stackrel{\text{\tiny def}}{=} s$ $\forall$ $s$
+\State $\textbf{Anfangswert } wurzel(s)\;\eqdef\ s\;\forall\ s$
 \Function{Splitten}{$S$}\Comment{Menge aller Segmente $S$}
 	\State $S' \gets S$
 	\ForAll{$s \textbf{ mit } s \in S'$}
 		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
 			\State $T \gets \textproc{NaheSegmente}(s, S')$
-			\ForAll{$t \textbf{ mit } t \in T \wedge \exists$ $p_F : p_F = \textproc{Fußpunkt}(n, t)$}
+			\ForAll{$t \textbf{ mit } t \in T \wedge \exists\ p_F : p_F = \textproc{Fußpunkt}(n, t)$}
 				\State $t_1 \gets (\textproc{Start}(t), p_F)$
 				\State $t_2 \gets (p_F, \textproc{Ende}(t))$
 				\State $S' \gets \{t_1, t_2\} \cup S' \setminus \{t\}$\Comment{$t$ ersetzen durch Fragmente $t_1$ und $t_2$}
@@ -220,8 +220,6 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
 
-%, die weder zu weit entfernt sind noch deren Ausrichtung zu sehr abweicht.
-
 %...
 
 %4. Splitten ("re-entrant") in Fragmente
@@ -277,9 +275,9 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \caption{Analyse}\label{alg:Analyse}
 \begin{algorithmic}
 \State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelLinks(s) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $s$
+\State $\textbf{Anfangswert } parallelLinks(s)\;\eqdef\ \varnothing\ \forall\ s$
 \State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelRechts(s) \stackrel{\text{\tiny def}}{=} \varnothing$ $\forall$ $s$
+\State $\textbf{Anfangswert } parallelRechts(s)\;\eqdef\ \varnothing\ \forall\ s$
 \Function{Analyse}{$S$}\Comment{Menge aller \emph{unterteilten} Segmente $S$}
 	\ForAll{$s \textbf{ mit } s \in S$}
 %		\State $T \gets \{t : wurzel(t) \in \textproc{NaheSegmente}(wurzel(s), S)\} \wedge \textproc{Parallel}(s, t)$  % exakt wie implementiert, aber eigentlich in dieser Form hier nicht nötig
@@ -290,12 +288,12 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0\}$
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
 		\ForAll{$l \textbf{ mit } l \in L$}\Comment{Menge $L$ aller nahen Parallelen linksseitig}
-			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')$ $\forall$ $l' \in L$}
+			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')\; \forall\ l' \in L$}
 				\State $parallelLinks(wurzel(s)) \gets l$
 			\EndIf
 		\EndFor
 		\ForAll{$r \textbf{ mit } r \in R$}\Comment{Menge $R$ aller nahen Parallelen rechtsseitig}
-			\If{$0 < \textproc{Distanz}(s, r) \leqslant \textproc{Distanz}(s, r')$ $\forall$ $r' \in R$}
+			\If{$0 < \textproc{Distanz}(s, r) \leqslant \textproc{Distanz}(s, r')\; \forall\ r' \in R$}
 				\State $parallelRechts(wurzel(s)) \gets r$
 			\EndIf
 		\EndFor

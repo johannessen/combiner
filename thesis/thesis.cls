@@ -171,7 +171,9 @@
 \renewcommand{\listalgorithmname}{Algorithmenverzeichnis}
 \RequirePackage[noend]{algpseudocode}
 % replace english words with symbols, mimicking Sar06
-%\def\myAlgMethodSymbol{ $\stackrel{\text{\tiny def}}{=}$}
+\newcommand{\eqdef}{$\overset{\mathrm{def}}{=\joinrel=}$}
+%\newcommand{\eqdef}{$\stackrel{\text{\tiny def}}{=}$}
+%\def\myAlgMethodSymbol{ $\eqdef$}
 \def\myAlgMethodSymbol{ $\equiv$}
 \algdef{SE}[PROCEDURE]{Procedure}{EndProcedure}%
    [2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}\myAlgMethodSymbol}%
@@ -181,11 +183,9 @@
    [2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}\myAlgMethodSymbol}%
    {\algorithmicend}%
 \algtext*{EndFunction}%
-%\algrenewcommand{\algorithmicforall}{\textbf{$\forall$}}
 \algrenewcommand{\algorithmicforall}{\textbf{für alle}}
 \algrenewcommand{\algorithmicwhile}{\textbf{solange}}
 \algrenewcommand{\algorithmicdo}{}
-%\algnewcommand\algorithmicdo{\textbf{do}}
 \algrenewcommand{\algorithmicif}{\textbf{falls}}
 \algrenewcommand{\algorithmicthen}{}
 % own pseudo-code commands

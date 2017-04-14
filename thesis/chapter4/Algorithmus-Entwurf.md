@@ -29,7 +29,7 @@ Der Algorithmus
 
 - ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
 
-[`closeParallels`]
+[in `LineSegment.closeParallels`]
 
 
 4. Splitten ("re-entrant") in Fragmente
