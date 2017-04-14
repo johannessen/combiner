@@ -202,7 +202,10 @@ Im Ergebnis wird dann später zu sehen sein, dass diagonal zum Koordinatennetz a
 Weiterhin hängen diese Erkennungsabstände vom gewählten Koordinatennetz ab.
 Wird beispielsweise mit geographischen Koordinaten gearbeitet, variiert das Verhältnis der Erkennungsabstände in Ost/West- und in Nord/Süd-Richtung mit der geographischen Breite.
 Insbesondere auf höheren Breiten bietet sich daher der Einsatz einer winkeltreuen Abbildung wie etwa Gauß-Krüger an, um diese Einflüsse zu minimieren.
-Für die Korrektheit der Algorithmen spielen beide Arten von Variationen jedoch keine Rolle, solange die Erkennungsabstände nicht fest vorgegeben sind.
+
+Um die Korrektheit der Algorithmen sicherzustellen, ist aus diesen Gründen in der späteren \textproc{Analyse} auf Parallelität eine erneute Prüfung des tatsächlichen Abstands zweier zu vergleichender Segmente notwendig.
+Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist dementsprechend billig (vergleiche Abschnitt~\ref{ch:analyse-algorithm}).
+
 % TODO: Grafik?
 
 \begin{algorithm}[H]
@@ -281,8 +284,10 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 	\ForAll{$s \textbf{ mit } s \in S$}
 %		\State $T \gets \{t : wurzel(t) \in \textproc{NaheSegmente}(wurzel(s), S)\} \wedge \textproc{Parallel}(s, t)$  % exakt wie implementiert, aber eigentlich in dieser Form hier nicht nötig
 		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S)\} \wedge \textproc{Parallel}(s, t)$  % vereinfachend
-		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t) - \textproc{Start}(s)) < 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) < 0\}$
-		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, \textproc{Start}(t)  - \textproc{Start}(s)) > 0 \wedge \sphericalangle (s, \textproc{Ende}(t) - \textproc{Start}(s)) > 0\}$
+		\State $v_{Start} \gets \textproc{Start}(t) - \textproc{Start}(s)$
+		\State $v_{Ende} \gets \textproc{Ende}(t) - \textproc{Start}(s)$
+		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0\}$
+		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0\}$
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
 		\ForAll{$l \textbf{ mit } l \in L$}\Comment{Menge $L$ aller nahen Parallelen linksseitig}
 			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')$ $\forall$ $l' \in L$}
@@ -300,18 +305,31 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \end{algorithmic}
 \end{algorithm}
 
-Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext der jeweiligen Anwendung als \textproc{Parallel} gelten.
+Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext des jeweiligen Anwendungsfalls als \textproc{Parallel} gelten (vergleiche Kapitel~3).
 
 \begin{algorithm}[H]
-\caption{Parallel TBD}\label{alg:Parallel}
+\caption{Parallel}\label{alg:Parallel}
 \begin{algorithmic}
 \Function{Parallel}{$s_1, s_2$}
-	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie ähnlich ausgerichtet sind (closeParallels-Winkel) und die für den speziellen Anwendungsfall festgelegten Bedingungen auf die zugehörigen OSM-Ways zutreffen (Analyser-Bedingungen: shouldEvaluate und evaluate); siehe Kapitel 3 (TBD).
-	\State (dazu gehörend auch maximale Distanz% $\zeta$
-)
+	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie:
+	\begin{itemize}[nosep,leftmargin=3.5em]
+		% [LineSegment.closeParallels]
+		\item ähnlich ausgerichtet sind (z.~B. $||\sphericalangle (s_1, s_2)|| < 15\textdegree$),
+		% [MyAnalyser.shouldEvaluate]
+		\item nahe beieinander liegen (z.~B. $\textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
+		\item nicht so sehr zueinander versetzt sind, dass sie mehr hintereinander als nebeneinander liegen,  % "ignore collinear fragments"; sollte durch die geschickte Fragmentierung normal nicht vorkommen
+		\item sich nicht überkreuzen,  % (sollte bereits durch \textproc{Analyse} ausgeschlossen sein)
+		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{highway=*} sind und
+		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{ref=*} sind.
+	\end{itemize}
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+Dass die miteinander verglichenen Segmente nahe beieinander liegen, wird in der \textproc{Analyse} bereits durch die Beschränkung auf \textproc{NaheSegmente} sichergestellt.
+Welche Segmente als „nah“ gelten, ist jedoch von der Definition der \textproc{Hülle} abhängig, für die Überlegungen zur Effizienz eine Rolle spielen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
+
+% doppelt beschrieben -- was ist besser?
 
 Aus der Menge aller als \textproc{Parallel} geltenden Segmente auf einer Seite wird das am nächsten gelegene als Parallele ausgewählt.
 Auf welche Weise dazu die Distanz zwischen zwei Segmenten bestimmt wird, kann vom speziellen Anwendungsfall abhängen und soll hier nur beispielhaft angegeben werden.
@@ -558,6 +576,12 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+
+% TODO: Algorithmus-Eigenschaften beschreiben:
+% - korrekt: nicht definiert, also nicht nachweisbar, Nachweis würde auch den Rahmen sprengen (aber anschaulich klar und später zu prüfen)
+% - terminierend: ja, weil alle Schleifen auf abschließenden Mengen arbeiten, mit Ausnahme des Splittens, wobei aber durch die minimale Fragmentlänge µ eine klare Abbruchbedingung gegeben ist
+% - deterministisch: nein; erstens abhängig von Input denkbar, dass je nach Reihenfolge der Iteration das Splitten und damit die Analyse unterschiedliche Ergebnisse liefert; zweitens Länge der generalisierten Linienzüge zufallsabhängig (da "rückwärts" nicht spezifiziert); jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben
+% - Effizienz: evtl. grobe Landau-Betrachtung, bezogen auf ||W||, genaueres weiter hinten
 
 
 %\section{alte Einteilung}
