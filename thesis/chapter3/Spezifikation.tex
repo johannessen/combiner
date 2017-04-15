@@ -43,6 +43,7 @@ Konkrete Beispiele für solche Straßen sind Autobahnen, aber auch zweibahnige i
 
 
 \subsection{Parallele Wege für unterschiedliche Arten von Verkehr}
+\label{ch:different-traffic-types-case-desc}
 
 Ein oft zu beobachtendes Muster sind zusammengehörende, jedoch baulich getrennte und damit jeweils als eigene Linienzüge modellierte Verkehrswege für unterschiedliche Fahrzeugtypen, Geschwindigkeitsbereiche oder Zwecke des Verkehrs.
 Im Straßenraum zählen dazu:
@@ -162,17 +163,19 @@ Dies ist auch anschaulich klar, denn leicht sichtbare Fehler fallen schneller au
 Die Standard-Visualisierung der Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} berücksichtigt viele Details des Straßennetzes.
 Unter anderem werden Name und Nummer von Straßen dargestellt, nicht jedoch beispielsweise von Eisenbahnstrecken.
 % Highways: Tags für viele Details existieren und werden genutzt. Mehr als für Railways? Vergleich evtl. durch TagInfo möglich, entweder mit historischen Daten (Geofabrik?) oder aber mit aktuellen plus qualitative Überlegung (wann entstand openrailwaymap?)
+% TODO: ist der logische Fluss hier ausreichend explizit?
 
 Hinzu kommt die hohe praktische Relevanz des Straßennetzes, die bereits im Namen „OpenStreetMap“ Ausdruck findet, für die \osm-Beitragenden genau wie auch für die Allgemeinbevölkerung.
 \osm-Daten werden nicht mehr nur zur visuellen Darstellung, sondern auch zur Navigation verwendet.
 Auch dies geht mit einer erhöhten Datenqualität einher. \cf[17–18]{NZZ11}
 % Quelle für diesen Punkt nicht großartig; kann dies anhand von Changesets quantifiziert werden?
 Verbesserte Algorithmen könnten hier besonders vielen Nutzern zugutekommen.
+% TODO: ist der logische Fluss hier ausreichend explizit?
 
 Aus diesen Gründen wird von den zuvor in Abschnitt~\ref{ch:case-comparison} beschriebenen Anwendungsfällen für eine automatisierte Linienzusammenfassung der Fall von \textbf{baulich getrennten Richtungsfahrbahnen im Straßenraum} für diese Arbeit ausgewählt (Abschnitt~\ref{ch:dual-highway-case-desc}).
 Solche Straßen sind nahezu allgegenwärtig und die mit deren Darstellung verbundenen Probleme verbreitet.
 
-Die in Abschnitt~\ref{} beschriebenen Fälle paralleler Wege für unterschiedliche Verkehrsarten bieten sich aufgrund ihrer Komplexität nicht an, solange nicht der einfachere Fall von Richtungsfahrbahnen zufriedenstellend gelöst ist.
+Die in Abschnitt~\ref{ch:different-traffic-types-case-desc} beschriebenen Fälle paralleler Wege für unterschiedliche Verkehrsarten bieten sich aufgrund ihrer Komplexität nicht an, solange nicht der einfachere Fall von Richtungsfahrbahnen zufriedenstellend gelöst ist.
 Es ist jedoch denkbar, dass eine Lösung für bauliche getrennte Richtungsfahrbahnen auch auf einige solcher Fälle übertragbar ist.
 Auch auf mehrgleisige Eisenbahnstrecken könnte das Ergebnis dieser Arbeit übertragbar sein.
 
@@ -180,5 +183,5 @@ Auch auf mehrgleisige Eisenbahnstrecken könnte das Ergebnis dieser Arbeit über
 
 % single-chapter commands
 %\onlyinsubfile{\listoffigures} \onlyinsubfile{\listoftables}
-\onlyinsubfile{\input{../bibliography}}
+%\onlyinsubfile{\input{../bibliography}}
 \end{document}

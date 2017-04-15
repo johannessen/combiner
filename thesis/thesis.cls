@@ -12,6 +12,7 @@
 	abstract,  % add heading 'Abstract'
 %	captions=tableheading,  % (not sure if this works)
 ]{scrreprt}
+\RequirePackage{scrhack}
 
 \RequirePackage{subfiles}
 \newcommand{\onlyinsubfile}[1]{#1}
@@ -25,11 +26,21 @@
 \RequirePackage[ngerman]{babel}
 \selectlanguage{ngerman}
 
+% this is for figures and tables, but has to go before mathtools to avoid warnings
+\RequirePackage[raggedrightboxes]{ragged2e}
+
 % math and symbol support
 \RequirePackage{units}
 \RequirePackage{mathtools}  % includes amsmath
 \RequirePackage{amssymb}  % includes amsfonts
+\RequirePackage{textcomp}
+\RequirePackage{gensymb}
 %\RequirePackage[scale=1.0]{ccicons}
+
+% own symbols
+\newcommand{\eqdef}{\overset{\mathrm{def}}{=\joinrel=}}
+%\newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
+\newcommand{\abs}{|\!\;\!|}
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
@@ -139,7 +150,6 @@
 \RequirePackage{enumitem}
 
 % figures and tables
-\RequirePackage[raggedrightboxes]{ragged2e}
 %\usepackage{caption}
 %\captionsetup{format=plain,font=small,labelfont=bf,labelsep=colon,justification=RaggedRight}
 \RequirePackage{chngcntr}
@@ -167,12 +177,13 @@
 
 % algorithms
 \RequirePackage[plain]{algorithm}
+\newenvironment{algorithmhere}[1]
+{\begin{algorithm}[H]}%\caption{#1}}
+{\end{algorithm}\vspace{-14pt}}
 \floatname{algorithm}{Algorithmus}
 \renewcommand{\listalgorithmname}{Algorithmenverzeichnis}
 \RequirePackage[noend]{algpseudocode}
 % replace english words with symbols, mimicking Sar06
-\newcommand{\eqdef}{$\overset{\mathrm{def}}{=\joinrel=}$}
-%\newcommand{\eqdef}{$\stackrel{\text{\tiny def}}{=}$}
 %\def\myAlgMethodSymbol{ $\eqdef$}
 \def\myAlgMethodSymbol{ $\equiv$}
 \algdef{SE}[PROCEDURE]{Procedure}{EndProcedure}%

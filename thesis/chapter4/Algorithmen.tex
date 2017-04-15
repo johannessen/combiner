@@ -119,8 +119,8 @@ Segmente als gerichtete Verbindungen zweier solcher Punkte lassen sich dann eben
 
 So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch dem Vektor $b - a$ entspräche.
 
-\begin{algorithm}[H]
-\caption{Segmentierung}\label{alg:Segmentierung}
+\begin{algorithmhere}{Segmentierung}
+\label{alg:Segmentierung}
 \begin{algorithmic}
 \Function{Segmentierung}{$W$}\Comment{Menge aller \term{ways} $W$}
 	\State $S \gets \varnothing$
@@ -138,7 +138,7 @@ So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren
 	\State \textbf{Ergebnis} $S$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 % "anschließend" ergibt einen etwas holprigen Übergang
 
@@ -150,11 +150,11 @@ Aufgeteilt werden Segmente jeweils am \textproc{Fußpunkt} eines Lots, das von e
 Der gewählte Algorithmus für das \textproc{Splitten} arbeitet geometrisch rekursiv:
 Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und somit immer weiter aufgeteilt, bis kein \textproc{Fußpunkt} mehr gefunden wird.
 
-\begin{algorithm}[H]
-\caption{Splitten}\label{alg:Splitten}
+\begin{algorithmhere}{Splitten}
+\label{alg:Splitten}
 \begin{algorithmic}
 \State $\textbf{Variable } wurzel : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } wurzel(s)\;\eqdef\ s\;\forall\ s$
+\State $\textbf{Anfangswert } wurzel(s) \eqdef s\;\forall\ s$
 \Function{Splitten}{$S$}\Comment{Menge aller Segmente $S$}
 	\State $S' \gets S$
 	\ForAll{$s \textbf{ mit } s \in S'$}
@@ -172,7 +172,7 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 	\State \textbf{Ergebnis} $S'$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 Es ist nicht notwendig, jedes Segment mit allen anderen Segmenten zu vergleichen.
 Segmente, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind, können von vornherein als potenzielle Parallelen ausgeschlossen werden.
@@ -185,14 +185,14 @@ Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelit
 %- ∀ Segmente : Liste der "nahen" anderen Segmente
 %→ Spatial Index / Array (sortiert)
 
-\begin{algorithm}[H]
-\caption{nahe Segmente}\label{alg:NaheSegmente}
+\begin{algorithmhere}{nahe Segmente}
+\label{alg:NaheSegmente}
 \begin{algorithmic}
 \Function{NaheSegmente}{$s, S$}\Comment{Menge aller Segmente $S$}
 	\State \textbf{Ergebnis} $\{t : t \in S \wedge \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \varnothing\}$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 Als \textproc{Hülle} könnte ein Puffer dienen.
 Aus Gründen der Effizienz bietet es sich jedoch an, die \textproc{Hülle} rechteckig im Koordinatennetz anzulegen.
@@ -208,14 +208,14 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 
 % TODO: Grafik?
 
-\begin{algorithm}[H]
-\caption{Definition der erweiterten Hüllfunktion für \textproc{NaheSegmente}}\label{alg:Huelle}
+\begin{algorithmhere}{Definition der erweiterten Hüllfunktion für \textproc{NaheSegmente}}
+\label{alg:Huelle}
 \begin{algorithmic}
 \Function{Hülle}{$s$}
 	\State \textbf{Ergebnis} sei die nach allen Kardinalrichtungen um $\eta/2$ vergrößerte rechteckige Hülle um das Segment $s$, wobei $\eta$ der festzulegende Höchstabstand sei, für den zwei Segmente als „nahe“ gelten dürfen.
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
@@ -238,8 +238,8 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 \noindent
 Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\ref{fig:footpoint}).
 
-\begin{algorithm}[H]
-\caption{Fußpunkt}\label{alg:Fusspunkt}
+\begin{algorithmhere}{Fußpunkt}
+\label{alg:Fusspunkt}
 \begin{algorithmic}
 \Function{Fußpunkt}{$n,t$}
 %	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
@@ -247,7 +247,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 % Der zweite Satz ist ein wesentliches, aber nicht unbedingt offensichtliches Detail, deshalb sollte auch das an sich einfache Konzept "Lotfußpunkt" formal beschrieben werden.
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 \begin{figure}[H]
     \centering
@@ -271,28 +271,29 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 %- ∀ verbleibenden anderen Fragmente: best match(es) L+R finden, falls vorhanden (teilen 2 Segmente einen Node, ist es kein Match! (sonst klappt die L/R-Punktfindung nicht richtig)
 %- best match(es) für _Segmente_ eintragen in eine Liste (und zwar reziprok) (→ eigentlich unnötig??) (∀ Segmente: ∃ 2 Listen "paralleler" Segmente) L+R (|||)
 
-\begin{algorithm}[H]
-\caption{Analyse}\label{alg:Analyse}
+\begin{algorithmhere}{Analyse}
+\label{alg:Analyse}
 \begin{algorithmic}
 \State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelLinks(s)\;\eqdef\ \varnothing\ \forall\ s$
+\State $\textbf{Anfangswert } parallelLinks(s) \eqdef \varnothing\ \forall\ s$
 \State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelRechts(s)\;\eqdef\ \varnothing\ \forall\ s$
+\State $\textbf{Anfangswert } parallelRechts(s) \eqdef \varnothing\ \forall\ s$
 \Function{Analyse}{$S$}\Comment{Menge aller \emph{unterteilten} Segmente $S$}
 	\ForAll{$s \textbf{ mit } s \in S$}
 %		\State $T \gets \{t : wurzel(t) \in \textproc{NaheSegmente}(wurzel(s), S)\} \wedge \textproc{Parallel}(s, t)$  % exakt wie implementiert, aber eigentlich in dieser Form hier nicht nötig
-		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S)\} \wedge \textproc{Parallel}(s, t)$  % vereinfachend
+		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)\}$  % vereinfachend
 		\State $v_{Start} \gets \textproc{Start}(t) - \textproc{Start}(s)$
 		\State $v_{Ende} \gets \textproc{Ende}(t) - \textproc{Start}(s)$
 		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0\}$
 		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0\}$
+		\State\Comment{Mengen $L, R$ aller nahen Parallelen links- bzw. rechtsseitig}
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
-		\ForAll{$l \textbf{ mit } l \in L$}\Comment{Menge $L$ aller nahen Parallelen linksseitig}
+		\ForAll{$l \textbf{ mit } l \in L$}
 			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')\; \forall\ l' \in L$}
 				\State $parallelLinks(wurzel(s)) \gets l$
 			\EndIf
 		\EndFor
-		\ForAll{$r \textbf{ mit } r \in R$}\Comment{Menge $R$ aller nahen Parallelen rechtsseitig}
+		\ForAll{$r \textbf{ mit } r \in R$}
 			\If{$0 < \textproc{Distanz}(s, r) \leqslant \textproc{Distanz}(s, r')\; \forall\ r' \in R$}
 				\State $parallelRechts(wurzel(s)) \gets r$
 			\EndIf
@@ -301,18 +302,20 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 	\State \textbf{Ergebnis} $parallelLinks, parallelRechts$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
+
+% TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
 
 Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext des jeweiligen Anwendungsfalls als \textproc{Parallel} gelten (vergleiche Kapitel~3).
 
-\begin{algorithm}[H]
-\caption{Parallel}\label{alg:Parallel}
+\begin{algorithmhere}{Parallel}
+\label{alg:Parallel}
 \begin{algorithmic}
 \Function{Parallel}{$s_1, s_2$}
 	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie:
 	\begin{itemize}[nosep,leftmargin=3.5em]
 		% [LineSegment.closeParallels]
-		\item ähnlich ausgerichtet sind (z.~B. $||\sphericalangle (s_1, s_2)|| < 15\textdegree$),
+		\item ähnlich ausgerichtet sind (z.~B. $\abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
 		% [MyAnalyser.shouldEvaluate]
 		\item nahe beieinander liegen (z.~B. $\textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
 		\item nicht so sehr zueinander versetzt sind, dass sie mehr hintereinander als nebeneinander liegen,  % "ignore collinear fragments"; sollte durch die geschickte Fragmentierung normal nicht vorkommen
@@ -322,7 +325,7 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 	\end{itemize}
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 Dass die miteinander verglichenen Segmente nahe beieinander liegen, wird in der \textproc{Analyse} bereits durch die Beschränkung auf \textproc{NaheSegmente} sichergestellt.
 Welche Segmente als „nah“ gelten, ist jedoch von der Definition der \textproc{Hülle} abhängig, für die Überlegungen zur Effizienz eine Rolle spielen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
@@ -336,15 +339,15 @@ So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abs
 % tatsächlich implementiert: Summe der Abstände der jeweils nächsten Nodes (siehe MyAnalyser.evaluate)
 % alternativ denkbar: _kleinster_ Abstand zweier Nodes
 
-\begin{algorithm}[H]
-\caption{Beispielhafte Bestimmung der Distanz zweier Segmente}\label{alg:Distanz}
+\begin{algorithmhere}{Beispielhafte Bestimmung der Distanz zweier Segmente}
+\label{alg:Distanz}
 \begin{algorithmic}
 \Function{Distanz}{$s_1, s_2$}
 %	\State \textbf{Ergebnis} $||\textproc{Mittelpunkt}(s_1) - \textproc{Mittelpunkt}(s_2)||$
-	\State \textbf{Ergebnis} $||\textproc{Start}(s_1) - \textproc{Start}(s_2) + \textproc{Ende}(s_1) - \textproc{Ende}(s_2)|| \cdot \frac{1}{2}$
+	\State \textbf{Ergebnis} $\abs\textproc{Start}(s_1) - \textproc{Start}(s_2) + \textproc{Ende}(s_1) - \textproc{Ende}(s_2)\abs \cdot \frac{1}{2}$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 %\begin{algorithm}[H]
 %\caption{Mittelpunkt}\label{alg:Mittelpunkt}
@@ -380,15 +383,15 @@ Dies geschieht auf Basis der durch die \textproc{Analyse} ermittelten Kennzeichn
 
 Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente.
 
-\begin{algorithm}[H]
-\caption{Nodes Zuordnen}\label{alg:Zuordnen}
+\begin{algorithmhere}{Nodes Zuordnen}
+\label{alg:Zuordnen}
 \begin{algorithmic}
 \Function{NodesZuordnen}{$S$}
 	\State $C \gets \varnothing$
 	\ForAll{$s \textbf{ mit } s \in S$}
 		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}$}
 			\ForAll{$n_1 \textbf{ mit } n_1 \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
-				\State $n_2 \gets \begin{cases}\textproc{Start}(t) & \text{für } ||n_1 - \textproc{Start}(t)|| < ||n_1 - \textproc{Ende}(t)||\\\textproc{Ende}(t) & \text{sonst}\end{cases}$
+				\State $n_2 \gets \begin{cases}\textproc{Start}(t) & \text{für } \abs n_1 - \textproc{Start}(t)\abs < \abs n_1 - \textproc{Ende}(t)\abs\\\textproc{Ende}(t) & \text{sonst}\end{cases}$
 %				\State $C \gets \{(n_1, n_2)\} \cup C \setminus \{(n_2, n_1)\}$\Comment{entgegengesetzte Kanten ausschließen}
 				\State $C \gets C \cup \{\{n_1, n_2\}\}$
 			\EndFor
@@ -397,7 +400,7 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 	\State \textbf{Ergebnis} $C$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 %Die Zuordnungen werden hier als gerichtete Kante $(n_1, n_2)$ beschrieben, obwohl die Orientierung keine Rolle spielt.
 %Dies vereinfacht die weitere Verarbeitung.
@@ -430,12 +433,8 @@ Anhand der Punktezuordnungen können die parallelen Segmente nun zusammengefasst
 Hierzu wird ein zufällig ausgewähltes Segment als Beginn eines Linienzugs betrachtet.
 Während diesem Linienzug von Segment zu Segment gefolgt wird, können anhand der Punktzuordnungen leicht die Stützpunkte der Mittellinie zwischen den Parallelen als Generalisierungsergebnis bestimmt werden.
 
-
-
-
-
-\begin{algorithm}[H]
-\caption{Zusammenfassen}\label{alg:Zusammenfassen}
+\begin{algorithmhere}{Zusammenfassen}
+\label{alg:Zusammenfassen}
 \begin{algorithmic}
 \Function{Zusammenfassen}{$S, C$}\Comment{Segmente $S$, Punktezuordnungen $C$}
 	\State generalisierter Graph $\mathcal{G} \gets$ leer
@@ -466,7 +465,7 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können anhand de
 	\State \textbf{Ergebnis} $\mathcal{G}$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 Diese Beschreibung des Algorithmus zum \textproc{Zusammenfassen} berücksichtigt
 %der Übersichtlichkeit halber
@@ -561,8 +560,8 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 
 \section{Gesamtüberblick}
 
-\begin{algorithm}[H]
-\caption{Generalisierung}\label{alg:Generalisierung}
+\begin{algorithmhere}{Generalisierung}
+\label{alg:Generalisierung}
 \begin{algorithmic}
 \Function{Generalisierung}{$W$}
 	\State $S \gets \textproc{Segmente}(W)$
@@ -573,7 +572,7 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 	\State \textbf{Ergebnis} $\mathcal{G}$
 \EndFunction
 \end{algorithmic}
-\end{algorithm}
+\end{algorithmhere}
 
 % TODO: Algorithmus-Eigenschaften beschreiben:
 % - korrekt: nicht definiert, also nicht nachweisbar, Nachweis würde auch den Rahmen sprengen (aber anschaulich klar und später zu prüfen)
