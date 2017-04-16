@@ -8,9 +8,7 @@
 
 \chapter{Algorithmen zur Generalisierung}
 
-\section{Vorgehensweise}
-
-...
+\section{Vorüberlegungen}
 
 % Erst über Generalisierung nachgedacht, da sie das schwierigerer Problem zu sein schien (in der Erwartung, die Identifikation ließe sich evtl. "nebenbei" lösen).
 % Die Generalisierung ist auf den allerersten Blick ein einfaches geometrisches Problem, das keiner ausgefeilten Algorithmen a la 2.5 bedarf. Erst mal probiert, ob es sich so lösen lässt. Später festgestellt (-> Implementierung?), dass es in der Tat nicht so schrecklich schwierig war, jedoch die Entscheidung, was zusammengehört und was nicht, im Allgemeinen Fall schwieriger als erwartet war (ein Problem, das allerdings wohl auch für die Lösungen aus 2.5 bestanden hätte, womöglich gar in verstärktem Ausmaß).
@@ -35,15 +33,44 @@
 
 % an dieser Stelle außerdem __Überleitung__: was kann man aus 2.5 für lehren/erkenntnisse ziehen? irgendwas anwendbares dabei? wenn ja, warum nicht?
 
+Aus der Menge der zuvor erwähnten bereits existierenden Ansätze hebt sich zunächst die Skelettierung heraus, indem es für sie bereits mehrere funktionale Implementierungen der Zusammenfassung gibt (Abschnitt~\ref{ch:skeleton}).
+Diese haben jedoch laut der Autoren alle mit erheblichen Problemen in Kreuzungsbereichen zu kämpfen, die nur teilweise automatisiert gelöst werden können.
+Dieser Ansatz erscheint wenig vielversprechend.
+% weil?
 
-%\section{Beschreibung der Algorithmen}
+Letzteres gilt auch für den in Abschnitt~\ref{ch:conflict-detection} diskutierten Ansatz zur Konflikterkennung.
+Zwar wäre eine Kombination mit anderen Ansätzen denkbar.
+So könnte möglicherweise eine Pufferung der Linienzüge mit anschließender Verschneidung der entstehenden Flächen Informationen über die Linienzüge liefern:
+Dort, wo sich Schnittflächen bilden, bestehen Konflikte;
+Konflikte zwischen zwei Linien über große Teile ihrer Länge hinweg wären ein Indiz für Parallelität.
+Dies löst jedoch nicht das Problem der Zusammenfassung beider Linien (vgl. Abschnitte~\ref{ch:buffer} und~\ref{ch:skeleton}).
 
-Im Folgenden werden die gefundenen Algorithmen zunächst in allgemeinen Begriffen beschrieben, wobei der Fokus auf ihrem Zusammenwirken und ihren Abhängigkeiten voneinander liegt.
-Im Anschluss daran folgt ihre formale Beschreibung.
+Interessanter erscheint der bereits in Abschnitt~\ref{ch:graph-based} erwähnte Gedanke, dass Straßen mit parallelen Richtungsfahrbahnen oft komplexe Kreuzungen haben.
+Können diese zu jeweils einzelnen Knoten generalisiert werden, dann sind die parallelen Richtungsfahrbahnen im Graphen des Straßennetzes zwei gegenläufige gerichtete Kanten.
+Anschließend wäre die geometrische Zusammenfassung dieser Kanten möglicherweise einfach.
+
+% "perceptual grouping": nicht vielversprechend
+
+Der von Thom beschriebene Ansatz zur Generalisierung der OS~MasterMap klingt vielversprechend (Abschnitt~\ref{os-mastermap}).
+Er kombiniert Ideen aus der visuellen Wahrnehmung \term{(strokes)} und der Graphenanalyse, um Richtungsfahrbahnen zusammenzufassen.
+Den Erfolg seiner Methode schreibt er jedoch unter anderem der gründlichen Klassifikation seiner Ausgangsdaten nach Bauart der Straße zu (einbahnig/zweibahnig usw.). \cf[14]{Tho05}
+Diese existiert in dieser Form nicht in OpenStreetMap, so dass seine Methode nicht direkt übertragbar erscheint.
+
+Zwar kann für Autobahnen davon ausgegangen werden, dass sie zweibahnig ausgebaut sind.
+Seltene Ausnahmen wie etwa die Bundesautobahn~62 zwischen Landstuhl und Pirmasens sollten, wenn sie denn tatsächlich als \osmtag{highway=motorway} eingetragen sind, das Attribut \osmtag{oneway=no} tragen und sich so identifizieren lassen.
+Im übrigen Straßennetz sind solche Aussagen auf Basis der \osm-Daten jedoch nicht möglich.
+
+Es ist ohnehin fraglich, wie stark die von Thom eingesetzte Erkennung von \term{strokes} als möglichst \emph{lange} Linienzüge die Generalisierung im Kontext von \osm\ tatsächlich vereinfachen würde.
+Zwar sind die einzelnen \term{ways} in \osm\ wegen ihrer ungleichmäßigen Aufteilung oft nicht gut zur Weiterverarbeitung geeignet.
+Allerdings wären zur Prüfung auf Parallelität und zur Zusammenfassung auf eine gemeinsame Mittellinie auch möglichst \emph{kurze} Linienfragmente gut geeignet, sofern die Fragmentierung beider Parallelen gleichmäßig ist.
+
+Im folgenden Abschnitt~\ref{ch:algorithm-principle} wird in allgemeinen Begriffen beschrieben, wie parallele Linienzüge auf Basis einer solchen gleichmäßigen Fragmentierung zusammengefasst werden können.
+Im Anschluss daran folgt die formale Beschreibung dieser Algorithmen.
 
 % erst Grundprinzip / -idee / -ansatz beschreiben, dann Edge Cases
 
 \section{Grundprinzip}
+\label{ch:algorithm-principle}
 
 Um das Zusammenfassen paralleler Linienzüge vorzubereiten, werden alle \term{nodes} des einen Linienzugs jeweils einem gegenüberliegenden \term{node} auf dem parallelen Linienzug zugeordnet.
 Die Verbindung der Mittelpunkte zwischen den so einander zugeordneten \term{nodes} ergibt direkt den zusammengefassten Linienzug als Ergebnis der Generalisierung (Abbildung~\ref{fig:general-approach}).
@@ -579,6 +606,9 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 % - terminierend: ja, weil alle Schleifen auf abschließenden Mengen arbeiten, mit Ausnahme des Splittens, wobei aber durch die minimale Fragmentlänge µ eine klare Abbruchbedingung gegeben ist
 % - deterministisch: nein; erstens abhängig von Input denkbar, dass je nach Reihenfolge der Iteration das Splitten und damit die Analyse unterschiedliche Ergebnisse liefert; zweitens Länge der generalisierten Linienzüge zufallsabhängig (da "rückwärts" nicht spezifiziert); jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben
 % - Effizienz: evtl. grobe Landau-Betrachtung, bezogen auf ||W||, genaueres weiter hinten
+
+% TODO: Analyse-Ergebnis beschreiben
+
 
 
 %\section{alte Einteilung}

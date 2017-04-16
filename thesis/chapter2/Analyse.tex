@@ -703,7 +703,8 @@ Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere we
 \section[Diskussion existierender Ansätze]{Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 \label{ch:existing-approaches}
 
-\subsection{Linien zusammenfassen mit Puffer} \label{buffer}
+\subsection{Linien zusammenfassen mit Puffer}
+\label{ch:buffer}
 % - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
 % => Parallelen finden durch Buffer-Algorithmus und Polygonanalyse
@@ -723,6 +724,7 @@ Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrund
 
 
 \subsection{Bildung von Skelettlinien}
+\label{ch:skeleton}
 % - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
 
 Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung.
@@ -774,12 +776,13 @@ Auch hier ergeben sich allerdings erhebliche Probleme an allen Kreuzungen, die t
 Solche Fälle können immerhin automatisch erkannt und dann manuell beseitigt werden.
 Der Aufwand für die Implementierung wird mit sieben Mann-Monaten beschrieben. \cf{LM96}
 
-Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thiessen-Polygon-Methode erst möglich wird, puffert Skeletron zuvor die \osm-\term{ways} wie in Abschnitt~\ref{buffer} beschrieben. \cf{ME11}
+Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thiessen-Polygon-Methode erst möglich wird, puffert Skeletron zuvor die \osm-\term{ways} wie in Abschnitt~\ref{ch:buffer} beschrieben. \cf{ME11}
 
 %  All11: \cf[][\?]{All11} ????
 
 
 \subsection{Konflikterkennung}
+\label{ch:conflict-detection}
 
 %\item Conflict Detection \cf{KP98} \cf{Tho06a}
 % KP98:
@@ -860,6 +863,7 @@ Entscheidend ist insbesondere das „one~way“–Attribut sowie die Klassifikat
 
 
 \subsection{Graphenanalyse}
+\label{ch:graph-based}
 
 % TR95: Graphentheorie in der Generalisierung von Straßennetzen
 % - betont, dass autom. Generalisierung oft Darstellungs-zentriert ist und Topologie des Ergebnisses vernachlässigt [1871]
@@ -894,7 +898,7 @@ Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähn
 
 Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt.
 Mackaness und Mackechnie demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen. \cf{MM99}
-Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals parallelen Kanten zu zwei identischen Kanten im Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe.
+Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe.
 Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings nicht.
 
 
