@@ -347,78 +347,58 @@ Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte F
 
 \subsection{Generalisierung durch Formvereinfachung}
 
-% grafik zur fragmentierung?
-% grafik zum flussbett?
-
 Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen.
-Zufriedenstellende voll automatisiert arbeitende Algorithmen dafür stehen nicht zur Verfügung und ein Eingreifen von Hand ist wie zuvor in Abschnitt \ref{kartenherstellung} erläutert nicht vorgesehen.
-% zB Trollstigen - Screenshots auch mit Vergleich zu Kartverket! http://arne.johannessen.de/osm/geocode-adapter/kartverket/?lat=62.459954&lon=7.6703534&zoom=15&layers=B
-% zB Lahntalbahn http://www.openstreetmap.org/#map=7/51/8
-% "kartographische Formvereinfachung" erklären?
+Zufriedenstellende voll automatisiert arbeitende Algorithmen dafür stehen nicht zur Verfügung und ein Eingreifen von Hand ist wie zuvor in Abschnitt \ref{kartenherstellung} erläutert nicht vorgesehen. \cf[25]{Kla11}
+In kleineren Maßstäben ergibt dies beispielsweise für Straßen mit vielen kleineren Kurven eine zittrige Darstellung, so etwa in Abbildung~\ref{fig:trollstigen-osm} am unteren Bildrand.
+Der Leser kann mit etwas Phantasie zwar erkennen, dass die Straße nicht absolut gerade verläuft, jedoch macht dies die Darstellung undeutlich und ist auch in diesem Maßstab nicht von Bedeutung.
 
-Eine bloße Verringerung der Zahl der Stützpunkte ist automatisiert möglich, führt aber nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung.
-Insbesondere bei mehreren voneinander unabhängigen Objekten im Modell, die gemeinsam ein komplexes Objekt der Realität darstellen, lässt das Ergebnis abhängig von den Parametern oft zu wünschen übrig.
+\twofigures{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trollstigen-z11}
+	\caption{Trollstigen, Web-Karte mit \osm-Daten, \term{zoom}~11 (©~Thunderforest)}
+	\label{fig:trollstigen-osm}
+}{
+	
+	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trollstigen-kartverket-z11}
+	% TODO: replace Kartverket placeholder with custom-made example
+	% this example may be at a different scale than the OSM image!
+	\label{fig:trollstigen-manual}
+	\caption{Trollstigen, manuell kartographisch generalisiert, \term{zoom} 11 (Platzhalter, ©~Kartverket)}
+}
 
-% einzelnen, jedoch zusammengehörenden Features
+An Serpentinen fällt dieser Mangel an Generalisierung besonders auf.
+Im Extremfall kann sich hier in kleinem Maßstab durch das Zusammenfließen der Strecken zwischen den Kehren der falsche Eindruck einer großen, ebenen Straßenfläche ergeben (Abbildung~\ref{fig:trollstigen-osm}).
+Eine sorgfältige Formvereinfachung müsste dagegen den Charakter der Straße durch Darstellung nur einiger ausgewählter Kehren mit vereinfachtem Verlauf erhalten (Abbildung~\ref{fig:trollstigen-manual}).
+%Die Abbildungen~\ref{fig:trollstigen-osm} und~\ref{fig:trollstigen-manual} zeigen auch, wie in der kartographischen Generalisierung die Serpentinen als das Signifikante dieser Straße betont und die unwesentlichen kleineren Kurven davor und danach durch Formvereinfachung entfallen.
 
-% Beispielsweise Algorithmen wie etwa Ramer-Douglas-Peucker berücksichtigen jedoch nur die einzelne Linie 
+„Die Formvereinfachung ist insgesamt eine Reduzierung der Anzahl von Stützpunkten, wenngleich u.~U. lokal Stützpunkte hinzugefügt werden, um typische Formen übertreibend zu betonen.“ \citex[Formv.]{BK01}
+Während letzteres meines Wissens gegenwärtig nicht automatisiert möglich ist, kann eine bloße Reduzierung der Zahl der Stützpunkte zur Linienglättung automatisiert erfolgen.
+Ein wichtiger Nebeneffekt ist dabei die verringerte Menge an Geodaten und damit deren vereinfachte Verarbeitung.
+Der vielfach benutzte Algorithmus von Ramer, Douglas und Peucker zur Linienglättung zielt gerade auf Effizienz ab („efficient representation“ \citex[244]{Ram72}).
+Eine Formvereinfachung nach kartographischen Gesichtspunkten ergibt sich mit ihm in der Regel nicht.
 
+Eines der Probleme bei der Automatisierung der Formvereinfachung besteht in der Notwendigkeit, alle vereinfachten Linien aufeinander abzustimmen, damit die charakteristischen Formen im Kartenbild insgesamt erhalten bleiben. \cf[Formv.]{BK01}
+% TODO: ibid.
+%Formvereinfachung in kartographisch relevantem Ausmaß wäre daher nur mit einem ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert.
+%Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses.
+%Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden.
+%Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert.
+%Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte.
+%Dies ist derzeit nicht der Fall.
+Dies wird unter anderem dort deutlich, wo parallele Linienzüge mit Ramer-Douglas-Peucker vereinfacht werden.
+%Optisch besonders auf{\nolig}fällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden.
+%Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:crossing-parallels}).
 
+\onefigure{hbt}{
+	\label{fig:crossing-parallels}
+	\includegraphics[width=12.25cm]{../chapter2/crossing}
+	\caption{Überkreuzen paralleler Linienzüge nach Vereinfachung mit Ramer-Douglas-Peucker}
+}
 
-% Eine bloße Verringerung der Zahl der Stützpunkte führt nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung.
-Beispielsweise hatten Douglas und Peucker das Ziel \noref[Spekulation], anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte.
-Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt
+Beispielsweise zeigt Abbildung~\ref{fig:crossing-parallels} Richtungsfahrbahnen von Autobahnen (zur Verdeutlichung in verschiedenen Farben dargestellt), die nach Vereinfachung mit Ramer-Douglas-Peucker durch die ungleichmäßige Verteilung ihrer Stützpunkte stark variierende Abstände zueinander haben und sich sogar teilweise überkreuzen.
+Dieses Problem ließe sich wenigstens für den Fall paralleler Linien leicht umgehen, wenn diese vor der Formvereinfachung zusammengefasst werden könnten.
 
-
-
-
-
-Um die Kosten der Verarbeitung zu senken, ist für geometrische Daten oftmals eine Verringerung der Anzahl der Stützpunkte von Linien wünschenswert.
-Dies betrifft auch \osm.
-Entsprechende Algorithmen wie etwa Ramer-Douglas-Peucker \noref[DP73, zt. n. HS92] berücksichtigen jedoch oftmals nur die einzelne Linie unter Vernachlässigung der Netztopologie (Abbildungen~\ref{fig:kardemomme} und~\ref{fig:crossing-parallels}).
-
-\begin{figure}[ht]
-  \begin{minipage}[t]{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/kardemomme}
-    \caption{Topologieverlust}\label{fig:kardemomme}
-  \end{minipage}%
-  \begin{minipage}[t]{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/bab3-a}
-    \caption{Überkreuzen paralleler Linienzüge}\label{fig:crossing-parallels}
-    % evtl. neue Screenshots aus QGIS o.ä. anfertigen?
-  \end{minipage}
-\end{figure}
-
-Ein weiteres Hindernis stellt die Fragmentierung der \osm-Linien dar.
-Bevor etwa über den Ramer-Douglas-Peucker eine nennenswerte Verringerung der \term{node}-Anzahl erreicht werden kann, müssen zunächst die einzelnen \term{ways} entlang des zu vereinfachenden Linienzugs miteinander verknüpft werden.
-
-% Textbausteine Formvereinfachung:
-\begin{itemize}
-%\item Im Übrigen führt eine Verringerung der Zahl der Stützpunkte nicht notwendigerweise zu einer gelungenen kartographischen Generalisierung. Beispielsweise hatten Douglas und Peucker das Ziel \noref[Spekulation], anhand eines mathematischen Verfahrens die Datenverarbeitung zu vereinfachen, während der sichtbare Linienverlauf nur so wenig wie möglich verändert werden sollte. Von einer Generalisierung nach dem kartographischen Gesichtspunkt „Signifikantes und Repräsentatives bewahren“ ist das Ergebnis regelmäßig weit entfernt. \noref
-% Ram72 deutet dieses Ziel in der Introduction an: "_efficient_ representation"
-
-%\item Problem bei Formvereinfachung: Fragmentierung sowie Erhalten der geometrischen Topologie
-\item Beispiel: Fluss außerhalb des (unabhängig gemappten) Flussbetts \cf[57]{Kla11}; ebenso bei als Flächen gemappten Straßen oder bei landuse=railway
-\item Beispiel: ungleichmäßiger Abstand (teils sogar negativ, d. h. Überkreuzen) paralleler Fahrbahnen oder Gleise (Skizze oder Screenshot)
-
-\item zumindest letzteres Beispiel ist lösbar durch vorhergehendes Zusammenfassen
-
-\item Aus diesen Gründen ist Formvereinfachung in kartographisch relevantem Ausmaß nur bei ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert.
-Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses.
-Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden. \cf[90][\? evtl.]{sgk02}
-Ein derart aufwändiger Vorgang wird nicht von dem für die Web-Karte genutzten Renderer Mapnik implementiert.
-Es wäre ein separater vorgeschalteter Schritt notwendig, welcher aus der lokalen ungeneralisierten Geodatenbank eine separate generalisierte Geodatenbank erzeugt, die dann von Mapnik gerendert werden könnte.
-Dies ist derzeit nicht der Fall.
-
-% +++++++++++++++++++++
-
-% mit heißer Nadel geschrieben...
-\item Optisch besonders auffällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden.
-Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:crossing-parallels}).
-
-\end{itemize}
+Als weiteres Beispiel sind breite Flüsse zu nennen, für die in OpenStreetMap üblicherweise neben einer Mittellinie auch beide Uferlinien erfasst sind, um die flächenhafte Ausdehnung abzubilden.
+Je nach den gewählten Parametern kann eine Formvereinfachung hier dazu führen, dass die Mittellinie das Flussbett verlässt. \cf[57]{Kla11}
 
 
 
