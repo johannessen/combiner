@@ -7,6 +7,7 @@
 
 \chapter{Analyse der Ausgangslage}
 
+\begin{draft}
 \section{OpenStreetMap: Alles für Alle}
 Topographische Vermessungen führten ursprünglich nur zu relativ ungenauen Ergebnissen. \cf[43]{Koh04}
 Für die im 18.~und 19.~Jahrhundert erstmals durchgeführte systematische Landesaufnahme standen nur am Boden operierte Messinstrumente zur Verfügung.
@@ -83,6 +84,7 @@ Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schw
 
 
 % OSM ist per design völlig ungeneralisiert, da maßstabslos und für auch sehr große maßstäbe eingesetzt. WIrd das im Zusammenhang deutlich? wichtig für logik im folgeabschnitt
+\end{draft}
 
 
 
@@ -176,7 +178,10 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 \section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
 
 Wie im Folgenden einige Beispiele zeigen, lassen sich Auswahl auf Basis der Objektklasse sowie Betonung und Vergrößerung durch veränderte Strichbreite vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt.
-Andere Arten kartographischer Generalisierung wie etwa die Formvereinfachung oder der Qualitätsumschlag verändern die Geometrie und sind damit schwieriger zu implementieren.
+Andere Arten kartographischer Generalisierung wie etwa die Formvereinfachung oder der Qualitätsumschlag würden die Geometrie verändern, sind damit schwieriger zu implementieren und werden bisher nicht oder kaum eingesetzt.
+
+% Hake et al. 2002, Abb. 3.63
+% \cf[25]{Kla11} 3.1 !
 
 
 
@@ -339,7 +344,7 @@ In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser S
 In kleinem Maßstab (Abbildung~\ref{fig:gera13}) erscheint dieses Verhältnis umgekehrt.
 Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte Fahrbahnen hat, in kleinerem Maßstab aber teilweise durch die Bahnstrecke verdeckt wird.
 
-(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
+%(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
 
 % Fraglich, ob Platz für beide Beispiele Gera+Utrecht geopfert werden soll. Die Probleme sind ja recht ähnlich. Es zeigt so eigentlich nur, dass es kein Einzelfall ist. Eventuell beide Beispiele nehmen, aber nur auszugsweise beschreiben?
 
@@ -410,7 +415,7 @@ Web-Karten mit \osm-Daten sind hier keine Ausnahme.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter2/verdraengung}
+    \includegraphics[width=13cm]{../chapter2/verdraengung}
     \caption{Typisches Generalisierungsergebnis in Web-Karten; fiktives Beispiel nach [sgk02, 49]}\label{fig:verdraengung}
 \end{figure}
 
@@ -459,6 +464,7 @@ Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 \label{dual-highway-case-2}
 
 Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße.
+% kann dies in Kap. 6 quantifiziert werden?
 Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt.
 An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
 
@@ -471,12 +477,12 @@ An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gez
   \begin{minipage}[t]{.5\linewidth}
     \centering
     \includegraphics[width=\ScaleIfNeeded]{../chapter2/combined-symbols}
-    \caption{kombinierte Signaturen für autobahnähnliche Straßen}\label{fig:dual-carriageway}
+    \caption{kombinierte Signaturen für autobahnähnliche Straßen mit Anschlussstelle}\label{fig:dual-carriageway}
   \end{minipage}
 \end{figure}
 
 In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine statt dessen mittig zwischen den beiden Fahrbahnen gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}).
-Da jedoch in \osm{} eine gesonderte Erfassung einer Mittellinie als Straßenachse unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
+Da jedoch in \osm{} die gesonderte Erfassung einer Mittellinie als Straßenachse unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
 
 % 256 (großer maßstab)
 % dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
@@ -540,7 +546,7 @@ Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norw
 %  \end{minipage}
 %\end{figure}
 
-Wird den Gepflogenheiten in Deutschland entsprechend für \osmtag{highway=trunk} eine auf einen Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}).
+Wird den Gepflogenheiten in Deutschland entsprechend für \osmtag{highway=trunk} eine auf den Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}).
 Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
 % Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
 
@@ -903,5 +909,5 @@ Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings
 
 % single-chapter commands
 \onlyinsubfile{\listoffigures} %\onlyinsubfile{\listoftables}
-\onlyinsubfile{\input{../bibliography}}
+%\onlyinsubfile{\input{../bibliography}}
 \end{document}

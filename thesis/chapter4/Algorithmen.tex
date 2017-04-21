@@ -45,7 +45,7 @@ Dort, wo sich Schnittflächen bilden, bestehen Konflikte;
 Konflikte zwischen zwei Linien über große Teile ihrer Länge hinweg wären ein Indiz für Parallelität.
 Dies löst jedoch nicht das Problem der Zusammenfassung beider Linien (vgl. Abschnitte~\ref{ch:buffer} und~\ref{ch:skeleton}).
 
-Interessanter erscheint der bereits in Abschnitt~\ref{ch:graph-based} erwähnte Gedanke, dass Straßen mit parallelen Richtungsfahrbahnen oft komplexe Kreuzungen haben.
+Interessanter erscheint der bereits in Abschnitt~\ref{ch:graph-based} erwähnte Gedanke, dass Straßen mit parallelen Richtungsfahrbahnen oft komplex modellierte Kreuzungen haben.
 Können diese zu jeweils einzelnen Knoten generalisiert werden, dann sind die parallelen Richtungsfahrbahnen im Graphen des Straßennetzes zwei gegenläufige gerichtete Kanten.
 Anschließend wäre die geometrische Zusammenfassung dieser Kanten möglicherweise einfach.
 
@@ -97,12 +97,12 @@ Beispielsweise müssten die einzelnen \term{ways} in Abbildung~\ref{fig:motorway
 Dies entspräche dem in Abschnitt~\ref{os-mastermap} beschriebenen Ansatz von Thom, der damit zufriedenstellende Resultate erzielte, dabei jedoch die hohe Qualität seiner Ausgangsdaten betonte, welche bei wie für \osm\ von Freiwilligen erfassten Geodaten nicht vorausgesetzt werden kann.
 % lässt sich diese aussage belegen?
 
-Um diese Problematik zu umgehen, verwenden die in dieser Arbeit vorgestellten Algorithmen möglichst \emph{kurze} Liniensegmente anstelle möglichst \emph{langer} Linienzüge.
+Um diese Problematik zu umgehen, verwendet das in dieser Arbeit vorgestellte Verfahren möglichst \emph{kurze} Liniensegmente anstelle möglichst \emph{langer} Linienzüge.
 Die Verbindung zweier benachbarter \term{nodes} in einem \term{way} als kürzestmögliche lineare Einheit in den \osm-Ausgangsdaten (früher als \term{segment} bezeichnet \cf[57]{RT09}) ist allerdings für einen Vergleich nicht viel besser geeignet als der vollständige \term{way}%
 % warum nicht? (wenig spezifisch formuliert)
 , wie aus Abbildung~\ref{fig:motorway-fragments} ersichtlich ist.
 % nicht wirklich gut ersichtlich; neue Abbildung mit Pfeilen wie in fig:comparable-fragments?
-Daher werden die \term{segments} für die Analyse auf Parallelität solange immer weiter unterteilt, bis schließlich ein einfacher geometrischer Vergleich möglich ist (Abbildung~\ref{fig:comparable-fragments}).
+Daher werden die \term{segments} vor der Analyse auf Parallelität solange immer weiter unterteilt, bis schließlich ein einfacher geometrischer Vergleich möglich ist (Abbildung~\ref{fig:comparable-fragments}).
 
 \begin{figure}[ht]
     \centering
@@ -144,7 +144,7 @@ Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichn
 Geometrisch betrachtet entsprechen \term{nodes} Punkten, die durch vom Koordinatenursprung ausgehende Vektoren in der euklidischen Ebene definiert sind.
 Segmente als gerichtete Verbindungen zweier solcher Punkte lassen sich dann ebenfalls als Vektoren auffassen und als geordnetes Paar notieren.
 
-So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch dem Vektor $b - a$ entspräche.
+So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch zum Vektor $b - a$ kongruent wäre.
 
 \begin{algorithmhere}{Segmentierung}
 \label{alg:Segmentierung}
@@ -187,9 +187,9 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 	\ForAll{$s \textbf{ mit } s \in S'$}
 		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
 			\State $T \gets \textproc{NaheSegmente}(s, S')$
-			\ForAll{$t \textbf{ mit } t \in T \wedge \exists\ p_F : p_F = \textproc{Fußpunkt}(n, t)$}
-				\State $t_1 \gets (\textproc{Start}(t), p_F)$
-				\State $t_2 \gets (p_F, \textproc{Ende}(t))$
+			\ForAll{$t \textbf{ mit } t \in T \wedge \exists\ f : f = \textproc{Fußpunkt}(n, t)$}
+				\State $t_1 \gets (\textproc{Start}(t), f)$
+				\State $t_2 \gets (f, \textproc{Ende}(t))$
 				\State $S' \gets \{t_1, t_2\} \cup S' \setminus \{t\}$\Comment{$t$ ersetzen durch Fragmente $t_1$ und $t_2$}
 				\State $wurzel(t_1) \gets wurzel(t)$
 				\State $wurzel(t_2) \gets wurzel(t)$
@@ -333,6 +333,8 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 
 % TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
 
+% reicht es evtl. aus festzulegen: 2 Segmente parallel gdw. mind. je ein Fragment parallel ist? dann wäre es danach nur noch eine frage, das "beste" zu finden
+
 Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext des jeweiligen Anwendungsfalls als \textproc{Parallel} gelten (vergleiche Kapitel~3).
 
 \begin{algorithmhere}{Parallel}
@@ -434,6 +436,7 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 %Allerdings müssen entgegengesetzte Kanten $(n_1, n_2)$ ausgeschlossen werden, um doppelte \term{nodes} im Generalisierungsergebnis zu vermeiden.
 
 Weil die Orientierung der Zuordnungen keine Rolle spielt, wird hier mit $\{n_1, n_2\}$ ein \emph{ungeordnetes} Paar beschrieben.
+% Ergebnis: Abb. 29 general-approach
 
 
 \subsection{Parallelen zusammenfassen}

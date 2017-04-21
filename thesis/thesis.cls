@@ -25,6 +25,7 @@
 % enable German style, dictionary and macros
 \RequirePackage[ngerman]{babel}
 \selectlanguage{ngerman}
+%\newcommand{\nolig}{\kern0pt}  % "|  % \usepackage[ngerman]{selnolig}  % keine Ligaturen in Wortfugen, <http://texwelt.de/wissen/fragen/52/wie-kann-ich-ligaturen-verhindern#304>
 
 % this is for figures and tables, but has to go before mathtools to avoid warnings
 \RequirePackage[raggedrightboxes]{ragged2e}
@@ -122,6 +123,8 @@
 % drafting aids
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
 %\RequirePackage{comment}
+\RequirePackage{color}\definecolor{draftcolor}{gray}{.7}
+\newenvironment{draft}[0]{\color{draftcolor}}{\color{black}}
 
 % shortcut for frequently-used abbreviation (for use where using the abbreviation in the final text might be appropriate)
 \newcommand{\osm}{Open\-Street\-Map}

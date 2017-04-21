@@ -11,8 +11,12 @@
 % Plural oder Singular?
 % (vgl. Themenblatt)
 
+% Probleme aus Kap. 2, die in 3 aufgegriffen werden könnten:
+% - 2.3.3 Bewertung: Croeselaan
+% - 2.3.4 Formvereinfachung: Überkreuzen
 
-\section{Vergleich verschiedener Problemfälle der automatisierten Linien-Generalisierung}
+
+\section{Vergleich verschiedener Problemfälle der automatisierten Linien-Ge\-ne\-ra\-li\-sie\-rung}
 \label{ch:case-comparison}
 
 % (Vergleich unter dem Gesichtspunkt der Eignung als „Spezialfall“ für diese DA, vgl. Themenblatt)
@@ -72,8 +76,8 @@ Auch erfordern die Unterschiede in Kombination mit Platzmangel oft individuelle 
 
 Bisher noch nicht erwähnt wurden unsichtbare Grenzen, deren Verlauf dem physischer Objekte folgt oder zu ihnen parallel ist.
 Beispielhaft zu nennen wären Postleitzahlgebiete, deren Grenze einem Straßenzug folgt, oder administrative Grenzen entlang eines Wasserlaufs.
-In diesen Fällen setzt die Kartographie die Grenze vom verlaufsgebenden Objekt ab, damit beide Signaturen klar erkennbar sind (Abbildung~\ref{fig:administrative-borders}).
-% sg01 ??
+In diesen Fällen kann in der Kartographie die Grenze vom verlaufsgebenden Objekt abgesetzt werden, damit beide Signaturen klar erkennbar sind. \cf[82]{sgk02}
+Auch eine Unterbrechung der Signatur ist möglich (Abbildung~\ref{fig:administrative-borders}).
 In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
 % wie werden die Daten statt dessen umgesetzt?
 % Streit, ob Unsichtbares überhaupt in OSM rein soll
@@ -179,6 +183,22 @@ Die in Abschnitt~\ref{ch:different-traffic-types-case-desc} beschriebenen Fälle
 Es ist jedoch denkbar, dass eine Lösung für bauliche getrennte Richtungsfahrbahnen auch auf einige solcher Fälle übertragbar ist.
 Auch auf mehrgleisige Eisenbahnstrecken könnte das Ergebnis dieser Arbeit übertragbar sein.
 
+% alte Formulierungsbausteine (evtl. Alternative):
+
+%Von den zuvor in Abschnitt~\ref{ch:case-comparison} beschriebenen Anwendungsfällen für eine automatisierte Linienzusammenfassung bietet sich der Fall von baulich getrennten Richtungsfahrbahnen im Straßenraum in besonderem Maße an und wird für diese Arbeit ausgewählt (Abschnitt~\ref{ch:dual-highway-case-desc}).
+%Solche Straßen sind nahezu allgegenwärtig und die mit deren Darstellung verbundenen Probleme verbreitet.
+%Auch bisherige Arbeiten zur Generalisierung haben sich in vielen Fällen mit Straßen beschäftigt (Abschnitt~\ref{ch:existing-approaches}).
+
+%In mehreren dieser Arbeiten betonten die Autoren die Wichtigkeit von Ausgangsdaten mit hoher Qualität.
+%% Highways: Tags für viele Details existieren und werden genutzt. Mehr als für Railways? Vergleich evtl. durch TagInfo möglich, entweder mit historischen Daten (Geofabrik?) oder aber mit aktuellen plus qualitative Überlegung (wann entstand openrailwaymap?)
+%Im Falle von OpenStreetMap berücksichtigt bereits die Standard-Visualisierung der Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} viele Details des Straßennetzes.
+%Es gibt Anhaltspunkte für eine Korrelation zwischen Datenqualität und dem Umstand, ob diese Daten in der Standard-Visualisierung dargestellt werden. \?
+%% Verweis auf ML?
+%Dies ist auch anschaulich klar, denn leicht sichtbare Fehler fallen schneller auf und werden somit auch schneller korrigiert als andere Fehler.
+
+%Hinzu kommt die hohe praktische Relevanz des Straßennetzes, die bereits im Namen „OpenStreetMap“ Ausdruck findet, für die \osm-Beitragenden genau wie auch die Allgemeinbevölkerung.
+%\osm-Daten werden nicht mehr nur zur visuellen Darstellung, sondern auch zur Navigation verwendet. \cf{NZZ11}
+%Auch dies lässt erwarten, dass die Datenqualität in \osm\ im Straßennetz höher ist als etwa im Eisenbahnnetz.
 
 
 % single-chapter commands
