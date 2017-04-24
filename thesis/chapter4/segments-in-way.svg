@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="198.43px" height="113.39px" viewBox="0 0 198.43 113.39" style="enable-background:new 0 0 198.43 113.39;"
+	 xml:space="preserve">
+<symbol  id="Node" viewBox="-2.553 -2.551 5.105 5.103">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.985,0c0-1.095-0.889-1.984-1.985-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984
+			S1.985,1.095,1.985,0z"/>
+		<path d="M0,1.984c1.097,0,1.985-0.89,1.985-1.984S1.097-1.984,0-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984 M0,2.551
+			c-1.407,0-2.553-1.145-2.553-2.551S-1.407-2.551,0-2.551S2.553-1.407,2.553,0S1.407,2.551,0,2.551L0,2.551z"/>
+	</g>
+	<g>
+		<path d="M0.992,0c0-0.548-0.444-0.992-0.992-0.992S-0.992-0.548-0.992,0S-0.548,0.992,0,0.992S0.992,0.548,0.992,0z"/>
+	</g>
+</symbol>
+<g id="Canvas">
+	<rect style="fill:#EBEBEB;stroke:#FFFFFF;stroke-width:0.8504;stroke-miterlimit:10;" width="198.425" height="113.386"/>
+</g>
+<g id="Layer_1">
+	<g>
+		<g>
+			<polyline style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" points="32.599,93.543 31.181,73.701 
+				32.599,53.858 36.851,34.016 42.671,22.375 			"/>
+			<g>
+				<path style="fill:#2277CC;" d="M44.201,19.314c-0.186,1.707-0.167,3.95,0.245,5.54l-1.976-2.078l-2.847-0.333
+					C41.143,21.818,42.947,20.488,44.201,19.314z"/>
+			</g>
+		</g>
+	</g>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 32.5986 93.543)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 31.1812 73.7012)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 32.5986 53.8584)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 36.8506 34.0156)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 45.3545 17.0078)" style="overflow:visible;"/>
+	<text transform="matrix(1 0 0 1 20.3091 92.6445)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">1</tspan></text>
+	<text transform="matrix(1 0 0 1 18.8916 72.8027)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">2</tspan></text>
+	<text transform="matrix(1 0 0 1 20.3091 52.9595)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">3</tspan></text>
+	<text transform="matrix(1 0 0 1 24.561 33.1167)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">4</tspan></text>
+	<text transform="matrix(1 0 0 1 33.0576 16.1089)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">5</tspan></text>
+	<text transform="matrix(1 0 0 1 39.3335 51.7905)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Italic'; font-size:8; letter-spacing:-1;"> </tspan><tspan x="0.384" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Italic'; font-size:8;">way</tspan><tspan x="15.096" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;"> mit</tspan><tspan x="0" y="9.6" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">fünf </tspan><tspan x="16.239" y="9.6" style="fill:#2277CC; font-family:'CisalpinLTStd-Italic'; font-size:8;">nodes</tspan></text>
+</g>
+<g id="Layer_2">
+	<g>
+		<g>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="106.062" y1="90.214" x2="105.363" y2="80.436"/>
+			<g>
+				<path style="fill:#2277CC;" d="M105.119,77.022c0.711,1.563,1.869,3.483,3.035,4.642l-2.76-0.781l-2.619,1.165
+					C103.765,80.736,104.639,78.671,105.119,77.022z"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="105.119" y1="70.378" x2="105.817" y2="60.6"/>
+			<g>
+				<path style="fill:#2277CC;" d="M106.062,57.187c0.481,1.648,1.355,3.714,2.344,5.025l-2.619-1.165l-2.759,0.781
+					C104.192,60.67,105.352,58.75,106.062,57.187z"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="106.993" y1="50.622" x2="109.125" y2="40.671"/>
+			<g>
+				<path style="fill:#2277CC;" d="M109.842,37.326c0.247,1.699,0.825,3.866,1.621,5.303l-2.432-1.519l-2.841,0.389
+					C107.506,40.515,108.921,38.775,109.842,37.326z"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="112.037" y1="31.045" x2="116.02" y2="23.08"/>
+			<g>
+				<path style="fill:#2277CC;" d="M117.55,20.02c-0.186,1.707-0.167,3.95,0.244,5.54l-1.976-2.078l-2.847-0.333
+					C114.491,22.524,116.296,21.193,117.55,20.02z"/>
+			</g>
+		</g>
+	</g>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 106.2998 93.543)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 104.8818 73.7012)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 106.2998 53.8584)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 110.5518 34.0156)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 119.0557 17.0078)" style="overflow:visible;"/>
+	<text transform="matrix(1 0 0 1 94.0103 92.6445)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">1</tspan></text>
+	<text transform="matrix(1 0 0 1 92.5928 72.8027)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">2</tspan></text>
+	<text transform="matrix(1 0 0 1 94.0103 52.9595)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">3</tspan></text>
+	<text transform="matrix(1 0 0 1 98.2622 33.1167)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.576" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">4</tspan></text>
+	<text transform="matrix(1 0 0 1 106.7588 16.1089)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="4.575" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">5</tspan></text>
+	<text transform="matrix(1 0 0 1 121.2002 29.1152)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.991" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="39.567" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">4</tspan><tspan x="42.562" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="46.898" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="51.475" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">5</tspan><tspan x="54.469" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+	<text transform="matrix(1 0 0 1 114.0996 47.2905)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.991" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="39.567" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">3</tspan><tspan x="42.562" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="46.898" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="51.475" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">4</tspan><tspan x="54.469" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+	<text transform="matrix(1 0 0 1 113.8506 67.1328)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.991" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="39.567" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">2</tspan><tspan x="42.562" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="46.898" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="51.475" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">3</tspan><tspan x="54.469" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+	<text transform="matrix(1 0 0 1 113.6006 86.9756)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.991" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="39.567" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">1</tspan><tspan x="42.562" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="46.898" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">n</tspan><tspan x="51.475" y="1" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">2</tspan><tspan x="54.469" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+</g>
+</svg>

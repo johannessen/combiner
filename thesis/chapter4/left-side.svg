@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="198.43px" height="113.39px" viewBox="0 0 198.43 113.39" style="enable-background:new 0 0 198.43 113.39;"
+	 xml:space="preserve">
+<symbol  id="Punkt" viewBox="-2.268 -2.269 4.536 4.537">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.701,0c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0c0,0.939,0.762,1.701,1.701,1.701
+			S1.701,0.939,1.701,0z"/>
+		<path d="M0,1.701c0.939,0,1.701-0.762,1.701-1.701c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0
+			C-1.701,0.939-0.939,1.701,0,1.701 M0,2.269c-1.25,0-2.268-1.018-2.268-2.269S-1.25-2.269,0-2.269S2.268-1.251,2.268,0
+			S1.25,2.269,0,2.269L0,2.269z"/>
+	</g>
+</symbol>
+<rect style="fill:#EBEBEB;stroke:#FFFFFF;stroke-width:0.8504;stroke-miterlimit:10;" width="198.425" height="113.386"/>
+<g>
+	<text transform="matrix(0.9667 -0.256 0.256 0.9667 79.5869 30.376)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">Parallele </tspan><tspan x="31.343" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</tspan></text>
+	<text transform="matrix(0.9667 -0.256 0.256 0.9667 79.5869 30.376)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Parallele </tspan><tspan x="31.343" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</tspan></text>
+</g>
+<g>
+	<text transform="matrix(0.9667 -0.256 0.256 0.9667 93.1191 84.4736)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment </tspan><tspan x="32.527" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s</tspan></text>
+	<text transform="matrix(0.9667 -0.256 0.256 0.9667 93.1191 84.4736)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment </tspan><tspan x="32.527" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s</tspan></text>
+</g>
+<g>
+	<text transform="matrix(0.7179 -0.6961 0.6961 0.7179 94.9648 60.7822)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">v</tspan><tspan x="4.208" y="1.001" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">Start</tspan></text>
+	<text transform="matrix(0.7179 -0.6961 0.6961 0.7179 94.9648 60.7822)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">v</tspan><tspan x="4.208" y="1.001" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">Start</tspan></text>
+</g>
+<g>
+	<text transform="matrix(0.2554 0.9668 -0.9668 0.2554 56.0562 60.3018)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">v</tspan><tspan x="4.208" y="1" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">Ende</tspan></text>
+	<text transform="matrix(0.2554 0.9668 -0.9668 0.2554 56.0562 60.3018)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">v</tspan><tspan x="4.208" y="1" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:5;">Ende</tspan></text>
+</g>
+<text transform="matrix(1 0 0 1 148.6729 15.6768)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">S</tspan><tspan x="4.136" y="0" style="font-family:'CisalpinLTStd-Bold'; font-size:5.6;">TART</tspan><tspan x="18.152" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">(</tspan><tspan x="20.616" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</tspan><tspan x="23.864" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+<text transform="matrix(1 0 0 1 32.0005 103.9268)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">S</tspan><tspan x="4.136" y="0" style="font-family:'CisalpinLTStd-Bold'; font-size:5.6;">TART</tspan><tspan x="18.152" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">(</tspan><tspan x="20.617" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s</tspan><tspan x="24.424" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+<text transform="matrix(1 0 0 1 20.2036 40.4268)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">E</tspan><tspan x="4.504" y="0" style="font-family:'CisalpinLTStd-Bold'; font-size:5.6;">NDE</tspan><tspan x="15.76" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">(</tspan><tspan x="18.224" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</tspan><tspan x="21.472" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_3_" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 62.3613 96.3779)" style="overflow:visible;"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_5_" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 48.188 42.5195)" style="overflow:visible;"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(0 -1 -1 0 144.5664 17.0078)" style="overflow:visible;"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_6_" x="-2.268" y="-2.269" transform="matrix(0 -1 -1 0 158.7402 70.8662)" style="overflow:visible;"/>
+<g>
+	<g>
+		<path style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-miterlimit:10;" d="M60.956,87.516
+			c0.458-0.072,0.927-0.109,1.405-0.109c4.161,0,7.662,2.833,8.676,6.676"/>
+		<g>
+			<polygon points="62.235,88.283 61.124,87.5 61.908,86.389 61.104,86.528 60.32,87.639 61.431,88.422 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<path style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-miterlimit:10;" d="M71.571,88.729
+			c1.097,1.319,1.916,2.877,2.367,4.586"/>
+		<g>
+			<polygon points="71.529,90.226 71.661,88.872 73.014,89.006 72.496,88.375 71.144,88.242 71.011,89.595 			"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="65.597" y1="95.521" x2="152.413" y2="72.541"/>
+		<g>
+			<path style="fill:#2277CC;" d="M155.721,71.665c-1.403,0.989-3.074,2.486-3.994,3.847l0.253-2.856l-1.633-2.356
+				C151.819,71.026,154.012,71.5,155.721,71.665z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="141.469" y1="17.828" x2="54.968" y2="40.725"/>
+		<g>
+			<path style="fill:#2277CC;" d="M51.66,41.601c1.403-0.989,3.074-2.486,3.995-3.847l-0.253,2.856l1.632,2.356
+				C55.561,42.24,53.369,41.766,51.66,41.601z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;" x1="61.532" y1="93.227" x2="49.703" y2="48.278"/>
+		<g>
+			<path d="M49.094,45.962c0.691,0.983,1.737,2.154,2.688,2.8l-1.999-0.18l-1.651,1.141C48.643,48.692,48.977,47.158,49.094,45.962z
+				"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;" x1="64.819" y1="94.005" x2="140.5" y2="20.935"/>
+		<g>
+			<path d="M142.223,19.271c-0.521,1.083-1.03,2.568-1.129,3.714l-0.82-1.832l-1.802-0.883
+				C139.62,20.211,141.122,19.753,142.223,19.271z"/>
+		</g>
+	</g>
+</g>
+</svg>

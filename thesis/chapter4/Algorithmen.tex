@@ -135,7 +135,18 @@ Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 \label{ch:split-algorithm}
 
 In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}.
-Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente ermittelt.
+Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente ermittelt (Abbildung~\ref{fig:segments-in-way}).
+
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/segments-in-way}
+	\caption{vier Segmente in einem \term{way} (Beispiel)}
+	\label{fig:segments-in-way}
+}
+\onefigure{!ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/vector-geometry}
+	\caption{einfache Vektorgeometrie an einem Segment demonstriert}
+	\label{fig:vector-geometry}
+}
 
 Um Verbindungen zwischen zwei \term{nodes} deterministisch beschreiben zu können, werden diese hier als Kanten in einem gerichteten Graphen betrachtet.
 Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichnet.
@@ -144,7 +155,7 @@ Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichn
 Geometrisch betrachtet entsprechen \term{nodes} Punkten, die durch vom Koordinatenursprung ausgehende Vektoren in der euklidischen Ebene definiert sind.
 Segmente als gerichtete Verbindungen zweier solcher Punkte lassen sich dann ebenfalls als Vektoren auffassen und als geordnetes Paar notieren.
 
-So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch zum Vektor $b - a$ kongruent wäre.
+So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch zum Vektor $b - a$ kongruent wäre (Abbildung~\ref{fig:vector-geometry}).
 
 \begin{algorithmhere}{Segmentierung}
 \label{alg:Segmentierung}
@@ -289,7 +300,13 @@ Das Ergebnis der Operation „Segmente unterteilen“ eignet sich zur \textproc{
 Hierfür werden Geometrie und Attribute näher verglichen mit dem Ziel, für jedes Segment beidseitig entweder genau ein oder kein anderes Segment als „parallel“ zu kennzeichnen.
 % (dies funktioniert, weil bei ungleichmäßiger Fragmentierung die Verknüpfung über das _andere_ Segment hergestellt wird, d. h. dies ergibt keine 1:1-Beziehung)
 %
-Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel zu den \term{nodes} des jeweils anderen Segments erfolgen.
+Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel zu den \term{nodes} des jeweils anderen Segments erfolgen (Abbildung~\ref{fig:left-side}).
+
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/left-side}
+	\caption{Erkennen einer nahen Parallele auf der linken Seite eines Segments}
+	\label{fig:left-side}
+}
 
 %5. Analyse der Fragmente
 %∀ Fragmente:
@@ -410,7 +427,7 @@ Hierzu müssen zunächst die \term{nodes} der zusammenzufassenden Segmente einan
 % (wegen der Weiterschaltung...)
 Dies geschieht auf Basis der durch die \textproc{Analyse} ermittelten Kennzeichnungen der Segmente als parallel.
 
-Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente.
+Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente (Abbildung~\ref{fig:node-correlation}).
 
 \begin{algorithmhere}{Nodes Zuordnen}
 \label{alg:Zuordnen}
@@ -437,6 +454,12 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 
 Weil die Orientierung der Zuordnungen keine Rolle spielt, wird hier mit $\{n_1, n_2\}$ ein \emph{ungeordnetes} Paar beschrieben.
 % Ergebnis: Abb. 29 general-approach
+
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/node-correlation}
+	\caption{node-correlation}
+	\label{fig:node-correlation}
+}
 
 
 \subsection{Parallelen zusammenfassen}

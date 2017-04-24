@@ -164,6 +164,7 @@
 \addtokomafont{captionlabel}{\bfseries}
 %\renewcommand*{\captionformat}{.\enskip}  % keep the colon! -TA
 %\addto\captionsngerman{\renewcommand\figurename{Abb.}}
+%\RequirePackage{afterpage}
 % \capstart makes in-document links point to top of figures instead of the caption below them; \usepackage[all]{hypcap} might also do the trick
 \newcommand{\twofigures}[3]{
 	\begin{figure}[#1]

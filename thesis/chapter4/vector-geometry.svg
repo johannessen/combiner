@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="198.43px" height="113.39px" viewBox="0 0 198.43 113.39" style="enable-background:new 0 0 198.43 113.39;"
+	 xml:space="preserve">
+<symbol  id="Node" viewBox="-2.553 -2.551 5.105 5.103">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.985,0c0-1.095-0.889-1.984-1.985-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984
+			S1.985,1.095,1.985,0z"/>
+		<path d="M0,1.984c1.097,0,1.985-0.89,1.985-1.984S1.097-1.984,0-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984 M0,2.551
+			c-1.407,0-2.553-1.145-2.553-2.551S-1.407-2.551,0-2.551S2.553-1.407,2.553,0S1.407,2.551,0,2.551L0,2.551z"/>
+	</g>
+	<g>
+		<path d="M0.992,0c0-0.548-0.444-0.992-0.992-0.992S-0.992-0.548-0.992,0S-0.548,0.992,0,0.992S0.992,0.548,0.992,0z"/>
+	</g>
+</symbol>
+<symbol  id="Punkt" viewBox="-2.268 -2.269 4.536 4.537">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.701,0c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0c0,0.939,0.762,1.701,1.701,1.701
+			S1.701,0.939,1.701,0z"/>
+		<path d="M0,1.701c0.939,0,1.701-0.762,1.701-1.701c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0
+			C-1.701,0.939-0.939,1.701,0,1.701 M0,2.269c-1.25,0-2.268-1.018-2.268-2.269S-1.25-2.269,0-2.269S2.268-1.251,2.268,0
+			S1.25,2.269,0,2.269L0,2.269z"/>
+	</g>
+</symbol>
+<rect style="fill:#EBEBEB;stroke:#FFFFFF;stroke-width:0.8504;stroke-miterlimit:10;" width="198.425" height="113.386"/>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;" x1="25.548" y1="66.035" x2="82.675" y2="26.293"/>
+		<g>
+			<path d="M84.642,24.925c-0.687,0.987-1.427,2.371-1.707,3.486l-0.518-1.939l-1.638-1.159
+				C81.922,25.439,83.478,25.226,84.642,24.925z"/>
+		</g>
+	</g>
+</g>
+<g>
+	
+		<text transform="matrix(1 0 0 1 14.6953 67.6113)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'MyriadPro-Regular'; font-size:8;">0</text>
+	<text transform="matrix(1 0 0 1 14.6953 67.6113)" style="font-family:'MyriadPro-Regular'; font-size:8;">0</text>
+</g>
+<g>
+	
+		<text transform="matrix(0.8203 -0.572 0.572 0.8203 54.8359 43.084)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</text>
+	
+		<text transform="matrix(0.8203 -0.572 0.572 0.8203 54.8359 43.084)" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</text>
+</g>
+<g>
+	<text transform="matrix(0.8203 -0.572 0.572 0.8203 125.208 87.7695)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">Vektor</tspan><tspan x="23.407" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;"> </tspan><tspan x="26.191" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Italic'; font-size:8;">–</tspan><tspan x="30.16" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Italic'; font-size:8;"> </tspan><tspan x="31.343" y="0.001" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan></text>
+	<text transform="matrix(0.8203 -0.572 0.572 0.8203 125.208 87.7695)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Vektor</tspan><tspan x="23.407" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;"> </tspan><tspan x="26.191" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:8;">–</tspan><tspan x="30.16" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:8;"> </tspan><tspan x="31.343" y="0.001" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan></text>
+</g>
+<g>
+	<text transform="matrix(0.9526 0.3044 -0.3044 0.9526 103.7988 23.5859)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.99" y="0.001" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan><tspan x="39.559" y="0.001" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="43.895" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</tspan><tspan x="48.535" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+	<text transform="matrix(0.9526 0.3044 -0.3044 0.9526 103.7988 23.5859)"><tspan x="0" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">Segment (</tspan><tspan x="34.99" y="0.001" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan><tspan x="39.559" y="0.001" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">, </tspan><tspan x="43.895" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</tspan><tspan x="48.535" y="0" style="fill:#2277CC; font-family:'CisalpinLTStd-Regular'; font-size:8;">)</tspan></text>
+</g>
+<g>
+	
+		<text transform="matrix(0.9906 -0.1372 0.1372 0.9906 94.4854 56.1333)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</text>
+	
+		<text transform="matrix(0.9906 -0.1372 0.1372 0.9906 94.4854 56.1333)" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</text>
+</g>
+<g>
+	<text transform="matrix(0.9521 0.3059 -0.3059 0.9521 38.3296 82.5488)"><tspan x="0" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;">Vektor</tspan><tspan x="23.408" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Regular'; font-size:8;"> </tspan><tspan x="26.191" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</tspan><tspan x="30.832" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-Italic'; font-size:8;"> – </tspan><tspan x="38.767" y="0" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan></text>
+	<text transform="matrix(0.9521 0.3059 -0.3059 0.9521 38.3296 82.5488)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Vektor</tspan><tspan x="23.408" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;"> </tspan><tspan x="26.191" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">b</tspan><tspan x="30.832" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:8;"> – </tspan><tspan x="38.767" y="0" style="font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">a</tspan></text>
+</g>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 104.8818 90.709)" style="display:none;overflow:visible;"/>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;" x1="26.065" y1="67.567" x2="156.077" y2="49.722"/>
+		<g>
+			<path d="M158.789,49.35c-1.211,0.648-2.684,1.674-3.547,2.664l0.479-2.243l-1.066-2.03
+				C155.754,48.461,157.448,49.052,158.789,49.35z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="160.541" y1="46.035" x2="91.665" y2="23.895"/>
+		<g>
+			<path style="fill:#2277CC;" d="M163.799,47.082c-1.35-1.062-2.939-2.643-3.788-4.05l0.104,2.865l-1.754,2.268
+				C159.87,47.516,162.083,47.157,163.799,47.082z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;stroke-dasharray:3.3165,3.3165;" x1="162.506" y1="51.485" x2="105.359" y2="91.238"/>
+		<g>
+			<path d="M103.394,92.606c0.687-0.987,1.427-2.371,1.707-3.486l0.517,1.939l1.639,1.159
+				C106.112,92.093,104.558,92.306,103.394,92.606z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		
+			<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-linejoin:round;stroke-dasharray:3.515,3.515;" x1="28.247" y1="69.822" x2="98.384" y2="92.366"/>
+		<g>
+			<path d="M100.664,93.1c-1.201,0.054-2.75,0.305-3.807,0.759l1.227-1.588l-0.072-2.005C98.606,91.25,99.719,92.357,100.664,93.1z"
+				/>
+		</g>
+	</g>
+</g>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_1_" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 22.6772 68.0322)" style="overflow:visible;"/>
+<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 87.874 22.6768)" style="overflow:visible;"/>
+<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_2_" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 167.2441 48.189)" style="overflow:visible;"/>
+<text transform="matrix(1 0 0 1 66.0127 21.501)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">S</tspan><tspan x="4.136" y="0" style="font-family:'CisalpinLTStd-Bold'; font-size:5.6;">TART</tspan></text>
+<text transform="matrix(1 0 0 1 171.4043 47.3345)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">E</tspan><tspan x="4.504" y="0" style="font-family:'CisalpinLTStd-Bold'; font-size:5.6;">NDE</tspan></text>
+</svg>
