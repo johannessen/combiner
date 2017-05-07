@@ -947,7 +947,14 @@ FUNCTION {misc}
   format.date output
   note output
   format.book.pages output
-  fin.entry
+  location missing$
+    { fin.entry
+    }
+    { add.period$ write$ newline$ newline$
+      location output
+      write$
+    }
+  if$
   empty.misc.check
 }
 
@@ -1131,14 +1138,15 @@ FUNCTION {format.lab.names}
   if$
 }
 
+% prefer the key if given -aj
 FUNCTION {author.key.label}
-{ author empty$
-    { key empty$
+{ key empty$
+    { author empty$
 	{ cite$ #1 #3 substring$ }
-	{ key #3 text.prefix$ }
+	{ author format.lab.names }
       if$
     }
-    { author format.lab.names }
+    { key #3 text.prefix$ }
   if$
 }
 
