@@ -57,7 +57,7 @@ Den Erfolg seiner Methode schreibt er jedoch unter anderem der gründlichen Klas
 Diese existiert in dieser Form nicht in OpenStreetMap, so dass seine Methode nicht direkt übertragbar erscheint.
 
 Zwar kann für Autobahnen davon ausgegangen werden, dass sie zweibahnig ausgebaut sind.
-Seltene Ausnahmen wie etwa die Bundesautobahn~62 zwischen Landstuhl und Pirmasens sollten, wenn sie denn tatsächlich als \osmtag{highway=motorway} eingetragen sind, das Attribut \osmtag{oneway=no} tragen und sich so identifizieren lassen.
+Seltene Ausnahmen wie etwa die Bundesautobahn~62 zwischen Landstuhl und Pirmasens sollten, wenn sie denn tatsächlich als \osmtag{highway}[motorway] eingetragen sind, das Attribut \osmtag{oneway}[no] tragen und sich so identifizieren lassen.
 Im übrigen Straßennetz sind solche Aussagen auf Basis der \osm-Daten jedoch nicht möglich.
 
 Es ist ohnehin fraglich, wie stark die von Thom eingesetzte Erkennung von \term{strokes} als möglichst \emph{lange} Linienzüge die Generalisierung im Kontext von \osm\ tatsächlich vereinfachen würde.
@@ -78,18 +78,15 @@ Die Verbindung der Mittelpunkte zwischen den so einander zugeordneten \term{node
 Dieses Vorgehen vermeidet, dass die in Abschnitt~\ref{osm-fragmentation} besprochene häufige ungleichmäßige Fragmentierung von \osm-Linienzügen in mehrere \term{ways} einen Einfluss auf den Generalisierungsvorgang hat.
 Aufgrund der nicht immer gleichen Anzahl und Verteilung der \term{nodes} kommt es vor, dass ein \term{node} des einen Linienzugs mehreren \term{nodes} des anderen Linienzugs zugeordnet wird, was jedoch unproblematisch ist.
 
-\begin{figure}[ht]
-  \begin{minipage}[t]{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter4/general-approach}
-    \caption{general-approach}\label{fig:general-approach}
-  \end{minipage}%
-  \begin{minipage}[t]{.5\linewidth}
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter4/motorway-fragments}
-    \caption{motorway-fragments}\label{fig:motorway-fragments}
-  \end{minipage}
-\end{figure}
+\twofigures{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/general-approach}
+	\caption{Linienzusammenfassung durch Mittelpunktbildung nach Zuordnung gegenüberliegender \term{nodes}}
+	\label{fig:general-approach}
+}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/motorway-fragments}
+	\caption{ungleichmäßige Fragmentierung paralleler Linienzüge (Beispiel)}
+	\label{fig:motorway-fragments}
+}
 
 Um zwei gegenüberliegende \term{nodes} einander zuordnen zu können, müssen zunächst die Linien, deren Teil sie sind, als zueinander parallel erkannt werden.
 Auch hierbei ist die erwähnte ungleichmäßige Fragmentierung in bestimmten Fällen problematisch.
@@ -104,11 +101,11 @@ Die Verbindung zweier benachbarter \term{nodes} in einem \term{way} als kürzest
 % nicht wirklich gut ersichtlich; neue Abbildung mit Pfeilen wie in fig:comparable-fragments?
 Daher werden die \term{segments} vor der Analyse auf Parallelität solange immer weiter unterteilt, bis schließlich ein einfacher geometrischer Vergleich möglich ist (Abbildung~\ref{fig:comparable-fragments}).
 
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter4/comparable-fragments}
-    \caption{comparable-fragments}\label{fig:comparable-fragments}
-\end{figure}
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/comparable-fragments}
+	\caption{Herstellung einer gleichmäßigen Fragmentierung paralleler Linienzüge}
+	\label{fig:comparable-fragments}
+}
 
 
 
@@ -187,6 +184,8 @@ Im Folgenden werden sie dennoch vereinfachend Segmenten gleichgestellt, da sie a
 Aufgeteilt werden Segmente jeweils am \textproc{Fußpunkt} eines Lots, das von einem \term{node} eines anderen Segments gefällt wird.
 Der gewählte Algorithmus für das \textproc{Splitten} arbeitet geometrisch rekursiv:
 Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und somit immer weiter aufgeteilt, bis kein \textproc{Fußpunkt} mehr gefunden wird.
+
+% TODO: Grafik (unbedingt!), um "rekursiv" zu illustrieren
 
 \begin{algorithmhere}{Splitten}
 \label{alg:Splitten}
@@ -287,11 +286,12 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \end{algorithmic}
 \end{algorithmhere}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}
-    \caption{footpoint}\label{fig:footpoint}
-\end{figure}
+\onefigure{H}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}
+	\caption{Bestimmung des Punkts, an dem ein Segment aufzuteilen ist}
+	\label{fig:footpoint}
+}
+% TODO: Abbildung verbessern: Segment s sollte enthalten sein + einheitliches Design
 
 \subsection{Analysieren}
 \label{ch:analyse-algorithm}
@@ -351,6 +351,7 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 % TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
 
 % reicht es evtl. aus festzulegen: 2 Segmente parallel gdw. mind. je ein Fragment parallel ist? dann wäre es danach nur noch eine frage, das "beste" zu finden
+% oder evtl. statt "<- l" einfach "<- wurzel(l)" und dann das als Menge ausführen? Das könnte der tatsächlichen Implementierung am ehesten entsprechen, ist aber evtl. unnötig kompliziert.
 
 Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext des jeweiligen Anwendungsfalls als \textproc{Parallel} gelten (vergleiche Kapitel~3).
 
@@ -366,8 +367,8 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 		\item nahe beieinander liegen (z.~B. $\textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
 		\item nicht so sehr zueinander versetzt sind, dass sie mehr hintereinander als nebeneinander liegen,  % "ignore collinear fragments"; sollte durch die geschickte Fragmentierung normal nicht vorkommen
 		\item sich nicht überkreuzen,  % (sollte bereits durch \textproc{Analyse} ausgeschlossen sein)
-		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{highway=*} sind und
-		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{ref=*} sind.
+		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{highway}[*] sind und
+		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{ref}[*] sind.
 	\end{itemize}
 \EndFunction
 \end{algorithmic}
@@ -375,6 +376,7 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 
 Dass die miteinander verglichenen Segmente nahe beieinander liegen, wird in der \textproc{Analyse} bereits durch die Beschränkung auf \textproc{NaheSegmente} sichergestellt.
 Welche Segmente als „nah“ gelten, ist jedoch von der Definition der \textproc{Hülle} abhängig, für die Überlegungen zur Effizienz eine Rolle spielen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
+% daher in PARALLEL noch mal eine Abstands-Bedingung
 
 % doppelt beschrieben -- was ist besser?
 
@@ -453,11 +455,12 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 %Allerdings müssen entgegengesetzte Kanten $(n_1, n_2)$ ausgeschlossen werden, um doppelte \term{nodes} im Generalisierungsergebnis zu vermeiden.
 
 Weil die Orientierung der Zuordnungen keine Rolle spielt, wird hier mit $\{n_1, n_2\}$ ein \emph{ungeordnetes} Paar beschrieben.
+Dies vermeidet Duplikate.
 % Ergebnis: Abb. 29 general-approach
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/node-correlation}
-	\caption{node-correlation}
+	\caption{Zuordnung gegenüberliegender \term{nodes} paralleler Linienzüge}
 	\label{fig:node-correlation}
 }
 
@@ -533,6 +536,8 @@ Je nach Anwendungsfall sind Nachbearbeitungen und weitere Generalisierungsvorgä
 In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Linienzügen sowie eine Formvereinfachung.
 
 % Weiterschaltung ist notwendig, weil ansonsten Endpunkte der generalisierten Linie nicht unbedingt aneinander anstoßen (durch Bildung von "Dreiecken" im Zuordnungsgraphen überlappen sich die Mittellinien u. U.)
+
+% TODO: Grafik wäre hier keine schlechte Ergänzung
 
 
 % mit vorwärts/rückwärts-Logik (nur sinnvoll, wenn man das Verketten für Wesentlich hält, was das Themenblatt nicht tut ("Verkettung, soweit zum Zusammenfassen nötig")
@@ -699,6 +704,7 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 
 
 % single-chapter commands
-%\onlyinsubfile{\listoffigures} \onlyinsubfile{\listoftables}
+\onlyinsubfile{\listoffigures}
+%\onlyinsubfile{\listoftables}
 %\onlyinsubfile{\input{../bibliography}}
 \end{document}

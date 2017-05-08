@@ -17,6 +17,7 @@
 \RequirePackage{subfiles}
 \newcommand{\onlyinsubfile}[1]{#1}
 %\newcommand{\notinsubfile}[1]{}
+\newcommand{\BibTeXenabled}{}  % disable BibTeX in subfiles for speed
 
 % enable UTF-8 input support
 \RequirePackage{fontspec}
@@ -65,8 +66,6 @@
 {\cite[#2][#1]{#3}}%
 {[\ifthenelse{\isempty{#2}}{}{#2 }#3\ifthenelse{\isempty{#1}}{}{, #1}]}%
 }
-
-\newcommand{\BibTeXenabled}{}
 
 \newcommand{\?}{\textbf{??}}
 \newcommand{\p}{p.\,}
@@ -118,7 +117,12 @@
 % a foreign-language or jargon term is italicised to highlight it
 \newcommand{\term}{\textit}
 
-\newcommand{\osmtag}{\textit}
+% usage: \osmtag{highway} or \osmtag{highway}[*] or \osmtag{highway}[trunk]
+\DeclareDocumentCommand{\osmtag}{ m O{} }{%
+\textit{#1}%
+\ifthenelse{\isempty{#2}}{}{%
+\textit{\kern+.1em=\kern+.1em \ifthenelse{\equal{#2}{*}}{\kern+.1em$*$}{#2}}%
+}}
 
 % drafting aids
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}

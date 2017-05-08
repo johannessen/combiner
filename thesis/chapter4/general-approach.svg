@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="198.43px" height="113.39px" viewBox="0 0 198.43 113.39" style="enable-background:new 0 0 198.43 113.39;"
+	 xml:space="preserve">
+<g>
+	<defs>
+		<rect id="SVGID_1_" width="198.425" height="113.386"/>
+	</defs>
+	<clipPath id="SVGID_2_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	
+		<rect x="-1.415" y="-1.416" style="clip-path:url(#SVGID_2_);fill:#F7F7F7;stroke:#FFFFFF;stroke-width:0.8504;stroke-miterlimit:10;" width="201.26" height="116.22"/>
+</g>
+<line style="fill:none;stroke:#0000FF;stroke-width:0.5669;stroke-miterlimit:10;" x1="25.096" y1="71.405" x2="19.278" y2="38.41"/>
+<line style="fill:none;stroke:#0000FF;stroke-width:0.5669;stroke-miterlimit:10;" x1="177.248" y1="44.562" x2="171.43" y2="11.566"/>
+<line style="fill:none;stroke:#0000FF;stroke-width:0.5669;stroke-miterlimit:10;" x1="154.469" y1="48.599" x2="171.359" y2="11.583"/>
+<line style="fill:none;stroke:#0000FF;stroke-width:0.5669;stroke-miterlimit:10;" x1="110.229" y1="56.414" x2="64.672" y2="30.427"/>
+<circle cx="171.43" cy="11.566" r="0.851"/>
+<circle cx="177.248" cy="44.562" r="0.851"/>
+<circle cx="154.517" cy="48.594" r="0.851"/>
+<circle cx="64.719" cy="30.396" r="0.851"/>
+<circle cx="110.109" cy="56.411" r="0.851"/>
+<circle cx="25.096" cy="71.405" r="0.851"/>
+<circle cx="19.278" cy="38.41" r="0.851"/>
+<circle cx="111.15" cy="78.333" r="0.851"/>
+<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-miterlimit:10;" x1="7.885" y1="40.422" x2="191.302" y2="8.081"/>
+<line style="fill:none;stroke:#FF0000;stroke-width:0.5669;stroke-miterlimit:10;" x1="7.885" y1="57.432" x2="191.302" y2="25.088"/>
+<line style="fill:none;stroke:#000000;stroke-width:0.5669;stroke-miterlimit:10;" x1="7.885" y1="74.441" x2="191.302" y2="42.095"/>
+<circle style="fill:#FF0000;" cx="174.339" cy="28.064" r="0.851"/>
+<circle style="fill:#FF0000;" cx="162.914" cy="30.091" r="0.851"/>
+<circle style="fill:#FF0000;" cx="87.45" cy="43.42" r="0.851"/>
+<circle style="fill:#FF0000;" cx="22.187" cy="54.907" r="0.851"/>
+<text transform="matrix(1 0 0 1 117.834 81.166)" style="font-family:'Helvetica-Oblique'; font-size:8;">node</text>
+<text transform="matrix(1 0 0 1 117.834 92.666)"><tspan x="0" y="0" style="font-family:'Helvetica-Oblique'; font-size:8;">node</tspan><tspan x="17.797" y="0" style="font-family:'Helvetica'; font-size:8;">-Zuordnung</tspan></text>
+<text transform="matrix(1 0 0 1 117.834 104.333)" style="font-family:'Helvetica'; font-size:8;">Ergebnis</text>
+<text transform="matrix(1 0 0 1 21.5835 48.833)" style="fill:#0000FF; font-family:'Helvetica'; font-size:8;">½</text>
+<text transform="matrix(1 0 0 1 24.3335 64.833)" style="fill:#0000FF; font-family:'Helvetica'; font-size:8;">½</text>
+<line style="fill:none;stroke:#0000FF;stroke-width:0.5669;stroke-miterlimit:10;" x1="115.502" y1="89" x2="106.502" y2="89"/>
+<line style="fill:none;stroke:#FF0000;stroke-width:0.5669;stroke-miterlimit:10;" x1="115.502" y1="101" x2="106.502" y2="101"/>
+</svg>
