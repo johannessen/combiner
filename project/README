@@ -6,34 +6,38 @@ Testbed
 (1)
 Install dependencies:
 
-# get GeoTools 9.0 (no other versions tested), <http://www.geotools.org/>
+# Java 8 + Apache Ant + GDAL
+
+# get GeoTools 17.0, <http://www.geotools.org/>
 cd project/lib
-# <http://sourceforge.net/projects/geotools/files/GeoTools%209%20Releases/>
-# geotools-9.0-bin.zip
+# <http://sourceforge.net/projects/geotools/files/GeoTools%2017%20Releases/>
+# geotools-17.0-bin.zip
 
 # unpack into lib
-unzip geotools-9.0-bin.zip
+unzip geotools-17.0-bin.zip
 
 # search for all gt-epsg-*.jar
 find . -name gt-epsg\*jar
 
-# delete all of those but one (for example, keep gt-epsg-hsql-9.0.jar)
-rm ./geotools-8.5/gt-epsg-oracle-9.0.jar
-rm ./geotools-8.5/gt-epsg-wkt-9.0.jar
-rm ./geotools-8.5/gt-epsg-extension-9.0.jar
-rm ./geotools-8.5/gt-epsg-postgresql-9.0.jar
+# delete all of those but one (for example, keep gt-epsg-hsql-17.0.jar)
+# (currently there is trouble with HSQL; use WKT instead)
+rm ./geotools-17.0/gt-epsg-oracle-17.0.jar
+rm ./geotools-17.0/gt-epsg-wkt-17.0.jar
+rm ./geotools-17.0/gt-epsg-extension-17.0.jar
+rm ./geotools-17.0/gt-epsg-postgresql-17.0.jar
 
-# (You may also need to remove imageio-ext-imagereadmt-1.1.6.jar from the classpath to prevent runtime error messages. In spite of any errors, execution of this code should not be affected.)
+# (You may also wish to remove imageio-ext-imagereadmt-1.1.17.jar from the classpath to prevent runtime error messages. In spite of any errors, execution of this code should not be affected whether you remove that file or not.)
 
 # get TestNG 6.8 (no other version tested)
+# (currently there is trouble with certain releases; the one from the Internet Archive is known to be good, containing all required classes)
 
 cd project/lib
-curl -O "http://testng.org/testng-6.8.zip"
+curl -O "http://web.archive.org/web/20121113133417/http://testng.org/testng-6.8.zip"
 unzip testng-6.8.zip
 mv testng-6.8/testng-6.8.jar .
 rm -R testng-6.8.zip testng-6.8
 
-# get args4j 2.0.21 (no other versions tested), <http://args4j.kohsuke.org/>
+# get args4j 2.33, <http://args4j.kohsuke.org/>
 
 cd project/lib
 curl -O http://maven.jenkins-ci.org/content/repositories/releases/args4j/args4j/2.0.21/args4j-2.0.21.jar
@@ -53,7 +57,7 @@ cd data
 Build and run:
 
 cd project
-./run-testbed.sh
+./run-combiner.sh
 
 (Ant needs the current working directory set to project/ !)
 

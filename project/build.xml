@@ -6,10 +6,10 @@
 		The class path consists of the lib directory and any _immediate_ subdirectories.
 		Required dependency (unpack these into lib/):
 		
-		- GeoTools 9.0 (no other versions tested)
+		- GeoTools 17.0
 		  http://www.geotools.org/
 		  NB: manual EPSG Authority management required!
-		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-8.5.jar)
+		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-17.0.jar)
 		
 	-->
 	<path id="libsRef">
@@ -26,7 +26,9 @@
     	
 		<!--
 			GeoTools includes several EPSG extensions, only one of which may be
-			in the classpath at the same time in order to prevent a run-time error.
+			in the classpath at the same time. If multiple are present, earlier
+			GeoTools versions will fail with a run-time error while some later
+			versions may silently pick an extension of low quality.
 			http://docs.geotools.org/latest/userguide/faq.html#q-how-to-choose-an-epsg-authority
 		-->
 		<fail message="Too many EPSG Authorities on the class path; exactly 1 required.">
@@ -40,9 +42,10 @@
 			</condition>
 		</fail>
 		
-		<javac srcdir="src" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.5" target="1.5">
+		<javac srcdir="src" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.6" target="1.8">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/><!-- We're not cross-compiling here - we're merely restricting ourselves to using the old syntax rules. Therefore specifying a bootclasspath isn't necessary; we're just disabling the warning instead. -->
 		</javac>
     	
     </target>
@@ -66,9 +69,10 @@
 	<target name="doc">
 		<mkdir dir="build/doc"/>
 		<javadoc sourcepath="src" destdir="build/doc" classpathref="libsRef" access="package" Encoding="UTF-8" docencoding="UTF-8" charset="UTF-8" Version="true" Use="true" Author="true">
-			<link href="http://docs.oracle.com/javase/6/docs/api/"/>
-			<link href="http://tsusiatsoftware.net/jts/javadoc/"/>
-			<link href="http://docs.geotools.org/latest/javadocs/"/>
+			<link href="https://docs.oracle.com/javase/6/docs/api/"/>
+			<link href="http://atetric.com/atetric/javadoc/com.vividsolutions/jts/1.13/"/>
+			<link href="http://docs.geotools.org/stable/javadocs/"/>
+			<arg value="-Xdoclint:none"/>
 		</javadoc>
 	</target>
 	
@@ -91,9 +95,10 @@
 	<target name="build-tests" depends="build">
 		<mkdir dir="build/classes"/>
     	
-		<javac srcdir="test" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.5" target="1.5">
+		<javac srcdir="test" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.6" target="1.8">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
+			<compilerarg value="-Xlint:-options"/>
 		</javac>
     	
     </target>

@@ -18,11 +18,9 @@
 /data/testbed-out/*.prj
 
 /project/build
-/project/lib/args4j-2.0.21.jar
-/project/lib/geotools-8.5
-/project/lib/geotools-8.7.zip
-/project/lib/geotools-9.0
-/project/lib/testng-6.8.jar
+/project/lib/args4j-*
+/project/lib/geotools-*
+/project/lib/testng-*
 /project/nohup.out
 
 /thesis/chapter?/*.aux

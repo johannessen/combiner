@@ -21,7 +21,7 @@ if [ -e ../nrw-roads.zip ]
 then
 	unzip ../nrw-roads.zip
 else
-	curl -L -O "http://www.remote.org/frederik/tmp/nrw-roads.zip"
+	curl -L -O "http://dev.thaw.de/temp/highways/nrw-roads.zip"
 	unzip nrw-roads.zip
 fi
 

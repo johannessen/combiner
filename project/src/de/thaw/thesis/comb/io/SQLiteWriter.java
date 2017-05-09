@@ -35,7 +35,7 @@ public class SQLiteWriter implements StatSink {
 			Class.forName("org.sqlite.JDBC");
 			System.err.println(String.format("SQLite driver running in %s mode", SQLiteJDBCLoader.isNativeMode() ? "native" : "pure-java"));
 		}
-		catch (ClassNotFoundException e) {
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}

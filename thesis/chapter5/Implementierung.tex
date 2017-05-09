@@ -1,3 +1,11 @@
+% UTF-8
+
+% single-chapter commands
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{4}}  % single-chapter command
+\begin{document}
+
+
 \chapter{Implementierung}
 
 \section{Entwicklungsumgebung}
@@ -7,6 +15,8 @@
 	\item Versionen verwendeter Komponenten, Kompatibilität
 	\item Abhängigkeiten von Frameworks etc. (z. B. Geotools)
 \end{itemize}
+
+
 
 \section{Systemkonzept}
 
@@ -20,6 +30,8 @@
 	\item Bezug zu Kapitel 4 herstellen
 \end{itemize}
 
+
+
 \section{Schwierigkeiten bei der Umsetzung}
 
 \begin{itemize}
@@ -27,3 +39,10 @@
 	\item Unterschiede zu den entworfenen Algorithmen
 	\item interessante konkrete Schwierigkeiten oder Erfolge bei der Implementierung aufzeigen
 \end{itemize}
+
+
+% single-chapter commands
+%\onlyinsubfile{\listoffigures}
+%\onlyinsubfile{\listoftables}
+%\onlyinsubfile{\input{../bibliography}}
+\end{document}
