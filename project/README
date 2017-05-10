@@ -3,6 +3,11 @@ Testbed
 =======
 
 
+(0)
+
+git clone --recursive https://github.com/johannessen/combiner
+
+
 (1)
 Install dependencies:
 

@@ -1,0 +1,3 @@
+[submodule "project/lib/classic-javadoc-stylesheet"]
+	path = project/lib/classic-javadoc-stylesheet
+	url = https://github.com/junk-box/classic-javadoc-stylesheet
