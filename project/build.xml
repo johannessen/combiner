@@ -2,16 +2,7 @@
 <!-- This is an Apache Ant build file. -->
 <project default="build">
 	
-	<!--
-		The class path consists of the lib directory and any _immediate_ subdirectories.
-		Required dependency (unpack these into lib/):
-		
-		- GeoTools 17.0
-		  http://www.geotools.org/
-		  NB: manual EPSG Authority management required!
-		  (for example, delete all gt-epsg-*.jar except gt-epsg-hsql-17.0.jar)
-		
-	-->
+	<!-- The compiler class path consists of the lib directory and any _immediate_ subdirectories. Note that the runtime class path is different. -->
 	<path id="libsRef">
 		<fileset dir="lib">
 			<include name="*.jar"/>
@@ -21,34 +12,16 @@
 	
 	
 	
-    <target name="build">
+	<target name="build">
 		<mkdir dir="build/classes"/>
-    	
-		<!--
-			GeoTools includes several EPSG extensions, only one of which may be
-			in the classpath at the same time. If multiple are present, earlier
-			GeoTools versions will fail with a run-time error while some later
-			versions may silently pick an extension of low quality.
-			http://docs.geotools.org/latest/userguide/faq.html#q-how-to-choose-an-epsg-authority
-		-->
-		<fail message="Too many EPSG Authorities on the class path; exactly 1 required.">
-			<condition>
-				<resourcecount when="greater" count="1">
-					<fileset dir="lib">
-						<include name="gt-epsg-*.jar"/>
-						<include name="*/gt-epsg-*.jar"/>
-					</fileset>
-				</resourcecount>
-			</condition>
-		</fail>
 		
 		<javac srcdir="src" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.6" target="1.8">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/><!-- We're not cross-compiling here - we're merely restricting ourselves to using the old syntax rules. Therefore specifying a bootclasspath isn't necessary; we're just disabling the warning instead. -->
 		</javac>
-    	
-    </target>
+		
+	</target>
 	
 	
 	
@@ -94,14 +67,14 @@
 	
 	<target name="build-tests" depends="build">
 		<mkdir dir="build/classes"/>
-    	
+		
 		<javac srcdir="test" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.6" target="1.8">
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/>
 		</javac>
-    	
-    </target>
+		
+	</target>
 	
 	<target name="test" depends="build-tests">
 		<testng outputdir="build/test-report">

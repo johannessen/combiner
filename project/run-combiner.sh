@@ -23,7 +23,17 @@ OUT=../data/combiner/out.json
 #OUT_DEBUG2=../data/combiner/out-lineparts.shp
 #OUT_DEBUG3=../data/combiner/out-debug.shp
 
-time java -cp build/classes:lib/*:lib/geotools-17.0/* -ea:de.thaw... \
+# GeoTools (the georeferencing code in particular) gets peeved when certain
+# unused classes are on the classpath. To avoid the need to manually delete
+# those JARs, we can put only those JARs we actually use on the classpath.
+# As a result, this runtime classpath differs from the compiler classpath.
+# see also:
+# <http://docs.geotools.org/stable/userguide/faq.html#q-what-jars-does-gt-referencing-need>
+# <http://article.gmane.org/gmane.comp.gis.geotools2.user/15863>
+
+time java \
+		-cp build/classes:lib/*:lib/geotools-17.0/core-0.26.jar:lib/geotools-17.0/gt-api-17.0.jar:lib/geotools-17.0/gt-data-17.0.jar:lib/geotools-17.0/gt-epsg-hsql-17.0.jar:lib/geotools-17.0/gt-main-17.0.jar:lib/geotools-17.0/gt-metadata-17.0.jar:lib/geotools-17.0/gt-opengis-17.0.jar:lib/geotools-17.0/gt-referencing-17.0.jar:lib/geotools-17.0/gt-shapefile-17.0.jar:lib/geotools-17.0/hsqldb-2.3.0.jar:lib/geotools-17.0/jsr-275-1.0-beta-2.jar:lib/geotools-17.0/jts-1.13.jar:lib/geotools-17.0/sqlite-jdbc-3.14.2.1.jar \
+		-ea:de.thaw... \
 		-Djava.awt.headless=true \
 		-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
 		-Xms256m -Xmx2048m -XX:+UseParallelGC -XX:+UseParallelOldGC \

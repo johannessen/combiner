@@ -1,6 +1,6 @@
 
-Testbed
-=======
+Combiner
+========
 
 
 (0)
@@ -20,18 +20,6 @@ cd project/lib
 
 # unpack into lib
 unzip geotools-17.0-bin.zip
-
-# search for all gt-epsg-*.jar
-find . -name gt-epsg\*jar
-
-# delete all of those but one (for example, keep gt-epsg-hsql-17.0.jar)
-# (currently there is trouble with HSQL; use WKT instead)
-rm ./geotools-17.0/gt-epsg-oracle-17.0.jar
-rm ./geotools-17.0/gt-epsg-wkt-17.0.jar
-rm ./geotools-17.0/gt-epsg-extension-17.0.jar
-rm ./geotools-17.0/gt-epsg-postgresql-17.0.jar
-
-# (You may also wish to remove imageio-ext-imagereadmt-1.1.17.jar from the classpath to prevent runtime error messages. In spite of any errors, execution of this code should not be affected whether you remove that file or not.)
 
 # get TestNG 6.8 (no other version tested)
 # (currently there is trouble with certain releases; the one from the Internet Archive is known to be good, containing all required classes)

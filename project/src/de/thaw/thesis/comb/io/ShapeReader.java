@@ -247,7 +247,8 @@ public final class ShapeReader {
 		}
 		finally {
 			System.out.println("Features read from Shapefile: " + i);
-//			iterator.close();  // causes locking exceptions
+			iterator.close();
+			dataStore.dispose();
 		}
 		
 		return result;
