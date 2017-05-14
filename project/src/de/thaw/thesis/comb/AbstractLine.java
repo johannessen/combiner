@@ -27,7 +27,7 @@ import java.util.LinkedList;
  */
 abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	
-	final List<LineSegment> segments;
+	final private List<LineSegment> segments;
 	
 	// we now do guarantee that the segments are oriented the same way as the line is!
 	

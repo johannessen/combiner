@@ -52,7 +52,7 @@ public final class ShapeReader {
 	
 	private InputDataset dataset;
 	
-	// these shapefiles don't have node IDs, hence we invent new ones
+	// PolyLine shapefiles don't have node IDs, hence we invent new ones
 	private long nextNodeId = -100001L;
 	
 	
@@ -122,15 +122,12 @@ public final class ShapeReader {
 				}
 				
 				final ShapeTagsAdapter tags = new ShapeTagsAdapter(feature);
-				final OsmWay way = dataset.createOsmWay(tags, coordinates.size() - 1);
-				way.id = featureId(feature);
-				
+				final ArrayList<OsmNode> nodes = new ArrayList<OsmNode>( coordinates.size() );
 				for (int i = 0; i < coordinates.size(); i++) {
-					final OsmNode node = toNode( coordinates.getCoordinate(i) );
-					
-					way.addLast(node);
+					nodes.add(toNode( coordinates.getCoordinate(i) ));
 				}
-				
+				final OsmWay way = dataset.createOsmWay(tags, nodes);
+				way.id = featureId(feature);
 				way.mutable(false);
 			}
 		}

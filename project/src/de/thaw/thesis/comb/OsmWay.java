@@ -8,37 +8,38 @@
 
 package de.thaw.thesis.comb;
 
-import java.util.AbstractSequentialList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 
 /**
  * An ordered collection of several line segments in the euclidian plane.
- * Instances may or may not have relationships with actual ways in the OSM
- * planet database. Instances are always part of an <code>OsmDataset</code>.
+ * Instances represent an OpenStreetMap way, but do not necessarily have a
+ * relationship with the OSM planet database. Instances are always part of an
+ * <code>OsmDataset</code>.
  */
 public final class OsmWay extends AbstractLine {
 	
-	public long id = OsmDataset.ID_UNKNOWN;  // :BUG: shouldn't be public
+	
+	/**
+	 * A number identifying this way in some context.
+	 * That this field is currently public is considered a BUG.
+	 * @see #id()
+	 */
+	public long id = OsmDataset.ID_UNKNOWN;
 	// not all OsmWays have a unique ID (e. g. splitPts, Frederik's shapefile)
 	
-	OsmDataset dataset = null;
+	
+	private OsmDataset dataset = null;
 	
 	
-	public OsmWay (final HighwayType type, final HighwayRef ref, final OsmDataset dataset, final int segmentCount) {
-		super(segmentCount);
-		assert type != null && ref != null && dataset != null;
-		
-		super.highwayType = type;
-		super.highwayRef = ref;
-		this.dataset = dataset;
-	}
 	
-	
+	/**
+	 * Create a way with no segments. This is only useful if this way will be
+	 * populated with segments before it is used.
+	 * Expect this constructor to be deprecated or removed.
+	 */
 	public OsmWay (final OsmTags tags, final OsmDataset dataset, final int segmentCount) {
 		super(segmentCount);
 		assert tags != null && dataset != null;
@@ -50,11 +51,51 @@ public final class OsmWay extends AbstractLine {
 	}
 	
 	
+	
+	/**
+	 * Create a way with segments based on a list of nodes.
+	 */
+	public OsmWay (final OsmTags tags, final OsmDataset dataset, final List<OsmNode> nodes) {
+		this(tags, dataset, nodes.size() - 1);
+		
+		segmentation(nodes);
+	}
+	
+	
+	
+	private void segmentation (final List<OsmNode> nodes) {
+		if (nodes.size() < 2) {
+			throw new IllegalArgumentException("A way must have at least two nodes");
+		}
+		
+		// SEGMENTIERUNG, see chapter 4.3.1
+		final Iterator<OsmNode> iterator = nodes.iterator();
+		OsmNode prevNode = iterator.next();  // m
+		while (iterator.hasNext()) {
+			final OsmNode node = iterator.next();  // n
+			add(new LineSegment( prevNode, node, this ));
+			prevNode = node;
+		}
+	}
+	
+	
+	
+	/**
+	 * The OsmDataset that this way is a part of.
+	 */
 	public OsmDataset dataset () {
 		return dataset;
 	}
 	
 	
+	
+	/**
+	 * A number identifying this way in some context. Note that this number is
+	 * not necessarily unique. For example, ways from the OSM planet file may
+	 * be split into several parts during a preprocessing step. Negative values
+	 * imply that this way is not a part of the OSM planet database, but this
+	 * should not be relied upon.
+	 */
 	public long id () {
 		return id;
 	}

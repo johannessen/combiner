@@ -57,10 +57,22 @@ public final class InputDataset implements OsmDataset {
 	
 	
 	/**
-	 * 
+	 * Create a way in this dataset with no segments. This is only useful if
+	 * this way will be populated with segments before it is used.
+	 * Expect this method to be deprecated or removed.
 	 */
 	public OsmWay createOsmWay (final OsmTags tags, final int segmentCount) {
 		OsmWay way = new OsmWay(tags, this, segmentCount);
+		ways.add(way);
+		return way;
+	}
+	
+	
+	/**
+	 * Create a way in this dataset with segments based on a list of nodes.
+	 */
+	public OsmWay createOsmWay (final OsmTags tags, final List<OsmNode> nodes) {
+		final OsmWay way = new OsmWay(tags, this, nodes);
 		ways.add(way);
 		return way;
 	}
