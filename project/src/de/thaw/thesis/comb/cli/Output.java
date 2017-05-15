@@ -26,6 +26,7 @@ import de.thaw.thesis.comb.util.SpatialFeature;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.simplify.DouglasPeuckerSimplifier;
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.geotools.feature.SchemaException;
 import org.geotools.data.DataUtilities;
 
@@ -118,10 +119,10 @@ final class Output {
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
 			// positional arguments MUST be in same order in both methods
-			public SimpleFeatureType featureType () throws SchemaException {
+			public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
 				// :BUG: may not work with 64 bit IDs
 				return DataUtilities.createType( "AllNodes",
-						"geometry:Point:srid=" + writer.epsgCode()
+						geometryDescriptor.getName() + ":Point:srid=" + writer.epsgCode()
 						+ ",id_osm:Integer"
 						+ ",gen_sects:Integer"
 						);
@@ -155,10 +156,10 @@ final class Output {
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
 			// positional arguments MUST be in same order in both methods
-			public SimpleFeatureType featureType () throws SchemaException {
+			public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
 				// :BUG: may not work with 64 bit IDs
 				return DataUtilities.createType( "AllSegments",
-						"geometry:LineString:srid=" + writer.epsgCode()
+						geometryDescriptor.getName() + ":LineString:srid=" + writer.epsgCode()
 						+ ",id_way:Integer"
 						+ ",p_left:String"
 						+ ",p_right:String"
@@ -359,9 +360,9 @@ final class Output {
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
 			// positional arguments MUST be in same order in both methods
-			public SimpleFeatureType featureType () throws SchemaException {
+			public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
 				return DataUtilities.createType( "AllNodes",
-						"geometry:LineString:srid=" + writer.epsgCode()
+						geometryDescriptor.getName() + ":LineString:srid=" + writer.epsgCode()
 						+ ",desc:String"
 						);
 			}
@@ -480,9 +481,9 @@ final class Output {
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
 			// positional arguments MUST be in same order in both methods
-			public SimpleFeatureType featureType () throws SchemaException {
+			public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
 				return DataUtilities.createType( "AllLines",
-						"geometry:LineString:srid=" + writer.epsgCode()
+						geometryDescriptor.getName() + ":LineString:srid=" + writer.epsgCode()
 						+ ",gen:String"
 						+ ",highway:String"
 						+ ",ref:String"

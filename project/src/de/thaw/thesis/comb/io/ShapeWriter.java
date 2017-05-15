@@ -15,16 +15,7 @@ import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 
 import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import org.opengis.feature.simple.SimpleFeatureType;
-import org.geotools.feature.SchemaException;
-import org.geotools.data.DataUtilities;
-
-import java.io.File;
-import java.util.Collection;
 
 ////////
 
@@ -40,6 +31,7 @@ import org.geotools.feature.simple.SimpleFeatureBuilder;
 import org.opengis.feature.simple.SimpleFeature;
 
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.geotools.data.shapefile.ShapefileDataStoreFactory;
 import org.geotools.data.shapefile.ShapefileDataStore;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
@@ -81,6 +73,15 @@ public final class ShapeWriter {
 	final GeometryFactory factory;
 	
 	/**
+	 * GeoTools provides a GeometryDescriptor interface to retrieve the magic
+	 * constant that defines the geometry column in spatial data stores. Since
+	 * this constant evidently isn't stable across GeoTools versions, we need
+	 * to retrieve it each time the ShapeWriter is used. This field stores a
+	 * local copy for use by object methods.
+	 */
+	private GeometryDescriptor geometryDescriptor;
+	
+	/**
 	 * The object defining the feature type and the attributes of the
 	 * geometries to be written.
 	 */
@@ -118,8 +119,8 @@ public final class ShapeWriter {
 	public void writeGeometries (final Collection<? extends Geometry> geometries, final ShapeWriterDelegate delegate) {
 		this.delegate = delegate;
 		try {
-			final List<SimpleFeature> features = this.simpleFeaturesFromGeometries(geometries);
 			final ShapefileDataStore dataStore = this.createDataStore(this.file);
+			final List<SimpleFeature> features = this.simpleFeaturesFromGeometries(geometries);
 			writeFeaturesToDataStore(features, dataStore);
 		}
 		catch (Exception e) {
@@ -216,7 +217,7 @@ public final class ShapeWriter {
 	 * Converts JTS geometries to Geotools simple features.
 	 */
 	List<SimpleFeature> simpleFeaturesFromGeometries (final Collection<? extends Geometry> geometries) throws SchemaException {
-		final SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(this.delegate.featureType());
+		final SimpleFeatureBuilder featureBuilder = new SimpleFeatureBuilder(this.delegate.featureType(geometryDescriptor));
 		final List<SimpleFeature> features = new ArrayList<SimpleFeature>(geometries.size());
 		for (final Geometry geometry: geometries) {
 		
@@ -255,7 +256,8 @@ public final class ShapeWriter {
 		
 		final ShapefileDataStoreFactory factory = new ShapefileDataStoreFactory();
 		final ShapefileDataStore dataStore = (ShapefileDataStore)factory.createNewDataStore(params);
-		dataStore.createSchema(this.delegate.featureType());
+		geometryDescriptor = dataStore.getSchema().getGeometryDescriptor();
+		dataStore.createSchema(this.delegate.featureType(geometryDescriptor));
 		
 		final CoordinateReferenceSystem projectionCRS = CRS.decode("EPSG:" + this.sourceEpsgCode);
 		dataStore.forceSchemaCRS(projectionCRS);
@@ -275,7 +277,7 @@ public final class ShapeWriter {
 			throw new IOException();
 		}
 		final SimpleFeatureStore featureStore = (SimpleFeatureStore) featureSource;
-		final SimpleFeatureCollection collection = new ListFeatureCollection(this.delegate.featureType(), features);
+		final SimpleFeatureCollection collection = new ListFeatureCollection(this.delegate.featureType(geometryDescriptor), features);
 		featureStore.setTransaction(transaction);
 		try {
 			featureStore.addFeatures(collection);
@@ -341,8 +343,8 @@ public final class ShapeWriter {
 	 * <code>LineString</code>s without attributes.
 	 */
 	public static class DefaultLineDelegate extends DefaultDelegate {
-		public SimpleFeatureType featureType () throws SchemaException {
-			return DataUtilities.createType("Location", "location:LineString:srid=" + sourceEpsgCode);
+		public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
+			return DataUtilities.createType("Location", geometryDescriptor.getName() + ":LineString:srid=" + sourceEpsgCode);
 		}
 	}
 	
@@ -353,8 +355,8 @@ public final class ShapeWriter {
 	 * <code>Point</code>s without attributes.
 	 */
 	public static class DefaultPointDelegate extends DefaultDelegate {
-		public SimpleFeatureType featureType () throws SchemaException {
-			return DataUtilities.createType("Location", "location:Point:srid=" + sourceEpsgCode);
+		public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
+			return DataUtilities.createType("Location", geometryDescriptor.getName() + ":Point:srid=" + sourceEpsgCode);
 		}
 	}
 	

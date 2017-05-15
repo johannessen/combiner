@@ -11,6 +11,7 @@ package de.thaw.thesis.comb.io;
 import de.thaw.thesis.comb.util.SpatialFeature;
 
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.geotools.feature.SchemaException;
 import org.geotools.data.DataUtilities;
 import java.util.List;
@@ -53,16 +54,18 @@ public abstract class WriterHelper implements ShapeWriterDelegate {
 	 * Returns a definition of the feature type and the attributes to be
 	 * written to the Shapefile.
 	 * 
+	 * @param geometryDescriptor a class providing the magic constant used by
+	 *  GeoTools to identify the geometry column in the Shapefile
 	 * @see org.geotools.data.DataUtilities.createType
 	 */
-	public SimpleFeatureType featureType () throws SchemaException {
+	public SimpleFeatureType featureType (final GeometryDescriptor geometryDescriptor) throws SchemaException {
 		if (geometryType == null) {
 			throw new IllegalStateException();
 		}
 		if (typeName == null) {
 			typeName = Integer.toHexString(hashCode());
 		}
-		String typeDefinition = "geometry:" + geometryType + ":srid=" + epsgCode;
+		String typeDefinition = geometryDescriptor.getName() + ":" + geometryType + ":srid=" + epsgCode;
 		for (final AttributeDefinition attribute : schema) {
 			typeDefinition += "," + attribute;
 		}

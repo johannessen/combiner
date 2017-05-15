@@ -9,6 +9,7 @@
 package de.thaw.thesis.comb.io;
 
 import org.opengis.feature.simple.SimpleFeatureType;
+import org.opengis.feature.type.GeometryDescriptor;
 import org.geotools.feature.SchemaException;
 import java.util.List;
 import com.vividsolutions.jts.geom.Geometry;
@@ -28,9 +29,11 @@ public interface ShapeWriterDelegate {
 	 * Returns a definition of the feature type and the attributes to be
 	 * written to the Shapefile.
 	 * 
+	 * @param geometryDescriptor a class providing the magic constant used by
+	 *  GeoTools to identify the geometry column in the Shapefile
 	 * @see org.geotools.data.DataUtilities.createType
 	 */
-	SimpleFeatureType featureType () throws SchemaException ;
+	SimpleFeatureType featureType (GeometryDescriptor geometryDescriptor) throws SchemaException ;
 	
 	
 	/**
