@@ -102,9 +102,10 @@ Combiner.printMemoryStatistics();
 	
 	
 	
+	// NAHESEGMENTE, see chapter 4.3.1
 	@SuppressWarnings("unchecked")
 	private void regionaliseSegments () {
-		List<LineSegment> allSegments = dataset.allSegments();
+		Collection<LineSegment> allSegments = dataset.allSegments();
 		verbose(1, "Total segment count: " + allSegments.size());
 		
 		final SpatialIndex index = new STRtree();
@@ -136,9 +137,11 @@ Combiner.printMemoryStatistics();
 	
 	
 	void splitSegments () {
-		final SplitQueueIterator iterator = createSplitQueue();
+		// SPLITTEN, see chapter 4.3.1
+		
+		final SplitQueueIterator iterator = createSplitQueue();  // "S'"
 		while (iterator.hasNext()) {
-			LinePart base = iterator.next();
+			LinePart base = iterator.next();  // "s"
 			
 			SplitQueueListener sink = iterator;
 			base.splitCloseParallels(sink);

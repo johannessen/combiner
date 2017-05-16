@@ -101,7 +101,7 @@ public final class LineSegment extends AbstractLinePart {
 				final double angleDifference = Math.abs( v1.relativeBearing(v2) );
 				
 				if (angleDifference > PARALLEL_ANGLE_MAXIMUM) {
-					continue;
+					continue;  // this IS significant
 				}
 				
 				closeParallels.add(segment);
@@ -119,6 +119,7 @@ public final class LineSegment extends AbstractLinePart {
 	
 	// for spatial index (from JTS)
 	Envelope envelope () {
+		// HÜLLE, see chapter 4.3.1
 		if (envelope == null) {
 			envelope = new Envelope(start.e, end.e, start.n, end.n);
 			envelope.expandBy(INDEX_ENVELOPE_MARGIN);

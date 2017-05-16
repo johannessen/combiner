@@ -211,6 +211,7 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in Combiner.splitSegments()
 
 Es ist nicht notwendig, jedes Segment mit allen anderen Segmenten zu vergleichen.
 Segmente, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind, können von vornherein als potenzielle Parallelen ausgeschlossen werden.
@@ -231,6 +232,19 @@ Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelit
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in Combiner.regionaliseSegments()
+% abweichend wird dort das Ergebnis für alle s berechnet und gecached
+
+% TODO: Diese Definition weicht vereinfachend vom ursprünglichen Entwurf ab,
+% indem alle nahen Segmente geliefert werden statt nur solche, die gleich
+% ausgerichtet sind (closeSegments/closeParallels). Tests zeigen, dass diese
+% Vereinfachung unzulässig ist: Das Ergebnis wird verschlechtert, weil so
+% halt gerade an Kreuzungen und Querungen lauter Splits entstehen, die kein
+% Mensch braucht, was die Analyse erschwert (und sicher auch ineffizient
+% ist). NAHESEGMENTE muss entweder entsprechend korrigiert oder aber die
+% Beschreibung entsprechend ergänzt werden. Außerdem liefert diese Definition
+% fälschlich auch "s" selbst zurück, was sich allerdings durch ein einfaches
+% "\wedge s \neq t" lösen lässt.
 
 Als \textproc{Hülle} könnte ein Puffer dienen.
 Aus Gründen der Effizienz bietet es sich jedoch an, die \textproc{Hülle} rechteckig im Koordinatennetz anzulegen.
@@ -254,6 +268,7 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in LineSegment.envelope()
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
@@ -286,6 +301,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in AbstractLinePart.findPerpendicularFoot()
 
 \onefigure{H}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}

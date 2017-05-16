@@ -39,7 +39,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	// large values increase the tolerance required during analysis because the start/endpoints of the other line will no longer be exactly orthogonal to the current line's points
 	
 	
-	boolean wasSplit = false;
+	private boolean wasSplit = false;
 	
 	
 	AbstractLinePart (final OsmNode start, final OsmNode end) {
@@ -73,10 +73,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	}
 	
 	
-	/**
-	 * 
-	 */
-	public boolean wasSplit () {
+	public boolean shouldIgnore () {
 		return wasSplit;
 	}
 	
@@ -93,20 +90,24 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	 * 
 	 */
 	public void splitCloseParallels (final SplitQueueListener listener) {
-		// :BUG: expensive: current design requires accumulating closeParallels for _each_ node
 		splitCloseParallels(start, listener);
 		splitCloseParallels(end, listener);
 	}
 	
 	
 	private void splitCloseParallels (final OsmNode node, final SplitQueueListener listener) {
-		for (LinePart target : splitTargets()) {
+		for (LinePart target : splitTargets()) {  // "T"
 			
-			if (target.wasSplit()) {
-				continue;  // :BUG: not entirely sure if this is necessary
+			if (target.shouldIgnore()) {
+				/* This check is not actually necessary as this condition is
+				 * never true with the current implementation. But since that
+				 * depends upon the implementation of the SplitQueue and
+				 * splitTargets(), it makes sense to check it anyway.
+				 */
+				continue;  // "set-minus t"
 			}
 			
-			final OsmNode foot = target.findPerpendicularFoot(node);
+			final OsmNode foot = target.findPerpendicularFoot(node);  // "f"
 			if (foot == null) {
 				continue;  // no split necessary for this target
 			}
@@ -145,6 +146,8 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		
 		// :BUG: expensive due to dynamic Vector object creation; implement a static method instead
 		
+		// FUSSPUNKT, see chapter 4.3.1
+		
 		final Vector ba = this;
 		final Vector bc = new SimpleVector(start, node);
 		final Vector ca = new SimpleVector(node, end);
@@ -162,19 +165,16 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		final OsmNode foot = OsmNode.createWithDistanceBearing(start, q, ba.bearing());
 		foot.id = OsmDataset.ID_NONEXISTENT;
 		
+		if (SimpleVector.distance(start, foot) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(foot, end) < MIN_FRAGMENT_LENGTH) {
+			// foot points creating extremely short line parts are defined to not exist because such line parts are of little use to us
+			return null;
+		}
+		
 		return foot;
 	}
 	
 	
-	/**
-	 * 
-	 */
 	public void splitAt (OsmNode node, final SplitQueueListener listener) {
-		if (SimpleVector.distance(start, node) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(node, end) < MIN_FRAGMENT_LENGTH) {
-			// extremely short lines are of little use to us
-			return;
-		}
-		
 		/* :BUG:
 		 * We use the dataset-global node store to retrieve the canoncical node
 		 * instance for the split point's location. This enables us to compare
@@ -186,23 +186,12 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		 */
 		node = segment().way.dataset().getNode( node );
 		
-		final LineSegment segment = this.segment();
+		final LineSegment segment = this.segment();  // "wurzel(t)"
 		final LineFragment fragment1 = new LineFragment(start, node, segment);
 		final LineFragment fragment2 = new LineFragment(node, end, segment);
 		
 		segment.fragments.add(fragment1);
 		segment.fragments.add(fragment2);
-		
-		if (this instanceof LineFragment) {
-			/* The next stage compares close fragments with each other. If we
-			 * left those fragmenst which have been further split into more
-			 * (sub-)fragments in the list, we end up with overlapping
-			 * fragments being checked against each other. These checks are
-			 * unnecessary and a performance hit.
-			 */
-			// :TODO: check whether this line has an influence on the end result as well (testing so far seems to indicate that it might)
-			segment.fragments.remove(this);
-		}
 		
 		listener.didSplit(fragment1, fragment2, node);
 		this.wasSplit = true;
@@ -213,6 +202,10 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	 * 
 	 */
 	public void analyse (final Analyser visitor) {
+		if (this.shouldIgnore()) {
+			return;  // SPLITTEN: "set-minus t"
+		}
+
 		double leftBestDistance = visitor.worstResult();
 		LinePart leftBestMatch = null;
 		double rightBestDistance = visitor.worstResult();
@@ -221,6 +214,9 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		// all fragments of all close and parallel segments
 		for (final LineSegment closeParallel : segment().closeParallels()) {
 			for (final LinePart that : closeParallel.lineParts()) {
+				if (that.shouldIgnore()) {
+					continue;  // SPLITTEN: "set-minus t"
+				}
 				
 				final boolean shouldEvaluate = visitor.shouldEvaluate(this, that);
 				if (! shouldEvaluate) {
