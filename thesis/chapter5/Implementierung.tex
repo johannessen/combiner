@@ -41,11 +41,13 @@ Ursprünglich wurden ältere Softwareversionen verwendet.
 Die nötigen Anpassungen an die hier genannten aktuellen Versionen waren gering, Kompatibilität mit den älteren Versionen ist jedoch gegenwärtig aufgrund von Änderungen in GeoTools nicht mehr gegeben.
 Der Code ist dabei noch immer konform zum Syntax von Java 6. \cf{GJSB05}
 
+Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der \term{frameworks} relevant waren.
+
 
 
 \section{Systemkonzept}
 
-Für ein gut funktionierendes Gesamtpaket sind vor der puren Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
+Für ein gut funktionierendes Gesamtpaket sind vor der Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
 
 Zunächst stellt sich die Frage nach der Benutzerschnittstelle der Software.
 Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (GUI) zu gestalten.
@@ -60,10 +62,20 @@ Zur Vermeidung einer zu engen Kopplung der Generalisierung an das gewählte \ter
 Stattdessen sollten eigene Datenstrukturen genutzt werden, um Modularität zu fördern.
 Die dabei entstehenden Kosten in Form von Rechenzeit und Speicherverbrauch sind zu berücksichtigen.
 
-Da die Algorithmen auf der euklidischen Ebene definiert sind (vgl. Abschnitt~\ref{ch:split-algorithm}), bietet es sich an, die Implementierung zunächst auf kartesische Koordinaten zu beschränken und zu verlangen, dass aus der \osm-Datenbank stammende Eingabedaten nach Länge und Breite vor der Verarbeitung vom Benutzer in einem geeigneten Kartennetzentwurf abgebildet werden.
+Da die Algorithmen auf der euklidischen Ebene definiert sind (vgl. Abschnitt~\ref{ch:split-algorithm}), bietet es sich an, die Implementierung zunächst auf kartesische Koordinaten zu beschränken und zu verlangen, dass aus der \osm-Datenbank stammende Eingangsdaten nach Länge und Breite vor der Verarbeitung vom Benutzer in einem geeigneten Kartennetzentwurf abgebildet werden.
 Grundsätzlich wären angesichts der hier durchzuführenden geometrischen Operationen winkeltreue Abbildungen wie etwa ein Mercator-Netz zu bevorzugen.
 % Sny87, USGS PP 1395 p. 20
 Aufgrund der üblicherweise geringen Abstände der Parallelen ist Winkeltreue jedoch kein strenges Kriterium.
+
+Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition für \textproc{NaheSegmente} kann leicht mit Hilfe eines R-Baums umgesetzt werden.
+Die \textproc{Hülle} ist dabei das minimal umgebende Rechteck eines Blatts im R-Baum.
+Nachdem die \osm-Eingangsdaten vor der Generalisierung vollständig bekannt und somit statisch sind, bietet sich der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
+Ein solcher Baum wird von der JTS Topology Suite (JTS) angeboten, welche vom \term{framework} GeoTools als Implementierung des Geometriemodells verwendet wird.
+
+GeoTools bietet außerdem Möglichkeiten zur Ein- und Ausgabe (I/O) von Geodaten in zahlreichen Formaten.
+Zwar wird das native \osm-XML-Format ebensowenig unterstützt wie das neuere Protocol Buffer Binary Format (PBF).
+Das verbreitete Format ESRI~Shapefile wird jedoch unterstützt.
+Die Geofabrik stellt OSM-Auszüge als Shapefile bereit.
 
 \begin{itemize}
 	\item konzeptueller Überblick der entwickelten Software in dem Umfang, der für den Leser dieser Arbeit zum Verständnis notwendig ist
