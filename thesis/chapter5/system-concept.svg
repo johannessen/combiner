@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="304px" height="139px" viewBox="0 0 304 139" style="enable-background:new 0 0 304 139;" xml:space="preserve">
+<g id="Layer_2">
+	<g>
+		<path d="M201.139,70.434v38.215H4.415V92.102h151.251h0.852V91.25V70.434H201.139 M201.988,69.583h-46.321V91.25H3.564v18.249
+			h198.424V69.583L201.988,69.583z"/>
+	</g>
+	<g>
+		<path style="fill:#0088FF;" d="M201.139,117.184v17.215H4.415v-17.215H201.139 M201.988,116.333H3.564v18.916h198.424V116.333
+			L201.988,116.333z"/>
+	</g>
+	<g>
+		<path d="M201.139,21.724v39.407h-44.623l-0.048-21.025l-0.002-0.849h-0.849H4.415V21.724H201.139 M201.988,20.873H3.564v19.235
+			h152.053l0.05,21.874h46.321V20.873L201.988,20.873z"/>
+	</g>
+	<text transform="matrix(1 0 0 1 65.6479 128.4824)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">Java Virtual Machine</text>
+	<text transform="matrix(1 0 0 1 84.7651 9.082)" style="font-family:'Helvetica'; font-size:8;">Anwender</text>
+	<g>
+		<path style="fill:#0088FF;" d="M75.805,70.102v17.215H4.415V70.102H75.805 M76.656,69.251H3.564v18.916h73.091L76.656,69.251
+			L76.656,69.251z"/>
+	</g>
+	<g>
+		<path d="M152.472,70.102v17.215H80.415V70.102H152.472 M153.322,69.251H79.564v18.916h73.758V69.251L153.322,69.251z"/>
+	</g>
+	<text transform="matrix(1 0 0 1 85.437 102.7324)" style="font-family:'Helvetica'; font-size:8;">Combiner</text>
+	<text transform="matrix(1 0 0 1 58.9761 33.4492)" style="font-family:'Helvetica'; font-size:8;">Command Line Interface</text>
+	<text transform="matrix(1 0 0 1 111.6636 81.0664)" style="font-family:'Helvetica'; font-size:8;">util</text>
+	<text transform="matrix(1 0 0 1 22.7686 81.0664)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">GeoTools</text>
+	<g>
+		<path d="M75.805,43.791v17.215H4.415V43.791H75.805 M76.656,42.94H3.564v18.916h73.091L76.656,42.94L76.656,42.94z"/>
+	</g>
+	<g>
+		<path style="fill:#0088FF;" d="M152.472,43.845v17.331H80.415V43.845H152.472 M153.322,42.994H79.564v19.032h73.758V42.994
+			L153.322,42.994z"/>
+	</g>
+	<text transform="matrix(1 0 0 1 105.8823 54.9863)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">args4j</text>
+	<text transform="matrix(1 0 0 1 15.8721 55.0361)" style="font-family:'Helvetica'; font-size:8;">Input / Output</text>
+	<text transform="matrix(1 0 0 1 222.667 128.333)" style="fill:#0088FF; font-family:'Helvetica-Oblique'; font-size:8;">Systemumgebung</text>
+	<text transform="matrix(1 0 0 1 222.667 87.8994)" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Implementierung der</text>
+	<text transform="matrix(1 0 0 1 222.667 97.499)" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Liniengeneralisierung</text>
+	<text transform="matrix(1 0 0 1 222.667 39.9004)" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Ein- und Ausgang</text>
+	<text transform="matrix(1 0 0 1 222.667 49.5)" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">von Geodaten</text>
+	
+		<text transform="matrix(1 0 0 1 222.667 -10.0996)" style="display:none;fill:#221E1F;enable-background:new    ; font-family:'Helvetica-Oblique'; font-size:8;">Anwender</text>
+</g>
+</svg>
