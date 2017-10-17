@@ -43,8 +43,6 @@ public interface Segment extends Comparable<Segment>, Vector {
 	 */
 	boolean shouldIgnore () ;
 	
-	Collection<? extends Segment> lineParts () ;
-	
 	OsmNode start () ;
 	OsmNode end () ;
 	OsmNode midPoint () ;

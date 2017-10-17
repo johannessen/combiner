@@ -12,35 +12,73 @@ import de.thaw.thesis.comb.util.OneItemList;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 
 // ex AbstractLinePart
 /**
- * A skeletal implementation of the <code>Segment</code> interface. Minimises
- * the effort required to implement this interface.
+ * The common structure shared by all <code>Segment</code>s in this project.
+ * Each <code>AbstractSegment</code> may be split into two other
+ * <code>AbstractSegment</code>s, yielding a recursive composition, implemented
+ * as a Composite pattern.
+ * <p>
+ * This class implements the <code>Iterable</code> interface such that
+ * iteration is performed on all Leafs in the composition. In other words,
+ * the iterator touches every fragment created by splitting. For example, if
+ * this segment has been split exactly once, the iterator touches 2 fragments;
+ * if this segment has been split twice, the iterator touches 3 fragments. If
+ * this segment has never been split, the iterator touches only 1 fragment,
+ * which is this segment itself. The iterator always touches at least 1
+ * fragment. Note that fragments are <code>Segment</code>s themselves.
+ * <p>
+ * Because of this it is easy to have loops touch every fragment of this
+ * segment:
+ * <pre>
+ *     for (Segment fragment : segment) { ... }
+ * </pre>
+ * @see Segment
+ * @see AbstractSegment#parent
+ * @see AbstractSegment#fragments
  */
-abstract class AbstractSegment implements Segment, Vector {
+abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	
 	// :DEBUG: shouldn't be public!
 	public OsmNode start;
 	public OsmNode end;
 	
-	protected SourceSegment segment = null;
 	
-	
+	// "wurzel(t)"
 	public SourceSegment root () {
-		if (segment == null) {
-			throw new IllegalStateException("root segment not initialised");
+		AbstractSegment root = this;
+		AbstractSegment parent = null;
+		while ( (parent = root.parent()) != null ) {
+			root = parent;
 		}
-		return segment;
+		return (SourceSegment)root;
 	}
 	
 	
-	// :TODO: rework structure to better fit the Composite pattern
+	/**
+	 * The parent of this object in the composition tree.
+	 * <code>null</code> if this object is the root of the tree.
+	 * @return The parent or <code>null</code>
+	 */
+	abstract protected AbstractSegment parent () ;
+	
+	
+	/**
+	 * The children of this Composite in the composition (if any).
+	 * <code>null</code> if this object does not represent a Composite, but a
+	 * Leaf. A split converts this object from a Leaf into a Composite by
+	 * assigning a non-null value to this field; in particular, a split creates
+	 * exactly two fragments, thus an array of size 2 must be assigned.
+	 */
+	protected AbstractSegment[] fragments = null;
 	
 	
 	final static double MIN_FRAGMENT_LENGTH = 4.0;  // metres
@@ -134,7 +172,9 @@ abstract class AbstractSegment implements Segment, Vector {
 	public Collection<Segment> splitTargets () {
 		final LinkedList<Segment> targets = new LinkedList<Segment>();
 		for (final SourceSegment closeParallel : root().closeParallels()) {
-			targets.addAll( closeParallel.lineParts() );
+			for (final Segment fragment : closeParallel) {
+				targets.add(fragment);
+			}
 		}
 		return targets;
 	}
@@ -193,16 +233,14 @@ abstract class AbstractSegment implements Segment, Vector {
 		 * The downside of this is that two not-identical nodes at the same
 		 * location (belonging to two different ways) are not supported.
 		 */
-		
 		node = root().way.dataset().getNode( node );
 		final SourceSegment rootSegment = this.root();  // "wurzel(t)"
-		final Segment fragment1 = new Fragment(start, node, rootSegment);
-		final Segment fragment2 = new Fragment(node, end, rootSegment);
+		assert fragments == null : "segment " + this + " is not a leaf";
+		fragments = new AbstractSegment[2];
+		fragments[0] = new Fragment(start, node, this);
+		fragments[1] = new Fragment(node, end, this);
 		
-		rootSegment.fragments.add(fragment1);
-		rootSegment.fragments.add(fragment2);
-		
-		listener.didSplit(fragment1, fragment2, node);
+		listener.didSplit(Arrays.asList( (Segment[])fragments ), node);
 		this.wasSplit = true;
 	}
 	
@@ -210,27 +248,103 @@ abstract class AbstractSegment implements Segment, Vector {
 	// ex LineFragment
 	/**
 	 * A <code>Segment</code> implementation representing incomplete
-	 * <em>fragments</em> of segments read from source data.
+	 * <em>fragments</em> of segments read from source data. Each fragment is
+	 * linked to its parent.
 	 */
 	final static class Fragment extends AbstractSegment {
 		
-		// :TODO: rework structure to better fit the Composite pattern
-		// (Composite: (root) SourceSegment; Leaf: concrete AbstractSegment; Component: Segment interface)
-		
-		private Collection<? extends Segment> list = null;
+		final AbstractSegment parent;
 		
 		Fragment (final OsmNode start, final OsmNode end, final AbstractSegment parent) {
 			super(start, end);
-			assert segment != null;
-			super.segment = segment;
+			assert parent != null;
+			this.parent = parent;
 		}
 		
-		public Collection<? extends Segment> lineParts () {
-			if (list == null) {
-				list = new OneItemList<Fragment>(this);
-			}
-			return list;
+		protected AbstractSegment parent () {
+			return parent;
 		}
+		
+	}
+	
+	
+	/**
+	 * An iterator over all segments, including any fragments <em>this</em>
+	 * segment may have been split up into.
+	 * @return an Iterator.
+	 * @see AbstractSegment
+	 * @see AbstractSegment.FragmentIterator
+	 */
+	public Iterator<Segment> iterator () {
+		return new FragmentIterator();
+	}
+	
+	
+	/**
+	 * An iterator to perform a depth-first traversal of the Composite tree
+	 * below this segment, returning all Leafs.
+	 */
+	final class FragmentIterator implements Iterator<Segment> {
+		
+		private AbstractSegment next = AbstractSegment.this;
+		private AbstractSegment current = null;
+		
+		FragmentIterator () {
+			while (next.fragments != null) {  // find first Leaf
+				next = next.fragments[0];
+			}
+		}
+		
+		
+		public boolean hasNext () {
+			if (next != null) {
+				return true;
+			}
+			else if (current == null) {
+				return false;
+			}
+			assert current.fragments == null;
+			// this iterator only returns Leafs, never Composites
+			
+			next = current.parent();
+			while (next != null) {
+				if (next.fragments[0] == current) {
+					next = next.fragments[1];
+					while (next.fragments != null) {  // find Leaf
+						next = next.fragments[0];
+					}
+					return true;
+				}
+				while (next != null && next.fragments[1] == current) {
+					current = next;
+					next = next.parent();
+				}
+			}
+			
+			// iterator exhausted
+			current = null;
+			return false;
+		}
+		
+		
+		public Segment next () {
+			if (! hasNext()) {
+				throw new NoSuchElementException();
+			}
+			// this.next is properly initialised as a side-effect of hasNext()
+			current = next;
+			next = null;
+			return current;
+		}
+		
+		
+		/**
+		 * @throws UnsupportedOperationException
+		 */
+		public void remove () {
+			throw new UnsupportedOperationException();
+		}
+		
 		
 	}
 	
@@ -250,7 +364,7 @@ abstract class AbstractSegment implements Segment, Vector {
 		
 		// all fragments of all close and parallel segments
 		for (final SourceSegment closeParallel : root().closeParallels()) {
-			for (final Segment that : closeParallel.lineParts()) {
+			for (final Segment that : closeParallel) {
 				if (that.shouldIgnore()) {
 					continue;  // SPLITTEN: "set-minus t"
 				}

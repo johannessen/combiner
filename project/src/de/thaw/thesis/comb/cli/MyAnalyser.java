@@ -103,8 +103,8 @@ final class MyAnalyser implements Analyser {
 	
 	private double evaluate (final Segment part1, final Segment part2, final double direction) {
 		
-		assert ! (part1 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part1).fragments.size() > 0));
-		assert ! (part2 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part2).fragments.size() > 0));
+//		assert ! (part1 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part1).fragments.size() > 0));
+//		assert ! (part2 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part2).fragments.size() > 0));
 		
 		final Vector v1 = part1;
 		final Vector v2 = part2.aligned(v1);

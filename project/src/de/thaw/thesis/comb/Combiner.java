@@ -175,13 +175,10 @@ Combiner.printMemoryStatistics();
 			super();
 		}
 		
-		public void didSplit (final Segment newLine1, final Segment newLine2, final OsmNode splitNode) {
+		public void didSplit (final List<Segment> fragments, final OsmNode splitNode) {
 			
 			// enqueue new fragments as split bases
-			Collection<Segment> newLines = new LinkedList<Segment>();
-			newLines.add(newLine1);
-			newLines.add(newLine2);
-			super.add(newLines);
+			super.add(fragments);
 		}
 		
 	}

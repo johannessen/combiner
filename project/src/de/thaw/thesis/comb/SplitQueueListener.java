@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import java.util.List;
+
 
 /**
  * Should be implemented by an object that wants to receive notifications of
@@ -24,6 +26,6 @@ interface SplitQueueListener extends java.util.EventListener {
 	/**
 	 * 
 	 */
-	void didSplit (Segment fragment1, Segment fragment2, OsmNode splitNode) ;
+	void didSplit (List<Segment> fragments, OsmNode splitNode) ;
 	
 }

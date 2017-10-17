@@ -8,7 +8,6 @@
 
 package de.thaw.thesis.comb;
 
-import de.thaw.thesis.comb.util.OneItemList;
 import de.thaw.thesis.comb.util.Vector;
 
 import com.vividsolutions.jts.geom.Envelope;
@@ -24,9 +23,8 @@ import java.util.Set;
 /**
  * A <code>Segment</code> implementation representing segments as read from
  * the source data.
+ * @see AbstractSegment
  */
-	
-	// :TODO: rework structure to better fit the Composite pattern
 public final class SourceSegment extends AbstractSegment {
 	
 	
@@ -41,9 +39,7 @@ public final class SourceSegment extends AbstractSegment {
 	public int wasGeneralised = 0;
 	public boolean notToBeGeneralised = false;
 	
-	// LineSegment
 	public Line way;
-	public Collection<Segment> fragments;  // (A)
 	
 	private Collection<SourceSegment> closeSegments;  // (D)
 	private Collection<SourceSegment> closeParallels;  // (B)
@@ -57,30 +53,14 @@ public final class SourceSegment extends AbstractSegment {
 		super(start, end);
 		assert way != null /* && way instanceof OsmWay*/;
 		
-		fragments = new LinkedList<Segment>();
 		this.way = way;
 		leftRealParallels = new LinkedHashSet<SourceSegment>();
 		rightRealParallels = new LinkedHashSet<SourceSegment>();
-		
 	}
 	
 	
-	/**
-	 * 
-	 */
-	public SourceSegment root () {
-		return this;
-	}
-	
-	
-	/**
-	 * 
-	 */
-	public Collection<? extends Segment> lineParts () {
-		if (fragments.size() > 0) {
-			return fragments;
-		}
-		return new OneItemList<SourceSegment>(this);
+	protected AbstractSegment parent () {
+		return null;
 	}
 	
 	
@@ -134,8 +114,8 @@ public final class SourceSegment extends AbstractSegment {
 	 */
 	public void analyseLineParts (final Analyser visitor) {
 		// the fragments are the ones that need to be analysed
-		for (Segment part : lineParts()) {
-			part.analyse(visitor);
+		for (Segment fragment : this) {
+			fragment.analyse(visitor);
 		}
 	}
 	

@@ -218,7 +218,7 @@ final class Output {
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final SourceSegment segment : dataset.allSegments()) {
-			for (final Segment fragment : segment.lineParts()) {
+			for (final Segment fragment : segment) {
 				geometries.add( writer.toLineString(fragment) );
 			}
 		}

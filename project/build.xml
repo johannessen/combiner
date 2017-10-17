@@ -16,6 +16,7 @@
 		<mkdir dir="build/classes"/>
 		
 		<javac srcdir="src" destdir="build/classes" debuglevel="lines,vars,source" classpathref="libsRef" includeantruntime="false" debug="true" source="1.6" target="1.8">
+			<compilerarg value="-Xdiags:verbose"/>
 			<compilerarg value="-Xlint:unchecked"/>
 			<compilerarg value="-Xlint:deprecation"/>
 			<compilerarg value="-Xlint:-options"/><!-- We're not cross-compiling here - we're merely restricting ourselves to using the old syntax rules. Therefore specifying a bootclasspath isn't necessary; we're just disabling the warning instead. -->
