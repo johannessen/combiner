@@ -15,9 +15,10 @@ import java.util.List;
 
 
 
-public interface Line extends List<LineSegment>, SpatialFeature {
+/** An ordered string of segments defining a contiguous line. */
+public interface Line extends List<SourceSegment>, SpatialFeature {
 	
-	OsmDataset dataset () ;  // optional
+	Dataset dataset () ;  // optional
 	
 	long id () ;  // optional
 	

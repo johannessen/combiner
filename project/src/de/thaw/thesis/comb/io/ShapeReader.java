@@ -8,7 +8,7 @@
 
 package de.thaw.thesis.comb.io;
 
-import de.thaw.thesis.comb.OsmDataset;
+import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmWay;
 
@@ -88,13 +88,13 @@ public final class ShapeReader {
 	
 	private OsmNode toNode (final Coordinate coordinate) {
 		// add node to repository in dataset
-		OsmNode node = osmDataset().getNodeAtEastingNorthing(coordinate.x, coordinate.y);
+		OsmNode node = dataset().getNodeAtEastingNorthing(coordinate.x, coordinate.y);
 		node.id = nextNodeId--;
 		return node;
 	}
 	
 	
-	public OsmDataset osmDataset () {
+	public Dataset dataset () {
 		if (dataset == null) {
 			dataset = new InputDataset();  // lazy initialisation
 			
@@ -149,7 +149,7 @@ public final class ShapeReader {
 	 */
 	private long featureId (final SimpleFeature feature) {
 		if (feature == null) {
-			return OsmDataset.ID_UNKNOWN;
+			return Dataset.ID_UNKNOWN;
 		}
 		Object id;
 		

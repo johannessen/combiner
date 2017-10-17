@@ -9,14 +9,14 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.CorrelationEdge;
+import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.LinePart;
-import de.thaw.thesis.comb.LineSegment;
-import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmTags;
+import de.thaw.thesis.comb.Segment;
+import de.thaw.thesis.comb.SourceSegment;
 import de.thaw.thesis.comb.io.WriterHelper;
 import de.thaw.thesis.comb.io.GeoJsonWriter;
 import de.thaw.thesis.comb.io.ShapeWriter;
@@ -45,13 +45,13 @@ import java.util.Set;
  */
 final class Output {
 	
-	final OsmDataset dataset;
+	final Dataset dataset;
 	
 	int verbose = 0;
 	
 	
 	
-	Output (final OsmDataset dataset) {
+	Output (final Dataset dataset) {
 		this.dataset = dataset;
 	}
 	
@@ -149,7 +149,7 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final LineSegment segment : dataset.allSegments()) {
+		for (final SourceSegment segment : dataset.allSegments()) {
 			geometries.add( writer.toLineString(segment) );
 		}
 		
@@ -169,22 +169,22 @@ final class Output {
 			}
 			
 			@SuppressWarnings("unchecked")
-			private List idsFromParallels (final Collection<LineSegment> segments) {
+			private List idsFromParallels (final Collection<SourceSegment> segments) {
 				final List ids = new LinkedList();
-				for (final LineSegment segment : segments) {
+				for (final SourceSegment segment : segments) {
 					ids.add(segment.way.id());
 				}
 				return ids;
 			}
 			
-			public boolean reciprocal (final LineSegment segment) {  // :BUG: ignores L/R !
-				for (LineSegment parallel : segment.leftRealParallels) {
+			public boolean reciprocal (final SourceSegment segment) {  // :BUG: ignores L/R !
+				for (SourceSegment parallel : segment.leftRealParallels) {
 					if ( ! parallel.leftRealParallels.contains(segment)
 							&& ! parallel.rightRealParallels.contains(segment)) {
 						return false;
 					}
 				}
-				for (LineSegment parallel : segment.rightRealParallels) {
+				for (SourceSegment parallel : segment.rightRealParallels) {
 					if ( ! parallel.leftRealParallels.contains(segment)
 							&& ! parallel.rightRealParallels.contains(segment)) {
 						return false;
@@ -194,7 +194,7 @@ final class Output {
 			}
 			
 			public List attributes (final Geometry geometry) {
-				final LineSegment segment = writer.toLineSegment(geometry);
+				final SourceSegment segment = writer.toSegment(geometry);
 				final List<Object> attributes = new LinkedList<Object>();
 				attributes.add( segment.way.id() );
 				attributes.add( idsFromParallels(segment.leftRealParallels) );
@@ -217,9 +217,9 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final LineSegment segment : dataset.allSegments()) {
-			for (final LinePart part : segment.lineParts()) {
-				geometries.add( writer.toLineString(part) );
+		for (final SourceSegment segment : dataset.allSegments()) {
+			for (final Segment fragment : segment.lineParts()) {
+				geometries.add( writer.toLineString(fragment) );
 			}
 		}
 		
@@ -238,7 +238,7 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final LineSegment segment : dataset.allSegments()) {
+		for (final SourceSegment segment : dataset.allSegments()) {
 			OsmNode node0 = segment.midPoint();
 			OsmNode node1 = segment.end();
 			geometries.add( writer.toLineString(node0, node1) );
@@ -260,7 +260,7 @@ final class Output {
 		
 		final Set<MidPointConnector> connectors = new LinkedHashSet<MidPointConnector>();
 		
-		for (final LinePart[] parts : dataset.parallelFragments()) {
+		for (final Segment[] parts : dataset.parallelFragments()) {
 			connectors.add(new MidPointConnector(parts[0], parts[1]));
 		}
 		
@@ -288,12 +288,12 @@ final class Output {
 		
 		final Set<MidPointConnector> connectors = new LinkedHashSet<MidPointConnector>();
 		
-		for (final LineSegment segment : dataset.allSegments()) {
-			for (final LineSegment parallel : segment.leftRealParallels) {
+		for (final SourceSegment segment : dataset.allSegments()) {
+			for (final SourceSegment parallel : segment.leftRealParallels) {
 				assert segment != parallel : parallel;
 				connectors.add(new MidPointConnector(segment, parallel));
 			}
-			for (final LineSegment parallel : segment.rightRealParallels) {
+			for (final SourceSegment parallel : segment.rightRealParallels) {
 				assert segment != parallel : parallel;
 				connectors.add(new MidPointConnector(segment, parallel));
 			}
@@ -315,9 +315,9 @@ final class Output {
 	
 	
 	private class MidPointConnector {
-		final LinePart s1;
-		final LinePart s2;
-		MidPointConnector (final LinePart s1, final LinePart s2) {
+		final Segment s1;
+		final Segment s2;
+		MidPointConnector (final Segment s1, final Segment s2) {
 			if (s1.compareTo(s2) > 0) {
 				this.s1 = s1;
 				this.s2 = s2;

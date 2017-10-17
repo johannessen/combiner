@@ -26,7 +26,7 @@ import java.util.TreeSet;
  */
 public final class CorrelationGraph {
 	
-	final OsmDataset dataset;
+	final Dataset dataset;
 	
 	CorrelationEdge[] sortedEdges;
 	
@@ -35,7 +35,7 @@ public final class CorrelationGraph {
 	Collection<GeneralisedSection> generalisedLines;
 	
 	
-	CorrelationGraph (final OsmDataset dataset) {
+	CorrelationGraph (final Dataset dataset) {
 		this.dataset = dataset;
 		
 		generalisedLines = new LinkedList<GeneralisedSection>();
@@ -51,8 +51,8 @@ public final class CorrelationGraph {
 		 */
 		
 		// ∀ segments S
-		final List<LineSegment> segments = dataset.allSegments();
-		for (final LineSegment segment : segments) {
+		final List<SourceSegment> segments = dataset.allSegments();
+		for (final SourceSegment segment : segments) {
 			if (segment.leftRealParallels.size() == 0 && segment.rightRealParallels.size() == 0) {
 				continue;
 			}
@@ -64,13 +64,13 @@ public final class CorrelationGraph {
 				
 				// ∀ sides A {left,right} of S
 				for (int i = 0; i < 2; i++) {
-					final Collection<LineSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
+					final Collection<SourceSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
 					
 					OsmNode closestNode = null;
 					double closestNodeDistance = Double.POSITIVE_INFINITY;
 					
 					// ∀ parallels P of S on side A
-					for (final LineSegment parallel : side) {
+					for (final SourceSegment parallel : side) {
 						
 						// ∀ nodes T2 (of any category) in P
 						for (int k = 0; k < 2; k++) {
@@ -97,7 +97,7 @@ public final class CorrelationGraph {
 	}
 	
 	
-	private OsmNode node (final LineSegment segment, final int i) {
+	private OsmNode node (final SourceSegment segment, final int i) {
 		assert i == 0 || i == 1;
 		return i == 0 ? segment.start : segment.end;
 	}
@@ -111,7 +111,7 @@ public final class CorrelationGraph {
 		
 		// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
 /*
-		for (LineSegment connectedSegment : segmentNode.connectingSegments) {
+		for (SourceSegment connectedSegment : segmentNode.connectingSegments) {
 			OsmNode otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
 			if (otherNode == closestNode) {
 				assert otherNode != segmentNode : segmentNode;

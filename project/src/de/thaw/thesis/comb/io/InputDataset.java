@@ -8,13 +8,13 @@
 
 package de.thaw.thesis.comb.io;
 
-import de.thaw.thesis.comb.LinePart;
-import de.thaw.thesis.comb.LineSegment;
+import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.OsmWay;
+import de.thaw.thesis.comb.Segment;
+import de.thaw.thesis.comb.SourceSegment;
 import de.thaw.thesis.comb.StatSink;
-import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.util.PlaneCoordinate;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ import java.util.TreeSet;
  * A set of spatial data in the euclidian plane. Instances may or may not have
  * relationships with actual data from the global OSM planet database.
  */
-public final class InputDataset implements OsmDataset {
+public final class InputDataset implements Dataset {
 	
 	final public static long ID_UNKNOWN = 0L;
 	final public static long ID_NONEXISTENT = -1L;  // newly created feature
@@ -40,9 +40,9 @@ public final class InputDataset implements OsmDataset {
 	
 	private final List<OsmWay> ways;
 	
-	private List<LineSegment> allSegments = null;
+	private List<SourceSegment> allSegments = null;
 	
-	public Collection<LinePart[]> parallelFragments = new LinkedList<LinePart[]>();  // :DEBUG:
+	public Collection<Segment[]> parallelFragments = new LinkedList<Segment[]>();  // :DEBUG:
 	
 	public StatSink stats = null;
 	
@@ -134,12 +134,12 @@ public final class InputDataset implements OsmDataset {
 	/**
 	 * 
 	 */
-	public List<LineSegment> allSegments () {
+	public List<SourceSegment> allSegments () {
 		
 		if (allSegments == null) {
 			// :BUG: expensive; write our own Queue implementation and work directly on its Entry objects
 			// (OTOH, this happens only once...)
-			final List<LineSegment> list = new LinkedList<LineSegment>();
+			final List<SourceSegment> list = new LinkedList<SourceSegment>();
 			for (final OsmWay way : ways) {
 				list.addAll(way);
 			}
@@ -153,7 +153,7 @@ public final class InputDataset implements OsmDataset {
 	/**
 	 * 
 	 */
-	public Collection<LinePart[]> parallelFragments () {
+	public Collection<Segment[]> parallelFragments () {
 		return parallelFragments;  // :DEBUG: full access
 	}
 	

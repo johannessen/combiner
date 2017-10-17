@@ -16,8 +16,8 @@ import java.util.NoSuchElementException;
 /**
  * An ordered collection of several line segments in the euclidian plane.
  * Instances represent an OpenStreetMap way, but do not necessarily have a
- * relationship with the OSM planet database. Instances are always part of an
- * <code>OsmDataset</code>.
+ * relationship with the OSM planet database. Instances are always part of a
+ * <code>Dataset</code>.
  */
 public final class OsmWay extends AbstractLine {
 	
@@ -27,11 +27,11 @@ public final class OsmWay extends AbstractLine {
 	 * That this field is currently public is considered a BUG.
 	 * @see #id()
 	 */
-	public long id = OsmDataset.ID_UNKNOWN;
+	public long id = Dataset.ID_UNKNOWN;
 	// not all OsmWays have a unique ID (e. g. splitPts, Frederik's shapefile)
 	
 	
-	private OsmDataset dataset = null;
+	private Dataset dataset = null;
 	
 	
 	
@@ -40,7 +40,7 @@ public final class OsmWay extends AbstractLine {
 	 * populated with segments before it is used.
 	 * Expect this constructor to be deprecated or removed.
 	 */
-	public OsmWay (final OsmTags tags, final OsmDataset dataset, final int segmentCount) {
+	public OsmWay (final OsmTags tags, final Dataset dataset, final int segmentCount) {
 		super(segmentCount);
 		assert tags != null && dataset != null;
 		
@@ -55,7 +55,7 @@ public final class OsmWay extends AbstractLine {
 	/**
 	 * Create a way with segments based on a list of nodes.
 	 */
-	public OsmWay (final OsmTags tags, final OsmDataset dataset, final List<OsmNode> nodes) {
+	public OsmWay (final OsmTags tags, final Dataset dataset, final List<OsmNode> nodes) {
 		this(tags, dataset, nodes.size() - 1);
 		
 		segmentation(nodes);
@@ -73,7 +73,7 @@ public final class OsmWay extends AbstractLine {
 		OsmNode prevNode = iterator.next();  // m
 		while (iterator.hasNext()) {
 			final OsmNode node = iterator.next();  // n
-			add(new LineSegment( prevNode, node, this ));
+			add(new SourceSegment( prevNode, node, this ));
 			prevNode = node;
 		}
 	}
@@ -81,9 +81,9 @@ public final class OsmWay extends AbstractLine {
 	
 	
 	/**
-	 * The OsmDataset that this way is a part of.
+	 * The Dataset that this way is a part of.
 	 */
-	public OsmDataset dataset () {
+	public Dataset dataset () {
 		return dataset;
 	}
 	

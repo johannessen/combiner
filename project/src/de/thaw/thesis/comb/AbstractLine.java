@@ -18,16 +18,16 @@ import java.util.LinkedList;
 
 
 /**
- * An ordered collection of several line segments in the euclidian plane.
+ * An ordered collection of several segments in the euclidian plane.
  * Instances may or may not have relationships with actual ways in the OSM
- * planet database. Instances are always part of an <code>OsmDataset</code>.
+ * planet database. Instances are always part of a <code>Dataset</code>.
  * 
  * this IS a collection of SEGMENTS!
  * 
  */
-abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
+abstract class AbstractLine extends AbstractList<SourceSegment> implements Line {
 	
-	final private List<LineSegment> segments;
+	final private List<SourceSegment> segments;
 	
 	// we now do guarantee that the segments are oriented the same way as the line is!
 	
@@ -41,12 +41,12 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	
 	
 	AbstractLine (final int capacity) {
-		segments = new ArrayList<LineSegment>(capacity);
+		segments = new ArrayList<SourceSegment>(capacity);
 	}
 	
 	
 	AbstractLine () {
-		segments = new LinkedList<LineSegment>();
+		segments = new LinkedList<SourceSegment>();
 	}
 	
 	
@@ -66,10 +66,10 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	 * 
 	 */
 /*
-	public LineSegment add (final OsmNode node0, final OsmNode node1) {
+	public SourceSegment add (final OsmNode node0, final OsmNode node1) {
 		assert node0 != null && node1 != null;
 		
-		LineSegment segment = new LineSegment(node0, node1, this);
+		SourceSegment segment = new SourceSegment(node0, node1, this);
 		node0.addSegment(segment);
 		node1.addSegment(segment);
 		segments.add(segment);
@@ -105,10 +105,10 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 		assert adjacentNode != null && node != null : adjacentNode + " " + node;
 		
 		if (asLast) {
-			add(new LineSegment( adjacentNode, node, this ));
+			add(new SourceSegment( adjacentNode, node, this ));
 		}
 		else {
-			add(0, new LineSegment( node, adjacentNode, this ));
+			add(0, new SourceSegment( node, adjacentNode, this ));
 		}
 	}
 	
@@ -121,7 +121,7 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	//////////////////// abstract LIST
 	
 	
-	public LineSegment get (final int index) {
+	public SourceSegment get (final int index) {
 		return segments.get(index);
 	}
 	
@@ -141,7 +141,7 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 			return;
 		}
 		
-		ListIterator<LineSegment> iterator = listIterator(index);
+		ListIterator<SourceSegment> iterator = listIterator(index);
 		if (iterator.hasNext()) {
 			iterator.next().start = node;  // :BUG: add/remove connectingSegments of the old and new nodes
 			iterator.previous();
@@ -152,13 +152,13 @@ abstract class AbstractLine extends AbstractList<LineSegment> implements Line {
 	}
 	
 	
-	public LineSegment set (final int index, final LineSegment element) {
+	public SourceSegment set (final int index, final SourceSegment element) {
 		throw new UnsupportedOperationException();
 		//return segments.set(index, element);
 	}
 	
 	
-	public void add (final int index, final LineSegment element) {
+	public void add (final int index, final SourceSegment element) {
 		if (index != size() && index != 0) {
 			throw new IllegalArgumentException();
 		}
@@ -179,7 +179,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	}
 	
 	
-	public LineSegment remove (final int index) {
+	public SourceSegment remove (final int index) {
 		throw new UnsupportedOperationException();
 		//segments.remove(index);
 	}
@@ -188,7 +188,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	///////////////// abstract LINE
 	
 	
-	public OsmDataset dataset () {
+	public Dataset dataset () {
 		throw new UnsupportedOperationException();
 	}
 	
@@ -217,7 +217,7 @@ System.err.println("segment reversed in AbstractLine.add");
 		}
 		
 		nodeList.add( start() );
-		for (LineSegment segment : segments) {
+		for (SourceSegment segment : segments) {
 			nodeList.add( segment.end() );
 		}
 		
@@ -253,7 +253,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	
 	
 /*
-	private OsmNode connectedNode (final LineSegment segment1, final LineSegment segment2) {
+	private OsmNode connectedNode (final SourceSegment segment1, final SourceSegment segment2) {
 		if (segment1.end().equals(segment2.start())) {
 			return segment1.end();
 		}
@@ -270,7 +270,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	}
 	
 	
-	private OsmNode otherNode (final LineSegment segment, final OsmNode node) {
+	private OsmNode otherNode (final SourceSegment segment, final OsmNode node) {
 		if (segment.start().equals(node)) {
 			return segment.end();
 		}

@@ -26,14 +26,14 @@ public class Section extends AbstractLine {
 	
 	
 	
-	Section (final LineSegment startSegment) {
+	Section (final SourceSegment startSegment) {
 		
 		if (startSegment == null) {
 			valid = false;
 			return;
 		}
 		
-		LineSegment segment = null;
+		SourceSegment segment = null;
 		OsmNode node = null;
 		Line way = startSegment.way;
 		HighwayRef osmRef = way.ref();
@@ -110,12 +110,12 @@ public class Section extends AbstractLine {
 	
 	
 	public long id () {
-		return OsmDataset.ID_NONEXISTENT;
+		return Dataset.ID_NONEXISTENT;
 	}
 	
 	
 	
-	private static OsmNode other (final OsmNode node, final LineSegment segment) {
+	private static OsmNode other (final OsmNode node, final SourceSegment segment) {
 		if (segment == null) {
 			return null;
 		}
@@ -130,11 +130,11 @@ public class Section extends AbstractLine {
 	
 	
 	
-	private static LineSegment other (final LineSegment segment, final Collection<LineSegment> segments) {
+	private static SourceSegment other (final SourceSegment segment, final Collection<SourceSegment> segments) {
 		if (segments.size() > 2) {
 			return null;  // "the other one" is only well-defined for at most two segments total
 		}
-		for (final LineSegment other : segments) {
+		for (final SourceSegment other : segments) {
 			if (other != segment) {
 				return other;
 			}

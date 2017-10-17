@@ -21,7 +21,7 @@ import java.util.TreeSet;
 /**
  * A defined point in the euclidian plane. Instances may or may not have
  * relationships with actual nodes in the OSM planet database, and may or may
- * not be part of an <code>OsmDataset</code>.
+ * not be part of a <code>Dataset</code>.
  */
 public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	
@@ -41,10 +41,10 @@ public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	final double e;
 	final double n;
 	
-	public long id = OsmDataset.ID_UNKNOWN;  // :BUG: shouldn't be public
+	public long id = Dataset.ID_UNKNOWN;  // :BUG: shouldn't be public
 	// not all OsmNodes exist in the OSM planet (e. g. splitPts, Frederik's shapefile)
 	
-	Set<LineSegment> connectingSegments;
+	Set<SourceSegment> connectingSegments;
 	
 	public Collection<GeneralisedSection> generalisedSections;
 	
@@ -56,7 +56,7 @@ public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	private OsmNode (final double e, final double n) {
 		this.e = e;
 		this.n = n;
-		this.connectingSegments = new TreeSet<LineSegment>();
+		this.connectingSegments = new TreeSet<SourceSegment>();
 		this.generalisedSections = new LinkedList<GeneralisedSection>();
 		this.edges = new LinkedList<CorrelationEdge>();
 //		this.allSections = new LinkedList<SectionInterface>();
@@ -118,7 +118,7 @@ public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	}
 	
 	
-	void addSegment (LineSegment segment) {
+	void addSegment (SourceSegment segment) {
 		connectingSegments.add(segment);
 	}
 	
@@ -127,8 +127,8 @@ public final class OsmNode implements Comparable<OsmNode>, PlaneCoordinate {
 	 * 
 	 */
 	public String toString () {
-		return "E" + ((double)(int)(e * 10.0 + .5) / 10.0) + "m N" + ((double)(int)(n * 10.0 + .5) / 10.0) + "m" + (id != OsmDataset.ID_UNKNOWN ? " [" + id + "]" : "");
-//		return "E " + Double.toHexString(e) + " / N " + Double.toHexString(n) + (id != OsmDataset.ID_UNKNOWN ? " [" + id + "]" : "");  // :DEBUG:
+		return "E" + ((double)(int)(e * 10.0 + .5) / 10.0) + "m N" + ((double)(int)(n * 10.0 + .5) / 10.0) + "m" + (id != Dataset.ID_UNKNOWN ? " [" + id + "]" : "");
+//		return "E " + Double.toHexString(e) + " / N " + Double.toHexString(n) + (id != Dataset.ID_UNKNOWN ? " [" + id + "]" : "");  // :DEBUG:
 	}
 	
 	

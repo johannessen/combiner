@@ -9,10 +9,9 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.LinePart;
-import de.thaw.thesis.comb.LineSegment;
-import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Segment;
+import de.thaw.thesis.comb.SourceSegment;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -171,7 +170,7 @@ public final class ShapeWriter {
 	
 	
 	
-	public LineString toLineString (final LinePart part) {
+	public LineString toLineString (final Segment part) {
 		final LineString lineString = toLineString(part.start(), part.end());
 		lineString.setUserData(part);
 		return lineString;
@@ -203,12 +202,12 @@ public final class ShapeWriter {
 	
 	
 	
-	public LineSegment toLineSegment (final Geometry lineString) {
+	public SourceSegment toSegment (final Geometry lineString) {
 		Object userData = lineString.getUserData();
-		if ( ! (userData instanceof LineSegment) ) {
+		if ( ! (userData instanceof SourceSegment) ) {
 			throw new ClassCastException();
 		}
-		return (LineSegment)userData;
+		return (SourceSegment)userData;
 	}
 	
 	

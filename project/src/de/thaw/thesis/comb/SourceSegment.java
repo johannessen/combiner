@@ -20,13 +20,14 @@ import java.util.LinkedList;
 import java.util.Set;
 
 
+// ex LineSegment
 /**
- * A <code>LinePart</code> implementation representing segments as read from
- * the source data. May be split into two or more <code>LineFragment</code>s.
+ * A <code>Segment</code> implementation representing segments as read from
+ * the source data.
  */
-public final class LineSegment extends AbstractLinePart {
 	
 	// :TODO: rework structure to better fit the Composite pattern
+public final class SourceSegment extends AbstractSegment {
 	
 	
 	final static double PARALLEL_ANGLE_MAXIMUM = 15.0 / 180.0 * Math.PI;
@@ -42,32 +43,32 @@ public final class LineSegment extends AbstractLinePart {
 	
 	// LineSegment
 	public Line way;
-	public Collection<LineFragment> fragments;  // (A)
+	public Collection<Segment> fragments;  // (A)
 	
-	private Collection<LineSegment> closeSegments;  // (D)
-	private Collection<LineSegment> closeParallels;  // (B)
+	private Collection<SourceSegment> closeSegments;  // (D)
+	private Collection<SourceSegment> closeParallels;  // (B)
 	
 	// results (real = not collinear + did match)
-	public Set<LineSegment> leftRealParallels;
-	public Set<LineSegment> rightRealParallels;
+	public Set<SourceSegment> leftRealParallels;
+	public Set<SourceSegment> rightRealParallels;
 	
 	
-	LineSegment (final OsmNode start, final OsmNode end, final Line way) {
+	SourceSegment (final OsmNode start, final OsmNode end, final Line way) {
 		super(start, end);
 		assert way != null /* && way instanceof OsmWay*/;
 		
+		fragments = new LinkedList<Segment>();
 		this.way = way;
-		this.fragments = new LinkedList<LineFragment>();
+		leftRealParallels = new LinkedHashSet<SourceSegment>();
+		rightRealParallels = new LinkedHashSet<SourceSegment>();
 		
-		leftRealParallels = new LinkedHashSet<LineSegment>();
-		rightRealParallels = new LinkedHashSet<LineSegment>();
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public LineSegment segment () {
+	public SourceSegment root () {
 		return this;
 	}
 	
@@ -75,26 +76,26 @@ public final class LineSegment extends AbstractLinePart {
 	/**
 	 * 
 	 */
-	public Collection<? extends LinePart> lineParts () {
+	public Collection<? extends Segment> lineParts () {
 		if (fragments.size() > 0) {
 			return fragments;
 		}
-		return new OneItemList<LineSegment>(this);
+		return new OneItemList<SourceSegment>(this);
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public Collection<LineSegment> closeParallels () {
+	public Collection<SourceSegment> closeParallels () {
 		// filter close parallels from close segment list
 		// :TODO: check if filtering is necessary here after regionalisation
 		
 		if (closeParallels == null) {
 			assert closeSegments != null;
 			
-			closeParallels = new LinkedList<LineSegment>();
-			for (final LineSegment segment : closeSegments) {
+			closeParallels = new LinkedList<SourceSegment>();
+			for (final SourceSegment segment : closeSegments) {
 				
 				final Vector v1 = segment;
 				final Vector v2 = aligned(v1);
@@ -112,7 +113,7 @@ public final class LineSegment extends AbstractLinePart {
 	}
 	
 	
-	void setCloseSegments (final Collection<LineSegment> closeSegments) {
+	void setCloseSegments (final Collection<SourceSegment> closeSegments) {
 		this.closeSegments = closeSegments;
 	}
 	
@@ -133,7 +134,7 @@ public final class LineSegment extends AbstractLinePart {
 	 */
 	public void analyseLineParts (final Analyser visitor) {
 		// the fragments are the ones that need to be analysed
-		for (LinePart part : lineParts()) {
+		for (Segment part : lineParts()) {
 			part.analyse(visitor);
 		}
 	}

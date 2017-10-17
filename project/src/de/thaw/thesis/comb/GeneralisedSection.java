@@ -24,7 +24,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	static double MIN_LENGTH = 50.0;  // :TODO: check what works best
 	
-	public LinkedList<LineSegment> originalSegments = new LinkedList<LineSegment>();
+	public LinkedList<SourceSegment> originalSegments = new LinkedList<SourceSegment>();
 	public LinkedList<OsmNode> originalNodes = new LinkedList<OsmNode>();
 	
 	public CorrelationEdge startConnector = null;
@@ -61,9 +61,9 @@ public class GeneralisedSection extends AbstractLine {
 		assert startNode.connectingSegments.size() > 0 : startNode;
 		
 		
-		Iterator<LineSegment> iterator = startNode.connectingSegments.iterator();
+		Iterator<SourceSegment> iterator = startNode.connectingSegments.iterator();
 		for (int i = 0; i < 2 && iterator.hasNext(); i++) {
-			final LineSegment segment = iterator.next();
+			final SourceSegment segment = iterator.next();
 			
 			// move into both directions along segments from startNode
 			boolean forward = i == 0;
@@ -93,15 +93,15 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	LineSegment segment1 = null;  // A
-	LineSegment segment2 = null;  // B
+	SourceSegment segment1 = null;  // A
+	SourceSegment segment2 = null;  // B
 	boolean segment1Aligned = true;
 	boolean segment2Aligned = true;
 	OsmNode currentNode1 = null;  // E_S
 	OsmNode currentNode2 = null;  // E_T
 	CorrelationEdge currentEdge = null;  // E
 	
-	private CorrelationEdge traverseGraph (final LineSegment segment, final boolean forward) {
+	private CorrelationEdge traverseGraph (final SourceSegment segment, final boolean forward) {
 		
 		currentEdge = startEdge;
 		currentNode1 = startNode;
@@ -229,7 +229,7 @@ public class GeneralisedSection extends AbstractLine {
 		segment1.wasGeneralised += 1;
 		originalSegments.add(segment1);
 
-		LineSegment nextSegment1 = findNextSegment(nextNode1, segment1);
+		SourceSegment nextSegment1 = findNextSegment(nextNode1, segment1);
 		if (nextSegment1 != null) {
 			segment1Aligned ^= ! nextSegment1.isAligned(segment1);  // :TODO: unclear; can prolly be replaced by node comparison
 		}
@@ -248,7 +248,7 @@ public class GeneralisedSection extends AbstractLine {
 		segment2.wasGeneralised += 1;
 		originalSegments.add(segment2);
 
-		LineSegment nextSegment2 = findNextSegment(nextNode2, segment2);
+		SourceSegment nextSegment2 = findNextSegment(nextNode2, segment2);
 		if (nextSegment2 != null) {
 			segment2Aligned ^= ! nextSegment2.isAligned(segment2);  // :TODO: unclear; can prolly be replaced by node comparison
 		}
@@ -292,11 +292,11 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	// (TG 2a) find T
-	private LineSegment findOppositeSegment (OsmNode oppositeNode, LineSegment thisSegment, boolean thisIsAligned) {
-		LineSegment oppositeSegment = null;
+	private SourceSegment findOppositeSegment (OsmNode oppositeNode, SourceSegment thisSegment, boolean thisIsAligned) {
+		SourceSegment oppositeSegment = null;
 		
 		Vector thisVector = thisIsAligned ? thisSegment : thisSegment.reversed();
-		for (LineSegment segment : oppositeNode.connectingSegments) {
+		for (SourceSegment segment : oppositeNode.connectingSegments) {
 			Vector vector = segment.start == oppositeNode ? segment : segment.reversed();
 			if ( Math.abs( vector.relativeBearing(thisVector) ) < Vector.RIGHT_ANGLE ) {
 //					assert oppositeSegment == null;  // only one should match, normally (at least for trivial datasets?) (might be some exceptions in some datasets, this is a :HACK:)
@@ -309,9 +309,9 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	private LineSegment findNextSegment (OsmNode pivot, LineSegment currentSegment) {
-		LineSegment nextSegment = null;
-		for (LineSegment segment : pivot.connectingSegments) {
+	private SourceSegment findNextSegment (OsmNode pivot, SourceSegment currentSegment) {
+		SourceSegment nextSegment = null;
+		for (SourceSegment segment : pivot.connectingSegments) {
 			if (segment != currentSegment) {
 //					assert nextSegment == null;  // :BUG: handles trivial case only
 				nextSegment = segment;
@@ -332,7 +332,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	public long id () {
-		return OsmDataset.ID_NONEXISTENT;
+		return Dataset.ID_NONEXISTENT;
 	}
 	
 	
@@ -348,7 +348,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	void ungeneralise () {
-		for (LineSegment segment : originalSegments) {
+		for (SourceSegment segment : originalSegments) {
 			segment.wasGeneralised -= 1;
 			segment.notToBeGeneralised = true;  // avoid infinite loop in GeneralisedLines#traverse()
 			

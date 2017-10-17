@@ -78,7 +78,7 @@ public class GeneralisedLines {
 // eigene funktion!
 				
 				// get segment with ID
-				for (final LineSegment segment : node.connectingSegments) {
+				for (final SourceSegment segment : node.connectingSegments) {
 					if (segment.wasGeneralised > 0 || segment.notToBeGeneralised) {
 						continue;
 					}
@@ -114,7 +114,7 @@ public class GeneralisedLines {
 	
 	
 	
-	void cleanup (final OsmDataset dataset) {
+	void cleanup (final Dataset dataset) {
 		concatUncombinedLines(dataset);
 		relocateGeneralisedNodes();
 //		cleanup2();
@@ -122,8 +122,8 @@ public class GeneralisedLines {
 	
 	
 	
-	void concatUncombinedLines (final OsmDataset dataset) {
-		for (final LineSegment segment : dataset.allSegments()) {
+	void concatUncombinedLines (final Dataset dataset) {
+		for (final SourceSegment segment : dataset.allSegments()) {
 			if (segment.wasGeneralised > 0) {
 				continue;
 			}

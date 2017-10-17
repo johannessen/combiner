@@ -8,6 +8,7 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.util.OneItemList;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
@@ -17,18 +18,26 @@ import java.util.List;
 import java.util.LinkedList;
 
 
+// ex AbstractLinePart
 /**
- * A skeletal implementation of the <code>LinePart</code> interface. Minimises
+ * A skeletal implementation of the <code>Segment</code> interface. Minimises
  * the effort required to implement this interface.
  */
-abstract class AbstractLinePart implements LinePart, Vector {
+abstract class AbstractSegment implements Segment, Vector {
 	
 	// :DEBUG: shouldn't be public!
 	public OsmNode start;
 	public OsmNode end;
 	
+	protected SourceSegment segment = null;
 	
-	public abstract LineSegment segment () ;
+	
+	public SourceSegment root () {
+		if (segment == null) {
+			throw new IllegalStateException("root segment not initialised");
+		}
+		return segment;
+	}
 	
 	
 	// :TODO: rework structure to better fit the Composite pattern
@@ -42,7 +51,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	private boolean wasSplit = false;
 	
 	
-	AbstractLinePart (final OsmNode start, final OsmNode end) {
+	AbstractSegment (final OsmNode start, final OsmNode end) {
 		assert (start == null) == (end == null);
 		if (start != null) {
 			assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;  // don't think this is useful
@@ -96,7 +105,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	
 	
 	private void splitCloseParallels (final OsmNode node, final SplitQueueListener listener) {
-		for (LinePart target : splitTargets()) {  // "T"
+		for (Segment target : splitTargets()) {  // "T"
 			
 			if (target.shouldIgnore()) {
 				/* This check is not actually necessary as this condition is
@@ -122,9 +131,9 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	 */
 	// get all line parts of close parallel segments
 	// NB: the fragment lists will change during splitting, hence this list needs to be recompiled each time
-	public Collection<LinePart> splitTargets () {
-		final LinkedList<LinePart> targets = new LinkedList<LinePart>();
-		for (final LineSegment closeParallel : segment().closeParallels()) {
+	public Collection<Segment> splitTargets () {
+		final LinkedList<Segment> targets = new LinkedList<Segment>();
+		for (final SourceSegment closeParallel : root().closeParallels()) {
 			targets.addAll( closeParallel.lineParts() );
 		}
 		return targets;
@@ -163,7 +172,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		
 //		final OsmNode foot = new OsmNode(start, qVector);
 		final OsmNode foot = OsmNode.createWithDistanceBearing(start, q, ba.bearing());
-		foot.id = OsmDataset.ID_NONEXISTENT;
+		foot.id = Dataset.ID_NONEXISTENT;
 		
 		if (SimpleVector.distance(start, foot) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(foot, end) < MIN_FRAGMENT_LENGTH) {
 			// foot points creating extremely short line parts are defined to not exist because such line parts are of little use to us
@@ -184,17 +193,45 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		 * The downside of this is that two not-identical nodes at the same
 		 * location (belonging to two different ways) are not supported.
 		 */
-		node = segment().way.dataset().getNode( node );
 		
-		final LineSegment segment = this.segment();  // "wurzel(t)"
-		final LineFragment fragment1 = new LineFragment(start, node, segment);
-		final LineFragment fragment2 = new LineFragment(node, end, segment);
+		node = root().way.dataset().getNode( node );
+		final SourceSegment rootSegment = this.root();  // "wurzel(t)"
+		final Segment fragment1 = new Fragment(start, node, rootSegment);
+		final Segment fragment2 = new Fragment(node, end, rootSegment);
 		
-		segment.fragments.add(fragment1);
-		segment.fragments.add(fragment2);
+		rootSegment.fragments.add(fragment1);
+		rootSegment.fragments.add(fragment2);
 		
 		listener.didSplit(fragment1, fragment2, node);
 		this.wasSplit = true;
+	}
+	
+	
+	// ex LineFragment
+	/**
+	 * A <code>Segment</code> implementation representing incomplete
+	 * <em>fragments</em> of segments read from source data.
+	 */
+	final static class Fragment extends AbstractSegment {
+		
+		// :TODO: rework structure to better fit the Composite pattern
+		// (Composite: (root) SourceSegment; Leaf: concrete AbstractSegment; Component: Segment interface)
+		
+		private Collection<? extends Segment> list = null;
+		
+		Fragment (final OsmNode start, final OsmNode end, final AbstractSegment parent) {
+			super(start, end);
+			assert segment != null;
+			super.segment = segment;
+		}
+		
+		public Collection<? extends Segment> lineParts () {
+			if (list == null) {
+				list = new OneItemList<Fragment>(this);
+			}
+			return list;
+		}
+		
 	}
 	
 	
@@ -207,13 +244,13 @@ abstract class AbstractLinePart implements LinePart, Vector {
 		}
 
 		double leftBestDistance = visitor.worstResult();
-		LinePart leftBestMatch = null;
+		Segment leftBestMatch = null;
 		double rightBestDistance = visitor.worstResult();
-		LinePart rightBestMatch = null;
+		Segment rightBestMatch = null;
 		
 		// all fragments of all close and parallel segments
-		for (final LineSegment closeParallel : segment().closeParallels()) {
-			for (final LinePart that : closeParallel.lineParts()) {
+		for (final SourceSegment closeParallel : root().closeParallels()) {
+			for (final Segment that : closeParallel.lineParts()) {
 				if (that.shouldIgnore()) {
 					continue;  // SPLITTEN: "set-minus t"
 				}
@@ -263,53 +300,53 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	/**
 	 * 
 	 */
-	public void addBestLeftMatch (final LinePart bestMatch) {
-		assert this instanceof LineFragment || segment().fragments.size() == 0;  // :BUG: Composite
+	public void addBestLeftMatch (final Segment bestMatch) {
+//		assert this instanceof Fragment || root().allFragments.size() == 0;  // :BUG: Composite
 		if (bestMatch == null) {
 			return;
 		}
-		assert bestMatch.segment() != segment();
+		assert bestMatch.root() != root();
 		
-//		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
-		segment().leftRealParallels.add(bestMatch.segment());
+//		assert ! root().midPoint().equals(bestMatch.root().midPoint());
+		root().leftRealParallels.add(bestMatch.root());
 		if (isAligned(bestMatch)) {
-			bestMatch.segment().rightRealParallels.add(segment());
+			bestMatch.root().rightRealParallels.add(root());
 		}
 		else {
-			bestMatch.segment().leftRealParallels.add(segment());
+			bestMatch.root().leftRealParallels.add(root());
 		}
 		
-		segment().way.dataset().parallelFragments().add(new LinePart[]{ bestMatch, this });
+		root().way.dataset().parallelFragments().add(new Segment[]{ bestMatch, this });
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public void addBestRightMatch (final LinePart bestMatch) {
-		assert this instanceof LineFragment || segment().fragments.size() == 0;  // :BUG: Composite
+	public void addBestRightMatch (final Segment bestMatch) {
+//		assert this instanceof Fragment || root().allFragments.size() == 0;  // :BUG: Composite
 		if (bestMatch == null) {
 			return;
 		}
-		assert bestMatch.segment() != segment();
+		assert bestMatch.root() != root();
 		
-//		assert ! segment().midPoint().equals(bestMatch.segment().midPoint());
-		segment().rightRealParallels.add(bestMatch.segment());
+//		assert ! root().midPoint().equals(bestMatch.root().midPoint());
+		root().rightRealParallels.add(bestMatch.root());
 		if (isAligned(bestMatch)) {
-			bestMatch.segment().leftRealParallels.add(segment());
+			bestMatch.root().leftRealParallels.add(root());
 		}
 		else {
-			bestMatch.segment().rightRealParallels.add(segment());
+			bestMatch.root().rightRealParallels.add(root());
 		}
 		
-		segment().way.dataset().parallelFragments().add(new LinePart[]{ bestMatch, this });
+		root().way.dataset().parallelFragments().add(new Segment[]{ bestMatch, this });
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public int compareTo (final LinePart other) {
+	public int compareTo (final Segment other) {
 		return midPoint().compareTo(other.midPoint());
 	}
 	// :BUG: override equals/hashCode!
@@ -319,7 +356,7 @@ abstract class AbstractLinePart implements LinePart, Vector {
 	 * 
 	 */
 	public String toString () {
-		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + new SimpleVector(start, end) + ")" + (segment().way.id() != OsmDataset.ID_UNKNOWN ? " [" + segment().way.id() + "]" : "");
+		return this.getClass().getSimpleName() + " " + start.toString() + " / " + end.toString() + " (" + new SimpleVector(start, end) + ")" + (root().way.id() != Dataset.ID_UNKNOWN ? " [" + root().way.id() + "]" : "");
 	}
 	
 	

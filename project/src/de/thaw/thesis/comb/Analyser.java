@@ -10,7 +10,7 @@ package de.thaw.thesis.comb;
 
 
 /**
- * Evaluation functions, which analyse <code>LinePart</code>s for parallelisms.
+ * Evaluation functions, which analyse <code>Segment</code>s for parallelisms.
  */
 public interface Analyser {
 	
@@ -18,19 +18,19 @@ public interface Analyser {
 	/**
 	 * 
 	 */
-	boolean shouldEvaluate (LinePart currentPart, LinePart otherPart) ;
+	boolean shouldEvaluate (Segment currentPart, Segment otherPart) ;
 	
 	
 	/**
 	 * 
 	 */
-	double evaluateLeft (LinePart currentPart, LinePart otherPart) ;
+	double evaluateLeft (Segment currentPart, Segment otherPart) ;
 	
 	
 	/**
 	 * 
 	 */
-	double evaluateRight (LinePart currentPart, LinePart otherPart) ;
+	double evaluateRight (Segment currentPart, Segment otherPart) ;
 	
 	
 	/**

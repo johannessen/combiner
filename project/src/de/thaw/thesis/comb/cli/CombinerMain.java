@@ -9,9 +9,9 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Combiner;
+import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.io.InputDataset;
@@ -64,7 +64,7 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 		final File inFile = new File(inPath);
 		
 		final ShapeReader reader = new ShapeReader(inFile);
-		final OsmDataset dataset = reader.osmDataset();
+		final Dataset dataset = reader.dataset();
 //		dataset.stats = stats;
 Combiner.printMemoryStatistics();
 		

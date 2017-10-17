@@ -9,7 +9,7 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Analyser;
-import de.thaw.thesis.comb.LinePart;
+import de.thaw.thesis.comb.Segment;
 import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
@@ -33,13 +33,13 @@ final class MyAnalyser implements Analyser {
 	}
 	
 	
-	private OsmTags tags (final LinePart part) {
-		return part.segment().way.tags();
+	private OsmTags tags (final Segment part) {
+		return part.root().way.tags();
 	}
 	
 	
-	public boolean shouldEvaluate (final LinePart part1, final LinePart part2) {
-		assert part1.segment() != part2.segment();
+	public boolean shouldEvaluate (final Segment part1, final Segment part2) {
+		assert part1.root() != part2.root();
 		
 		// ignore fragments that share a node with the current segment
 		// (otherwise the L/R point search in next step might get confused (?))
@@ -101,10 +101,10 @@ final class MyAnalyser implements Analyser {
 	}
 	
 	
-	private double evaluate (final LinePart part1, final LinePart part2, final double direction) {
+	private double evaluate (final Segment part1, final Segment part2, final double direction) {
 		
-		assert ! (part1 instanceof de.thaw.thesis.comb.LineSegment && (((de.thaw.thesis.comb.LineSegment)part1).fragments.size() > 0));
-		assert ! (part2 instanceof de.thaw.thesis.comb.LineSegment && (((de.thaw.thesis.comb.LineSegment)part2).fragments.size() > 0));
+		assert ! (part1 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part1).fragments.size() > 0));
+		assert ! (part2 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part2).fragments.size() > 0));
 		
 		final Vector v1 = part1;
 		final Vector v2 = part2.aligned(v1);
@@ -119,8 +119,8 @@ final class MyAnalyser implements Analyser {
 			ends = new SimpleVector(part1.end(), part2.start());
 		}
 /*
-if ((part1.segment().way.id == 19975724L || part2.segment().way.id == 19975724L || part1.segment().way.id == 105062275L || part2.segment().way.id == 105062275L) && (part1.segment().way.id == 105062281L || part2.segment().way.id == 105062281L)) {
-System.err.println("Vectors: (" + part1.segment().way.id + ") " + v1 + "  /  (" + part2.segment().way.id + ") " + v2);
+if ((part1.root().way.id == 19975724L || part2.root().way.id == 19975724L || part1.root().way.id == 105062275L || part2.root().way.id == 105062275L) && (part1.root().way.id == 105062281L || part2.root().way.id == 105062281L)) {
+System.err.println("Vectors: (" + part1.root().way.id + ") " + v1 + "  /  (" + part2.root().way.id + ") " + v2);
 System.err.println(starts + "  /  " + ends + "\n");
 }
 */
@@ -138,12 +138,12 @@ System.err.println(starts + "  /  " + ends + "\n");
 	}
 	
 	
-	public double evaluateLeft (final LinePart part1, final LinePart part2) {
+	public double evaluateLeft (final Segment part1, final Segment part2) {
 		return evaluate(part1, part2, -1.0);
 	}
 	
 	
-	public double evaluateRight (final LinePart part1, final LinePart part2) {
+	public double evaluateRight (final Segment part1, final Segment part2) {
 		return evaluate(part1, part2, 1.0);
 	}
 	

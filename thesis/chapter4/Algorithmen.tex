@@ -26,7 +26,7 @@
 % anstatt des Analyser-Outputs ist tatsächlich bisher der CorrelationGraph das Analyseergebnis, jedoch noch unvollständig (man bräuchte noch eine Art Metrik, dass z. B. ab 80% parallelen Segmenten zwei Ways als parallel gelten; evtl. auch einen Append-Schritt, denn zur (verlangten) Identifikation paralleler Linienzüge müssten diese erst mal aus den Ways erzeugt werden, falls die Ways nicht ausreichen)
 
 % im CLI sieht's im Moment in etwa so aus:
-% 1. create OsmDataset (als InputDataset-Instanz, via ShapeReader)
+% 1. create Dataset (als InputDataset-Instanz, via ShapeReader)
 % 2. Combiner.run
 % 3. output
 % also eigentlich nichts, was algorithmisch einer besonderen Beschreibung bedarf
@@ -192,6 +192,7 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 \begin{algorithmhere}{Splitten}
 \label{alg:Splitten}
 \begin{algorithmic}
+% evtl. besser: "Assoziation" / "Relation"
 \State $\textbf{Variable } wurzel : Segment \rightarrow Segment$
 \State $\textbf{Anfangswert } wurzel(s) \eqdef s\;\forall\ s$
 \Function{Splitten}{$S$}\Comment{Menge aller Segmente $S$}
@@ -267,7 +268,7 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
-% implementiert in LineSegment.envelope()
+% implementiert in SourceSegment.envelope()
 
 %3. Orientierungs-Ausschluss
 %- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
@@ -275,7 +276,7 @@ Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist de
 %...
 
 %4. Splitten ("re-entrant") in Fragmente
-%Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
+%Liste B aller `Segment` als Basis (initial: alle `SourceSegment`)
 %- _∀ B : P₁, P₂_
 %    - _∀ P_ als p
 %        - _∀ `splitTargets()`_ : (_target noch nicht gesplittet_ -> next;)
@@ -300,7 +301,7 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
-% implementiert in AbstractLinePart.findPerpendicularFoot()
+% implementiert in AbstractSegment.findPerpendicularFoot()
 
 \onefigure{H}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}
@@ -334,6 +335,7 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \begin{algorithmhere}{Analyse}
 \label{alg:Analyse}
 \begin{algorithmic}
+% evtl. besser: "Assoziation" / "Relation"
 \State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
 \State $\textbf{Anfangswert } parallelLinks(s) \eqdef \varnothing\ \forall\ s$
 \State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
@@ -365,6 +367,7 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \end{algorithmhere}
 
 % TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
+% -> theoretisch keine Rolle, weil durch die beidseitige Relation reziproke Zuordnung möglich ist, aber Randfälle insb. an Kreuzungen sind denkbar. Testen!
 
 % reicht es evtl. aus festzulegen: 2 Segmente parallel gdw. mind. je ein Fragment parallel ist? dann wäre es danach nur noch eine frage, das "beste" zu finden
 % oder evtl. statt "<- l" einfach "<- wurzel(l)" und dann das als Menge ausführen? Das könnte der tatsächlichen Implementierung am ehesten entsprechen, ist aber evtl. unnötig kompliziert.
@@ -377,7 +380,7 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 \Function{Parallel}{$s_1, s_2$}
 	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie:
 	\begin{itemize}[nosep,leftmargin=3.5em]
-		% [LineSegment.closeParallels]
+		% [SourceSegment.closeParallels]
 		\item ähnlich ausgerichtet sind (z.~B. $\abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
 		% [MyAnalyser.shouldEvaluate]
 		\item nahe beieinander liegen (z.~B. $\textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
@@ -677,11 +680,11 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 %
 %Im Detail:
 %
-%1. geometrische Indizierung (R-Tree) der Eingabedaten, um Suche nach nahen LineParts zu ermöglichen [regionalise]
+%1. geometrische Indizierung (R-Tree) der Eingabedaten, um Suche nach nahen Segments zu ermöglichen [regionalise]
 %
-%2. $\forall$ LineParts: AbstractLinePart.splitCloseParallels, um gut vergleichbare Stücke zu erhalten (reentrant/rekursiv, d. h. neu erzeugte Fragmente werden bis zu einer Mindestgröße immer weiter aufgeteilt) [split]
+%2. $\forall$ Segments: AbstractSegment.splitCloseParallels, um gut vergleichbare Stücke zu erhalten (reentrant/rekursiv, d. h. neu erzeugte Fragmente werden bis zu einer Mindestgröße immer weiter aufgeteilt) [split]
 %
-%3. $\forall$ LineParts: $\forall$ nahe Parallelen (laut Index): [analyse]
+%3. $\forall$ Segments: $\forall$ nahe Parallelen (laut Index): [analyse]
 %
 %3.1 Vorprüfung (boolean)
 %

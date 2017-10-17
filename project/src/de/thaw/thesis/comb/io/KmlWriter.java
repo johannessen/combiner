@@ -9,9 +9,6 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.LinePart;
-import de.thaw.thesis.comb.LineSegment;
-import de.thaw.thesis.comb.OsmDataset;
 import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.util.PlaneCoordinate;
 import de.thaw.thesis.comb.util.SpatialFeature;

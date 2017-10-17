@@ -27,12 +27,12 @@ import java.util.Set;
 /**
  * The Combiner's main class / Façade. Implements the main top-level
  * generalisation algorithm. After properly initialising the
- * <code>OsmDataset</code> and the parallelism <code>Analyser</code>, call
+ * <code>Dataset</code> and the parallelism <code>Analyser</code>, call
  * <code>run()</code> to run the generalisation by combination.
  */
 public final class Combiner {
 	
-	private final OsmDataset dataset;
+	private final Dataset dataset;
 	
 	private final Analyser analyser;
 	
@@ -49,7 +49,7 @@ public final class Combiner {
 	/**
 	 * 
 	 */
-	public Combiner (final OsmDataset dataset, final Analyser analyser) {
+	public Combiner (final Dataset dataset, final Analyser analyser) {
 		this.dataset = dataset;
 		this.analyser = analyser;
 	}
@@ -94,7 +94,7 @@ Combiner.printMemoryStatistics();
 	
 	
 	void analyseSegments (Analyser visitor) {
-		for (final LineSegment segment : dataset.allSegments()) {
+		for (final SourceSegment segment : dataset.allSegments()) {
 			segment.analyseLineParts(visitor);
 		}
 		verbose(1, "Analysis done.");
@@ -105,11 +105,11 @@ Combiner.printMemoryStatistics();
 	// NAHESEGMENTE, see chapter 4.3.1
 	@SuppressWarnings("unchecked")
 	private void regionaliseSegments () {
-		Collection<LineSegment> allSegments = dataset.allSegments();
+		Collection<SourceSegment> allSegments = dataset.allSegments();
 		verbose(1, "Total segment count: " + allSegments.size());
 		
 		final SpatialIndex index = new STRtree();
-		for (final LineSegment segment : allSegments) {
+		for (final SourceSegment segment : allSegments) {
 			final Envelope envelope = segment.envelope();
 			assert ! envelope.isNull();
 			index.insert(envelope, segment);
@@ -121,8 +121,8 @@ Combiner.printMemoryStatistics();
 		int p = 0;
 		
 		// the first call to AbstractSTRtree.query builds (packs) the tree
-		for (final LineSegment segment : allSegments) {
-			final List<LineSegment> closeSegments = index.query(segment.envelope());
+		for (final SourceSegment segment : allSegments) {
+			final List<SourceSegment> closeSegments = index.query(segment.envelope());
 			closeSegments.remove(segment);  // keep segments from being compared with themselves down the road
 			segment.setCloseSegments(closeSegments);
 			
@@ -141,7 +141,7 @@ Combiner.printMemoryStatistics();
 		
 		final SplitQueueIterator iterator = createSplitQueue();  // "S'"
 		while (iterator.hasNext()) {
-			LinePart base = iterator.next();  // "s"
+			Segment base = iterator.next();  // "s"
 			
 			SplitQueueListener sink = iterator;
 			base.splitCloseParallels(sink);
@@ -161,7 +161,7 @@ Combiner.printMemoryStatistics();
 		for (final OsmWay way : dataset.ways()) {
 			// we only have segments at the beginning, which means this is sufficient
 			// fragments are added later as they are created, see MutableIterator#add()
-			iterator.add(Collections.<LinePart>unmodifiableCollection( way ));
+			iterator.add(Collections.<Segment>unmodifiableCollection( way ));
 		}
 		
 		return iterator;
@@ -169,16 +169,16 @@ Combiner.printMemoryStatistics();
 	
 	
 	
-	final private class SplitQueueIterator extends MutableIterator2<LinePart> implements SplitQueueListener {
+	final private class SplitQueueIterator extends MutableIterator2<Segment> implements SplitQueueListener {
 		
 		SplitQueueIterator () {
 			super();
 		}
 		
-		public void didSplit (final LineFragment newLine1, final LineFragment newLine2, final OsmNode splitNode) {
+		public void didSplit (final Segment newLine1, final Segment newLine2, final OsmNode splitNode) {
 			
 			// enqueue new fragments as split bases
-			Collection<LinePart> newLines = new LinkedList<LinePart>();
+			Collection<Segment> newLines = new LinkedList<Segment>();
 			newLines.add(newLine1);
 			newLines.add(newLine2);
 			super.add(newLines);

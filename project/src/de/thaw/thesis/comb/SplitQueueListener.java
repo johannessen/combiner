@@ -11,7 +11,7 @@ package de.thaw.thesis.comb;
 
 /**
  * Should be implemented by an object that wants to receive notifications of
- * <code>LinePart</code> splits. In particular, this is of interest to objects
+ * <code>Segment</code> splits. In particular, this is of interest to objects
  * that maintain a queue of line parts yet to be considered as a base for
  * splitting <em>other</em> lines, as any split makes it necessary to (re)visit
  * the newly created fragments for split base consideration.
@@ -24,6 +24,6 @@ interface SplitQueueListener extends java.util.EventListener {
 	/**
 	 * 
 	 */
-	void didSplit (LineFragment fragment1, LineFragment fragment2, OsmNode splitNode) ;
+	void didSplit (Segment fragment1, Segment fragment2, OsmNode splitNode) ;
 	
 }
