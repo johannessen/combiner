@@ -19,6 +19,7 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	// :DEBUG: fields shouldn't be public
 	public final OsmNode start;
 	public final OsmNode end;
+	private OsmNode midPoint = null;
 	
 	public OsmNode node0 () {
 		return start;
@@ -57,6 +58,16 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 			assert end.equals(node);
 			return start;
 		}
+	}
+	
+	
+	OsmNode midPoint () {
+		if (midPoint == null) {
+			final double e = (start.easting() + end.easting()) / 2.0;
+			final double n = (start.northing() + end.northing()) / 2.0;
+			midPoint = Nodes.createWithEastingNorthing(e, n);
+		}
+		return midPoint;
 	}
 	
 	

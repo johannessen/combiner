@@ -277,27 +277,23 @@ public class GeneralisedSection extends AbstractLine {
 			return;
 		}
 		
-		double e = (edge.start.e + edge.end.e) / 2.0;
-		double n = (edge.start.n + edge.end.n) / 2.0;
-//			final OsmNode midPoint = OsmNode.createWithEastingNorthing(e, n);
-		final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);  // :TODO: why this line? perhaps so that the node is inserted into the debug output?
 		if (addAsLast) {
-			addLast( midPoint );
+			addLast( edge.midPoint() );
 		}
 		else {
-			addFirst( midPoint );
+			addFirst( edge.midPoint() );
 		}
 	}
 	
 	
 	
 	// (TG 2a) find T
-	private SourceSegment findOppositeSegment (OsmNode oppositeNode, SourceSegment thisSegment, boolean thisIsAligned) {
+	private SourceSegment findOppositeSegment (SourceNode oppositeNode, SourceSegment thisSegment, boolean thisIsAligned) {
 		SourceSegment oppositeSegment = null;
 		
 		Vector thisVector = thisIsAligned ? thisSegment : thisSegment.reversed();
-		for (SourceSegment segment : oppositeNode.connectingSegments) {
-			Vector vector = segment.start == oppositeNode ? segment : segment.reversed();
+		for (SourceSegment segment : oppositeNode.connectingSegments()) {
+			Vector vector = segment.start() == oppositeNode ? segment : segment.reversed();
 			if ( Math.abs( vector.relativeBearing(thisVector) ) < Vector.RIGHT_ANGLE ) {
 //					assert oppositeSegment == null;  // only one should match, normally (at least for trivial datasets?) (might be some exceptions in some datasets, this is a :HACK:)
 				oppositeSegment = segment;

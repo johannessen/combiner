@@ -173,14 +173,8 @@ public class GeneralisedLines {
 				
 				// "move" (actually: replace) first/last nodes as appropriate
 				
-// eine function __in Edge__!!!: mittelpunkt!
 // "Edge" als Namen fuer Typ mit midpoint-logik
-				final OsmNode midPoint = graph.dataset.getMidPoint(theEdge.start, theEdge.end);
-/*
-				double e = (theEdge.start.e + theEdge.end.e) / 2.0;
-				double n = (theEdge.start.n + theEdge.end.n) / 2.0;
-				final OsmNode midPoint = graph.dataset.getNodeAtEastingNorthing(e, n);
-*/
+				final OsmNode midPoint = theEdge.midPoint();
 				
 /*
 				if (midPoint.id == 0L) {
