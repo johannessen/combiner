@@ -49,7 +49,7 @@ public final class SourceSegment extends AbstractSegment {
 	public Set<SourceSegment> rightRealParallels;
 	
 	
-	SourceSegment (final OsmNode start, final OsmNode end, final Line way) {
+	SourceSegment (final SourceNode start, final SourceNode end, final Line way) {
 		super(start, end);
 		assert way != null /* && way instanceof OsmWay*/;
 		
@@ -61,6 +61,24 @@ public final class SourceSegment extends AbstractSegment {
 	
 	protected AbstractSegment parent () {
 		return null;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public SourceNode start () {
+		assert start != null;
+		return (SourceNode)start;
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public SourceNode end () {
+		assert end != null;
+		return (SourceNode)end;
 	}
 	
 	
@@ -102,7 +120,7 @@ public final class SourceSegment extends AbstractSegment {
 	Envelope envelope () {
 		// HÜLLE, see chapter 4.3.1
 		if (envelope == null) {
-			envelope = new Envelope(start.e, end.e, start.n, end.n);
+			envelope = new Envelope(start.easting(), end.easting(), start.northing(), end.northing());
 			envelope.expandBy(INDEX_ENVELOPE_MARGIN);
 		}
 		return envelope;

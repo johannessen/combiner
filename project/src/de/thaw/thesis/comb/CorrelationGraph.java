@@ -60,13 +60,13 @@ public final class CorrelationGraph {
 			
 			// ∀ nodes T1 {start,end} of S
 			for (int j = 0; j < 2; j++) {
-				final OsmNode segmentNode = node(segment, j);
+				final SourceNode segmentNode = node(segment, j);
 				
 				// ∀ sides A {left,right} of S
 				for (int i = 0; i < 2; i++) {
 					final Collection<SourceSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
 					
-					OsmNode closestNode = null;
+					SourceNode closestNode = null;
 					double closestNodeDistance = Double.POSITIVE_INFINITY;
 					
 					// ∀ parallels P of S on side A
@@ -74,7 +74,7 @@ public final class CorrelationGraph {
 						
 						// ∀ nodes T2 (of any category) in P
 						for (int k = 0; k < 2; k++) {
-							final OsmNode parallelNode = node(parallel, k);
+							final SourceNode parallelNode = node(parallel, k);
 							
 							final double d = SimpleVector.distance(segmentNode, parallelNode);
 							if (d < closestNodeDistance) {
@@ -97,13 +97,13 @@ public final class CorrelationGraph {
 	}
 	
 	
-	private OsmNode node (final SourceSegment segment, final int i) {
+	private SourceNode node (final SourceSegment segment, final int i) {
 		assert i == 0 || i == 1;
-		return i == 0 ? segment.start : segment.end;
+		return i == 0 ? segment.start() : segment.end();
 	}
 	
 	
-	private void add (final OsmNode segmentNode, final OsmNode closestNode) {
+	private void add (final SourceNode segmentNode, final SourceNode closestNode) {
 		if (closestNode == null) {
 			// <=> no parallel exists to S on side A
 			return;
@@ -112,7 +112,7 @@ public final class CorrelationGraph {
 		// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
 /*
 		for (SourceSegment connectedSegment : segmentNode.connectingSegments) {
-			OsmNode otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
+			Node otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
 			if (otherNode == closestNode) {
 				assert otherNode != segmentNode : segmentNode;
 				return;
@@ -136,14 +136,14 @@ public final class CorrelationGraph {
 		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
 		final boolean didAdd = sortedEdgesSet.add(edge);
 		if (didAdd) {
-			edge.start.edges.add(edge);
-			edge.end.edges.add(edge);
+			edge.node0().addEdge(edge);
+			edge.node1().addEdge(edge);
 		}
 		return didAdd;
 	}
 	
 	
-	CorrelationEdge get (final OsmNode node0, final OsmNode node1) {
+	CorrelationEdge get (final SourceNode node0, final SourceNode node1) {
 		CorrelationEdge testEdge = new CorrelationEdge(node0, node1);
 		return intern(testEdge);
 	}

@@ -13,9 +13,10 @@ import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.Segment;
+import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
 import de.thaw.thesis.comb.io.WriterHelper;
 import de.thaw.thesis.comb.io.GeoJsonWriter;
@@ -112,7 +113,7 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final OsmNode node : dataset.allNodes()) {
+		for (final Node node : dataset.allNodes()) {
 			geometries.add( writer.toPoint(node) );
 		}
 		
@@ -129,10 +130,12 @@ final class Output {
 			}
 			
 			public List attributes (final Geometry geometry) {
-				final OsmNode node = writer.toOsmNode(geometry);
+				final Node node = writer.toNode(geometry);
 				final List<Object> attributes = new LinkedList<Object>();
-				attributes.add( node.id );
-				attributes.add( node.generalisedSections.size() );
+				attributes.add( node.id() );
+				if (node instanceof SourceNode) {
+					attributes.add( ((SourceNode)node).generalisedSections().size() );
+				}
 				return attributes;
 			}
 		});
@@ -239,8 +242,8 @@ final class Output {
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final SourceSegment segment : dataset.allSegments()) {
-			OsmNode node0 = segment.midPoint();
-			OsmNode node1 = segment.end();
+			Node node0 = segment.midPoint();
+			Node node1 = segment.end();
 			geometries.add( writer.toLineString(node0, node1) );
 		}
 		
@@ -268,8 +271,8 @@ final class Output {
 		
 		for (final MidPointConnector connector : connectors) {
 			assert ! connector.s1.midPoint().equals(connector.s2.midPoint()) : connector.s1 + " / " + connector.s2;
-			OsmNode node0 = connector.s1.midPoint();
-			OsmNode node1 = connector.s2.midPoint();
+			Node node0 = connector.s1.midPoint();
+			Node node1 = connector.s2.midPoint();
 			geometries.add( writer.toLineString(node0, node1) );
 		}
 		
@@ -303,8 +306,8 @@ final class Output {
 		
 		for (final MidPointConnector connector : connectors) {
 //			assert ! connector.s1.midPoint().equals(connector.s2.midPoint()) : connector.s1 + " / " + connector.s2;
-			OsmNode node0 = connector.s1.midPoint();
-			OsmNode node1 = connector.s2.midPoint();
+			Node node0 = connector.s1.midPoint();
+			Node node1 = connector.s2.midPoint();
 			geometries.add( writer.toLineString(node0, node1) );
 		}
 		
@@ -352,8 +355,8 @@ final class Output {
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final CorrelationEdge cn : cns) {
-			OsmNode node0 = cn.start;
-			OsmNode node1 = cn.end;
+			Node node0 = cn.node0();
+			Node node1 = cn.node1();
 			geometries.add( writer.userData(writer.toLineString(node0, node1), cn) );
 		}
 		
@@ -438,14 +441,14 @@ final class Output {
 	
 	
 	
-	private List<OsmNode> toNodeList (final CorrelationEdge edge, final OsmNode genNode) {
-		LinkedList<OsmNode> list = new LinkedList<OsmNode>();
+	private List<Node> toNodeList (final CorrelationEdge edge, final Node genNode) {
+		LinkedList<Node> list = new LinkedList<Node>();
 		if (edge == null) {
 			return list;
 		}
-		list.add( edge.start );
+		list.add( edge.node0() );
 		list.add( genNode );
-		list.add( edge.end );
+		list.add( edge.node1() );
 		return list;
 	}
 	

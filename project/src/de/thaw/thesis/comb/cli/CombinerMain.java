@@ -12,8 +12,9 @@ import de.thaw.thesis.comb.Combiner;
 import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.OsmWay;
+import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.io.InputDataset;
 import de.thaw.thesis.comb.io.ShapeReader;
 import de.thaw.thesis.comb.io.SQLiteWriter;
@@ -132,10 +133,11 @@ Combiner.printMemoryStatistics();
 	void addLinesToDataset (final InputDataset dataset, final Collection<? extends Line> sections) {
 		for (final Line section : sections) {
 			final OsmWay way = dataset.createOsmWay(section.tags(), section.size());
-			for (OsmNode node : section.coordinates()) {
+			for (Node node : section.coordinates()) {
 				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
 				
-				way.addLast(node);
+//				way.addLast(node);
+				way.addLast((SourceNode)node);  // untested
 				
 			}
 			way.mutable(false);

@@ -175,7 +175,7 @@ Combiner.printMemoryStatistics();
 			super();
 		}
 		
-		public void didSplit (final List<Segment> fragments, final OsmNode splitNode) {
+		public void didSplit (final List<Segment> fragments, final Node splitNode) {
 			
 			// enqueue new fragments as split bases
 			super.add(fragments);

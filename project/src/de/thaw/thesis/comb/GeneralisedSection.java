@@ -25,7 +25,7 @@ public class GeneralisedSection extends AbstractLine {
 	static double MIN_LENGTH = 50.0;  // :TODO: check what works best
 	
 	public LinkedList<SourceSegment> originalSegments = new LinkedList<SourceSegment>();
-	public LinkedList<OsmNode> originalNodes = new LinkedList<OsmNode>();
+	public LinkedList<SourceNode> originalNodes = new LinkedList<SourceNode>();
 	
 	public CorrelationEdge startConnector = null;
 	public CorrelationEdge endConnector = null;
@@ -37,13 +37,13 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	CorrelationEdge startEdge = null;  // E
-	OsmNode startNode = null;  // E_S
+	SourceNode startNode = null;  // E_S
 	OsmWay startWay = null;
 	
 	HighwayType osmHighway = null;
 	String osmRef = null;
 	
-	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final OsmNode node) {
+	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final SourceNode node) {
 		this.graph = graph;
 		
 		startEdge = edge;
@@ -57,11 +57,11 @@ public class GeneralisedSection extends AbstractLine {
 		addConnector(startEdge, true);
 		addConnector(startEdge, false);
 		
-		assert startNode.connectingSegments.size() <= 2 : startNode;  // see issue #111
-		assert startNode.connectingSegments.size() > 0 : startNode;
+		assert startNode.connectingSegments().size() <= 2 : startNode;  // see issue #111
+		assert startNode.connectingSegments().size() > 0 : startNode;
 		
 		
-		Iterator<SourceSegment> iterator = startNode.connectingSegments.iterator();
+		Iterator<SourceSegment> iterator = startNode.connectingSegments().iterator();
 		for (int i = 0; i < 2 && iterator.hasNext(); i++) {
 			final SourceSegment segment = iterator.next();
 			
@@ -97,8 +97,8 @@ public class GeneralisedSection extends AbstractLine {
 	SourceSegment segment2 = null;  // B
 	boolean segment1Aligned = true;
 	boolean segment2Aligned = true;
-	OsmNode currentNode1 = null;  // E_S
-	OsmNode currentNode2 = null;  // E_T
+	SourceNode currentNode1 = null;  // E_S
+	SourceNode currentNode2 = null;  // E_T
 	CorrelationEdge currentEdge = null;  // E
 	
 	private CorrelationEdge traverseGraph (final SourceSegment segment, final boolean forward) {
@@ -107,19 +107,19 @@ public class GeneralisedSection extends AbstractLine {
 		currentNode1 = startNode;
 		currentNode2 = startEdge.other(startNode);
 		segment1 = segment;
-		segment1Aligned = segment1.start == currentNode1;
+		segment1Aligned = segment1.start() == currentNode1;
 		segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
 		if (segment2 == null) {
 			segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
 			// :TODO: does this occur? if so, why? -- doesn't matte rmuch, it seems to do the right thing anyhow
 			return null;
 		}
-		segment2Aligned = segment2.start == currentNode2;
+		segment2Aligned = segment2.start() == currentNode2;
 		
 		if (forward) {
 			addGeneralisedPoint(startEdge, true);
-			currentNode1.generalisedSections.add(this);
-			currentNode2.generalisedSections.add(this);
+			currentNode1.addGeneralisedSection(this);
+			currentNode2.addGeneralisedSection(this);
 			originalNodes.add(currentNode1);
 			originalNodes.add(currentNode2);
 			
@@ -161,8 +161,8 @@ public class GeneralisedSection extends AbstractLine {
 			currentEdge.genCounter += 1;  // :DEBUG:
 			
 			// (TG 5) find next nodes
-			OsmNode nextNode1 = segment1Aligned ? segment1.end : segment1.start;  // X
-			OsmNode nextNode2 = segment2Aligned ? segment2.end : segment2.start;  // Y
+			SourceNode nextNode1 = segment1Aligned ? segment1.end() : segment1.start();  // X
+			SourceNode nextNode2 = segment2Aligned ? segment2.end() : segment2.start();  // Y
 			
 			CorrelationEdge nextEdge;
 			
@@ -221,9 +221,9 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	void advance1 (OsmNode nextNode1) {
+	void advance1 (SourceNode nextNode1) {
 		
-		nextNode1.generalisedSections.add(this);
+		nextNode1.addGeneralisedSection(this);
 		originalNodes.add(nextNode1);
 		
 		segment1.wasGeneralised += 1;
@@ -240,9 +240,9 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	void advance2 (OsmNode nextNode2) {
+	void advance2 (SourceNode nextNode2) {
 		
-		nextNode2.generalisedSections.add(this);
+		nextNode2.addGeneralisedSection(this);
 		originalNodes.add(nextNode2);
 		
 		segment2.wasGeneralised += 1;
@@ -305,9 +305,9 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	private SourceSegment findNextSegment (OsmNode pivot, SourceSegment currentSegment) {
+	private SourceSegment findNextSegment (SourceNode pivot, SourceSegment currentSegment) {
 		SourceSegment nextSegment = null;
-		for (SourceSegment segment : pivot.connectingSegments) {
+		for (SourceSegment segment : pivot.connectingSegments()) {
 			if (segment != currentSegment) {
 //					assert nextSegment == null;  // :BUG: handles trivial case only
 				nextSegment = segment;
@@ -348,8 +348,8 @@ public class GeneralisedSection extends AbstractLine {
 			segment.wasGeneralised -= 1;
 			segment.notToBeGeneralised = true;  // avoid infinite loop in GeneralisedLines#traverse()
 			
-			for (OsmNode node : originalNodes) {
-				while ( node.generalisedSections.remove(this) ) {
+			for (SourceNode node : originalNodes) {
+				while ( node.generalisedSections().remove(this) ) {
 					// remove as side effect of the loop condition
 				}
 			}

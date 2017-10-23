@@ -40,19 +40,19 @@ public interface Dataset {
 	/**
 	 * 
 	 */
-	OsmNode getNode (final OsmNode newNode) ;
+	Node getNode (final Node newNode) ;
 	
 	
 	/**
 	 * 
 	 */
-	OsmNode getNodeAtEastingNorthing (final double e, final double n) ;
+	Node getNodeAtEastingNorthing (final double e, final double n) ;
 	
 	
 	/**
 	 * 
 	 */
-	Collection<OsmNode> allNodes () ;
+	Collection<Node> allNodes () ;
 	
 	
 	/**

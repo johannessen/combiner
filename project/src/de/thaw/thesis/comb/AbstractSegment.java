@@ -22,10 +22,13 @@ import java.util.NoSuchElementException;
 
 // ex AbstractLinePart
 /**
- * The common structure shared by all <code>Segment</code>s in this project.
- * Each <code>AbstractSegment</code> may be split into two other
- * <code>AbstractSegment</code>s, yielding a recursive composition, implemented
- * as a Composite pattern.
+ * Implements the common structure and behaviour shared by all
+ * <code>Segment</code>s in this project. Each <code>AbstractSegment</code>
+ * may be split into two other <code>AbstractSegment</code>s, yielding a
+ * recursive composition, implemented as a Composite pattern, with this
+ * abstract class defining the "Component" participant. Concrete
+ * implementations of this class participate either as "Leaf" or as
+ * "Composite", depending on whether or not fragments (children) exist.
  * <p>
  * This class implements the <code>Iterable</code> interface such that
  * iteration is performed on all Leafs in the composition. In other words,
@@ -37,7 +40,7 @@ import java.util.NoSuchElementException;
  * fragment. Note that fragments are <code>Segment</code>s themselves.
  * <p>
  * Because of this it is easy to have loops touch every fragment of this
- * segment:
+ * segment, even if it was split many times:
  * <pre>
  *     for (Segment fragment : segment) { ... }
  * </pre>
@@ -47,9 +50,8 @@ import java.util.NoSuchElementException;
  */
 abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	
-	// :DEBUG: shouldn't be public!
-	public OsmNode start;
-	public OsmNode end;
+	protected Node start;
+	protected Node end;
 	
 	
 	// "wurzel(t)"
@@ -73,7 +75,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	
 	/**
 	 * The children of this Composite in the composition (if any).
-	 * <code>null</code> if this object does not represent a Composite, but a
+	 * <code>null</code> iff this object does not represent a Composite, but a
 	 * Leaf. A split converts this object from a Leaf into a Composite by
 	 * assigning a non-null value to this field; in particular, a split creates
 	 * exactly two fragments, thus an array of size 2 must be assigned.
@@ -89,23 +91,24 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	private boolean wasSplit = false;
 	
 	
-	AbstractSegment (final OsmNode start, final OsmNode end) {
+	AbstractSegment (final Node start, final Node end) {
 		assert (start == null) == (end == null);
 		if (start != null) {
-			assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;  // don't think this is useful
+			assert ! Double.isNaN(start.easting() + start.northing() + end.easting() + end.northing()) : start + " / " + end;  // don't think this is useful
 		}
 		
 		this.start = start;
 		this.end = end;
 		
-		assert ! start.equals(end) : start + " / " + end;
+		assert start != end : start + " === " + end;
+		assert ! start.equals(end) : start + " == " + end;
 	}
 	
 	
 	/**
 	 * 
 	 */
-	public OsmNode start () {
+	public Node start () {
 		assert start != null;
 		return start;
 	}
@@ -114,7 +117,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	/**
 	 * 
 	 */
-	public OsmNode end () {
+	public Node end () {
 		assert end != null;
 		return end;
 	}
@@ -128,8 +131,8 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	/**
 	 * 
 	 */
-	public OsmNode midPoint () {
-		return OsmNode.createAtMidPoint(start, this);
+	public Node midPoint () {
+		return Nodes.createAtMidPoint(start, this);
 	}
 	
 	
@@ -142,7 +145,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	}
 	
 	
-	private void splitCloseParallels (final OsmNode node, final SplitQueueListener listener) {
+	private void splitCloseParallels (final Node node, final SplitQueueListener listener) {
 		for (Segment target : splitTargets()) {  // "T"
 			
 			if (target.shouldIgnore()) {
@@ -154,7 +157,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 				continue;  // "set-minus t"
 			}
 			
-			final OsmNode foot = target.findPerpendicularFoot(node);  // "f"
+			final Node foot = target.findPerpendicularFoot(node);  // "f"
 			if (foot == null) {
 				continue;  // no split necessary for this target
 			}
@@ -183,7 +186,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	/**
 	 * 
 	 */
-	public OsmNode findPerpendicularFoot (final OsmNode node) {
+	public Node findPerpendicularFoot (final Node node) {
 		// name: see http://mathworld.wolfram.com/PerpendicularFoot.html
 		
 //		assert node.equals(start) == (node == start) : start + " " + node;
@@ -210,9 +213,9 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 		final double q = a * Math.cos(beta);
 //		final Vector qVector = SimpleVector.createFromDistanceBearing(q, ba.bearing());
 		
-//		final OsmNode foot = new OsmNode(start, qVector);
-		final OsmNode foot = OsmNode.createWithDistanceBearing(start, q, ba.bearing());
-		foot.id = Dataset.ID_NONEXISTENT;
+//		final Node foot = new AbstractNode(start, qVector);
+		final Node foot = Nodes.createWithDistanceBearing(start, q, ba.bearing());
+//		foot.id() = Dataset.ID_NONEXISTENT;
 		
 		if (SimpleVector.distance(start, foot) < MIN_FRAGMENT_LENGTH || SimpleVector.distance(foot, end) < MIN_FRAGMENT_LENGTH) {
 			// foot points creating extremely short line parts are defined to not exist because such line parts are of little use to us
@@ -223,7 +226,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	}
 	
 	
-	public void splitAt (OsmNode node, final SplitQueueListener listener) {
+	public void splitAt (Node node, final SplitQueueListener listener) {
 		/* :BUG:
 		 * We use the dataset-global node store to retrieve the canoncical node
 		 * instance for the split point's location. This enables us to compare
@@ -255,7 +258,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 		
 		final AbstractSegment parent;
 		
-		Fragment (final OsmNode start, final OsmNode end, final AbstractSegment parent) {
+		Fragment (final Node start, final Node end, final AbstractSegment parent) {
 			super(start, end);
 			assert parent != null;
 			this.parent = parent;
@@ -491,9 +494,9 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	 * 
 	 */
 	public double easting () {
-		assert ! Double.isNaN(end.e + start.e) : start + " / " + end;
+		assert ! Double.isNaN(end.easting() + start.easting()) : start + " / " + end;
 		
-		return end.e - start.e;
+		return end.easting() - start.easting();
 	}
 	
 	
@@ -501,9 +504,9 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	 * 
 	 */
 	public double northing () {
-		assert ! Double.isNaN(end.n + start.n) : start + " / " + end;
+		assert ! Double.isNaN(end.northing() + start.northing()) : start + " / " + end;
 		
-		return end.n - start.n;
+		return end.northing() - start.northing();
 	}
 	
 	
@@ -511,7 +514,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	 * 
 	 */
 	public double distance () {
-		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		assert ! Double.isNaN(start.easting() + start.northing() + end.easting() + end.northing()) : start + " / " + end;
 		
 		return SimpleVector.distance(start, end);
 	}
@@ -521,9 +524,9 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	 * 
 	 */
 	public double bearing () {
-		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		assert ! Double.isNaN(start.easting() + start.northing() + end.easting() + end.northing()) : start + " / " + end;
 		
-		return SimpleVector.normaliseAbsoluteBearing( Math.atan2(end.e - start.e, end.n - start.n) );
+		return SimpleVector.normaliseAbsoluteBearing( Math.atan2(end.easting() - start.easting(), end.northing() - start.northing()) );
 	}
 	
 	
@@ -555,7 +558,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	 * 
 	 */
 	void reverse () {
-		OsmNode start = this.start;
+		Node start = this.start;
 		this.start = this.end;
 		this.end = start;
 	}

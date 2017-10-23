@@ -16,16 +16,15 @@ import de.thaw.thesis.comb.util.SimpleVector;
  */
 public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	
-	// :DEBUG: fields shouldn't be public
-	public final OsmNode start;
-	public final OsmNode end;
-	private OsmNode midPoint = null;
+	private final SourceNode start;
+	private final SourceNode end;
+	private GeneralisedNode midPoint = null;
 	
-	public OsmNode node0 () {
+	public SourceNode node0 () {
 		return start;
 	}
 	
-	public OsmNode node1 () {
+	public SourceNode node1 () {
 		return end;
 	}
 	
@@ -34,10 +33,10 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	int genCounter = 0;
 	
 	
- 	CorrelationEdge (final OsmNode start, final OsmNode end) {
+ 	CorrelationEdge (final SourceNode start, final SourceNode end) {
 		assert (start == null) == (end == null);
 		if (start != null) {
-			assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;  // don't think this is useful
+			assert ! Double.isNaN(start.easting() + start.northing() + end.easting() + end.northing()) : start + " / " + end;  // don't think this is useful
 		}
 		
 		this.start = start;
@@ -45,12 +44,12 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	}
 	
 	
-	boolean contains (final OsmNode node) {
+	boolean contains (final Node node) {
 		return start.equals(node) || end.equals(node);
 	}
 	
 	
-	OsmNode other (final OsmNode node) {
+	SourceNode other (final Node node) {
 		if (start.equals(node)) {
 			return end;
 		}
@@ -61,18 +60,18 @@ public final class CorrelationEdge implements Comparable<CorrelationEdge> {
 	}
 	
 	
-	OsmNode midPoint () {
+	GeneralisedNode midPoint () {
 		if (midPoint == null) {
 			final double e = (start.easting() + end.easting()) / 2.0;
 			final double n = (start.northing() + end.northing()) / 2.0;
-			midPoint = Nodes.createWithEastingNorthing(e, n);
+			midPoint = new GeneralisedNode(e, n);
 		}
 		return midPoint;
 	}
 	
 	
 	double length () {
-		assert ! Double.isNaN(start.e + start.n + end.e + end.n) : start + " / " + end;
+		assert ! Double.isNaN(start.easting() + start.northing() + end.easting() + end.northing()) : start + " / " + end;
 		
 		return SimpleVector.distance(start, end);
 	}

@@ -26,6 +26,6 @@ interface SplitQueueListener extends java.util.EventListener {
 	/**
 	 * 
 	 */
-	void didSplit (List<Segment> fragments, OsmNode splitNode) ;
+	void didSplit (List<Segment> fragments, Node splitNode) ;
 	
 }

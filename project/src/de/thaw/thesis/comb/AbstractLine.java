@@ -66,7 +66,7 @@ abstract class AbstractLine extends AbstractList<SourceSegment> implements Line 
 	 * 
 	 */
 /*
-	public SourceSegment add (final OsmNode node0, final OsmNode node1) {
+	public SourceSegment add (final Node node0, final Node node1) {
 		assert node0 != null && node1 != null;
 		
 		SourceSegment segment = new SourceSegment(node0, node1, this);
@@ -79,16 +79,16 @@ abstract class AbstractLine extends AbstractList<SourceSegment> implements Line 
 */
 	
 	
-	private OsmNode nodeCache = null;
+	private SourceNode nodeCache = null;
 	
-	void addFirst (final OsmNode node) {
+	void addFirst (final SourceNode node) {
 		add(node, false);
 	}
 	
 	
-	private void add (final OsmNode node, final boolean asLast) {
+	private void add (final SourceNode node, final boolean asLast) {
 		assert node != null;
-		OsmNode adjacentNode = asLast ? end() : start();
+		SourceNode adjacentNode = asLast ? end() : start();
 		
 		if (adjacentNode == null) {
 			if (nodeCache == null || nodeCache == node) {
@@ -113,7 +113,7 @@ abstract class AbstractLine extends AbstractList<SourceSegment> implements Line 
 	}
 	
 	
-	public void addLast (final OsmNode node) {
+	public void addLast (final SourceNode node) {
 		add(node, true);
 	}
 	
@@ -132,7 +132,7 @@ abstract class AbstractLine extends AbstractList<SourceSegment> implements Line 
 	
 	
 	// index 0 -> start, index size -> end
-	public void set (final int index, final OsmNode node) {
+	public void set (final int index, final SourceNode node) {
 		if (size() == 0) {
 			if (nodeCache == null) {
 				throw new IndexOutOfBoundsException();
@@ -196,21 +196,21 @@ System.err.println("segment reversed in AbstractLine.add");
 	abstract public long id () ;
 	
 	
-	public OsmNode start () {
+	public SourceNode start () {
 		return size() > 0 ? get(0).start() : null;
 	}
 	
 	
-	public OsmNode end () {
+	public SourceNode end () {
 		return size() > 0 ? get(size() - 1).end() : null;
 	}
 	
 	
-	public Iterable<OsmNode> coordinates () {
+	public Iterable<Node> coordinates () {
 		// :BUG: implement a view for this; faster
 		// (inner list class with custom iterator)
 		
-		List<OsmNode> nodeList = new LinkedList<OsmNode>();
+		List<Node> nodeList = new LinkedList<Node>();
 		if (size() == 0) {
 			assert nodeCache == null : nodeCache;  // this would mean a one-point line
 			return nodeList;
@@ -253,7 +253,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	
 	
 /*
-	private OsmNode connectedNode (final SourceSegment segment1, final SourceSegment segment2) {
+	private Node connectedNode (final SourceSegment segment1, final SourceSegment segment2) {
 		if (segment1.end().equals(segment2.start())) {
 			return segment1.end();
 		}
@@ -270,7 +270,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	}
 	
 	
-	private OsmNode otherNode (final SourceSegment segment, final OsmNode node) {
+	private Node otherNode (final SourceSegment segment, final Node node) {
 		if (segment.start().equals(node)) {
 			return segment.end();
 		}

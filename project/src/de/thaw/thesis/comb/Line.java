@@ -28,14 +28,14 @@ public interface Line extends List<SourceSegment>, SpatialFeature {
 	
 	HighwayRef ref () ;
 	
-	OsmNode start () ;
+	Node start () ;
 	
-	OsmNode end () ;
+	Node end () ;
 	
 	int size () ;  // segment count!
 	// iterateable: segments
 	
-	Iterable<OsmNode> coordinates () ;  // nodes
+	Iterable<Node> coordinates () ;  // nodes
 	
 }
 

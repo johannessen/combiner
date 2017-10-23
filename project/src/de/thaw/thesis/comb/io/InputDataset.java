@@ -9,10 +9,12 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Dataset;
-import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Node;
+import de.thaw.thesis.comb.Nodes;
 import de.thaw.thesis.comb.OsmTags;
 import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.Segment;
+import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
 import de.thaw.thesis.comb.StatSink;
 
@@ -35,7 +37,7 @@ public final class InputDataset implements Dataset {
 	final public static long ID_UNKNOWN = 0L;
 	final public static long ID_NONEXISTENT = -1L;  // newly created feature
 	
-	private final NavigableSet<OsmNode> nodes;
+	private final NavigableSet<Node> nodes;
 	
 	private final List<OsmWay> ways;
 	
@@ -50,7 +52,7 @@ public final class InputDataset implements Dataset {
 	 * 
 	 */
 	public InputDataset () {
-		nodes = new TreeSet<OsmNode>();
+		nodes = new TreeSet<Node>();
 		ways = new LinkedList<OsmWay>();
 	}
 	
@@ -70,7 +72,7 @@ public final class InputDataset implements Dataset {
 	/**
 	 * Create a way in this dataset with segments based on a list of nodes.
 	 */
-	public OsmWay createOsmWay (final OsmTags tags, final List<OsmNode> nodes) {
+	public OsmWay createOsmWay (final OsmTags tags, final List<SourceNode> nodes) {
 		final OsmWay way = new OsmWay(tags, this, nodes);
 		ways.add(way);
 		return way;
@@ -80,10 +82,10 @@ public final class InputDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public OsmNode getNode (final OsmNode newNode) {
+	public Node getNode (final Node newNode) {
 		final boolean didAdd = nodes.add(newNode);
 		if (! didAdd) {
-			final OsmNode existingNode = nodes.floor(newNode);
+			final Node existingNode = nodes.floor(newNode);
 			assert existingNode.equals(newNode) : newNode + " / " + existingNode;
 			return existingNode;
 		}
@@ -98,9 +100,9 @@ public final class InputDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public OsmNode getNodeAtEastingNorthing (final double e, final double n) {
-		return getNode( OsmNode.createWithEastingNorthing(e, n) );
-		/* This wastes some memory by creating an OsmNode instance that is only
+	public Node getNodeAtEastingNorthing (final double e, final double n) {
+		return getNode( Nodes.createWithEastingNorthing(e, n) );
+		/* This wastes some memory by creating a Node instance that is only
 		 * used for retrieving the equal canonical instance already present in
 		 * the node collection. However, directly searching the node collection
 		 * for the primitive coordinates isn't possible because the Java
@@ -115,7 +117,7 @@ public final class InputDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public Collection<OsmNode> allNodes () {
+	public Collection<Node> allNodes () {
 		return Collections.unmodifiableCollection(nodes);
 	}
 	

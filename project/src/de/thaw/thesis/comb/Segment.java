@@ -39,16 +39,16 @@ public interface Segment extends Comparable<Segment>, Vector {
 	 * parts after it was split. Rather than removing (which would likely be
 	 * expensive), we introduce a simple flag to skip any line part that has
 	 * already been split.
-	 * @see #splitAt(OsmNode,SplitQueueListener)
+	 * @see #splitAt(Node,SplitQueueListener)
 	 */
 	boolean shouldIgnore () ;
 	
-	OsmNode start () ;
-	OsmNode end () ;
-	OsmNode midPoint () ;
+	Node start () ;
+	Node end () ;
+	Node midPoint () ;
 	
 	Collection<Segment> splitTargets () ;
-	OsmNode findPerpendicularFoot (OsmNode node) ;
+	Node findPerpendicularFoot (Node node) ;
 	void splitCloseParallels (final SplitQueueListener sink) ;
 	
 	/**
@@ -59,7 +59,7 @@ public interface Segment extends Comparable<Segment>, Vector {
 	 * split can again be used for splitting.
 	 * @see #shouldIgnore()
 	 */
-	void splitAt (OsmNode node, final SplitQueueListener sink) ;
+	void splitAt (Node node, final SplitQueueListener sink) ;
 	
 	void analyse (Analyser visitor) ;
 	

@@ -9,9 +9,11 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Line;
-import de.thaw.thesis.comb.OsmNode;
+import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.Segment;
 import de.thaw.thesis.comb.SourceSegment;
+
+import de.thaw.thesis.comb.util.PlaneCoordinate;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -146,7 +148,7 @@ public final class ShapeWriter {
 	
 	
 	
-	public Point toPoint (final OsmNode node) {
+	public Point toPoint (final PlaneCoordinate node) {
 		final Point point = factory.createPoint(toCoordinate(node));
 		point.setUserData(node);
 		return point;
@@ -154,18 +156,18 @@ public final class ShapeWriter {
 	
 	
 	
-	public Coordinate toCoordinate (final OsmNode node) {
+	public Coordinate toCoordinate (final PlaneCoordinate node) {
 		return new Coordinate(node.easting(), node.northing());
 	}
 	
 	
 	
-	public OsmNode toOsmNode (final Geometry point) {
+	public Node toNode (final Geometry point) {
 		Object userData = point.getUserData();
-		if ( ! (userData instanceof OsmNode) ) {
+		if ( ! (userData instanceof Node) ) {
 			throw new ClassCastException();
 		}
-		return (OsmNode)userData;
+		return (Node)userData;
 	}
 	
 	
@@ -178,7 +180,7 @@ public final class ShapeWriter {
 	
 	
 	
-	public LineString toLineString (final OsmNode node1, final OsmNode node2) {
+	public LineString toLineString (final Node node1, final Node node2) {
 		final Coordinate[] coordinates = new Coordinate[2];
 		coordinates[0] = toCoordinate(node1);
 		coordinates[1] = toCoordinate(node2);
@@ -191,7 +193,7 @@ public final class ShapeWriter {
 		assert line.size() > 0;
 		final Coordinate[] coordinates = new Coordinate[line.size() + 1];
 		int i = 0;
-		for (final OsmNode node : line.coordinates()) {
+		for (final Node node : line.coordinates()) {
 			coordinates[i] = toCoordinate(node);
 			i++;
 		}

@@ -55,7 +55,7 @@ public final class OsmWay extends AbstractLine {
 	/**
 	 * Create a way with segments based on a list of nodes.
 	 */
-	public OsmWay (final OsmTags tags, final Dataset dataset, final List<OsmNode> nodes) {
+	public OsmWay (final OsmTags tags, final Dataset dataset, final List<SourceNode> nodes) {
 		this(tags, dataset, nodes.size() - 1);
 		
 		segmentation(nodes);
@@ -63,16 +63,16 @@ public final class OsmWay extends AbstractLine {
 	
 	
 	
-	private void segmentation (final List<OsmNode> nodes) {
+	private void segmentation (final List<SourceNode> nodes) {
 		if (nodes.size() < 2) {
 			throw new IllegalArgumentException("A way must have at least two nodes");
 		}
 		
 		// SEGMENTIERUNG, see chapter 4.3.1
-		final Iterator<OsmNode> iterator = nodes.iterator();
-		OsmNode prevNode = iterator.next();  // m
+		final Iterator<SourceNode> iterator = nodes.iterator();
+		SourceNode prevNode = iterator.next();  // m
 		while (iterator.hasNext()) {
-			final OsmNode node = iterator.next();  // n
+			final SourceNode node = iterator.next();  // n
 			add(new SourceSegment( prevNode, node, this ));
 			prevNode = node;
 		}

@@ -34,7 +34,7 @@ public class Section extends AbstractLine {
 		}
 		
 		SourceSegment segment = null;
-		OsmNode node = null;
+		SourceNode node = null;
 		Line way = startSegment.way;
 		HighwayRef osmRef = way.ref();
 		// special values for osmRef:
@@ -45,7 +45,7 @@ public class Section extends AbstractLine {
 		for (int i = 0; i < 2; i++) {
 			final boolean forward = i == 0;
 			segment = startSegment;
-			node = forward ? startSegment.end : startSegment.start;
+			node = forward ? startSegment.end() : startSegment.start();
 			
 // wasGeneralised ??
 			startSegment.wasGeneralised -= 1;  // startSegment's counter will be incremented twice
@@ -54,7 +54,7 @@ public class Section extends AbstractLine {
 				
 				addGeneralisedPoint(node, forward);
 				
-				segment = other(segment, node.connectingSegments);
+				segment = other(segment, node.connectingSegments());
 				node = other(node, segment);
 				
 				// analyse OSM tags
@@ -88,7 +88,7 @@ public class Section extends AbstractLine {
 	
 	
 	
-	private void addGeneralisedPoint (final OsmNode node, final boolean addAsLast) {
+	private void addGeneralisedPoint (final SourceNode node, final boolean addAsLast) {
 		if (node == null) {
 			return;
 		}
@@ -115,16 +115,16 @@ public class Section extends AbstractLine {
 	
 	
 	
-	private static OsmNode other (final OsmNode node, final SourceSegment segment) {
+	private static SourceNode other (final SourceNode node, final SourceSegment segment) {
 		if (segment == null) {
 			return null;
 		}
-		if (segment.start.equals(node)) {
-			return segment.end;
+		if (segment.start().equals(node)) {
+			return segment.end();
 		}
 		else {
-			assert segment.end.equals(node);
-			return segment.start;
+			assert segment.end().equals(node);
+			return segment.start();
 		}
 	}
 	

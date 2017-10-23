@@ -61,8 +61,8 @@ public class GeneralisedLines {
 	 */
 	void traverse (final CorrelationGraph graph) {
 		this.graph = graph;
-		CorrelationEdge startEdge = null;  // E_S
-		OsmNode startNode = null;  // E
+//		CorrelationEdge startEdge = null;  // E_S
+//		Node startNode = null;  // E
 		
 		/* This is reasonably fast because both of the inner loops usually have
 		 * only 2 or 3 items to loop through.
@@ -72,20 +72,20 @@ public class GeneralisedLines {
 		for (final CorrelationEdge edge : graph.edges()) {
 				
 			for (int i = 0; i < 2; i++) {
-				OsmNode node = i == 0 ? edge.start : edge.end;
+				SourceNode node = i == 0 ? edge.node0() : edge.node1();
 				
 				
 // eigene funktion!
 				
 				// get segment with ID
-				for (final SourceSegment segment : node.connectingSegments) {
+				for (final SourceSegment segment : node.connectingSegments()) {
 					if (segment.wasGeneralised > 0 || segment.notToBeGeneralised) {
 						continue;
 					}
 					
 					// :FIX: #111 - backward/forward logic can't handle junctions
-					if (node.connectingSegments.size() > 2
-							|| edge.other(node).connectingSegments.size() > 2) {
+					if (node.connectingSegments().size() > 2
+							|| edge.other(node).connectingSegments().size() > 2) {
 						continue;
 					}
 					
@@ -100,7 +100,7 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	private void generaliseSectionAt (final CorrelationEdge edge, final OsmNode node) {
+	private void generaliseSectionAt (final CorrelationEdge edge, final SourceNode node) {
 		final GeneralisedSection section = new GeneralisedSection(graph, edge, node);
 		
 //		section.filterShortSection();
@@ -157,12 +157,12 @@ public class GeneralisedLines {
 			
 			
 			for (int i = 0; i < 2; i++) {
-				final OsmNode node = i == 0 ? section.start() : section.end();
+				final SourceNode node = i == 0 ? section.start() : section.end();
 				
 				// find the closest existing vertex on the generalised section (if any)
 				// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
 				CorrelationEdge theEdge = null;
-				for (final CorrelationEdge anEdge : node.edges) {
+				for (final CorrelationEdge anEdge : node.edges()) {
 					if (theEdge == null || anEdge.length() < theEdge.length()) {
 						theEdge = anEdge;
 					}
@@ -174,7 +174,8 @@ public class GeneralisedLines {
 				// "move" (actually: replace) first/last nodes as appropriate
 				
 // "Edge" als Namen fuer Typ mit midpoint-logik
-				final OsmNode midPoint = theEdge.midPoint();
+// -> kann man machen ("NodePair"), bringt aber eigentlich nix
+				final GeneralisedNode midPoint = theEdge.midPoint();
 				
 /*
 				if (midPoint.id == 0L) {

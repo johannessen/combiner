@@ -9,8 +9,8 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Dataset;
-import de.thaw.thesis.comb.OsmNode;
 import de.thaw.thesis.comb.OsmWay;
+import de.thaw.thesis.comb.SourceNode;
 
 import java.io.File;
 import java.net.URI;
@@ -86,11 +86,14 @@ public final class ShapeReader {
 	}
 	
 	
-	private OsmNode toNode (final Coordinate coordinate) {
+	private SourceNode toNode (final Coordinate coordinate) {
 		// add node to repository in dataset
-		OsmNode node = dataset().getNodeAtEastingNorthing(coordinate.x, coordinate.y);
-		node.id = nextNodeId--;
-		return node;
+		final SourceNode node = new SourceNode(coordinate.x, coordinate.y, nextNodeId);
+		final SourceNode nodeIntern = (SourceNode)dataset().getNode(node);
+		if (node != nodeIntern) {
+			nextNodeId--;
+		}
+		return nodeIntern;
 	}
 	
 	
@@ -122,7 +125,7 @@ public final class ShapeReader {
 				}
 				
 				final ShapeTagsAdapter tags = new ShapeTagsAdapter(feature);
-				final ArrayList<OsmNode> nodes = new ArrayList<OsmNode>( coordinates.size() );
+				final ArrayList<SourceNode> nodes = new ArrayList<SourceNode>( coordinates.size() );
 				for (int i = 0; i < coordinates.size(); i++) {
 					nodes.add(toNode( coordinates.getCoordinate(i) ));
 				}
