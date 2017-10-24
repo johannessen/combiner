@@ -67,6 +67,7 @@ public final class SourceSegment extends AbstractSegment {
 	/**
 	 * 
 	 */
+	// overwrite for return type SourceNode
 	public SourceNode start () {
 		assert start != null;
 		return (SourceNode)start;
@@ -76,9 +77,16 @@ public final class SourceSegment extends AbstractSegment {
 	/**
 	 * 
 	 */
+	// overwrite for return type SourceNode
 	public SourceNode end () {
 		assert end != null;
 		return (SourceNode)end;
+	}
+	
+	
+	// overwrite for return type SourceNode
+	public SourceNode other (final Node node) {
+		return (SourceNode)super.other(node);
 	}
 	
 	

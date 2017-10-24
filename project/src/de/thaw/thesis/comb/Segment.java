@@ -16,12 +16,12 @@ import java.util.Iterator;
 
 // ex LinePart
 /**
- * An ordered tuple of two defined points in the euclidian plane. Instances may
- * or may not have relationships with actual points or ways in the OSM planet
- * database. Instances are always indirectly a part of a
+ * An <em>ordered</em> tuple of two defined points in the euclidian plane.
+ * Instances may or may not have relationships with actual points or ways in
+ * the OSM planet database. Instances are always indirectly a part of a
  * <code>Dataset</code>.
  */
-public interface Segment extends Comparable<Segment>, Vector {
+public interface Segment extends NodePair, Comparable<Segment>, Vector {
 	
 	// :TODO: filter and organise these methods -- they're prolly not all strictly required to be part of the interface
 	// :TODO: rework structure to better fit the Composite pattern
@@ -45,7 +45,6 @@ public interface Segment extends Comparable<Segment>, Vector {
 	
 	Node start () ;
 	Node end () ;
-	Node midPoint () ;
 	
 	Collection<Segment> splitTargets () ;
 	Node findPerpendicularFoot (Node node) ;

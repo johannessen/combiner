@@ -119,13 +119,7 @@ public class Section extends AbstractLine {
 		if (segment == null) {
 			return null;
 		}
-		if (segment.start().equals(node)) {
-			return segment.end();
-		}
-		else {
-			assert segment.end().equals(node);
-			return segment.start();
-		}
+		return segment.other(node);
 	}
 	
 	

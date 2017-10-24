@@ -163,7 +163,7 @@ public class GeneralisedLines {
 				// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
 				CorrelationEdge theEdge = null;
 				for (final CorrelationEdge anEdge : node.edges()) {
-					if (theEdge == null || anEdge.length() < theEdge.length()) {
+					if (theEdge == null || anEdge.distance() < theEdge.distance()) {
 						theEdge = anEdge;
 					}
 				}

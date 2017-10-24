@@ -478,6 +478,18 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	
 	
 	
+	public Node other (final Node node) {
+		if (start.equals(node)) {
+			return end;
+		}
+		else {
+			assert end.equals(node);
+			return start;
+		}
+	}
+	
+	
+	
 	/////////////////////// VECTOR
 	
 /*
