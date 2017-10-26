@@ -32,7 +32,7 @@ OUT=../data/combiner/out.json
 # <http://article.gmane.org/gmane.comp.gis.geotools2.user/15863>
 
 time java \
-		-cp build/classes:lib/*:lib/geotools-17.0/core-0.26.jar:lib/geotools-17.0/gt-api-17.0.jar:lib/geotools-17.0/gt-data-17.0.jar:lib/geotools-17.0/gt-epsg-hsql-17.0.jar:lib/geotools-17.0/gt-main-17.0.jar:lib/geotools-17.0/gt-metadata-17.0.jar:lib/geotools-17.0/gt-opengis-17.0.jar:lib/geotools-17.0/gt-referencing-17.0.jar:lib/geotools-17.0/gt-shapefile-17.0.jar:lib/geotools-17.0/hsqldb-2.3.0.jar:lib/geotools-17.0/jsr-275-1.0-beta-2.jar:lib/geotools-17.0/jts-1.13.jar:lib/geotools-17.0/sqlite-jdbc-3.14.2.1.jar \
+		-cp build/classes:lib/*:lib/geotools-18.0/core-0.26.jar:lib/geotools-18.0/gt-api-18.0.jar:lib/geotools-18.0/gt-data-18.0.jar:lib/geotools-18.0/gt-epsg-hsql-18.0.jar:lib/geotools-18.0/gt-main-18.0.jar:lib/geotools-18.0/gt-metadata-18.0.jar:lib/geotools-18.0/gt-opengis-18.0.jar:lib/geotools-18.0/gt-referencing-18.0.jar:lib/geotools-18.0/gt-shapefile-18.0.jar:lib/geotools-18.0/hsqldb-2.3.0.jar:lib/geotools-18.0/jsr-275-1.0-beta-2.jar:lib/geotools-18.0/jts-core-1.14.0.jar:lib/geotools-18.0/sqlite-jdbc-3.20.0.jar \
 		-ea:de.thaw... \
 		-Djava.awt.headless=true \
 		-verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps \
