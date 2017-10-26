@@ -29,13 +29,12 @@ if [[ -n "$1" ]] ; then REPOSITORY="$1" ; fi
 
 
 
-# clone into current dir, which only works if it is empty
+# clone source code
 echo "Cloning repository '$REPOSITORY'..."
 git clone --recurse-submodules "$REPOSITORY" "$0"
 cd "$0"
 
 # install dependencies
-# The class path consists of the lib directory and any _immediate_ subdirectories.
 cd project/lib
 
 echo "$ARGS4J_URI"
@@ -43,13 +42,27 @@ curl -OL "$ARGS4J_URI"
 
 echo "$GEOTOOLS_URI"
 curl -OL "$GEOTOOLS_URI"
-unzip geotools-18.0-bin.zip
+unzip geotools-18.0-bin.zip \
+geotools-18.0/core-0.26.jar \
+geotools-18.0/gt-api-18.0.jar \
+geotools-18.0/gt-data-18.0.jar \
+geotools-18.0/gt-epsg-hsql-18.0.jar \
+geotools-18.0/gt-main-18.0.jar \
+geotools-18.0/gt-metadata-18.0.jar \
+geotools-18.0/gt-opengis-18.0.jar \
+geotools-18.0/gt-referencing-18.0.jar \
+geotools-18.0/gt-shapefile-18.0.jar \
+geotools-18.0/hsqldb-2.3.0.jar \
+geotools-18.0/jsr-275-1.0-beta-2.jar \
+geotools-18.0/jts-core-1.14.0.jar \
+geotools-18.0/sqlite-jdbc-3.20.0.jar \
+geotools-18.0/GeoTools.html
 
 echo "$TESTNG_URI"
 curl -OL "$TESTNG_URI"
-unzip testng-6.8.zip
+unzip testng-6.8.zip testng-6.8/testng-6.8.jar
 mv testng-6.8/testng-6.8.jar .
-rm -Rf testng-6.8
+rmdir testng-6.8
 
 # cleanup
 rm -f geotools-18.0-bin.zip testng-6.8.zip
