@@ -365,6 +365,7 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in AbstractSegment.analyse()
 
 % TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
 % -> theoretisch keine Rolle, weil durch die beidseitige Relation reziproke Zuordnung möglich ist, aber Randfälle insb. an Kreuzungen sind denkbar. Testen!
@@ -392,6 +393,7 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in SourceSegment.closeParallels() und MyAnalyser
 
 Dass die miteinander verglichenen Segmente nahe beieinander liegen, wird in der \textproc{Analyse} bereits durch die Beschränkung auf \textproc{NaheSegmente} sichergestellt.
 Welche Segmente als „nah“ gelten, ist jedoch von der Definition der \textproc{Hülle} abhängig, für die Überlegungen zur Effizienz eine Rolle spielen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
@@ -415,6 +417,7 @@ So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abs
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in MyAnalyser.evaluate()
 
 %\begin{algorithm}[H]
 %\caption{Mittelpunkt}\label{alg:Mittelpunkt}
@@ -468,6 +471,7 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
+% implementiert in CorrelationGraph.createGraph()
 
 %Die Zuordnungen werden hier als gerichtete Kante $(n_1, n_2)$ beschrieben, obwohl die Orientierung keine Rolle spielt.
 %Dies vereinfacht die weitere Verarbeitung.

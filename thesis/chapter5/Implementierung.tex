@@ -91,12 +91,127 @@ Dem Anwender steht eine Kommandozeilen-Schnittstelle (CLI) zur Verfügung, die i
 Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combiner“ bezeichnet), welche ihrerseits neben dem \term{framework} GeoTools noch einige selbst entwickelte Hilfsmodule verwendet, die nicht vom Combiner abhängig sind und deshalb als separates Softwarepaket dargestellt werden (mit „util“ bezeichnet).
 
 % Noch mal Modularisierung; java Packages erwähnen/erklären? -> eher nein
-% Ausgabe erfolgt nicht in OSM-Format. Hier erklären? -> eher später
 
 
 
 \section{Datenstrukturen}
 \label{ch:data-structures}
+
+% Einleitung/Überleitung:
+% - im Folgenden wird insbesondere der Combiner näher beschrieben
+% - es werden nur wesentliche Aspekte behandelt und im Übrigen auf API-Doku und Source Code verwiesen
+% - übergeordnete Frage: warum _so_ und nicht anders?
+
+% ===========================
+% Erstens: Warum eigene Elementare, warum nicht die von GeoTools nehmen?
+% Einige Algorithmen, zB. SPLITTEN und ANALYSE, ordnen den Segmenten zusätzliche Daten zu (wurzel/closeParallels). Dies unterstützt JTS zwar in Form von "user data objects". Weil jedoch die Arbeit damit eher umständlich ist, wäre dies nur sinnvoll, wenn die Nutzung der JTS-Geodatenstrukturen andere Vorteile bietet.
+% Dies ist jedoch nicht der Fall. Im Gegenteil passen die JTS-Datenstrukturen nicht 100%ig auf meine Algorithmen: Algorithmen beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Nodes, während JTS von längeren Linienzügen ausgeht.
+% Die Algorithmen machen sich außerdem zunutze, dass Segmente sich direkt als Vektoren interpretieren lassen. Routinen zur Vektor-Mathe bietet JTS zwar grundsätzlich an, jedoch sind wichtige Teile davon nicht spezifiziert und damit nicht verlässlich verwendbar (Beispiel: math.Vector2D: angle, vgl. Algorithmus ANALYSE)
+% Abgesehen vom Spatial Index scheinen auch JTS-Manipulationen mir recht wenig zu helfen.
+% Direktes Verwenden der bereitgestellten JTS-Datenstrukutren deshalb eher nicht sinnvoll.
+% => eigene Klassen!
+% evtl. lassen sich, wie in Nr. 8 im "JTS Topology Suite Developer’s Guide" 1.4 beschrieben, die Interfaces (z. B. CoordinateSequence) implementieren, damit die eigenen Klassen von Dritten mit JTS direkt genutzt werden können. Für dieses Projekt hat dies allerdings keinen besonderen Nutzen.
+
+% ===========================
+% Zweitens: ER-Modell präsentieren
+% Design-Entscheidungen darin anhand von Kap. 4 begründen
+%   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
+
+% Für 4.3.1 ergibt sich folgendes Datenmodell:
+% [Dataset]1 <>-- 0…n[Line]1 <>-- 1…n[Segment]1…n <>-- 2[Node]
+% Die Segmente sind wie in 4.3.1 beschrieben zunächst nicht in den Eingangsdaten vorhanden, sie herzustellen ist jedoch eher trivial (SEGMENTIERUNG)
+% Die hier (in Abb. "Datenmodell") gezeigten Datenstrukturen wurden als Interfaces (formale Schnittstellendefinition) umgesetzt, um ihre eventuelle Wiederverwendung zu erleichtern. [cf. GHJV p18]
+% Bei der Implementierung entstand folgende Klassenstruktur:
+% [Klassenstruktur "Splitten"]
+
+% Die Anzahl der jeweils das Interface implementierenden Klassen ist in diesem Projekt klein, so dass es sich anbietet, die jeweiligen Gemeinsamkeiten in abstrakten Klassen zusammenzufassen, um Redundanzen zu vermeiden. Diese Klassen gehören daher zu den umfangreicheren im Projekt.
+% Wie in 4.3.1 erläutert, existiert derjenige node, an dem Segmente beim SPLITTEN zerteilt werden, nicht in den Eingangsdaten. Dementsprechend wird unterschieden zwischen SourceNode (aus OSM kommend) und NonexistentNode (entstehen beim SPLITTEN). Beide implementieren jedoch die gemeinsame Schnittstelle für den Typ Node. Zu den Gemeinsamkeiten für Nodes gehören in erster Linie deren Koordinaten, die folglich von der Klasse AbstractNode verwaltet und von den beiden konkreten Implementierungen geerbt werden.
+% In gleicher Weise fasst AbstractSegment Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (SourceSegment), und solcher Segmente, die erst durch SPLITTEN eines Segments entstehen (Fragment), zusammen. In Abschnitt 4.3 wurden solche Segmente zur Vereinfachung einander gleichgestellt. Für derartige Fälle schlagen Gamma et al. den Einsatz des Composite-Patterns vor: „Use the Composite pattern when […] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ [GHJV p164]
+
+% TODO:
+% - Begründen, warum Bridge notwendig wäre und warum sie nicht gebaut wurde!
+% - Beim SPLITTEN passiert ... was?
+% In diesem speziellen Fall wird die Struktur der Komposition nur durch SPLITTEN verändert. Dabei wird genau ein Segment durch zwei andere ersetzt, die gemeinsam das ersetzte Segment repräsentieren.
+% Dies entspricht zwar dem Composite-Leaf–Modell des Composite-Patterns, aber weil diese Unterscheidung orthogonal zur Unterscheidung in SourceSegment/Fragment ist, 
+
+% TODO:
+% soll tatsächliches Objektmodell für Fragmente gezeigt werden oder verwirrt das nur?
+
+% TODO:
+% Die Unterschiede zwischen SourceSegment und Fragment sind zunächst klein
+% Hier sind zunächst nur NAHESEGMENTE implementiert.
+% Envelope/closeSegments in SOurceSegment sollte laut 4.3.1 auf jedes Segment anwendbar sein, ist tatsähchlich nur auf SourceSeg. implelentiert. Macht aber nix, denn laut 4.3.1 dient NaheSegmente ausdrücklich nur der Effizienzsteigerung, und dem läuft zuwider, dass der R-Ttree nicht verändert werden sollte. Die Korrektheit wird dann laut 4.3.1 über die erneute Abstandsprüfung in der Analyse gesichert.
+
+% TODO:
+% Vector erwähnen!
+
+% (weitere Besonderheiten der Konkreten ggü. Abstract*?)
+%- SourceNode enthält neben der ID nur Pointers zu den Segmenten etc. für die Korralation
+%- SourceSegment außerdem nur L+R sowie analyseLineParts
+
+% ===========================
+% Analyse und Punktezuordnung
+
+% Die Analyse (4.3.2) ändert das Datenmodell nur unwesentlich: SourceSegment bekommt L+R
+% Unterschied in Implementierung: es wird eine Liste gepflegt. TODO: Testen: Unterscheidet sich der Output, wenn die Liste auf das jeweils nächste Element reduziert wird?
+
+% TODO: Visitor
+
+% Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
+% [CorrelationGraph]1 <>-- 1…n[CorrelationEdge]0…n <>-- 2[Node]
+% zusätzlich bekommt SourceNode wenigstens schon mal einige der Pointers, wenn nicht schon alle
+
+% ===========================
+% Liniengeneralisierung 4.3.4
+
+% Datenmodell/Klassenstruktur:
+% [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
+
+% TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Eventuell passiert das hier mit Nodes? Nochmal prüfen! Macht aber eigentlich keinen großen Unterschied.
+% ...
+
+% TODO: Big Renaming #3 (de.thaw.thesis.comb)
+%OsmDataset			Dataset √
+%   special uses (to be reconsidered):
+%   - Output for debugging
+%   - Corr.Graph to get all segments
+%   - Gen.Lines to get all segments and to get midPoints
+%   - AbstractSegment for debugging (parallelFragment sink etc.)
+%OsmTags			Attributes / io.OsmTags ******
+%OsmWay				io.OsmHighway
+%   new interface:	ResultLine
+% erhebliche Redundanzen in Section/GeneralisedSection - was machen wir damit? AbstractSection?
+
+% code currently contains a lot of special-cases for debugging as well as testing:
+% - CombinerMain: iterations / combineLines2
+% - MyAnalyser: evaluateTags
+% - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
+
+
+
+% ===========================
+% Drittens: Zusammenfassung und ggf. Datenfluss/Interaktionswege
+% (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
+
+
+
+% ===========================
+% Anhänge:
+% - komplettes ER-Modell
+% - komplette Klassenstruktur
+% - evtl. Auflösung der in Kap. 4 definierten Algorithmen zu ihren Implementeriungsorten:
+% SEGMENTIERUNG: OsmWay.segmentation
+% SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
+% NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
+% HÜLLE: SourceSegment.envelope
+% FUSSPUNKT: AbstractSegment.findPerpendicularFoot
+% ANALYSE: AbstractSegment.analyse
+% PARALLEL: SourceSegment.closeParallels / MyAnalyser
+% DISTANZ: MyAnalyser.evaluate
+% NODESZUORDNEN: CorrelationGraph.createGraph
+% ZUSAMMENFASSEN: ... (GeneralisedLines/GeneralisedSection)
+
+
 
 \begin{itemize}
 	\item konzeptueller Überblick der entwickelten Software in dem Umfang, der für den Leser dieser Arbeit zum Verständnis notwendig ist
@@ -104,20 +219,31 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 		\item z. B. Klassenstrukturen
 		\item z. B. Interaktionswege
 	\end{itemize}
+	\item Erläuterung wichtiger Designentscheidungen
+	\item Unterschiede zu den entworfenen Algorithmen
 	\item Bezug zu Kapitel 4 herstellen
 \end{itemize}
-
 
 
 
 \section{Schwierigkeiten bei der Umsetzung}
 \label{ch:impl-difficulties}
 
+% - I/O erfolgt nicht in OSM-Format
+% - shapefile-Probleme: shp support wurde in Geotools neu implementiert; ob dies die Probleme löst, wurde nicht getestet <http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng>
+% - I/O-Probleme
+% - Debug-Output
+% - strictly-typed language vielleicht einfach keine so besonders gute Idee zum Prototyping
+
+% TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
+% hier NICHT Probleme mit dem Generalisierungsergebnis oder der Korrektheit der Algorithmen besprechen (gehört zu 6)
+
+
+
 \begin{itemize}
-	\item Erläuterung wichtiger Designentscheidungen
-	\item Unterschiede zu den entworfenen Algorithmen
 	\item interessante konkrete Schwierigkeiten oder Erfolge bei der Implementierung aufzeigen
 \end{itemize}
+
 
 
 % single-chapter commands
