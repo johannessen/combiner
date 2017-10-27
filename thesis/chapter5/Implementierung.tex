@@ -37,7 +37,7 @@ Bei der Entwicklung kamen zuletzt die folgenden Plattformen und \term{frameworks
 \end{itemize}
 
 Ursprünglich wurden ältere Softwareversionen verwendet.
-Die nötigen Anpassungen an die hier genannten aktuellen Versionen waren gering, Kompatibilität mit den älteren Versionen ist jedoch gegenwärtig aufgrund von Änderungen in GeoTools nicht mehr gegeben.
+Die nötigen Anpassungen an die hier genannten aktuellen Versionen waren gering, Kompatibilität mit den älteren Versionen ist jedoch gegenwärtig aufgrund von Änderungen in GeoTools nicht mehr vollständig gegeben.
 Der Code ist dabei noch immer konform zum Syntax von Java 6. \cf{GJSB05}
 
 Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der \term{frameworks} relevant waren.
@@ -52,19 +52,22 @@ Zunächst stellt sich die Frage nach der Benutzerschnittstelle der Software.
 Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (GUI) zu gestalten.
 Denkbar wäre beispielsweise eine Integration in den weit verbreiteten \osm-Editor JOSM als \term{plug-in.}
 Das Entwickeln und Debuggen einer GUI-Anwendung neigt jedoch dazu, zeitaufwändig zu sein.
-Ohnehin würde es ein modularer Aufbau der Anwendung erlauben, zu einem späteren Zeitpunkt eine GUI zu ergänzen.
+Ohnehin würde es ein modularer Aufbau der Anwendung erlauben, zu einem späteren Zeitpunkt eine optionale GUI zu ergänzen.
+\cf[171]{Muc05}
 Aus diesen Gründen soll im Rahmen dieser Arbeit auf eine GUI zugunsten einer einfachen textbasierten Kommandozeilen-Schnittstelle (\term{command-line interface,} CLI) verzichtet werden.
-Zum Parsen der CLI-Parameter bieten sich \term{frameworks} wie etwa args4j an.
+Zum Parsen der CLI-Parameter bieten sich einfache \term{frameworks} wie etwa args4j an.
 
 Zur Verarbeitung beliebiger Geodaten müssen diese aus Datenspeichern eingelesen und wieder ausgegeben werden können.
 Um Entwicklungszeit zu sparen, sollte hierfür nach Möglichkeit ein existierendes \term{framework} genutzt werden.
 Zur Vermeidung einer zu engen Kopplung der Generalisierung an das gewählte \term{framework} ist es zu vermeiden, die Primitiven des \term{frameworks} intern weiterzubenutzen.
+% -> ???
 Stattdessen sollten eigene Datenstrukturen genutzt werden, um Modularität zu fördern.
 Die dabei entstehenden Kosten in Form von Rechenzeit und Speicherverbrauch sind zu berücksichtigen.
 
 Da die Algorithmen auf der euklidischen Ebene definiert sind (vgl. Abschnitt~\ref{ch:split-algorithm}), bietet es sich an, die Implementierung zunächst auf kartesische Koordinaten zu beschränken und zu verlangen, dass aus der \osm-Datenbank stammende Eingangsdaten nach Länge und Breite vor der Verarbeitung vom Benutzer in einem geeigneten Kartennetzentwurf abgebildet werden.
+% Achtung: das passiert im ShapeReader automatisch, wenn die Eingangsdaten eine Abbildung vorgeben! -> Text hier anpassen!
 Grundsätzlich wären angesichts der hier durchzuführenden geometrischen Operationen winkeltreue Abbildungen wie etwa ein Mercator-Netz zu bevorzugen.
-% Sny87, USGS PP 1395 p. 20
+\cf[20]{Sny87}
 Aufgrund der üblicherweise geringen Abstände der Parallelen ist Winkeltreue jedoch kein strenges Kriterium.
 % Wiederholung eines ähnlichen Gedanken in 4.3.1
 
@@ -86,7 +89,7 @@ GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebi
 	\label{fig:system-concept}
 }
 
-Zusammengesetzt ergibt sich aus den besprochenen Aspekten der in Abbildung~\ref{fig:system-concept} dargestellte Systemaufbau:
+Zusammengesetzt ergibt sich aus den besprochenen Aspekten die in Abbildung~\ref{fig:system-concept} dargestellte Architektur:
 Dem Anwender steht eine Kommandozeilen-Schnittstelle (CLI) zur Verfügung, die ihrerseits das \term{framework} args4j zum Parsen der Parameter sowie selbst entwickelte Routinen zur Ein- und Ausgabe der Geodaten verwendet.
 Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combiner“ bezeichnet), welche ihrerseits neben dem \term{framework} GeoTools noch einige selbst entwickelte Hilfsmodule verwendet, die nicht vom Combiner abhängig sind und deshalb als separates Softwarepaket dargestellt werden (mit „util“ bezeichnet).
 
@@ -247,7 +250,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 
 % single-chapter commands
-%\onlyinsubfile{\listoffigures}
+\onlyinsubfile{\listoffigures}
 %\onlyinsubfile{\listoftables}
-%\onlyinsubfile{\input{../bibliography}}
+\onlyinsubfile{\input{../bibliography}}
 \end{document}

@@ -1,3 +1,11 @@
+% UTF-8
+
+% single-chapter commands
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{5}}  % single-chapter command
+\begin{document}
+
+
 \chapter{Ergebnisuntersuchung im Anwendungskontext}
 
 \section{Beurteilungskriterien}
@@ -9,6 +17,7 @@
 \end{itemize}
 
 
+
 \section{Ergebnisbeurteilung}
 
 \begin{itemize}
@@ -17,3 +26,11 @@
 	\item Untersuchung der Anwendung des Algorithmus auf unterschiedliche Beispiele (unterschiedliche Regionen der Welt etc.) der spezifizierten Spezialfälle sowie auf andere als diese spezifizierten Fälle (highways statt railways etc.)
 	\item abschließende quantitative Gesamtbeurteilung des Ergebnisses
 \end{itemize}
+
+
+
+% single-chapter commands
+%\onlyinsubfile{\listoffigures}
+%\onlyinsubfile{\listoftables}
+%\onlyinsubfile{\input{../bibliography}}
+\end{document}

@@ -44,7 +44,7 @@
 		<mkdir dir="build/doc"/>
 		<javadoc sourcepath="src" destdir="build/doc" classpathref="libsRef" access="package" Encoding="UTF-8" docencoding="UTF-8" charset="UTF-8" Version="true" Use="true" Author="true" stylesheetfile="lib/classic-javadoc-stylesheet/classic-stylesheet.css">
 			<link href="https://docs.oracle.com/javase/6/docs/api/"/>
-			<link href="http://atetric.com/atetric/javadoc/com.vividsolutions/jts/1.13/"/>
+			<link href="http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/"/>
 			<link href="http://docs.geotools.org/stable/javadocs/"/>
 			<arg value="-Xdoclint:none"/>
 		</javadoc>
