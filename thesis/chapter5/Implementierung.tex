@@ -120,7 +120,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % Design-Entscheidungen darin anhand von Kap. 4 begründen
 %   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
 
-% Für 4.3.1 ergibt sich folgendes Datenmodell:
+% Für 4.3.1 ("Grundlage" o.ä.) ergibt sich folgendes Datenmodell:
 % [Dataset]1 <>-- 0…n[Line]1 <>-- 1…n[Segment]1…n <>-- 2[Node]
 % Die Segmente sind wie in 4.3.1 beschrieben zunächst nicht in den Eingangsdaten vorhanden, sie herzustellen ist jedoch eher trivial (SEGMENTIERUNG)
 % Die hier (in Abb. "Datenmodell") gezeigten Datenstrukturen wurden als Interfaces (formale Schnittstellendefinition) umgesetzt, um ihre eventuelle Wiederverwendung zu erleichtern. [cf. GHJV p18]
@@ -129,21 +129,26 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 % Die Anzahl der jeweils das Interface implementierenden Klassen ist in diesem Projekt klein, so dass es sich anbietet, die jeweiligen Gemeinsamkeiten in abstrakten Klassen zusammenzufassen, um Redundanzen zu vermeiden. Diese Klassen gehören daher zu den umfangreicheren im Projekt.
 % Wie in 4.3.1 erläutert, existiert derjenige node, an dem Segmente beim SPLITTEN zerteilt werden, nicht in den Eingangsdaten. Dementsprechend wird unterschieden zwischen SourceNode (aus OSM kommend) und NonexistentNode (entstehen beim SPLITTEN). Beide implementieren jedoch die gemeinsame Schnittstelle für den Typ Node. Zu den Gemeinsamkeiten für Nodes gehören in erster Linie deren Koordinaten, die folglich von der Klasse AbstractNode verwaltet und von den beiden konkreten Implementierungen geerbt werden.
-% In gleicher Weise fasst AbstractSegment Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (SourceSegment), und solcher Segmente, die erst durch SPLITTEN eines Segments entstehen (Fragment), zusammen. In Abschnitt 4.3 wurden solche Segmente zur Vereinfachung einander gleichgestellt. Für derartige Fälle schlagen Gamma et al. den Einsatz des Composite-Patterns vor: „Use the Composite pattern when […] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ [GHJV p164]
+% In gleicher Weise fasst AbstractSegment Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (SourceSegment), und solcher Segmente, die erst durch SPLITTEN eines anderen Segments entstehen (Fragment), zusammen. In Abschnitt 4.3 wurden solche Segmente zur Vereinfachung einander gleichgestellt. Für derartige Fälle schlagen Gamma et al. den Einsatz des Composite-Patterns vor: „Use the Composite pattern when […] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ [GHJV p164]
 
-% TODO:
-% - Begründen, warum Bridge notwendig wäre und warum sie nicht gebaut wurde!
-% - Beim SPLITTEN passiert ... was?
+% Besonderheit: Manche Leafs stammen aus den Eingangsdaten (SourceSegments), andere nicht (Fragments). Gleiches gilt für Composites, so dass sich in einer nur auf Vererbung bestehenden Klassenstruktur sofort eine Wucherung aus größtenteils redundanten Klassen ergäbe. Für solche Fälle schlagen Gamma et al. vor, ein Bridge-Pattern einzusetzen ( [GHJV Bridge]), mit dem die Redundanz durch Delegation vermieden werden kann.
+% Eine Kombination aus Composite und Bridge wäre zwar möglich, würde jedoch zu einer recht unübersichtlichen Struktur führen. Gamma et al. betonen, dass Delegation unweigerlich Komplexität mit sich bringt und nur dann sinnvoll ist, wenn andere Vorteile überwiegen („Delegation is a good design choice only when it simplifies more than it complicates.“ [GHJV p21]). Dies ist hier offensichtlich nicht der Fall (Abb. Composite-Bridge).
+% Ihre Empfehlung, Delegation möglichst nur in Form von standardisierten Mustern zu verwenden [cf. ibid.], scheint hier auch wegen einer weiteren Besonderheit nicht anwendbar zu sein:
+% Anfangs nur Leafs, wovon dann einige nach und nach durch SPLITTEN in Composites verwandelt werden (mutable data). Unterschiedliche Klassen für Leaf und Composite sind deshalb hier gar nicht angemessen; vielmehr bietet es sich an, dass eine gemeinsame Klasse mit einem Attribut "children" sich entweder wie ein Leaf oder wie ein Composite verhält, je nachdem, ob es "children" in Form von Fragmenten gibt oder nicht.
+% Aus dieser Erkenntnis ergibt sich eine vergleichsweise einfache Klassenstruktur (Abb. IST). AbstractSegment implementiert die Gemeinsamkeiten aller Segmente. Dazu gehört, dass jedes Segment in genau zwei Fragmente geteilt sein kann, die ihrerseits ebenfalls Segmente sind. Jedes solche Fragment „weiß“ darüber hinaus, aus welchem Segment es aufgeteilt wurde (parent).
+
+%   [[ Textbausteine:
 % In diesem speziellen Fall wird die Struktur der Komposition nur durch SPLITTEN verändert. Dabei wird genau ein Segment durch zwei andere ersetzt, die gemeinsam das ersetzte Segment repräsentieren.
 % Dies entspricht zwar dem Composite-Leaf–Modell des Composite-Patterns, aber weil diese Unterscheidung orthogonal zur Unterscheidung in SourceSegment/Fragment ist, 
+%   ]]
 
 % TODO:
 % soll tatsächliches Objektmodell für Fragmente gezeigt werden oder verwirrt das nur?
+% wenn, dann jedenfalls besser nicht vollständig, sondern vereinfacht
 
-% TODO:
-% Die Unterschiede zwischen SourceSegment und Fragment sind zunächst klein
-% Hier sind zunächst nur NAHESEGMENTE implementiert.
-% Envelope/closeSegments in SOurceSegment sollte laut 4.3.1 auf jedes Segment anwendbar sein, ist tatsähchlich nur auf SourceSeg. implelentiert. Macht aber nix, denn laut 4.3.1 dient NaheSegmente ausdrücklich nur der Effizienzsteigerung, und dem läuft zuwider, dass der R-Ttree nicht verändert werden sollte. Die Korrektheit wird dann laut 4.3.1 über die erneute Abstandsprüfung in der Analyse gesichert.
+% Darüber (parent, s.o.) hinaus sind Unterschiede zwischen SourceSegment und Fragment zunächst klein.
+% Die in 4.3.1 gegebene Definition von HÜLLE / NAHESEGMENTE wurde über den schon erwähnten gepackten R-Baum in JTS implementiert. Dessen Implementierung hat den Nachteil, dass der so erzeugte R-Baum nach dem Packen nicht mehr verändert werden darf. [JTS docs com.vividsolutions.jts.index.strtree.STRtree] (( im Gegensatz zu der Beschreibung in [RSV02 256]! ))
+% Weil wir hier SourceSegments ohnehin als eigene Klasse haben, bietet es sich an, die NAHESEGMENTE-Logik einfach nur darin zu implementieren. Das Packen des R-Baums braucht dann nur genau einmal nach dem SEGMENTIEREN durchgeführt zu werden. Danach werden die SourceSegments nicht mehr verändert. Die Korrektheit muss dann (laut 4.3.1??) über eine erneute Abstandsprüfung in der Analyse gesichert werden, weil so halt ein paar mehr Segmente geliefert werden als es sonst der Fall wäre (weil SourceSegments obdA größer als Fragments sind).
 
 % TODO:
 % Vector erwähnen!
@@ -155,10 +160,14 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % ===========================
 % Analyse und Punktezuordnung
 
-% Die Analyse (4.3.2) ändert das Datenmodell nur unwesentlich: SourceSegment bekommt L+R
-% Unterschied in Implementierung: es wird eine Liste gepflegt. TODO: Testen: Unterscheidet sich der Output, wenn die Liste auf das jeweils nächste Element reduziert wird?
+% Die Analyse (4.3.2) ändert das Datenmodell nur unwesentlich: SourceSegment bekommt L+R (wie in 4.3.2 gezeigt jeweils als Teil der Wurzel)
 
-% TODO: Visitor
+% Obwohl nach der Auswahl eines bestimmten Spezialfalls der Liniengeneralisierung in Kap. 3 andere Fälle nicht weiter berücksichtigt wurden, ist eine auch andere Anwendungsfälle zulassende Flexibilität doch Teil der angestrebten Praxistauglichkeit der zu entwickelnden Software. Angesichts der Arbeitsweise der Algorithmen ist es naheliegend, dass sich dies insbesondere in der Analyse auf Parallelität niederschlagen sollte. Die Definition der ANALYSE beschränkt sich auf geometrische Aspekte; für die konkrete Evaluierung zweiter Segmente spielen im Wesentlichen die Definitionen für PARALLELität und DISTANZ eine Rolle. Es wäre daher von Vorteil, wenn diese beiden Definitionen in der Software leicht austauschbar wären.
+% Dieses Verhalten scheint auf den ersten Blick auf die Beschreibung des TemplateMethod-Patterns zu passen, womit einzelne Schritte verändert werden können, ohne die gesamte Struktur eines Algorithmus zu verändern. Tatsächlich beschränkt sich dieses Muster jedoch darauf, diese einzelnen Schritte von Unterklassen implementieren zu lassen, was auch in der einleitenden Beschreibung von Gamma et al. schon deutlich wird: „Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.“ [GHJV p325] Eine Anwendung an dieser Stelle würde also gerade unter Berücksichtigung der oben beschriebenen Komposition von Segmenten in SourceSegments und Fragments zu einer Wucherung von weiteren Unterklassen führen und wäre daher ungeeignet.
+% Stattdessen empfehlen Gamma et al. das Visitor-Pattern einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. [cf GHJV p344, p333] Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. visitor als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. [cf. GHJV p331-335]
+% In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle Analyser implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen PARALLEL und DISTANZ. Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Kap. 3 gewählten Spezialfalls "Highways" nicht Teil des Combiners zu sein, sondern kann vom Client auf andere Themen angepasst werden.
+
+% TODO: Big Renaming s. u., so dass Highway-Klassen tatsächlich zum Client gehen; ggf. neues Paket comb.highways o. ä. machen, damit im CLI nicht zu viel Spezialkram liegt!
 
 % Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
 % [CorrelationGraph]1 <>-- 1…n[CorrelationEdge]0…n <>-- 2[Node]
@@ -202,7 +211,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % Anhänge:
 % - komplettes ER-Modell
 % - komplette Klassenstruktur
-% - evtl. Auflösung der in Kap. 4 definierten Algorithmen zu ihren Implementeriungsorten:
+% - Auflösung der verwendeten Bezeichner in Kap. 4 vs. im Source:
 % SEGMENTIERUNG: OsmWay.segmentation
 % SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
 % NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
@@ -237,6 +246,10 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % - I/O-Probleme
 % - Debug-Output
 % - strictly-typed language vielleicht einfach keine so besonders gute Idee zum Prototyping
+% - Vektoren waren superhilfreich; aber denkbar, dass hier eine Sprache mit Operator Overloading (im Gegensatz zu Java) /noch/ mehr gebracht hätte
+% - zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge von 2 oder so Elementen iteriert (teils weniger, wie die Untersuchung zu realParallels ergab) und in anderen Fällen wird durch NAHESEGMENTE die Größe der Menge stark begrenzt; deshalb in der Praxis gar nicht mal so schrecklich hoher Rechenaufwand. (Speicher/GC ist größeres Problem.)
+% - Unterschied in Implementierung zu 4.3.2 L+R: es werden Listen gepflegt. Der Output unterscheidet sich jedoch überhaupt nicht; es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird, während andererseits die Liste aller "realParallels" letztlich nur lauter Duplikate von Edges erzeugt, die von der Set-Logik automatisch ignoriert werden. Frage ist hier, welche Variante mit dem Java Collections Framework am effizientesten umzusetzen ist => Optimierungspotential
+
 
 % TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
 % hier NICHT Probleme mit dem Generalisierungsergebnis oder der Korrektheit der Algorithmen besprechen (gehört zu 6)

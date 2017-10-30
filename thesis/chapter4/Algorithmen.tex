@@ -367,8 +367,8 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \end{algorithmhere}
 % implementiert in AbstractSegment.analyse()
 
-% TODO: Weil Fragmente analysiert werden, ist es denkbar, dass mehrere verschiedene Segmente als "links parallel" markiert werden (was IIRC auch so implementiert wurde), diese Formulierung findet aber nur eine davon; spielt dies eine Rolle?
-% -> theoretisch keine Rolle, weil durch die beidseitige Relation reziproke Zuordnung möglich ist, aber Randfälle insb. an Kreuzungen sind denkbar. Testen!
+% Die hier gewählte Definition findet für jede Seite jedes Segments höchstens ein PARALLELes Segment. Alternative wäre auch eine Definition möglich, die *jedes* PARALLELe Segment findet, weil beim NODESZUORDNEN durch die Mengeneigenschaften die Richtung der Zuordnung keine Rolle spielt und Duplikate ignoriert werden. Die Frage ist im Kern, was leichter zu verstehen ist ("parallelLinks" wäre dann eine Relation auf eine Menge von Segmenten, dafür entfiele die Prüfung ∀l' / ∀r').
+% TODO: Welche Variante auch immer gewählt wird: Auf die Wahlfreiheit sollte irgendwo in 4.3 hingewiesen werden. Insbesondere falls die Implementierung von der Definition abweicht, sollte auch hierauf hingewiesen werden, z.B. in 5.4, einschließlich eines Hinweises, dass dies experimentell überprüft wurde (CorrelationGraph-realParallels-reciprocity-check).
 
 % reicht es evtl. aus festzulegen: 2 Segmente parallel gdw. mind. je ein Fragment parallel ist? dann wäre es danach nur noch eine frage, das "beste" zu finden
 % oder evtl. statt "<- l" einfach "<- wurzel(l)" und dann das als Menge ausführen? Das könnte der tatsächlichen Implementierung am ehesten entsprechen, ist aber evtl. unnötig kompliziert.
