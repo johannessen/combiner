@@ -7,13 +7,19 @@
 # halt on error
 set -e
 
+
+
 TESTDATA_URI="http://dev.thaw.de/temp/highways/nrw-roads.zip"
+# This ZIP file contains OSM test data in Shapefile format, dated November 2012. It is still used to get deterministic and thus comparable results during development and testing.
+
 ARGS4J_URI="http://search.maven.org/remotecontent?filepath=args4j/args4j/2.33/args4j-2.33.jar"
 GEOTOOLS_URI="https://downloads.sourceforge.net/project/geotools/GeoTools%2018%20Releases/18.0/geotools-18.0-bin.zip"
 #TESTNG_URI="https://web.archive.org/web/20121113133417/http://testng.org/testng-6.8.zip"
 TESTNG_URI="http://dev.thaw.de/temp/highways/testng-6.8.zip"
 # TestNG: no other version than 6.8 tested
 # (Currently there is trouble with certain TestNG releases; the one from the Internet Archive is the only one I know to be good, containing all required classes. To avoid DOSing the Internet Archive's servers, I put up a copy on dev.thaw.de.)
+
+
 
 # see if there are local copies of the files to be downloaded, to prevent needless strain on the network
 if [[ "`whoami`" == "aj" && "`hostname`" == "Pentland" ]]
