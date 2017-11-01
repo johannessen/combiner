@@ -8,6 +8,7 @@
        <package name="de.thaw.thesis.comb" />
        <package name="de.thaw.thesis.comb.io" />
        <package name="de.thaw.thesis.comb.cli" />
+       <package name="de.thaw.thesis.comb.highway" />
     </packages>
   </test>
 </suite>

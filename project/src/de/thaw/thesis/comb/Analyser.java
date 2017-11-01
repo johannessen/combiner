@@ -10,9 +10,23 @@ package de.thaw.thesis.comb;
 
 
 /**
- * Evaluation functions, which analyse <code>Segment</code>s for parallelisms.
+ * Provides special-cased knowledge about generalising segments by combining.
+ * Clients must provide implementations of this interface that are tuned to
+ * the specific situation in which the generalisation is to be applied (for
+ * example, multi-track rail lines or dual carriageways). This interface is
+ * primarily used during the analysis for parallelisms.
  */
 public interface Analyser {
+	
+	
+	/* Yet to be included here as methods:
+	 * µ = AbstractSegment.MIN_FRAGMENT_LENGTH
+	 * η = SourceSegment.INDEX_ENVELOPE_MARGIN
+	 * PARALLEL angle = SourceSegment.PARALLEL_ANGLE_MAXIMUM / HighwayAnalyser.COLLINEAR_MAX_ANGLE
+	 * PARALLEL distance = HighwayAnalyser.MAX_DISTANCE
+	 * DISTANZ = HighwayAnalyser.evaluate()
+	 * the tag combination routines in *Section
+	 */
 	
 	
 	/**

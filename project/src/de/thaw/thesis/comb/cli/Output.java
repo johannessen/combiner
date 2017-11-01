@@ -8,13 +8,12 @@
 
 package de.thaw.thesis.comb.cli;
 
-import de.thaw.thesis.comb.CorrelationEdge;
 import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.Node;
-import de.thaw.thesis.comb.OsmTags;
+import de.thaw.thesis.comb.NodeMatch;
 import de.thaw.thesis.comb.Segment;
 import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
@@ -22,6 +21,7 @@ import de.thaw.thesis.comb.io.WriterHelper;
 import de.thaw.thesis.comb.io.GeoJsonWriter;
 import de.thaw.thesis.comb.io.ShapeWriter;
 import de.thaw.thesis.comb.io.ShapeWriterDelegate;
+import de.thaw.thesis.comb.util.AttributeProvider;
 import de.thaw.thesis.comb.util.SpatialFeature;
 
 import com.vividsolutions.jts.geom.Geometry;
@@ -203,7 +203,7 @@ final class Output {
 				attributes.add( idsFromParallels(segment.leftRealParallels) );
 				attributes.add( idsFromParallels(segment.rightRealParallels) );
 				attributes.add( reciprocal(segment) ? 1 : 0 );
-				attributes.add( segment.wasGeneralised /*? 1 : 0*/ );
+				attributes.add( segment.wasGeneralised() /*? 1 : 0*/ );
 				return attributes;
 			}
 		});
@@ -346,7 +346,7 @@ final class Output {
 	
 	
 	
-	void writeCorrelationEdges (final Collection<CorrelationEdge> cns, final String path) {
+	void writeCorrelationEdges (final Collection<NodeMatch> cns, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
 			verbose(1, "Skipped writeCorrelationEdges (Writer creation failed for path: " + path + ").");
@@ -354,7 +354,7 @@ final class Output {
 		}
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final CorrelationEdge cn : cns) {
+		for (final NodeMatch cn : cns) {
 			Node node0 = cn.node0();
 			Node node1 = cn.node1();
 			geometries.add( writer.userData(writer.toLineString(node0, node1), cn) );
@@ -398,7 +398,7 @@ final class Output {
 					throw new AssertionError(feature.toString());
 				}
 				Line section = (Line)feature;
-				OsmTags tags = section != null ? section.tags() : null;
+				AttributeProvider tags = section != null ? section.tags() : null;
 				return Arrays.asList(
 					section != null ? section instanceof GeneralisedSection ? "1" : "0" : "-1",
 					tags != null ? tags.get("highway") : "road",
@@ -441,7 +441,7 @@ final class Output {
 	
 	
 	
-	private List<Node> toNodeList (final CorrelationEdge edge, final Node genNode) {
+	private List<Node> toNodeList (final NodeMatch edge, final Node genNode) {
 		LinkedList<Node> list = new LinkedList<Node>();
 		if (edge == null) {
 			return list;

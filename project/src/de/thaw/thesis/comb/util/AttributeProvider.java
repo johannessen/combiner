@@ -6,13 +6,14 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.util;
 
 
+// ex OsmTags
 /**
  * The interface through which OSM tags are retrieved from a tag store.
  */
-public interface OsmTags {
+public interface AttributeProvider {
 	
 	
 	/**

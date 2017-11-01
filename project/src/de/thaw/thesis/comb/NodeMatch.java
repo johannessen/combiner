@@ -15,8 +15,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
+// ex CorrelationEdge
 /**
- *  
+ * A match of two opposite nodes of parallel segments.
  * <p>
  * This class implements the <code>Set</code> interface chiefly to indicate
  * that instances in fact represent an <em>unordered</em> collection of
@@ -24,7 +25,7 @@ import java.util.NoSuchElementException;
  * framework have been implemented, and the required operations should not be
  * expected to be particularly efficient.
  */
-public final class CorrelationEdge extends AbstractSet<SourceNode> implements NodePair, Comparable<CorrelationEdge> {
+public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair, Comparable<NodeMatch> {
 	
 	// there is no intrinsic ordering of the two nodes
 	private final SourceNode node0;
@@ -45,7 +46,7 @@ public final class CorrelationEdge extends AbstractSet<SourceNode> implements No
 	int genCounter = 0;
 	
 	
- 	CorrelationEdge (final SourceNode node0, final SourceNode node1) {
+ 	NodeMatch (final SourceNode node0, final SourceNode node1) {
 		assert (node0 == null) == (node1 == null);
 		if (node0 != null) {
 			assert ! Double.isNaN(node0.easting() + node0.northing() + node1.easting() + node1.northing()) : node0 + " / " + node1;  // don't think this is useful
@@ -89,7 +90,7 @@ public final class CorrelationEdge extends AbstractSet<SourceNode> implements No
 	}
 	
 	
-	public int compareTo (CorrelationEdge that) {
+	public int compareTo (NodeMatch that) {
 		if (this.equals(that)) {
 			return 0;
 		}
@@ -125,10 +126,10 @@ public final class CorrelationEdge extends AbstractSet<SourceNode> implements No
 		if (this == object) {
 			return true;
 		}
-		if (! (object instanceof CorrelationEdge)) {
+		if (! (object instanceof NodeMatch)) {
 			return false;
 		}
-		CorrelationEdge that = (CorrelationEdge)object;
+		NodeMatch that = (NodeMatch)object;
 		
 		// symmetric behaviour: T1->T2 <=> T2->T1
 		boolean e = this.node0.equals(that.node0) && this.node1.equals(that.node1)

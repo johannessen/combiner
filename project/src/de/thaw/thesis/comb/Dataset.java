@@ -34,7 +34,7 @@ public interface Dataset {
 	/**
 	 * 
 	 */
-	List<OsmWay> ways () ;
+	List<? extends Line> ways () ;
 	
 	
 	/**

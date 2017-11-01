@@ -6,20 +6,27 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.highway;
+
+import de.thaw.thesis.comb.AbstractLine;
+import de.thaw.thesis.comb.Dataset;
+import de.thaw.thesis.comb.SourceNode;
+import de.thaw.thesis.comb.SourceSegment;
+import de.thaw.thesis.comb.util.AttributeProvider;
 
 import java.util.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 
+// ex OsmWay
 /**
  * An ordered collection of several line segments in the euclidian plane.
  * Instances represent an OpenStreetMap way, but do not necessarily have a
  * relationship with the OSM planet database. Instances are always part of a
  * <code>Dataset</code>.
  */
-public final class OsmWay extends AbstractLine {
+public final class Highway extends AbstractLine {
 	
 	
 	/**
@@ -28,7 +35,7 @@ public final class OsmWay extends AbstractLine {
 	 * @see #id()
 	 */
 	public long id = Dataset.ID_UNKNOWN;
-	// not all OsmWays have a unique ID (e. g. splitPts, Frederik's shapefile)
+	// not all Highways have a unique ID (e. g. splitPts, Frederik's shapefile)
 	
 	
 	private Dataset dataset = null;
@@ -40,7 +47,7 @@ public final class OsmWay extends AbstractLine {
 	 * populated with segments before it is used.
 	 * Expect this constructor to be deprecated or removed.
 	 */
-	public OsmWay (final OsmTags tags, final Dataset dataset, final int segmentCount) {
+	public Highway (final AttributeProvider tags, final Dataset dataset, final int segmentCount) {
 		super(segmentCount);
 		assert tags != null && dataset != null;
 		
@@ -55,7 +62,7 @@ public final class OsmWay extends AbstractLine {
 	/**
 	 * Create a way with segments based on a list of nodes.
 	 */
-	public OsmWay (final OsmTags tags, final Dataset dataset, final List<SourceNode> nodes) {
+	public Highway (final AttributeProvider tags, final Dataset dataset, final List<SourceNode> nodes) {
 		this(tags, dataset, nodes.size() - 1);
 		
 		segmentation(nodes);

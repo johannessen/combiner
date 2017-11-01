@@ -11,12 +11,12 @@ package de.thaw.thesis.comb.io;
 import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.Nodes;
-import de.thaw.thesis.comb.OsmTags;
-import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.Segment;
 import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
-import de.thaw.thesis.comb.StatSink;
+import de.thaw.thesis.comb.highway.Highway;
+//import de.thaw.thesis.comb.io.StatSink;
+import de.thaw.thesis.comb.util.AttributeProvider;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -39,13 +39,13 @@ public final class InputDataset implements Dataset {
 	
 	private final NavigableSet<Node> nodes;
 	
-	private final List<OsmWay> ways;
+	private final List<Highway> ways;
 	
 	private List<SourceSegment> allSegments = null;
 	
 	public Collection<Segment[]> parallelFragments = new LinkedList<Segment[]>();  // :DEBUG:
 	
-	public StatSink stats = null;
+//	public StatSink stats = null;
 	
 	
 	/**
@@ -53,7 +53,7 @@ public final class InputDataset implements Dataset {
 	 */
 	public InputDataset () {
 		nodes = new TreeSet<Node>();
-		ways = new LinkedList<OsmWay>();
+		ways = new LinkedList<Highway>();
 	}
 	
 	
@@ -62,8 +62,8 @@ public final class InputDataset implements Dataset {
 	 * this way will be populated with segments before it is used.
 	 * Expect this method to be deprecated or removed.
 	 */
-	public OsmWay createOsmWay (final OsmTags tags, final int segmentCount) {
-		OsmWay way = new OsmWay(tags, this, segmentCount);
+	public Highway createOsmWay (final AttributeProvider tags, final int segmentCount) {
+		Highway way = new Highway(tags, this, segmentCount);
 		ways.add(way);
 		return way;
 	}
@@ -72,8 +72,8 @@ public final class InputDataset implements Dataset {
 	/**
 	 * Create a way in this dataset with segments based on a list of nodes.
 	 */
-	public OsmWay createOsmWay (final OsmTags tags, final List<SourceNode> nodes) {
-		final OsmWay way = new OsmWay(tags, this, nodes);
+	public Highway createOsmWay (final AttributeProvider tags, final List<SourceNode> nodes) {
+		final Highway way = new Highway(tags, this, nodes);
 		ways.add(way);
 		return way;
 	}
@@ -131,7 +131,7 @@ public final class InputDataset implements Dataset {
 			// :BUG: expensive; write our own Queue implementation and work directly on its Entry objects
 			// (OTOH, this happens only once...)
 			final List<SourceSegment> list = new LinkedList<SourceSegment>();
-			for (final OsmWay way : ways) {
+			for (final Highway way : ways) {
 				list.addAll(way);
 			}
 			allSegments = Collections.unmodifiableList(list);
@@ -152,7 +152,7 @@ public final class InputDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public List<OsmWay> ways () {
+	public List<Highway> ways () {
 		return Collections.unmodifiableList(ways);
 	}
 	

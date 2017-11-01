@@ -8,6 +8,8 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.highway.HighwayRef;
+import de.thaw.thesis.comb.util.AttributeProvider;
 import de.thaw.thesis.comb.util.SimpleVector;
 
 import java.util.AbstractSequentialList;
@@ -18,15 +20,15 @@ import java.util.ListIterator;
 
 
 
-public class Section extends AbstractLine {
+// ex Section
+/**
+ * A contiguous line in the Combiner's result, created by copying segments from the source dataset without modification.
+ */
+public class ConcatenatedSection extends ResultLine {
 	
-	static double MIN_LENGTH = 10.0;  // :TODO: check what works best
-	
-	private boolean valid = false;
 	
 	
-	
-	Section (final SourceSegment startSegment) {
+	ConcatenatedSection (final SourceSegment startSegment) {
 		
 		if (startSegment == null) {
 			valid = false;
@@ -47,7 +49,12 @@ public class Section extends AbstractLine {
 			segment = startSegment;
 			node = forward ? startSegment.end() : startSegment.start();
 			
-// wasGeneralised ??
+			/* wasGeneralised is a bit of a misnomer here. Modifying
+			 * wasGeneralised at this point doesn't influence the rest of
+			 * the Combiner, but it does influence the wasGeneralised counter
+			 * in the output data. While this counter is actually spec'ed as
+			 * a boolean, using this field for debug purposes is useful.
+			 */
 			startSegment.wasGeneralised -= 1;  // startSegment's counter will be incremented twice
 			while (node != null && segment.wasGeneralised <= 0) {
 				segment.wasGeneralised += 1;
@@ -103,18 +110,6 @@ public class Section extends AbstractLine {
 	
 	
 	
-	public boolean valid () {
-		return valid;
-	}
-	
-	
-	
-	public long id () {
-		return Dataset.ID_NONEXISTENT;
-	}
-	
-	
-	
 	private static SourceNode other (final SourceNode node, final SourceSegment segment) {
 		if (segment == null) {
 			return null;
@@ -138,45 +133,55 @@ public class Section extends AbstractLine {
 	
 	
 	
-	double length () {
-		if (size() < 2) {
-			return 0.0;
+	protected void relocateGeneralisedNodes () {
+		for (int i = 0; i < 2; i++) {
+			final SourceNode node = i == 0 ? start() : end();
+			
+			// find the closest existing vertex on the generalised section (if any)
+			// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
+			NodeMatch theEdge = null;
+			for (final NodeMatch anEdge : node.edges()) {
+				if (theEdge == null || anEdge.distance() < theEdge.distance()) {
+					theEdge = anEdge;
+				}
+			}
+			if (theEdge == null) {
+				continue;  // section doesn't end on generalised node
+			}
+			
+			// "move" (actually: replace) first/last nodes as appropriate
+			
+// "Edge" als Namen fuer Typ mit midpoint-logik
+// -> kann man machen ("NodePair"), bringt aber eigentlich nix
+			final GeneralisedNode midPoint = theEdge.midPoint();
+			
+/*
+			if (midPoint.id == 0L) {
+				midPoint.id = -2L;
+			}
+*/
+			
+// i als parameter für for-i-methode mitgeben
+			if (i == 0) {
+				set(0, midPoint);
+			}
+			else {
+				set(size(), midPoint);  // sic
+			}
 		}
-		// :BUG: calculate intermediate segments
-		return SimpleVector.distance( start(), end() );
-	}
-	
-	
-	
-// häh?
-	void filterShortSection () {
-		assert valid == true;
 		
-		if (length() < MIN_LENGTH) {
-			valid = false;
-		}
-	}
-	
-	
-	
-	private static class Tags implements OsmTags {
-		private final String highway;
-		private final String ref;
-		Tags (final String highway, final String ref) {
-			this.highway = highway != null ? highway.intern() : OsmTags.NO_VALUE;
-			this.ref = ref != null ? ref.intern() : OsmTags.NO_VALUE;
-		}
-		public String get (final String key) {
-			if (key.equals("highway")) {
-				return highway;
+/*
+		// remove short sections
+		// (very dumb algorithms; we shouldn't remvoe everything)
+		Iterator<Section> i = lines2.iterator();
+		while (i.hasNext()) {
+			Section section = i.next();
+			section.filterShortSection();
+			if (! section.valid()) {
+				i.remove();
 			}
-			if (key.equals("ref")) {
-				return ref;
-			}
-			return OsmTags.NO_VALUE;
 		}
+*/
 	}
 	
 }
-
-

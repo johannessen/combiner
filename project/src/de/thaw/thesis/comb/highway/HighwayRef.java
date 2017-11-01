@@ -6,7 +6,7 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.highway;
 
 
 // :TODO:
@@ -25,7 +25,7 @@ public class HighwayRef implements Comparable<HighwayRef> {
 	}
 	
 	
-	static HighwayRef valueOf (final String name) {
+	public static HighwayRef valueOf (final String name) {
 		return new HighwayRef(name.intern());
 		/* Memory cost ist still more of a problem for us than time cost. Since
 		 * there is most likely a high number of ways with the same ref, string

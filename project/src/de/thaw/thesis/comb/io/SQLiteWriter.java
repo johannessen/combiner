@@ -8,8 +8,6 @@
 
 package de.thaw.thesis.comb.io;
 
-import de.thaw.thesis.comb.StatSink;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;

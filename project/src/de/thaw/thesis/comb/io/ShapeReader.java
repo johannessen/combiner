@@ -9,8 +9,8 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Dataset;
-import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.SourceNode;
+import de.thaw.thesis.comb.highway.Highway;
 
 import java.io.File;
 import java.net.URI;
@@ -129,7 +129,7 @@ public final class ShapeReader {
 				for (int i = 0; i < coordinates.size(); i++) {
 					nodes.add(toNode( coordinates.getCoordinate(i) ));
 				}
-				final OsmWay way = dataset.createOsmWay(tags, nodes);
+				final Highway way = dataset.createOsmWay(tags, nodes);
 				way.id = featureId(feature);
 				way.mutable(false);
 			}

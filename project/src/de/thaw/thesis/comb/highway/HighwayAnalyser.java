@@ -6,20 +6,21 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb.cli;
+package de.thaw.thesis.comb.highway;
 
 import de.thaw.thesis.comb.Analyser;
 import de.thaw.thesis.comb.Segment;
-import de.thaw.thesis.comb.OsmTags;
+import de.thaw.thesis.comb.util.AttributeProvider;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
 
+// ex MyAnalyser
 /**
  * This Client's Analyser. This implementation evaluates fragments on a purely
  * geometric basis; OSM tags are not taken into account in any way.
  */
-final class MyAnalyser implements Analyser {
+public final class HighwayAnalyser implements Analyser {
 	
 	private final double MAX_DISTANCE = 40.0;  // metres
 	
@@ -28,12 +29,12 @@ final class MyAnalyser implements Analyser {
 	private final boolean evaluateTags;
 	
 	
-	MyAnalyser (final boolean evaluateTags) {
+	public HighwayAnalyser (final boolean evaluateTags) {
 		this.evaluateTags = evaluateTags;
 	}
 	
 	
-	private OsmTags tags (final Segment part) {
+	private AttributeProvider tags (final Segment part) {
 		return part.root().way.tags();
 	}
 	

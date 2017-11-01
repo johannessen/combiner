@@ -13,12 +13,12 @@ import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.Node;
-import de.thaw.thesis.comb.OsmWay;
 import de.thaw.thesis.comb.SourceNode;
+import de.thaw.thesis.comb.highway.Highway;
+import de.thaw.thesis.comb.highway.HighwayAnalyser;
 import de.thaw.thesis.comb.io.InputDataset;
 import de.thaw.thesis.comb.io.ShapeReader;
 import de.thaw.thesis.comb.io.SQLiteWriter;
-import de.thaw.thesis.comb.StatSink;
 
 import java.io.File;
 import java.util.Collection;
@@ -69,7 +69,7 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 //		dataset.stats = stats;
 Combiner.printMemoryStatistics();
 		
-		final Combiner combiner = new Combiner(dataset, new MyAnalyser(iterations < 0));
+		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(iterations < 0));
 //		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
 		combiner.run();
@@ -107,7 +107,7 @@ Combiner.printMemoryStatistics();
 		InputDataset dataset = new InputDataset();
 		addLinesToDataset(dataset, lines.lines());
 		
-		final Combiner combiner = new Combiner(dataset, new MyAnalyser(false));
+		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(false));
 		combiner.verbose = VERBOSE;
 		combiner.run();
 		
@@ -132,7 +132,7 @@ Combiner.printMemoryStatistics();
 	// make generalisation result into new dataset for repetition of generalisation
 	void addLinesToDataset (final InputDataset dataset, final Collection<? extends Line> sections) {
 		for (final Line section : sections) {
-			final OsmWay way = dataset.createOsmWay(section.tags(), section.size());
+			final Highway way = dataset.createOsmWay(section.tags(), section.size());
 			for (Node node : section.coordinates()) {
 				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
 				

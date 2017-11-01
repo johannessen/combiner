@@ -1,4 +1,4 @@
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.highway;
 
 import org.testng.annotations.*;
 

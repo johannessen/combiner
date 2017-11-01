@@ -21,25 +21,23 @@ import java.util.NavigableSet;
 import java.util.TreeSet;
 
 
+// ex CorrelationGraph
 /**
- * 
+ * A graph of segments and node matches, to be used for generalisation.
  */
-public final class CorrelationGraph {
+public final class NodeGraph {
 	
 	final Dataset dataset;
 	
-	CorrelationEdge[] sortedEdges;
+	NodeMatch[] sortedEdges;
 	
-	NavigableSet<CorrelationEdge> sortedEdgesSet;
-	
-	Collection<GeneralisedSection> generalisedLines;
+	NavigableSet<NodeMatch> sortedEdgesSet;
 	
 	
-	CorrelationGraph (final Dataset dataset) {
+	NodeGraph (final Dataset dataset) {
 		this.dataset = dataset;
 		
-		generalisedLines = new LinkedList<GeneralisedSection>();
-		sortedEdgesSet = new TreeSet<CorrelationEdge>();
+		sortedEdgesSet = new TreeSet<NodeMatch>();
 		createGraph();
 	}
 	
@@ -92,7 +90,7 @@ public final class CorrelationGraph {
 			segment.wasCorrelated = true;
 		}
 		
-		sortedEdges = sortedEdgesSet.toArray(new CorrelationEdge[0]);
+		sortedEdges = sortedEdgesSet.toArray(new NodeMatch[0]);
 		sortedEdgesSet = null;
 	}
 	
@@ -126,13 +124,13 @@ public final class CorrelationGraph {
 			return;
 		}
 		
-		assert contains(new CorrelationEdge(segmentNode, closestNode)) == contains(new CorrelationEdge(closestNode, segmentNode)) : new CorrelationEdge(segmentNode, closestNode);  // testing Set comparisons
+		assert contains(new NodeMatch(segmentNode, closestNode)) == contains(new NodeMatch(closestNode, segmentNode)) : new NodeMatch(segmentNode, closestNode);  // testing Set comparisons
 		
-		add(new CorrelationEdge( segmentNode, closestNode ));
+		add(new NodeMatch( segmentNode, closestNode ));
 	}
 	
 	
-	private boolean add (final CorrelationEdge edge) {
+	private boolean add (final NodeMatch edge) {
 		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
 		final boolean didAdd = sortedEdgesSet.add(edge);
 		if (didAdd) {
@@ -143,13 +141,13 @@ public final class CorrelationGraph {
 	}
 	
 	
-	CorrelationEdge get (final SourceNode node0, final SourceNode node1) {
-		CorrelationEdge testEdge = new CorrelationEdge(node0, node1);
+	NodeMatch get (final SourceNode node0, final SourceNode node1) {
+		NodeMatch testEdge = new NodeMatch(node0, node1);
 		return intern(testEdge);
 	}
 	
 	
-	boolean contains (final CorrelationEdge edge) {
+	boolean contains (final NodeMatch edge) {
 		if (sortedEdges == null) {
 			return sortedEdgesSet.contains(edge);
 		}
@@ -158,7 +156,7 @@ public final class CorrelationGraph {
 	
 	
 	// the point of this method is to return the original collection element, enabling the client to operate on that instead of some "equal" clone
-	CorrelationEdge intern (final CorrelationEdge edge) {
+	NodeMatch intern (final NodeMatch edge) {
 		assert sortedEdgesSet == null;  // Collection doesn't support get, only from array (Illegal State)
 		final int i = Arrays.binarySearch(sortedEdges, edge);
 		if (i < 0) {
@@ -168,7 +166,7 @@ public final class CorrelationGraph {
 	}
 	
 	
-	Collection<CorrelationEdge> edges () {
+	Collection<NodeMatch> edges () {
 		return Collections.unmodifiableList( Arrays.asList(sortedEdges) );
 	}
 	

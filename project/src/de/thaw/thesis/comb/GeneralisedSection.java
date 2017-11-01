@@ -8,6 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.highway.HighwayRef;
+import de.thaw.thesis.comb.highway.HighwayType;
+import de.thaw.thesis.comb.util.AttributeProvider;
 import de.thaw.thesis.comb.util.SimpleVector;
 import de.thaw.thesis.comb.util.Vector;
 
@@ -20,30 +23,31 @@ import java.util.ListIterator;
 
 
 
-public class GeneralisedSection extends AbstractLine {
+/**
+ * A contiguous line in the Combiner's result, created by combining two parallel lines read from the source dataset.
+ */
+public class GeneralisedSection extends ResultLine {
 	
 	static double MIN_LENGTH = 50.0;  // :TODO: check what works best
 	
 	public LinkedList<SourceSegment> originalSegments = new LinkedList<SourceSegment>();
 	public LinkedList<SourceNode> originalNodes = new LinkedList<SourceNode>();
 	
-	public CorrelationEdge startConnector = null;
-	public CorrelationEdge endConnector = null;
+	public NodeMatch startConnector = null;
+	public NodeMatch endConnector = null;
 	
-	private boolean valid = false;
-	
-	private CorrelationGraph graph;
+	private NodeGraph graph;
 	
 	
 	
-	CorrelationEdge startEdge = null;  // E
+	NodeMatch startEdge = null;  // E
 	SourceNode startNode = null;  // E_S
-	OsmWay startWay = null;
+//	Highway startWay = null;
 	
 	HighwayType osmHighway = null;
 	String osmRef = null;
 	
-	GeneralisedSection (final CorrelationGraph graph, final CorrelationEdge edge, final SourceNode node) {
+	GeneralisedSection (final NodeGraph graph, final NodeMatch edge, final SourceNode node) {
 		this.graph = graph;
 		
 		startEdge = edge;
@@ -72,7 +76,7 @@ public class GeneralisedSection extends AbstractLine {
 				continue;
 			}
 			
-			CorrelationEdge lastEdge = traverseGraph(segment, forward);
+			NodeMatch lastEdge = traverseGraph(segment, forward);
 			if (lastEdge == startEdge) {
 				continue;
 			}
@@ -99,9 +103,9 @@ public class GeneralisedSection extends AbstractLine {
 	boolean segment2Aligned = true;
 	SourceNode currentNode1 = null;  // E_S
 	SourceNode currentNode2 = null;  // E_T
-	CorrelationEdge currentEdge = null;  // E
+	NodeMatch currentEdge = null;  // E
 	
-	private CorrelationEdge traverseGraph (final SourceSegment segment, final boolean forward) {
+	private NodeMatch traverseGraph (final SourceSegment segment, final boolean forward) {
 		
 		currentEdge = startEdge;
 		currentNode1 = startNode;
@@ -126,7 +130,7 @@ public class GeneralisedSection extends AbstractLine {
 			osmHighway = segment1.way.type();
 			osmRef = "";
 			// special values for osmRef:
-			// ""/OsmTags.NO_VALUE -> no known ref; null -> conflicting refs
+			// ""/AttributeProvider.NO_VALUE -> no known ref; null -> conflicting refs
 		}
 		
 		// (TG 3a)
@@ -164,7 +168,7 @@ public class GeneralisedSection extends AbstractLine {
 			SourceNode nextNode1 = segment1Aligned ? segment1.end() : segment1.start();  // X
 			SourceNode nextNode2 = segment2Aligned ? segment2.end() : segment2.start();  // Y
 			
-			CorrelationEdge nextEdge;
+			NodeMatch nextEdge;
 			
 			// (TG 6/7)
 			nextEdge = graph.get(nextNode1, currentNode2);
@@ -259,7 +263,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	private void addConnector (final CorrelationEdge edge, final boolean addAtEnd) {
+	private void addConnector (final NodeMatch edge, final boolean addAtEnd) {
 		if (addAtEnd) {
 			endConnector = edge;
 		}
@@ -272,7 +276,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	// (TG 4) find M
-	private void addGeneralisedPoint (CorrelationEdge edge, boolean addAsLast) {
+	private void addGeneralisedPoint (NodeMatch edge, boolean addAsLast) {
 		if (edge == null) {
 			return;
 		}
@@ -321,28 +325,6 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
-	boolean valid () {
-		return valid;
-	}
-	
-	
-	
-	public long id () {
-		return Dataset.ID_NONEXISTENT;
-	}
-	
-	
-	
-	double length () {
-		if (size() < 2) {
-			return 0.0;
-		}
-		// :BUG: calculate intermediate segments
-		return SimpleVector.distance( start(), end() );
-	}
-	
-	
-	
 	void ungeneralise () {
 		for (SourceSegment segment : originalSegments) {
 			segment.wasGeneralised -= 1;
@@ -359,6 +341,7 @@ public class GeneralisedSection extends AbstractLine {
 	
 	
 	
+/* 
 	void filterShortSection () {
 //		assert valid == true;
 		
@@ -367,25 +350,12 @@ public class GeneralisedSection extends AbstractLine {
 			ungeneralise();
 		}
 	}
+ */
 	
 	
 	
-	private static class Tags implements OsmTags {
-		private final String highway;
-		private final String ref;
-		Tags (final String highway, final String ref) {
-			this.highway = highway != null ? highway.intern() : OsmTags.NO_VALUE;
-			this.ref = (ref != null && ref.length() > 0) ? ref.intern() : OsmTags.NO_VALUE;
-		}
-		public String get (final String key) {
-			if (key.equals("highway")) {
-				return highway;
-			}
-			if (key.equals("ref")) {
-				return ref;
-			}
-			return OsmTags.NO_VALUE;
-		}
+	protected void relocateGeneralisedNodes () {
+		// no-op (not yet implemented, possibly not even necessary)
 	}
 	
 }

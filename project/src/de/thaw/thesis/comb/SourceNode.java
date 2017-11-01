@@ -37,9 +37,9 @@ public class SourceNode extends AbstractNode {
 	
 	private final Collection<GeneralisedSection> generalisedSections = new LinkedList<GeneralisedSection>();
 	
-	private final Collection<CorrelationEdge> edges = new LinkedList<CorrelationEdge>();
+	private final Collection<NodeMatch> edges = new LinkedList<NodeMatch>();
 	
-//	final Collection<SectionInterface> allSections = new LinkedList<SectionInterface>();
+//	final Collection<ResultLine> allSections = new LinkedList<ResultLine>();
 	
 	
 	/**
@@ -80,12 +80,12 @@ public class SourceNode extends AbstractNode {
 	}
 	
 	
-	public Collection<CorrelationEdge> edges () {
-		return Collections.<CorrelationEdge>unmodifiableCollection( edges );
+	public Collection<NodeMatch> edges () {
+		return Collections.<NodeMatch>unmodifiableCollection( edges );
 	}
 	
 	
-	public void addEdge (final CorrelationEdge edge) {
+	public void addEdge (final NodeMatch edge) {
 		edges.add(edge);
 	}
 	

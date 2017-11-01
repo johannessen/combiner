@@ -6,7 +6,7 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.io;
 
 
 public interface StatSink {

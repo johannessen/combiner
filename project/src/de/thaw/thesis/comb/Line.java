@@ -8,6 +8,9 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.highway.HighwayType;
+import de.thaw.thesis.comb.highway.HighwayRef;
+import de.thaw.thesis.comb.util.AttributeProvider;
 import de.thaw.thesis.comb.util.SpatialFeature;
 
 import java.util.Collection;
@@ -22,7 +25,7 @@ public interface Line extends List<SourceSegment>, SpatialFeature {
 	
 	long id () ;  // optional
 	
-	OsmTags tags () ;
+	AttributeProvider tags () ;
 	
 	HighwayType type () ;
 	

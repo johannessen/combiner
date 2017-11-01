@@ -6,7 +6,7 @@
  * with the terms of the 3-clause BSD licence. See LICENSE for details.
  */
 
-package de.thaw.thesis.comb;
+package de.thaw.thesis.comb.highway;
 
 
 public final class HighwayType implements Comparable<HighwayType> {
@@ -77,7 +77,7 @@ public final class HighwayType implements Comparable<HighwayType> {
 	}
 	
 	
-	String name () {
+	public String name () {
 		return name;
 	}
 	

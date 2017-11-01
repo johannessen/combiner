@@ -8,6 +8,7 @@
 
 package de.thaw.thesis.comb;
 
+//import de.thaw.thesis.comb.io.StatSink;
 import de.thaw.thesis.comb.util.MutableIterator2;
 
 import com.vividsolutions.jts.index.SpatialIndex;
@@ -37,12 +38,12 @@ public final class Combiner {
 	private final Analyser analyser;
 	
 	// :DEBUG: debugging output
-	public Collection<CorrelationEdge> cns;
+	public Collection<NodeMatch> cns;
 	public GeneralisedLines gen;
 	
 	public int verbose = 0;
 	
-	public StatSink stats = null;
+//	public StatSink stats = null;
 	
 	
 	
@@ -69,15 +70,15 @@ Combiner.printMemoryStatistics();
 		analyseSegments(analyser);
 Combiner.printMemoryStatistics();
 		
-		CorrelationGraph graph = correlateNodes();
+		NodeGraph graph = correlateNodes();
 		cns = graph.edges();  // :DEBUG: debugging output
 		
 		GeneralisedLines lines = new GeneralisedLines();
 		lines.traverse(graph);
+		lines.concatUncombinedLines(dataset);
+		lines.cleanup();
 		gen = lines;  // :DEBUG: debugging output
 Combiner.printMemoryStatistics();
-		
-		lines.cleanup(dataset);
 		
 		verbose(1, "Done.");
 		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");
@@ -85,8 +86,8 @@ Combiner.printMemoryStatistics();
 	
 	
 	
-	CorrelationGraph correlateNodes () {
-		CorrelationGraph correlations = new CorrelationGraph(dataset);
+	NodeGraph correlateNodes () {
+		NodeGraph correlations = new NodeGraph(dataset);
 		verbose(1, "Node Correlation done.");
 		return correlations;
 	}
@@ -158,7 +159,7 @@ Combiner.printMemoryStatistics();
 		final SplitQueueIterator iterator = new SplitQueueIterator();
 		
 		// :BUG: expensive; write our own Queue implementation and work directly on its Entry objects
-		for (final OsmWay way : dataset.ways()) {
+		for (final Line way : dataset.ways()) {
 			// we only have segments at the beginning, which means this is sufficient
 			// fragments are added later as they are created, see MutableIterator#add()
 			iterator.add(Collections.<Segment>unmodifiableCollection( way ));

@@ -8,6 +8,10 @@
 
 package de.thaw.thesis.comb;
 
+import de.thaw.thesis.comb.highway.HighwayType;
+import de.thaw.thesis.comb.highway.HighwayRef;
+import de.thaw.thesis.comb.util.AttributeProvider;
+
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,27 +29,27 @@ import java.util.LinkedList;
  * this IS a collection of SEGMENTS!
  * 
  */
-abstract class AbstractLine extends AbstractList<SourceSegment> implements Line {
+public abstract class AbstractLine extends AbstractList<SourceSegment> implements Line {
 	
 	final private List<SourceSegment> segments;
 	
 	// we now do guarantee that the segments are oriented the same way as the line is!
 	
-	OsmTags tags = null;
+	protected AttributeProvider tags = null;
 	
-	HighwayType highwayType = null;
+	protected HighwayType highwayType = null;
 	
-	HighwayRef highwayRef = null;
+	protected HighwayRef highwayRef = null;
 	
 	private boolean mutable = true;
 	
 	
-	AbstractLine (final int capacity) {
+	public AbstractLine (final int capacity) {
 		segments = new ArrayList<SourceSegment>(capacity);
 	}
 	
 	
-	AbstractLine () {
+	public AbstractLine () {
 		segments = new LinkedList<SourceSegment>();
 	}
 	
@@ -228,7 +232,7 @@ System.err.println("segment reversed in AbstractLine.add");
 	/**
 	 * 
 	 */
-	public OsmTags tags () {
+	public AttributeProvider tags () {
 		return tags;
 	}
 	

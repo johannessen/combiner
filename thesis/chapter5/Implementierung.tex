@@ -167,10 +167,8 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % Stattdessen empfehlen Gamma et al. das Visitor-Pattern einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. [cf GHJV p344, p333] Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. visitor als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. [cf. GHJV p331-335]
 % In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle Analyser implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen PARALLEL und DISTANZ. Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Kap. 3 gewählten Spezialfalls "Highways" nicht Teil des Combiners zu sein, sondern kann vom Client auf andere Themen angepasst werden.
 
-% TODO: Big Renaming s. u., so dass Highway-Klassen tatsächlich zum Client gehen; ggf. neues Paket comb.highways o. ä. machen, damit im CLI nicht zu viel Spezialkram liegt!
-
 % Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
-% [CorrelationGraph]1 <>-- 1…n[CorrelationEdge]0…n <>-- 2[Node]
+% [NodeGraph]1 <>-- 1…n[NodeMatch]0…n <>-- 2[Node]
 % zusätzlich bekommt SourceNode wenigstens schon mal einige der Pointers, wenn nicht schon alle
 
 % ===========================
@@ -182,28 +180,24 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Eventuell passiert das hier mit Nodes? Nochmal prüfen! Macht aber eigentlich keinen großen Unterschied.
 % ...
 
-% TODO: Big Renaming #3 (de.thaw.thesis.comb)
-%OsmDataset			Dataset √
-%   special uses (to be reconsidered):
-%   - Output for debugging
-%   - Corr.Graph to get all segments
-%   - Gen.Lines to get all segments and to get midPoints
-%   - AbstractSegment for debugging (parallelFragment sink etc.)
-%OsmTags			Attributes / io.OsmTags ******
-%OsmWay				io.OsmHighway
-%   new interface:	ResultLine
-% erhebliche Redundanzen in Section/GeneralisedSection - was machen wir damit? AbstractSection?
-
-% code currently contains a lot of special-cases for debugging as well as testing:
-% - CombinerMain: iterations / combineLines2
-% - MyAnalyser: evaluateTags
-% - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
-
 
 
 % ===========================
 % Drittens: Zusammenfassung und ggf. Datenfluss/Interaktionswege
 % (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
+
+% TODO: Big Renaming #4 (optional)
+%1: de.thaw.thesis.comb -> de.thaw.comb
+%2: Dataset
+% special uses (to be reconsidered):
+% - Output for debugging
+% - Corr.Graph to get all segments
+% - Gen.Lines to get all segments and to get midPoints
+% - AbstractSegment for debugging (parallelFragment sink etc.)
+%3: code currently contains a lot of special-cases for debugging as well as testing:
+% - CombinerMain: iterations / combineLines2
+% - MyAnalyser: evaluateTags
+% - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
 
 
 
@@ -249,6 +243,9 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % - Vektoren waren superhilfreich; aber denkbar, dass hier eine Sprache mit Operator Overloading (im Gegensatz zu Java) /noch/ mehr gebracht hätte
 % - zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge von 2 oder so Elementen iteriert (teils weniger, wie die Untersuchung zu realParallels ergab) und in anderen Fällen wird durch NAHESEGMENTE die Größe der Menge stark begrenzt; deshalb in der Praxis gar nicht mal so schrecklich hoher Rechenaufwand. (Speicher/GC ist größeres Problem.)
 % - Unterschied in Implementierung zu 4.3.2 L+R: es werden Listen gepflegt. Der Output unterscheidet sich jedoch überhaupt nicht; es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird, während andererseits die Liste aller "realParallels" letztlich nur lauter Duplikate von Edges erzeugt, die von der Set-Logik automatisch ignoriert werden. Frage ist hier, welche Variante mit dem Java Collections Framework am effizientesten umzusetzen ist => Optimierungspotential
+% - dass es für das ding mit den segmenten nicht bereits geeignete klassen gab, hat einiges an zusatzarbeit verursacht. das gestalten der datenstrukturen war lehrreich, aber aufwändiger als erwartet
+% - die Shapefiles enthalten aus technischen Gründen veränderte Attribute, nicht die original-OSM-tags => io.ShapeTagsAdapter
+% - fortbestehendes Problem (aus Zeitgründen): die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section arbeiten direkt mit Highway-Klassen, obwohl das eigentlich nur der Client tun sollte
 
 
 % TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten

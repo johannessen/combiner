@@ -35,11 +35,10 @@ public final class SourceSegment extends AbstractSegment {
 	Envelope envelope;
 	
 	boolean wasCorrelated = false;
-//	public boolean wasGeneralised = false;
-	public int wasGeneralised = 0;
-	public boolean notToBeGeneralised = false;
+	int wasGeneralised = 0;
+	boolean notToBeGeneralised = false;  // avoids infinite loop in GeneralisedLines#traverse()
 	
-	public Line way;
+	public Line way;  // :BUG: shouldn't be public
 	
 	private Collection<SourceSegment> closeSegments;  // (D)
 	private Collection<SourceSegment> closeParallels;  // (B)
@@ -49,9 +48,9 @@ public final class SourceSegment extends AbstractSegment {
 	public Set<SourceSegment> rightRealParallels;
 	
 	
-	SourceSegment (final SourceNode start, final SourceNode end, final Line way) {
+	public SourceSegment (final SourceNode start, final SourceNode end, final Line way) {
 		super(start, end);
-		assert way != null /* && way instanceof OsmWay*/;
+		assert way != null /* && way instanceof Highway*/;
 		
 		this.way = way;
 		leftRealParallels = new LinkedHashSet<SourceSegment>();
@@ -67,7 +66,7 @@ public final class SourceSegment extends AbstractSegment {
 	/**
 	 * 
 	 */
-	// overwrite for return type SourceNode
+	@Override  // return type SourceNode
 	public SourceNode start () {
 		assert start != null;
 		return (SourceNode)start;
@@ -77,14 +76,19 @@ public final class SourceSegment extends AbstractSegment {
 	/**
 	 * 
 	 */
-	// overwrite for return type SourceNode
+	@Override  // return type SourceNode
 	public SourceNode end () {
 		assert end != null;
 		return (SourceNode)end;
 	}
 	
 	
-	// overwrite for return type SourceNode
+	public int wasGeneralised () {
+		return wasGeneralised;
+	}
+	
+	
+	@Override  // return type SourceNode
 	public SourceNode other (final Node node) {
 		return (SourceNode)super.other(node);
 	}

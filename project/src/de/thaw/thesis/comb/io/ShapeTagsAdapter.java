@@ -8,7 +8,7 @@
 
 package de.thaw.thesis.comb.io;
 
-import de.thaw.thesis.comb.OsmTags;
+import de.thaw.thesis.comb.util.AttributeProvider;
 
 import org.opengis.feature.simple.SimpleFeature;
 
@@ -16,7 +16,7 @@ import org.opengis.feature.simple.SimpleFeature;
 /**
  * Adapter to the attributes provided by the <code>ShapeReader</code> as OSM tags.
  */
-final class ShapeTagsAdapter implements OsmTags {
+final class ShapeTagsAdapter implements AttributeProvider {
 	
 	final SimpleFeature feature;
 	
@@ -91,7 +91,7 @@ final class ShapeTagsAdapter implements OsmTags {
 	public String get (final String key) {
 		Object attrValue = feature.getAttribute(rewriteKey(key.intern()));
 		if (attrValue == null) {
-			return OsmTags.NO_VALUE;
+			return AttributeProvider.NO_VALUE;
 		}
 		String stringValue = rewriteValue(key, attrValue.toString().intern());
 		return stringValue.intern();

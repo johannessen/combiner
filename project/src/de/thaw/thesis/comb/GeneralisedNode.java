@@ -20,7 +20,7 @@ package de.thaw.thesis.comb;
  * cases for re-using the output data for another run of the generalisation
  * algorithm, for example for instances of more than two parallel lines.
  * @see GeneralisedSection
- * @see CorrelationEdge#midPoint()
+ * @see NodeMatch#midPoint()
  */
 public final class GeneralisedNode extends SourceNode {
 	
