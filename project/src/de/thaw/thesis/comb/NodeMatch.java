@@ -17,8 +17,8 @@ import java.util.NoSuchElementException;
 
 // ex CorrelationEdge
 /**
- * A match of two opposite nodes of parallel segments.
- * <p>
+ * A match of two opposite nodes of parallel segments. <p>
+ * 
  * This class implements the <code>Set</code> interface chiefly to indicate
  * that instances in fact represent an <em>unordered</em> collection of
  * (exactly two) nodes. None of the optional operations in the collections
@@ -42,22 +42,21 @@ public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair
 	}
 	
 	
-	// in how many directions (out of 2 in the trivial case) has this edge been used for generalisation?
+	// in how many directions (out of 2 in the trivial case) has this match been used for generalisation?
 	int genCounter = 0;
 	
 	
  	NodeMatch (final SourceNode node0, final SourceNode node1) {
-		assert (node0 == null) == (node1 == null);
-		if (node0 != null) {
-			assert ! Double.isNaN(node0.easting() + node0.northing() + node1.easting() + node1.northing()) : node0 + " / " + node1;  // don't think this is useful
-		}
+		assert node0 != null && node1 != null && node0 != node1 : "exactly two nodes required";
+		assert ! Double.isNaN(node0.easting() + node0.northing() + node1.easting() + node1.northing()) : node0 + " / " + node1;  // don't think this is useful
 		
 		this.node0 = node0;
 		this.node1 = node1;
 	}
 	
 	
-	boolean contains (final Node node) {
+	@Override
+	public boolean contains (final Object node) {
 		return node0.equals(node) || node1.equals(node);
 	}
 	
@@ -122,6 +121,7 @@ public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair
 	
 	
 	// if we need to implement compareTo, we also need to override equals (by contract terms)
+	@Override
 	public boolean equals (final Object object) {
 		if (this == object) {
 			return true;
@@ -142,6 +142,7 @@ public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair
 	
 	
 	// if we need to override equals, we also need to override hashCode (by contract terms)
+	@Override
 	public int hashCode () {
 		// symmetric behaviour / commutative operation required
 		// this implementation provides the same numeric result as the default AbstractSet implementation
@@ -149,6 +150,9 @@ public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair
 	}
 	
 	
+	/**
+	 * @return 2
+	 */
 	// Set implementation
 	public int size () {
 		return 2;
@@ -173,6 +177,7 @@ public final class NodeMatch extends AbstractSet<SourceNode> implements NodePair
 	}
 	
 	
+	@Override
 	public String toString () {
 		return "{gen: " + genCounter + " | " + node0 + " <--> " + node1 + "}";
 	}

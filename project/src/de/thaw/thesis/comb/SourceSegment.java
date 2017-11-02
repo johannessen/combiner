@@ -34,7 +34,6 @@ public final class SourceSegment extends AbstractSegment {
 	
 	Envelope envelope;
 	
-	boolean wasCorrelated = false;
 	int wasGeneralised = 0;
 	boolean notToBeGeneralised = false;  // avoids infinite loop in GeneralisedLines#traverse()
 	

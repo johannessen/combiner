@@ -71,7 +71,7 @@ Combiner.printMemoryStatistics();
 Combiner.printMemoryStatistics();
 		
 		NodeGraph graph = correlateNodes();
-		cns = graph.edges();  // :DEBUG: debugging output
+		cns = graph.matches();  // :DEBUG: debugging output
 		
 		GeneralisedLines lines = new GeneralisedLines();
 		lines.traverse(graph);
@@ -87,9 +87,9 @@ Combiner.printMemoryStatistics();
 	
 	
 	NodeGraph correlateNodes () {
-		NodeGraph correlations = new NodeGraph(dataset);
-		verbose(1, "Node Correlation done.");
-		return correlations;
+		NodeGraph matches = new NodeGraph(dataset);
+		verbose(1, "Node Matching done.");
+		return matches;
 	}
 	
 	

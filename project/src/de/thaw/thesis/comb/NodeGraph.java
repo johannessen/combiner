@@ -27,22 +27,28 @@ import java.util.TreeSet;
  */
 public final class NodeGraph {
 	
-	final Dataset dataset;
+	private final NodeMatch[] NODE_MATCH_ARRAY = new NodeMatch[0];
 	
-	NodeMatch[] sortedEdges;
+	private NodeMatch[] sortedMatches;
 	
-	NavigableSet<NodeMatch> sortedEdgesSet;
+	private NavigableSet<NodeMatch> sortedMatchesSet;
 	
 	
+	/**
+	 * Create the node matching graph. <p>
+	 * 
+	 * The segments in the dataset must have been analysed for parallelisms
+	 * before this graph is created. Otherwise no matches will be found.
+	 * 
+	 * @param dataset the dataset for which to create the graph
+	 */
 	NodeGraph (final Dataset dataset) {
-		this.dataset = dataset;
-		
-		sortedEdgesSet = new TreeSet<NodeMatch>();
-		createGraph();
+		sortedMatchesSet = new TreeSet<NodeMatch>();
+		createGraph(dataset);
 	}
 	
 	
-	void createGraph () {
+	private void createGraph (final Dataset dataset) {
 		
 		/* This is reasonably fast because all the inner loops have only very
 		 * few items to loop through (about 2 each).
@@ -54,7 +60,6 @@ public final class NodeGraph {
 			if (segment.leftRealParallels.size() == 0 && segment.rightRealParallels.size() == 0) {
 				continue;
 			}
-			assert ! segment.wasCorrelated;
 			
 			// ∀ nodes T1 {start,end} of S
 			for (int j = 0; j < 2; j++) {
@@ -85,13 +90,10 @@ public final class NodeGraph {
 					add( segmentNode, closestNode );
 				}
 			}
-			
-			// mark S as done "7"
-			segment.wasCorrelated = true;
 		}
 		
-		sortedEdges = sortedEdgesSet.toArray(new NodeMatch[0]);
-		sortedEdgesSet = null;
+		sortedMatches = sortedMatchesSet.toArray(NODE_MATCH_ARRAY);
+		sortedMatchesSet = null;
 	}
 	
 	
@@ -107,7 +109,7 @@ public final class NodeGraph {
 			return;
 		}
 		
-		// prevent edges from node to parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
+		// prevent matches of node and parallelNode if a connectedSegment of node leads to parallelNode (fixes #113)
 /*
 		for (SourceSegment connectedSegment : segmentNode.connectingSegments) {
 			Node otherNode = segmentNode == connectedSegment.start ? connectedSegment.end : connectedSegment.start;
@@ -130,44 +132,57 @@ public final class NodeGraph {
 	}
 	
 	
-	private boolean add (final NodeMatch edge) {
-		assert sortedEdges == null;  // adding only to collection, not to array (Illegal State)
-		final boolean didAdd = sortedEdgesSet.add(edge);
+	private boolean add (final NodeMatch match) {
+		assert sortedMatches == null;  // adding only to collection, not to array (Illegal State)
+		final boolean didAdd = sortedMatchesSet.add(match);
 		if (didAdd) {
-			edge.node0().addEdge(edge);
-			edge.node1().addEdge(edge);
+			match.node0().addMatch(match);
+			match.node1().addMatch(match);
 		}
 		return didAdd;
 	}
 	
 	
-	NodeMatch get (final SourceNode node0, final SourceNode node1) {
-		NodeMatch testEdge = new NodeMatch(node0, node1);
-		return intern(testEdge);
-	}
-	
-	
-	boolean contains (final NodeMatch edge) {
-		if (sortedEdges == null) {
-			return sortedEdgesSet.contains(edge);
+	/**
+	 * Get the match found in the dataset for the two given nodes.
+	 * 
+	 * @return the canonical <code>NodeMatch</code> object for this match or
+	 *  <code>null</code> if no such match exists in the dataset.
+	 */
+	public NodeMatch getMatch (final SourceNode node0, final SourceNode node1) {
+		if (node0 == null || node1 == null || node0 == node1) {
+			return null;
 		}
-		return Arrays.binarySearch(sortedEdges, edge) >= 0;
+		NodeMatch testMatch = new NodeMatch(node0, node1);
+		return intern(testMatch);
 	}
 	
 	
-	// the point of this method is to return the original collection element, enabling the client to operate on that instead of some "equal" clone
-	NodeMatch intern (final NodeMatch edge) {
-		assert sortedEdgesSet == null;  // Collection doesn't support get, only from array (Illegal State)
-		final int i = Arrays.binarySearch(sortedEdges, edge);
+	private boolean contains (final NodeMatch match) {
+		if (sortedMatches == null) {
+			return sortedMatchesSet.contains(match);
+		}
+		return Arrays.binarySearch(sortedMatches, match) >= 0;
+	}
+	
+	
+	private NodeMatch intern (final NodeMatch match) {
+		assert sortedMatchesSet == null;  // Collection doesn't support get, only from array (Illegal State)
+		final int i = Arrays.binarySearch(sortedMatches, match);
 		if (i < 0) {
 			return null;  // No Such Element
 		}
-		return sortedEdges[i];
+		return sortedMatches[i];
 	}
 	
 	
-	Collection<NodeMatch> edges () {
-		return Collections.unmodifiableList( Arrays.asList(sortedEdges) );
+	/**
+	 * Get all matches found in the dataset.
+	 * 
+	 * @return a sorted list of matches supporting random access
+	 */
+	public List<NodeMatch> matches () {
+		return Collections.unmodifiableList( Arrays.asList(sortedMatches) );
 	}
 	
 }

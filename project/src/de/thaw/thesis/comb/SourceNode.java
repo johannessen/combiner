@@ -37,7 +37,8 @@ public class SourceNode extends AbstractNode {
 	
 	private final Collection<GeneralisedSection> generalisedSections = new LinkedList<GeneralisedSection>();
 	
-	private final Collection<NodeMatch> edges = new LinkedList<NodeMatch>();
+	// for use by ConcatenatedSection#relocateGeneralisedNodes()
+	private final Collection<NodeMatch> matches = new LinkedList<NodeMatch>();
 	
 //	final Collection<ResultLine> allSections = new LinkedList<ResultLine>();
 	
@@ -80,13 +81,13 @@ public class SourceNode extends AbstractNode {
 	}
 	
 	
-	public Collection<NodeMatch> edges () {
-		return Collections.<NodeMatch>unmodifiableCollection( edges );
+	public Collection<NodeMatch> matches () {
+		return Collections.<NodeMatch>unmodifiableCollection( matches );
 	}
 	
 	
-	public void addEdge (final NodeMatch edge) {
-		edges.add(edge);
+	public void addMatch (final NodeMatch match) {
+		matches.add(match);
 	}
 	
 }

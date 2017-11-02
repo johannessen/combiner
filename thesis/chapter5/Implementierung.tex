@@ -169,7 +169,15 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 % Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
 % [NodeGraph]1 <>-- 1…n[NodeMatch]0…n <>-- 2[Node]
-% zusätzlich bekommt SourceNode wenigstens schon mal einige der Pointers, wenn nicht schon alle
+
+% NodeMatches = Punktezuordnungen. Dies sind wie in 4.3.3 definiert Mengen aus exakt zwei gegenüberliegenden Nodes einander paralleler Segmente. Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs "nächste Zuordnung c'/z'" erleichtern. Um Objekte der Klasse NodeMatch klar als Menge zu kennzeichnen, wurde sie auch als Set<Node> (Menge von Nodes) im Java Collections Framework deklariert. Dies erleichtert auch die Implementierung der Mengeneigenschaften.
+% Da die ANALYSE für jedes Segment immer jeweils links- und rechtsseitig nach Parallelen sucht, werden beim NODESZUORDNEN viele Zuordnungen doppelt gefunden, nämlich einmal in jeder Richtung. Erneut erleichtern die Eigenschaften der mathematischen Menge, hier der Menge aller Zuordnungen C/Z, die Beschreibung des Algorithmus in 4.3.3. Weil NodeMatch-Objekte wie beschrieben die Mengeneigenschaften implementieren, können sie leicht direkt im Java Collections Framework verwendet werden, hier als Set<NodeMatch> (Menge von NodeMatch-Objekten). Da der Datentyp NodeMatch gleichzeitig die Schnittstelle Set<Node> implementiert, hat die Menge aller Zuordnungen den Typ Set<Set<Node>>, ist also eine Menge /von Mengen/ von Nodes, was genau der Anforderung in 4.3.3 entspricht.
+
+% TODO: SourceNode, nicht Node. Spielt das eine Rolle, oder versteht man es auch so?
+
+% Punktezuordnungen und Segmente ergeben gemeinsamen einen gemischten Graphen des zu generalisierenden Netzes. Als parallel erkannte Segmente sind über deren Nodes derart einander zugeordnet, dass sich eine gemeinsame Mittellinie als Verknüpfung der Mittelpunkte derjenigen Kanten im Graphen, welche die Punktezuordnungen darstellen, leicht finden lässt. Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über die einzelnen Punkte die mit ihnen verknüpften Segmente ermittelbar sind.
+
+% TODO: ist hier der Fall, über addSegment(), welches in AbstractLine passiert. Sollte vielleicht weiter oben in 4.3.1 erwähnt werden.
 
 % ===========================
 % Liniengeneralisierung 4.3.4
@@ -214,7 +222,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % ANALYSE: AbstractSegment.analyse
 % PARALLEL: SourceSegment.closeParallels / MyAnalyser
 % DISTANZ: MyAnalyser.evaluate
-% NODESZUORDNEN: CorrelationGraph.createGraph
+% NODESZUORDNEN: NodeGraph.createGraph
 % ZUSAMMENFASSEN: ... (GeneralisedLines/GeneralisedSection)
 
 
@@ -246,6 +254,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % - dass es für das ding mit den segmenten nicht bereits geeignete klassen gab, hat einiges an zusatzarbeit verursacht. das gestalten der datenstrukturen war lehrreich, aber aufwändiger als erwartet
 % - die Shapefiles enthalten aus technischen Gründen veränderte Attribute, nicht die original-OSM-tags => io.ShapeTagsAdapter
 % - fortbestehendes Problem (aus Zeitgründen): die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section arbeiten direkt mit Highway-Klassen, obwohl das eigentlich nur der Client tun sollte
+% - Java Collections Framework sehr hilfreich (erwartungsgemäß)
 
 
 % TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten

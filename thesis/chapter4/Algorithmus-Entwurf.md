@@ -29,13 +29,13 @@ Der Algorithmus
 
 - ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
 
-[in `LineSegment.closeParallels`]
+[in `SourceSegment.closeParallels`]
 
 
 4. Splitten ("re-entrant") in Fragmente
 ---------------------------------------
 
-Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
+Liste B aller `Segment` als Basis (initial: alle `SourceSegment`)
 - _∀ B : P₁, P₂_
     - _∀ P_ als p
         - _∀ `splitTargets()`_ : (_target noch nicht gesplittet_ -> next;)
@@ -48,7 +48,7 @@ Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
 
 (`splitTargets()`: Liste der "nahen" anderen Segmente)
 
-[in `AbstractLinePart.splitCloseParallels`]
+[in `AbstractSegment.splitCloseParallels`]
 
 
 5. Analyse der Fragmente
@@ -60,7 +60,7 @@ Liste B aller `LinePart` als Basis (initial: alle `LineSegment`)
 - ∀ verbleibenden anderen Fragmente: best match(es) L+R finden, falls vorhanden (teilen 2 Segmente einen Node, ist es kein Match! (sonst klappt die L/R-Punktfindung nicht richtig)
 - best match(es) für _Segmente_ eintragen in eine Liste (und zwar reziprok) (→ eigentlich unnötig??) (∀ Segmente: ∃ 2 Listen "paralleler" Segmente) L+R (|||)
 
-[in `Combiner.analyseSegments` / `AbstractLinePart.analyse`]
+[in `Combiner.analyseSegments` / `AbstractSegment.analyse`]
 
 
 6. Links/Rechts filtern
@@ -91,7 +91,7 @@ _defer:_
 - ∀ Parallelen von S: Rekursion
 - alle Segmente/Zuordnungen für je ein ursprüngliches Segment als Teil eines "Blocks" markieren (könnte später evtl. Auffinden eines Anfangs zur Generalisierung erleichtern)
 
-[in `CorrelationGraph.createGraph`]
+[in `NodeGraph.createGraph`]
 
 
 8. Generalisierung

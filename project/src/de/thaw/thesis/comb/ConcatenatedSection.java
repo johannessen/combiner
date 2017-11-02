@@ -139,21 +139,19 @@ public class ConcatenatedSection extends ResultLine {
 			
 			// find the closest existing vertex on the generalised section (if any)
 			// (there's some collateral damage because the closest point may not be the best one, particularly at major intersections)
-			NodeMatch theEdge = null;
-			for (final NodeMatch anEdge : node.edges()) {
-				if (theEdge == null || anEdge.distance() < theEdge.distance()) {
-					theEdge = anEdge;
+			NodeMatch theMatch = null;
+			for (final NodeMatch aMatch : node.matches()) {
+				if (theMatch == null || aMatch.distance() < theMatch.distance()) {
+					theMatch = aMatch;
 				}
 			}
-			if (theEdge == null) {
+			if (theMatch == null) {
 				continue;  // section doesn't end on generalised node
 			}
 			
 			// "move" (actually: replace) first/last nodes as appropriate
 			
-// "Edge" als Namen fuer Typ mit midpoint-logik
-// -> kann man machen ("NodePair"), bringt aber eigentlich nix
-			final GeneralisedNode midPoint = theEdge.midPoint();
+			final GeneralisedNode midPoint = theMatch.midPoint();
 			
 /*
 			if (midPoint.id == 0L) {

@@ -23,7 +23,7 @@
 % an dieser Stelle außerdem big picture: wie hängen die folgenden teile zusammen?
 % -> lt. Themenblatt soll das Analyseergebnis auch separat von der Generalisierung zu verwenden sein!
 % d.h. die Main-Klasse / Fassade sollte gar nicht hier beschrieben werden, das ist ein Implementierungsdetail (unter Kap. 5 zu beschrieben, wozu aber Kap. 5 wohl etwas umorganisiert werden müsste)
-% anstatt des Analyser-Outputs ist tatsächlich bisher der CorrelationGraph das Analyseergebnis, jedoch noch unvollständig (man bräuchte noch eine Art Metrik, dass z. B. ab 80% parallelen Segmenten zwei Ways als parallel gelten; evtl. auch einen Append-Schritt, denn zur (verlangten) Identifikation paralleler Linienzüge müssten diese erst mal aus den Ways erzeugt werden, falls die Ways nicht ausreichen)
+% anstatt des Analyser-Outputs ist tatsächlich bisher der NodeGraph das Analyseergebnis, jedoch noch unvollständig (man bräuchte noch eine Art Metrik, dass z. B. ab 80% parallelen Segmenten zwei Ways als parallel gelten; evtl. auch einen Append-Schritt, denn zur (verlangten) Identifikation paralleler Linienzüge müssten diese erst mal aus den Ways erzeugt werden, falls die Ways nicht ausreichen)
 
 % im CLI sieht's im Moment in etwa so aus:
 % 1. create Dataset (als InputDataset-Instanz, via ShapeReader)
@@ -430,7 +430,7 @@ So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abs
 
 
 \subsection{Punktezuordnung}
-\label{ch:correlation-algorithm}
+\label{ch:node-match-algorithm}
 
 %7. Punktzuordnungen erzeugen (Vorstufe Generalisierung)
 %
@@ -451,7 +451,7 @@ Hierzu müssen zunächst die \term{nodes} der zusammenzufassenden Segmente einan
 % (wegen der Weiterschaltung...)
 Dies geschieht auf Basis der durch die \textproc{Analyse} ermittelten Kennzeichnungen der Segmente als parallel.
 
-Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente (Abbildung~\ref{fig:node-correlation}).
+Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente (Abbildung~\ref{fig:node-matches}).
 
 \begin{algorithmhere}{Nodes Zuordnen}
 \label{alg:Zuordnen}
@@ -482,9 +482,9 @@ Dies vermeidet Duplikate.
 % Ergebnis: Abb. 29 general-approach
 
 \onefigure{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter4/node-correlation}
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/node-matches}
 	\caption{Zuordnung gegenüberliegender \term{nodes} paralleler Linienzüge}
-	\label{fig:node-correlation}
+	\label{fig:node-matches}
 }
 
 
@@ -648,7 +648,7 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 	\State $S \gets \textproc{Segmente}(W)$
 	\State $S' \gets \textproc{Splitten}(S)$\Comment{Abschnitt~\ref{ch:split-algorithm}}
 	\State $\textproc{Analyse}(S')$\Comment{Abschnitt~\ref{ch:analyse-algorithm}}
-	\State $C \gets \textproc{NodesZuordnen}(S)$\Comment{Abschnitt~\ref{ch:correlation-algorithm}}
+	\State $C \gets \textproc{NodesZuordnen}(S)$\Comment{Abschnitt~\ref{ch:node-match-algorithm}}
 	\State $\mathcal{G} \gets \textproc{Zusammenfassen}(S, C)$\Comment{Abschnitt~\ref{ch:generalisation-algorithm}}
 	\State \textbf{Ergebnis} $\mathcal{G}$
 \EndFunction
@@ -707,15 +707,15 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 %
 %1. Endpunkte der parallelen Segmente einander zuordnen
 %
-%2. Der gesamte Graph wird "durchgehangelt", indem von einer CorrelationEdge ausgehend immer entlang der Segmente das nächste CorrelationEdge gefunden wird; diese Edges werden dann durch neu erzeugte Mittelpunkte miteinander verbunden.
+%2. Der gesamte Graph wird "durchgehangelt", indem von einem NodeMatch ausgehend immer entlang der Segmente das nächste NodeMatch gefunden wird; diese Matches werden dann durch neu erzeugte Mittelpunkte miteinander verbunden.
 %
 %
 %
-%% (Der CorrelationGraph ist ein Graph, in dem CorrelationEdges einander gegenüberliegende Knoten von parallelen Segmenten verbinden.)
+%% (Der NodeGraph ist ein Graph, in dem NodeMatches einander gegenüberliegende Knoten von parallelen Segmenten verbinden.)
 %
 %% new GeneralisedLines
-%% - beliebige CorrelationEdge auswählen und von ihr ausgehend den angrenzenden Segmenten erst in die eine, dann die andere Richtung folgen, bis das Folgen nicht mehr eindeutig möglich ist (z. B. wegen einer Abzweigung)
-%% - dabei Mittelpunkte der CorrelationEdges jeweils einer neuen GeneralisedSection hinzufügen
+%% - beliebigen NodeMatch auswählen und von ihr ausgehend den angrenzenden Segmenten erst in die eine, dann die andere Richtung folgen, bis das Folgen nicht mehr eindeutig möglich ist (z. B. wegen einer Abzweigung)
+%% - dabei Mittelpunkte der NodeMatches jeweils einer neuen GeneralisedSection hinzufügen
 %% - Segmente, die nicht zusammengefasst wurden (weil keine Parallelen existieren), werden in Sections umgewandelt und ebenfalls den GeneralisedLines hinzugefügt, um einen homogenen Ergebnisdatensatz zu erhalten
 %
 %...
@@ -731,3 +731,8 @@ In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Lin
 %\onlyinsubfile{\listoftables}
 %\onlyinsubfile{\input{../bibliography}}
 \end{document}
+
+
+
+% TODO: Mengen besser schreiben:
+% https://de.wikipedia.org/wiki/Menge_(Mathematik)#Extensionalit.C3.A4t

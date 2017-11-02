@@ -40,17 +40,17 @@ public class GeneralisedSection extends ResultLine {
 	
 	
 	
-	NodeMatch startEdge = null;  // E
+	NodeMatch startMatch = null;  // E
 	SourceNode startNode = null;  // E_S
 //	Highway startWay = null;
 	
 	HighwayType osmHighway = null;
 	String osmRef = null;
 	
-	GeneralisedSection (final NodeGraph graph, final NodeMatch edge, final SourceNode node) {
+	GeneralisedSection (final NodeGraph graph, final NodeMatch match, final SourceNode node) {
 		this.graph = graph;
 		
-		startEdge = edge;
+		startMatch = match;
 		startNode = node;
 		
 		if (startNode == null) {
@@ -58,8 +58,8 @@ public class GeneralisedSection extends ResultLine {
 			return;
 		}
 		
-		addConnector(startEdge, true);
-		addConnector(startEdge, false);
+		addConnector(startMatch, true);
+		addConnector(startMatch, false);
 		
 		assert startNode.connectingSegments().size() <= 2 : startNode;  // see issue #111
 		assert startNode.connectingSegments().size() > 0 : startNode;
@@ -76,12 +76,12 @@ public class GeneralisedSection extends ResultLine {
 				continue;
 			}
 			
-			NodeMatch lastEdge = traverseGraph(segment, forward);
-			if (lastEdge == startEdge) {
+			NodeMatch lastMatch = traverseGraph(segment, forward);
+			if (lastMatch == startMatch) {
 				continue;
 			}
 			
-			addConnector(lastEdge, forward);
+			addConnector(lastMatch, forward);
 		}
 		
 		assert ! iterator.hasNext() : startNode;  // see issue #111
@@ -103,13 +103,13 @@ public class GeneralisedSection extends ResultLine {
 	boolean segment2Aligned = true;
 	SourceNode currentNode1 = null;  // E_S
 	SourceNode currentNode2 = null;  // E_T
-	NodeMatch currentEdge = null;  // E
+	NodeMatch currentMatch = null;  // E
 	
 	private NodeMatch traverseGraph (final SourceSegment segment, final boolean forward) {
 		
-		currentEdge = startEdge;
+		currentMatch = startMatch;
 		currentNode1 = startNode;
-		currentNode2 = startEdge.other(startNode);
+		currentNode2 = startMatch.other(startNode);
 		segment1 = segment;
 		segment1Aligned = segment1.start() == currentNode1;
 		segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
@@ -121,7 +121,7 @@ public class GeneralisedSection extends ResultLine {
 		segment2Aligned = segment2.start() == currentNode2;
 		
 		if (forward) {
-			addGeneralisedPoint(startEdge, true);
+			addGeneralisedPoint(startMatch, true);
 			currentNode1.addGeneralisedSection(this);
 			currentNode2.addGeneralisedSection(this);
 			originalNodes.add(currentNode1);
@@ -135,7 +135,7 @@ public class GeneralisedSection extends ResultLine {
 		
 		// (TG 3a)
 		// :TODO: this condition can surely be simplified
-		while (currentEdge != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
+		while (currentMatch != null && segment1 != null && segment2 != null && (segment1.wasGeneralised == 0 || segment2.wasGeneralised == 0)) {
 			
 			if (segment2.way.type() != osmHighway && segment1.way.type() != osmHighway) {
 //System.err.println(" --break1 " + segment2.way.tags.get("highway") + segment2.way.tags.get("ref") + " " + segment1.way.tags.get("highway") + segment1.way.tags.get("ref") + " " + osmHighway);
@@ -162,50 +162,50 @@ public class GeneralisedSection extends ResultLine {
 				}
 			}
 			
-			currentEdge.genCounter += 1;  // :DEBUG:
+			currentMatch.genCounter += 1;  // :DEBUG:
 			
 			// (TG 5) find next nodes
 			SourceNode nextNode1 = segment1Aligned ? segment1.end() : segment1.start();  // X
 			SourceNode nextNode2 = segment2Aligned ? segment2.end() : segment2.start();  // Y
 			
-			NodeMatch nextEdge;
+			NodeMatch nextMatch;
 			
 			// (TG 6/7)
-			nextEdge = graph.get(nextNode1, currentNode2);
-			if ( nextEdge != null && nextNode1 != currentNode1 ) {
+			nextMatch = graph.getMatch(nextNode1, currentNode2);
+			if ( nextMatch != null && nextNode1 != currentNode1 ) {
 				
 				// Fall "es gibt eine Kante vom naechsten Punkt-1 (X) zurueck zum aktuellen Punkt-2 (E_T)"
 				
 				advance1(nextNode1);
-				currentEdge = nextEdge;
+				currentMatch = nextMatch;
 				
 			}
 			else {
-				nextEdge = graph.get(nextNode2, currentNode1);
-				if ( nextEdge != null && nextNode2 != currentNode2 ) {
+				nextMatch = graph.getMatch(nextNode2, currentNode1);
+				if ( nextMatch != null && nextNode2 != currentNode2 ) {
 					
 					// Fall "es gibt eine Kante vom naechsten Punkt-2 (Y) zurueck zum aktuellen Punkt-1 (E_S)"
 					
 					advance2(nextNode2);
-					currentEdge = nextEdge;
+					currentMatch = nextMatch;
 					
 				}
 				else {
-					nextEdge = graph.get(nextNode1, nextNode2);
-					if ( nextEdge != null && (nextNode1 != currentNode1 || nextNode2 != currentNode2) ) {
+					nextMatch = graph.getMatch(nextNode1, nextNode2);
+					if ( nextMatch != null && (nextNode1 != currentNode1 || nextNode2 != currentNode2) ) {
 						
 						// Fall "es gibt zwei naechste unabhaengige Segmente, die auch parallel sind und es gibt agnz normal eine naechste kante"
 						
 						advance1(nextNode1);
 						advance2(nextNode2);
-						currentEdge = nextEdge;
+						currentMatch = nextMatch;
 						
 						
 					}
 					else {
 						
 						// Fall "es gibt naechste unabhaengige Segmente, die aber nicht parallel sind"
-						assert nextEdge == null || nextEdge == currentEdge;
+						assert nextMatch == null || nextMatch == currentMatch;
 						
 						segment1.notToBeGeneralised = segment1.wasGeneralised == 0;
 						segment2.notToBeGeneralised = segment2.wasGeneralised == 0;
@@ -216,11 +216,11 @@ public class GeneralisedSection extends ResultLine {
 			}
 			
 			
-			addGeneralisedPoint(currentEdge, forward);
+			addGeneralisedPoint(currentMatch, forward);
 			
 		}
 		
-		return currentEdge;
+		return currentMatch;
 	}
 	
 	
@@ -263,29 +263,29 @@ public class GeneralisedSection extends ResultLine {
 	
 	
 	
-	private void addConnector (final NodeMatch edge, final boolean addAtEnd) {
+	private void addConnector (final NodeMatch match, final boolean addAtEnd) {
 		if (addAtEnd) {
-			endConnector = edge;
+			endConnector = match;
 		}
 		else {
 			assert ! addAtEnd;
-			startConnector = edge;
+			startConnector = match;
 		}
 	}
 	
 	
 	
 	// (TG 4) find M
-	private void addGeneralisedPoint (NodeMatch edge, boolean addAsLast) {
-		if (edge == null) {
+	private void addGeneralisedPoint (NodeMatch match, boolean addAsLast) {
+		if (match == null) {
 			return;
 		}
 		
 		if (addAsLast) {
-			addLast( edge.midPoint() );
+			addLast( match.midPoint() );
 		}
 		else {
-			addFirst( edge.midPoint() );
+			addFirst( match.midPoint() );
 		}
 	}
 	

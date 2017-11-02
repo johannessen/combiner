@@ -91,7 +91,7 @@ Combiner.printMemoryStatistics();
 //		out.writeAllFragments(linePartOutPath);
 		out.writeMidPointConnectors(debugOutPath);
 //		out.writeFragmentMidPointConnectors(debugOutPath);
-//		out.writeCorrelationEdges(combiner.cns, debugOutPath);
+//		out.writeNodeMatches(combiner.cns, debugOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
 //		out.writeSimplifiedSections(combiner.gen, outPath);

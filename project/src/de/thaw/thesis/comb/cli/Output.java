@@ -346,10 +346,10 @@ final class Output {
 	
 	
 	
-	void writeCorrelationEdges (final Collection<NodeMatch> cns, final String path) {
+	void writeNodeMatches (final Collection<NodeMatch> cns, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeCorrelationEdges (Writer creation failed for path: " + path + ").");
+			verbose(1, "Skipped writeNodeMatches (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -376,7 +376,7 @@ final class Output {
 				return attributes;
 			}
 		});
-		verbose(1, "Output: " + geometries.size() + " correlation edges.");
+		verbose(1, "Output: " + geometries.size() + " node matches.");
 	}
 	
 	
@@ -441,14 +441,14 @@ final class Output {
 	
 	
 	
-	private List<Node> toNodeList (final NodeMatch edge, final Node genNode) {
+	private List<Node> toNodeList (final NodeMatch match, final Node genNode) {
 		LinkedList<Node> list = new LinkedList<Node>();
-		if (edge == null) {
+		if (match == null) {
 			return list;
 		}
-		list.add( edge.node0() );
+		list.add( match.node0() );
 		list.add( genNode );
-		list.add( edge.node1() );
+		list.add( match.node1() );
 		return list;
 	}
 	

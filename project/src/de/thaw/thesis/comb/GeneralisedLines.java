@@ -48,7 +48,7 @@ public class GeneralisedLines {
 	 */
 	void traverse (final NodeGraph graph) {
 		this.graph = graph;
-//		NodeMatch startEdge = null;  // E_S
+//		NodeMatch startMatch = null;  // E_S
 //		Node startNode = null;  // E
 		
 		/* This is reasonably fast because both of the inner loops usually have
@@ -56,10 +56,10 @@ public class GeneralisedLines {
 		 */
 		
 		// (TG 1) choose segment S
-		for (final NodeMatch edge : graph.edges()) {
+		for (final NodeMatch match : graph.matches()) {
 				
 			for (int i = 0; i < 2; i++) {
-				SourceNode node = i == 0 ? edge.node0() : edge.node1();
+				SourceNode node = i == 0 ? match.node0() : match.node1();
 				
 				
 // eigene funktion!
@@ -72,11 +72,11 @@ public class GeneralisedLines {
 					
 					// :FIX: #111 - backward/forward logic can't handle junctions
 					if (node.connectingSegments().size() > 2
-							|| edge.other(node).connectingSegments().size() > 2) {
+							|| match.other(node).connectingSegments().size() > 2) {
 						continue;
 					}
 					
-					generaliseSectionAt(edge, node);
+					generaliseSectionAt(match, node);
 				}
 			}
 		}
@@ -87,8 +87,8 @@ public class GeneralisedLines {
 	/**
 	 * 
 	 */
-	private void generaliseSectionAt (final NodeMatch edge, final SourceNode node) {
-		final GeneralisedSection section = new GeneralisedSection(graph, edge, node);
+	private void generaliseSectionAt (final NodeMatch match, final SourceNode node) {
+		final GeneralisedSection section = new GeneralisedSection(graph, match, node);
 		
 //		section.filterShortSection();
 		if ( ! section.valid() ) {
