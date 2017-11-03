@@ -95,17 +95,21 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 % Noch mal Modularisierung; java Packages erwähnen/erklären? -> eher nein
 
+Im folgenden Abschnitt wird näher auf die Implementierung der Liniengeneralisierung insbesondere im Combiner eingegangen.
+
 
 
 \section{Datenstrukturen}
 \label{ch:data-structures}
 
-% Einleitung/Überleitung:
-% - im Folgenden wird insbesondere der Combiner näher beschrieben
-% - es werden nur wesentliche Aspekte behandelt und im Übrigen auf API-Doku und Source Code verwiesen
 % - übergeordnete Frage: warum _so_ und nicht anders?
 
-% ===========================
+Aus Gründen der Übersichtlichkeit werden in den folgenden Abschnitten nur wesentliche Aspekte und wichtige Entscheidungen behandelt.
+Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwiesen, welche in englischer Sprache als Teil der Softwareentwicklung im Javadoc-Format angelegt wurde und sowohl im Java-Quellcode als auch im HTML-Format zugänglich ist.
+
+
+
+\subsection{Grundlegendes Geometrie-Modell (GeoTools)}
 % Erstens: Warum eigene Elementare, warum nicht die von GeoTools nehmen?
 % Einige Algorithmen, zB. SPLITTEN und ANALYSE, ordnen den Segmenten zusätzliche Daten zu (wurzel/closeParallels). Dies unterstützt JTS zwar in Form von "user data objects". Weil jedoch die Arbeit damit eher umständlich ist, wäre dies nur sinnvoll, wenn die Nutzung der JTS-Geodatenstrukturen andere Vorteile bietet.
 % Dies ist jedoch nicht der Fall. Im Gegenteil passen die JTS-Datenstrukturen nicht 100%ig auf meine Algorithmen: Algorithmen beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Nodes, während JTS von längeren Linienzügen ausgeht.
@@ -115,8 +119,10 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 % => eigene Klassen!
 % evtl. lassen sich, wie in Nr. 8 im "JTS Topology Suite Developer’s Guide" 1.4 beschrieben, die Interfaces (z. B. CoordinateSequence) implementieren, damit die eigenen Klassen von Dritten mit JTS direkt genutzt werden können. Für dieses Projekt hat dies allerdings keinen besonderen Nutzen.
 
-% ===========================
-% Zweitens: ER-Modell präsentieren
+
+
+
+\subsection{Grundlegendes Geometrie-Modell (eigene Entwicklung)}
 % Design-Entscheidungen darin anhand von Kap. 4 begründen
 %   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
 
@@ -157,8 +163,9 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 %- SourceNode enthält neben der ID nur Pointers zu den Segmenten etc. für die Korralation
 %- SourceSegment außerdem nur L+R sowie analyseLineParts
 
-% ===========================
-% Analyse und Punktezuordnung
+
+
+\subsection{Analyse und Punktezuordnung}
 
 % Die Analyse (4.3.2) ändert das Datenmodell nur unwesentlich: SourceSegment bekommt L+R (wie in 4.3.2 gezeigt jeweils als Teil der Wurzel)
 
@@ -179,8 +186,9 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 % TODO: ist hier der Fall, über addSegment(), welches in AbstractLine passiert. Sollte vielleicht weiter oben in 4.3.1 erwähnt werden.
 
-% ===========================
-% Liniengeneralisierung 4.3.4
+
+
+\subsection{Liniengeneralisierung}
 
 % Datenmodell/Klassenstruktur:
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
@@ -190,8 +198,7 @@ Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combine
 
 
 
-% ===========================
-% Drittens: Zusammenfassung und ggf. Datenfluss/Interaktionswege
+\subsection{Zusammenfassung und ggf. Datenfluss/Interaktionswege}
 % (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
 
 % TODO: Big Renaming #4 (optional)
