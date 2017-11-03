@@ -110,38 +110,124 @@ Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwies
 
 
 \subsection{Grundlegendes Geometrie-Modell (GeoTools)}
-% Erstens: Warum eigene Elementare, warum nicht die von GeoTools nehmen?
-% Einige Algorithmen, zB. SPLITTEN und ANALYSE, ordnen den Segmenten zusätzliche Daten zu (wurzel/closeParallels). Dies unterstützt JTS zwar in Form von "user data objects". Weil jedoch die Arbeit damit eher umständlich ist, wäre dies nur sinnvoll, wenn die Nutzung der JTS-Geodatenstrukturen andere Vorteile bietet.
-% Dies ist jedoch nicht der Fall. Im Gegenteil passen die JTS-Datenstrukturen nicht 100%ig auf meine Algorithmen: Algorithmen beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Nodes, während JTS von längeren Linienzügen ausgeht.
-% Die Algorithmen machen sich außerdem zunutze, dass Segmente sich direkt als Vektoren interpretieren lassen. Routinen zur Vektor-Mathe bietet JTS zwar grundsätzlich an, jedoch sind wichtige Teile davon nicht spezifiziert und damit nicht verlässlich verwendbar (Beispiel: math.Vector2D: angle, vgl. Algorithmus ANALYSE)
-% Abgesehen vom Spatial Index scheinen auch JTS-Manipulationen mir recht wenig zu helfen.
-% Direktes Verwenden der bereitgestellten JTS-Datenstrukutren deshalb eher nicht sinnvoll.
-% => eigene Klassen!
-% evtl. lassen sich, wie in Nr. 8 im "JTS Topology Suite Developer’s Guide" 1.4 beschrieben, die Interfaces (z. B. CoordinateSequence) implementieren, damit die eigenen Klassen von Dritten mit JTS direkt genutzt werden können. Für dieses Projekt hat dies allerdings keinen besonderen Nutzen.
 
+Zur Umsetzung der in Abschnitt~\ref{ch:algorithm-parts} definierten geometrischen Algorithmen werden zunächst Strukturen zur Repräsentation der grundlegenden Datentypen benötigt.
+Im Kontext dieses Projekts sind dies:
+\begin{enumerate}[nosep]
+	\item Punkt (\osm-\term{node})
+	\item Segment (Verbindung von zwei Punkten als Teil eines Linienzugs)
+	\item Linienzug (\osm-\term{way})
+\end{enumerate}
+
+\noindent
+Das \term{framework} GeoTools benutzt dazu die JTS Topology Suite, die wie zuvor beschrieben ohnehin wegen des R-Baums für \textproc{NaheSegmente} zum Einsatz kommen soll.
+JTS bietet mit der \code{Geometry}-Hierarchie Datenstrukturen nach ISO~19125\hbox{-}1 an, die grundsätzlich auch für die Implementierung der Algorithmen aus Abschnitt~\ref{ch:algorithm-parts} geeignet wären.
+% http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/geom/package-summary.html
+
+Die Algorithmen \textproc{Splitten} und \textproc{Analyse} ordnen den Segmenten allerdings zusätzliche Attribute zu ($wurzel$ bzw. $parallelLinks / parallelRechts$).
+Dies unterstützt JTS zwar in Form von \term{user data objects}.
+% http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/geom/Geometry.html#getUserData--
+Weil jedoch die Arbeit damit eher umständlich ist, wäre dies nur sinnvoll, wenn die Nutzung der JTS-Datenstrukturen andere Vorteile bietet.
+
+Dies ist jedoch nicht der Fall.
+Im Gegenteil passen die JTS-Datenstrukturen nicht gut auf die definierten Algorithmen:
+Diese beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Punkten, während JTS von längeren Linienzügen ausgeht.
+Die Algorithmen machen sich außerdem zunutze, dass sich Segmente direkt als Vektoren interpretieren lassen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
+Routinen zur Vektor-Mathematik bietet JTS zwar grundsätzlich an, jedoch sind wichtige Teile davon nicht spezifiziert.
+Beispielhaft sei die Klasse \code{jts.math.Vector2D} genannt, deren Methode \code{angle()} offenbar Winkel berechnet, jedoch in keiner Weise dokumentiert ist.
+% http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/math/Vector2D.html
+Die Definition der \textproc{Analyse} auf Parallelität verlangt jedoch einen bestimmten Wertebereich für Winkel von Vektoren.
+Obwohl sich die derzeitige Implementierung von \code{angle()} leicht anhand des Quellcodes von JTS ermitteln ließe, ist die Methode nicht zuverlässig verwendbar, weil ohne Dokumentation bereits unklar bleibt, ob die derzeitige Implementierung überhaupt korrekt ist.
+
+Hinzu kommt, dass auch die von JTS angebotenen Operationen zur Manipulation geometrischer Daten -- abgesehen vom räumlichen Index -- hier wenig hilfreich sind.
+Ein direktes Verwenden der bereitgestellten JTS-Datenstrukturen erscheint folglich insgesamt betrachtet nicht sinnvoll zu sein.
+Stattdessen wurde ein eigenes Datenmodell entwickelt, das im Folgenden beschrieben wird.
+
+JTS bietet die Möglichkeit, das \term{framework} zusammen mit eigenen Datenstrukturen zu benutzten, wenn diese bestimmte Schnittstellen anbieten.
+% z. B. CoordinateSequence
+% wie in Nr. 8 im "JTS Topology Suite Developer’s Guide" 1.4 beschrieben
+Dies käme hier durchaus in Betracht, damit die eigenen Datenstrukturen zukünftig von Dritten unmittelbar mit JTS genutzt werden können.
+Beispielsweise könnten so zusammengefasste Linienzüge als Ergebnisse der hier entwickelten Software direkt mit JTS einer Formvereinfachung unterzogen werden.
+Weil dies jedoch nicht Bestandteil dieser Arbeit ist und ein Implementieren jener Schnittstellen keinen direkten Nutzen hat, wurde darauf zunächst verzichtet.
+Es ließe sich für eine zukünftige Version leicht ergänzen.
 
 
 
 \subsection{Grundlegendes Geometrie-Modell (eigene Entwicklung)}
-% Design-Entscheidungen darin anhand von Kap. 4 begründen
+
+Ein vollständiges Diagramm des entwickelten Datenmodells ist dem Anhang zu entnehmen.
+Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
+Die Segmente sind wie in Abschnitt~\ref{ch:split-algorithm} beschrieben zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch nahezu trivial.
+
 %   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
 
-% Für 4.3.1 ("Grundlage" o.ä.) ergibt sich folgendes Datenmodell:
+\onefigure{ht}{
 % [Dataset]1 <>-- 0…n[Line]1 <>-- 1…n[Segment]1…n <>-- 2[Node]
-% Die Segmente sind wie in 4.3.1 beschrieben zunächst nicht in den Eingangsdaten vorhanden, sie herzustellen ist jedoch eher trivial (SEGMENTIERUNG)
-% Die hier (in Abb. "Datenmodell") gezeigten Datenstrukturen wurden als Interfaces (formale Schnittstellendefinition) umgesetzt, um ihre eventuelle Wiederverwendung zu erleichtern. [cf. GHJV p18]
-% Bei der Implementierung entstand folgende Klassenstruktur:
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\\\texttt{ [Dataset]<>--[Line]<>--[Segment]<>--[Node]}
+	\\\texttt{~~~~~~~~~1~~~0…n~~~1~~~1…n~~~~~1…n~~~2~~~~~}
+	\caption{...}
+	\label{fig:impl-geometry-model}
+}
+
+Die hier gezeigten Datentypen wurden als Interfaces (formale Schnittstellendefinitionen) umgesetzt, um ihre eventuelle Wiederverwendung zu erleichtern. \cf[18]{GHJV95}
+Abbildung~\ref{fig:impl-class-structure-splitting} zeigt die bei der Implementierung dieses Datenmodells entstandene Klassenstruktur.
+
+\onefigure{ht}{
 % [Klassenstruktur "Splitten"]
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\caption{Klassenstruktur „Splitten“}
+	\label{fig:impl-class-structure-splitting}
+}
 
-% Die Anzahl der jeweils das Interface implementierenden Klassen ist in diesem Projekt klein, so dass es sich anbietet, die jeweiligen Gemeinsamkeiten in abstrakten Klassen zusammenzufassen, um Redundanzen zu vermeiden. Diese Klassen gehören daher zu den umfangreicheren im Projekt.
-% Wie in 4.3.1 erläutert, existiert derjenige node, an dem Segmente beim SPLITTEN zerteilt werden, nicht in den Eingangsdaten. Dementsprechend wird unterschieden zwischen SourceNode (aus OSM kommend) und NonexistentNode (entstehen beim SPLITTEN). Beide implementieren jedoch die gemeinsame Schnittstelle für den Typ Node. Zu den Gemeinsamkeiten für Nodes gehören in erster Linie deren Koordinaten, die folglich von der Klasse AbstractNode verwaltet und von den beiden konkreten Implementierungen geerbt werden.
-% In gleicher Weise fasst AbstractSegment Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (SourceSegment), und solcher Segmente, die erst durch SPLITTEN eines anderen Segments entstehen (Fragment), zusammen. In Abschnitt 4.3 wurden solche Segmente zur Vereinfachung einander gleichgestellt. Für derartige Fälle schlagen Gamma et al. den Einsatz des Composite-Patterns vor: „Use the Composite pattern when […] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ [GHJV p164]
+Die Anzahl der jeweils das Interface implementierenden Klassen ist in diesem Projekt klein, so dass es sich anbietet, die jeweiligen Gemeinsamkeiten in abstrakten Klassen
+% wie \code{AbstractSegment}
+zusammenzufassen, um Redundanzen zu vermeiden.
+Diese Klassen gehören daher zu den umfangreicheren im Projekt.
+% Herauszustellen ist insbesondere die Klasse \code{AbstractSegment}, welche u.~a. wichtige Algorithmen wie \textproc{Fußpunkt} und \textproc{Analyse} enthält.
 
-% Besonderheit: Manche Leafs stammen aus den Eingangsdaten (SourceSegments), andere nicht (Fragments). Gleiches gilt für Composites, so dass sich in einer nur auf Vererbung bestehenden Klassenstruktur sofort eine Wucherung aus größtenteils redundanten Klassen ergäbe. Für solche Fälle schlagen Gamma et al. vor, ein Bridge-Pattern einzusetzen ( [GHJV Bridge]), mit dem die Redundanz durch Delegation vermieden werden kann.
-% Eine Kombination aus Composite und Bridge wäre zwar möglich, würde jedoch zu einer recht unübersichtlichen Struktur führen. Gamma et al. betonen, dass Delegation unweigerlich Komplexität mit sich bringt und nur dann sinnvoll ist, wenn andere Vorteile überwiegen („Delegation is a good design choice only when it simplifies more than it complicates.“ [GHJV p21]). Dies ist hier offensichtlich nicht der Fall (Abb. Composite-Bridge).
-% Ihre Empfehlung, Delegation möglichst nur in Form von standardisierten Mustern zu verwenden [cf. ibid.], scheint hier auch wegen einer weiteren Besonderheit nicht anwendbar zu sein:
-% Anfangs nur Leafs, wovon dann einige nach und nach durch SPLITTEN in Composites verwandelt werden (mutable data). Unterschiedliche Klassen für Leaf und Composite sind deshalb hier gar nicht angemessen; vielmehr bietet es sich an, dass eine gemeinsame Klasse mit einem Attribut "children" sich entweder wie ein Leaf oder wie ein Composite verhält, je nachdem, ob es "children" in Form von Fragmenten gibt oder nicht.
-% Aus dieser Erkenntnis ergibt sich eine vergleichsweise einfache Klassenstruktur (Abb. IST). AbstractSegment implementiert die Gemeinsamkeiten aller Segmente. Dazu gehört, dass jedes Segment in genau zwei Fragmente geteilt sein kann, die ihrerseits ebenfalls Segmente sind. Jedes solche Fragment „weiß“ darüber hinaus, aus welchem Segment es aufgeteilt wurde (parent).
+Wie in Abschnitt~\ref{ch:split-algorithm} erläutert, existiert derjenige \term{node}, an dem Segmente beim \textproc{Splitten} zerteilt werden, nicht in den Eingangsdaten.
+Dementsprechend wird unterschieden zwischen \code{SourceNode} (aus den \osm-Quelldaten kommend) und \code{NonexistentNode} (beim \textproc{Splitten} entstehend).
+Beide implementieren jedoch die gemeinsame Schnittstelle für den Typ \code{Node}.
+Zu den Gemeinsamkeiten beider Arten von \code{Node}s gehören in erster Linie deren Koordinaten, welche folglich die Klasse \code{AbstractNode} verwaltet und an die beiden konkreten Implementierungen vererbt.
+
+In gleicher Weise fasst \code{AbstractSegment} Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (\code{SourceSegment}), und solcher Segmente, die erst durch \textproc{Splitten} eines anderen Segments entstehen (\code{Fragment}), zusammen.
+In Abschnitt~\ref{ch:algorithm-parts} wurden solche Segmente zur Vereinfachung einander gleichgestellt.
+Für derartige Fälle schlagen Gamma et~al. den Einsatz des Kompositum-Entwurfsmusters vor:
+„Use the Composite pattern when [...] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ \citex[164]{GHJV95}
+Im Kompositum-Muster werden Objekte zu Baumstrukturen aus individuellen Objekten (Blättern) und Komposita von Objekten zusammengefügt.
+
+Im Kontext des Kompositum-Musters ist jedoch die Besonderheit zu berücksichtigen, dass hier einige Blätter aus den Eingangsdaten stammen (\code{SourceSegment}s), andere nicht (\code{Fragment}s).
+Gleiches gilt auch für Komposita, so dass sich in einer nur auf Vererbung bestehenden Klassenstruktur sofort eine Wucherung aus größtenteils redundanten Klassen ergäbe.
+Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
+
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\caption{Composite-Bridge}
+	\label{fig:impl-composite-bridge}
+}
+
+Eine Kombination aus Kompositum und Brücke wäre zwar möglich, würde jedoch zu einer recht unübersichtlichen Struktur führen.
+Gamma et~al. betonen, dass Delegation unweigerlich Komplexität mit sich bringt und nur dann sinnvoll ist, wenn andere Vorteile überwiegen („Delegation is a good design choice only when it simplifies more than it complicates.“ \citex[21]{GHJV95}).
+Dies wäre hier offensichtlich nicht der Fall (Abbildung~\ref{fig:impl-composite-bridge}).
+Ihre Empfehlung, Delegation möglichst nur in Form von standardisierten Mustern zu verwenden, [\cfibid] scheint hier auch wegen einer weiteren Besonderheit nicht anwendbar zu sein:
+
+Alle Objekte im \code{AbstractSegment}-Kompositum sind veränderbar (\term{mutable}), damit bei der Umwandlung von Blättern (die jeweils ein Segment repräsentieren) in Komposita (die zwei oder mehr Segmente repräsentieren) beim \textproc{Splitten} keine großen Kosten entstehen.
+Bloch betont die erheblichen Vorteile von \term{immutability} (\emph{nicht} veränderbarer Objekte), weist aber auch darauf hin, dass bestimmte komplexe Operationen dann sehr teuer werden können („The performance problem is magnified if you perform a multistep operation that generates a new object at every step, eventually discarding all objects except the final result.“ \citex[67]{Blo01}).
+Im vorliegenden Kompositum würde \term{immutability} gerade erfordern, dass bei jedem \textproc{Splitten} der Baum neu aufgebaut wird.
+
+Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier gar nicht angebracht; vielmehr bietet es sich \emph{in Anlehnung an} standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
+
+\onefigure{ht}{
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\caption{Composite (IST)}
+	\label{fig:impl-class-structure-composite}
+}
+
+Aus dieser Erkenntnis ergibt sich eine vergleichsweise einfache Klassenstruktur (Abbildung~\ref{fig:impl-class-structure-composite}):
+\code{AbstractSegment} implementiert die Gemeinsamkeiten aller Segmente.
+Dazu gehört, dass jedes Segment in genau zwei Fragmente geteilt sein kann, die ihrerseits ebenfalls Segmente sind.
+Jedes solche Fragment „weiß“ darüber hinaus, aus welchem Segment es abgetrennt wurde (\term{parent}).
 
 %   [[ Textbausteine:
 % In diesem speziellen Fall wird die Struktur der Komposition nur durch SPLITTEN verändert. Dabei wird genau ein Segment durch zwei andere ersetzt, die gemeinsam das ersetzte Segment repräsentieren.
@@ -152,9 +238,15 @@ Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwies
 % soll tatsächliches Objektmodell für Fragmente gezeigt werden oder verwirrt das nur?
 % wenn, dann jedenfalls besser nicht vollständig, sondern vereinfacht
 
-% Darüber (parent, s.o.) hinaus sind Unterschiede zwischen SourceSegment und Fragment zunächst klein.
-% Die in 4.3.1 gegebene Definition von HÜLLE / NAHESEGMENTE wurde über den schon erwähnten gepackten R-Baum in JTS implementiert. Dessen Implementierung hat den Nachteil, dass der so erzeugte R-Baum nach dem Packen nicht mehr verändert werden darf. [JTS docs com.vividsolutions.jts.index.strtree.STRtree] (( im Gegensatz zu der Beschreibung in [RSV02 256]! ))
-% Weil wir hier SourceSegments ohnehin als eigene Klasse haben, bietet es sich an, die NAHESEGMENTE-Logik einfach nur darin zu implementieren. Das Packen des R-Baums braucht dann nur genau einmal nach dem SEGMENTIEREN durchgeführt zu werden. Danach werden die SourceSegments nicht mehr verändert. Die Korrektheit muss dann (laut 4.3.1??) über eine erneute Abstandsprüfung in der Analyse gesichert werden, weil so halt ein paar mehr Segmente geliefert werden als es sonst der Fall wäre (weil SourceSegments obdA größer als Fragments sind).
+Die Unterschiede zwischen \code{SourceSegment} und \code{Fragment} sind zunächst klein.
+Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition von \textproc{NaheSegmente} wurde über den schon erwähnten gepackten R-Baum in JTS implementiert.
+Dessen Implementierung hat den Nachteil, dass der so erzeugte R-Baum nach dem Packen nicht mehr verändert werden darf.
+% [JTS docs com.vividsolutions.jts.index.strtree.STRtree] (( im Gegensatz zu der Beschreibung in [RSV02 256]! ))
+Weil hier ohnehin \code{SourceSegment} als eigene Klasse existiert, bietet es sich an, die \textproc{NaheSegmente}-Logik nur in \code{SourceSegment} zu implementieren statt in der Superklasse \code{AbstractSegment}.
+Das Packen des R-Baums braucht dann nur genau einmal nach dem \textproc{Segmentieren} durchgeführt zu werden.
+Danach werden die \code{SourceSegment}s nicht mehr verändert.
+Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in der späteren \textproc{Analyse} vorsieht, stellt diese Abweichung von der Definition der Algorithmen nicht die Korrektheit der Implementierung in Frage, obwohl sie mehr Segmente als „nah“ betrachtet als die formale Beschreibung für \textproc{NaheSegmente}.
+% (weil SourceSegments obdA größer als Fragments sind). (aber NAHESEGMENTE ist ja primär eine Optimierung)
 
 % TODO:
 % Vector erwähnen!

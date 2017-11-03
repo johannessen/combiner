@@ -71,8 +71,10 @@
 \newcommand{\p}{p.\,}
 \newcommand{\f}{ seq.}
 \newcommand{\ff}{ seqq.}
+\newcommand{\cfabbr}{cf.}
+\newcommand{\cfibid}{\cfabbr\ ibid.}
 \DeclareDocumentCommand{\cf}{ O{} O{} m }{%
-\ifthenelse{\isempty{#1}}{\cfx[][#2cf.]{#3}}{\cfx[#1][#2cf.]{#3}}%
+\ifthenelse{\isempty{#1}}{\cfx[][#2\cfabbr]{#3}}{\cfx[#1][#2\cfabbr]{#3}}%
 }
 
 \DeclareDocumentCommand{\citex}{ O{} O{} m }{%
@@ -83,6 +85,8 @@
 
 % --------------
 
+\RequirePackage{color}
+
 % http://www.golatex.de/wiki/%5Cnocite
 
 %\RequirePackage{microtype}
@@ -90,6 +94,7 @@
 % word wrap and hyphenation
 %\tolerance=2500  % Paddy
 %\hyphenation{Hash-funk-tion Hash-funk-tionen}  % Paddy
+\hyphenation{mul-ti-step}
 \setlength{\emergencystretch}{3em}
 % http://www.tex.ac.uk/FAQ-overfull.html
 % http://en.wikibooks.org/wiki/LaTeX/Paragraph_Formatting#Hyphenation
@@ -124,10 +129,17 @@
 \textit{\kern+.1em=\kern+.1em \ifthenelse{\equal{#2}{*}}{\kern+.1em$*$}{#2}}%
 }}
 
+% code identifiers (e.g. Java class names)
+%\definecolor{codebackground}{gray}{0.95}
+\newcommand{\code}[1]{%
+%\colorbox{codebackground}{
+\texttt{#1}}%
+%}
+
 % drafting aids
 \newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
 %\RequirePackage{comment}
-\RequirePackage{color}\definecolor{draftcolor}{gray}{.7}
+\definecolor{draftcolor}{gray}{.7}
 \newenvironment{draft}[0]{\color{draftcolor}}{\color{black}}
 
 % shortcut for frequently-used abbreviation (for use where using the abbreviation in the final text might be appropriate)

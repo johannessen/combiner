@@ -88,7 +88,7 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	// large values increase the tolerance required during analysis because the start/endpoints of the other line will no longer be exactly orthogonal to the current line's points
 	
 	
-	private boolean wasSplit = false;
+	private boolean wasSplit = false;  // only used for assertion in shouldIgnore()
 	
 	
 	AbstractSegment (final Node start, final Node end) {
@@ -124,7 +124,8 @@ abstract class AbstractSegment implements Segment, Vector, Iterable<Segment> {
 	
 	
 	public boolean shouldIgnore () {
-		return wasSplit;
+		assert (fragments != null) == wasSplit : "Composite logic failure";
+		return fragments != null;
 	}
 	
 	
