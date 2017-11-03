@@ -71,7 +71,7 @@ Grundsätzlich wären angesichts der hier durchzuführenden geometrischen Operat
 Aufgrund der üblicherweise geringen Abstände der Parallelen ist Winkeltreue jedoch kein strenges Kriterium.
 % Wiederholung eines ähnlichen Gedanken in 4.3.1
 
-Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition für \textproc{NaheSegmente} kann leicht mit Hilfe eines R-Baums umgesetzt werden.
+Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition für \textproc{NaheSegmente} kann leicht mit Hilfe eines R-Baums als räumlicher Index umgesetzt werden.
 Die \textproc{Hülle} ist dabei das minimal umgebende Rechteck eines Blatts im R-Baum.
 Nachdem die \osm-Eingangsdaten vor der Generalisierung vollständig bekannt und somit statisch sind, bietet sich der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
 Ein solcher Baum wird von der JTS Topology Suite (JTS) angeboten, welche vom \term{framework} GeoTools als Implementierung des Geometriemodells verwendet wird.
@@ -92,6 +92,7 @@ GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebi
 Zusammengesetzt ergibt sich aus den besprochenen Aspekten die in Abbildung~\ref{fig:system-concept} dargestellte Architektur:
 Dem Anwender steht eine Kommandozeilen-Schnittstelle (CLI) zur Verfügung, die ihrerseits das \term{framework} args4j zum Parsen der Parameter sowie selbst entwickelte Routinen zur Ein- und Ausgabe der Geodaten verwendet.
 Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combiner“ bezeichnet), welche ihrerseits neben dem \term{framework} GeoTools noch einige selbst entwickelte Hilfsmodule verwendet, die nicht vom Combiner abhängig sind und deshalb als separates Softwarepaket dargestellt werden (mit „util“ bezeichnet).
+Schließlich sitzt zwischen Combiner und CLI ein mit „highway“ bezeichnetes Paket, welches versucht, die Logik des in Abschnitt~\ref{ch:case-selection} ausgewählten Spezialfalls an einem Ort zu bündeln, um die Anpassung auf andere Spezialfälle zu erleichtern.
 
 % Noch mal Modularisierung; java Packages erwähnen/erklären? -> eher nein
 
