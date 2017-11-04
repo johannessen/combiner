@@ -200,7 +200,7 @@ Im Kompositum-Muster werden Objekte zu Baumstrukturen aus individuellen Objekten
 
 Im Kontext des Kompositum-Musters ist jedoch die Besonderheit zu berücksichtigen, dass hier einige Blätter aus den Eingangsdaten stammen (\code{SourceSegment}s), andere nicht (\code{Fragment}s).
 Gleiches gilt auch für Komposita, so dass sich in einer nur auf Vererbung bestehenden Klassenstruktur sofort eine Wucherung aus größtenteils redundanten Klassen ergäbe.
-Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
+Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster \term{(Bridge pattern)} einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
@@ -258,24 +258,58 @@ Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in d
 
 
 
-\subsection{Analyse und Punktezuordnung}
+\subsection{Analyse und Anwendbarkeit auf andere Spezialfälle}
 
-% Die Analyse (4.3.2) ändert das Datenmodell nur unwesentlich: SourceSegment bekommt L+R (wie in 4.3.2 gezeigt jeweils als Teil der Wurzel)
+Die Algorithmen zur \textproc{Analyse} erfordern die Ergänzung des Datenmodells aus Abbildung~\ref{fig:impl-geometry-model} mit den zusätzlichen Attributen $parallelLinks$ und $parallelRechts$, in denen das Ergebnis der \textproc{Analyse} abgelegt wird.
+Wie in Abschnitt~\ref{ch:algorithm-parts} definiert sind dies Attribute des Wurzel-Segments, also der Klasse \code{SourceSegment}.
 
-% Obwohl nach der Auswahl eines bestimmten Spezialfalls der Liniengeneralisierung in Kap. 3 andere Fälle nicht weiter berücksichtigt wurden, ist eine auch andere Anwendungsfälle zulassende Flexibilität doch Teil der angestrebten Praxistauglichkeit der zu entwickelnden Software. Angesichts der Arbeitsweise der Algorithmen ist es naheliegend, dass sich dies insbesondere in der Analyse auf Parallelität niederschlagen sollte. Die Definition der ANALYSE beschränkt sich auf geometrische Aspekte; für die konkrete Evaluierung zweiter Segmente spielen im Wesentlichen die Definitionen für PARALLELität und DISTANZ eine Rolle. Es wäre daher von Vorteil, wenn diese beiden Definitionen in der Software leicht austauschbar wären.
-% Dieses Verhalten scheint auf den ersten Blick auf die Beschreibung des TemplateMethod-Patterns zu passen, womit einzelne Schritte verändert werden können, ohne die gesamte Struktur eines Algorithmus zu verändern. Tatsächlich beschränkt sich dieses Muster jedoch darauf, diese einzelnen Schritte von Unterklassen implementieren zu lassen, was auch in der einleitenden Beschreibung von Gamma et al. schon deutlich wird: „Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.“ [GHJV p325] Eine Anwendung an dieser Stelle würde also gerade unter Berücksichtigung der oben beschriebenen Komposition von Segmenten in SourceSegments und Fragments zu einer Wucherung von weiteren Unterklassen führen und wäre daher ungeeignet.
-% Stattdessen empfehlen Gamma et al. das Visitor-Pattern einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. [cf GHJV p344, p333] Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. visitor als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. [cf. GHJV p331-335]
-% In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle Analyser implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen PARALLEL und DISTANZ. Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Kap. 3 gewählten Spezialfalls "Highways" nicht Teil des Combiners zu sein, sondern kann vom Client auf andere Themen angepasst werden.
+Obwohl nach der Auswahl eines bestimmten Spezialfalls der Liniengeneralisierung in Abschnitt~\ref{ch:case-selection} andere Fälle nicht weiter berücksichtigt wurden, ist eine auch andere Anwendungsfälle zulassende Flexibilität doch Teil der angestrebten Praxistauglichkeit der zu entwickelnden Software.
+Angesichts der Arbeitsweise der Algorithmen ist es naheliegend, dass sich dies insbesondere in der Analyse auf Parallelität niederschlagen sollte.
+Die Definition der \textproc{Analyse} beschränkt sich auf geometrische Aspekte; für die konkrete Evaluierung zweiter Segmente spielen im Wesentlichen die Definitionen für \textproc{Parallel}ität und \textproc{Distanz} eine Rolle.
+Es wäre daher von Vorteil, wenn diese beiden Definitionen in der Software leicht austauschbar wären.
 
-% Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
+Dieses Verhalten scheint auf den ersten Blick auf die Beschreibung des Schablonenmethoden"=Entwurfsmusters \term{(Template Method pattern)} zu passen, womit einzelne Schritte verändert werden können, ohne die gesamte Struktur eines Algorithmus zu verändern.
+Tatsächlich beschränkt sich dieses Muster jedoch darauf, diese einzelnen Schritte von Unterklassen implementieren zu lassen, was auch in der einleitenden Beschreibung von Gamma et~al. schon deutlich wird:
+„Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.“ \citex[325]{GHJV95}
+Eine Anwendung an dieser Stelle würde also gerade unter Berücksichtigung der oben beschriebenen Komposition von Segmenten in \code{SourceSegment}s und \code{Fragment}s zu einer Wucherung von weiteren Unterklassen führen und wäre daher ungeeignet.
+
+Stattdessen empfehlen Gamma et~al. das Besucher-Muster \term{(Visitor pattern)} einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. \cf[333, 344]{GHJV95}
+Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. \term{visitor} als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. \cf[331--335]{GHJV95}
+
+In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert.
+Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}.
+Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Abschnitt~\ref{ch:case-selection} gewählten Spezialfalls „baulich getrennte Richtungsfahrbahnen im Straßenraum“ nicht Teil des Combiners zu sein, sondern kann vom Client auf andere Themen angepasst werden.
+
+
+
+\subsection{Punktezuordnung}
+
+Für Abschnitt~\ref{ch:node-match-algorithm} ergibt sich das in Abbildung~\ref{fig:impl-node-match-model} gezeigte Datenmodell.
+Die Klasse \code{NodeMatch} implementiert die Punktezuordnungen.
+Dies sind entsprechend der formalen Definition Mengen aus exakt zwei gegenüberliegenden \term{nodes} einander paralleler Segmente.
+Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs „nächste Zuordnung $c'$“ erleichtern (vergleiche Abschnitt~\ref{ch:generalisation-algorithm}).
+Um Objekte der Klasse \code{NodeMatch} klar als Menge zu kennzeichnen, wurde sie auch als \code{Set<Node>} (Menge von \code{Node}s) im Java Collections Framework deklariert.
+Dies erleichtert auch die Implementierung der Mengeneigenschaften.
+
+\onefigure{ht}{
 % [NodeGraph]1 <>-- 1…n[NodeMatch]0…n <>-- 2[Node]
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\\\texttt{ [NodeGraph]<>--[NodeMatch]<>--[Node]}
+	\\\texttt{~~~~~~~~~~~1~~~1…n~~~~~~~0…n~~~2~~~~~}
+	\caption{...}
+	\label{fig:impl-node-match-model}
+}
 
-% NodeMatches = Punktezuordnungen. Dies sind wie in 4.3.3 definiert Mengen aus exakt zwei gegenüberliegenden Nodes einander paralleler Segmente. Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs "nächste Zuordnung c'/z'" erleichtern. Um Objekte der Klasse NodeMatch klar als Menge zu kennzeichnen, wurde sie auch als Set<Node> (Menge von Nodes) im Java Collections Framework deklariert. Dies erleichtert auch die Implementierung der Mengeneigenschaften.
-% Da die ANALYSE für jedes Segment immer jeweils links- und rechtsseitig nach Parallelen sucht, werden beim NODESZUORDNEN viele Zuordnungen doppelt gefunden, nämlich einmal in jeder Richtung. Erneut erleichtern die Eigenschaften der mathematischen Menge, hier der Menge aller Zuordnungen C/Z, die Beschreibung des Algorithmus in 4.3.3. Weil NodeMatch-Objekte wie beschrieben die Mengeneigenschaften implementieren, können sie leicht direkt im Java Collections Framework verwendet werden, hier als Set<NodeMatch> (Menge von NodeMatch-Objekten). Da der Datentyp NodeMatch gleichzeitig die Schnittstelle Set<Node> implementiert, hat die Menge aller Zuordnungen den Typ Set<Set<Node>>, ist also eine Menge /von Mengen/ von Nodes, was genau der Anforderung in 4.3.3 entspricht.
+Da die \textproc{Analyse} für jedes Segment immer jeweils links- und rechtsseitig nach Parallelen sucht, werden beim \textproc{NodesZuordnen} viele Zuordnungen doppelt gefunden, nämlich einmal in jeder Richtung.
+Erneut vereinfachen die Eigenschaften der mathematischen Menge, hier der Menge aller Zuordnungen $C$, die Beschreibung des Algorithmus in Abschnitt~\ref{ch:node-match-algorithm}.
+Weil \code{NodeMatch}-Objekte wie beschrieben die Mengeneigenschaften implementieren, können sie leicht direkt im Java Collections Framework verwendet werden, hier als \code{Set<NodeMatch>} (Menge von \code{NodeMatch}-Objekten).
+Da der Datentyp \code{NodeMatch} gleichzeitig die Schnittstelle \code{Set<Node>} implementiert, hat die Menge aller Zuordnungen implizit den Typ \code{Set<Set<Node>>}, ist also eine Menge \emph{von Mengen} von \term{nodes}, was genau der formalen Anforderung in Abschnitt~\ref{ch:node-match-algorithm} entspricht.
 
 % TODO: SourceNode, nicht Node. Spielt das eine Rolle, oder versteht man es auch so?
 
-% Punktezuordnungen und Segmente ergeben gemeinsamen einen gemischten Graphen des zu generalisierenden Netzes. Als parallel erkannte Segmente sind über deren Nodes derart einander zugeordnet, dass sich eine gemeinsame Mittellinie als Verknüpfung der Mittelpunkte derjenigen Kanten im Graphen, welche die Punktezuordnungen darstellen, leicht finden lässt. Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über die einzelnen Punkte die mit ihnen verknüpften Segmente ermittelbar sind.
+Punktezuordnungen und Segmente ergeben gemeinsamen einen gemischten Graphen des zu generalisierenden Netzes.
+Als parallel erkannte Segmente sind über deren \term{nodes} derart einander zugeordnet, dass sich eine gemeinsame Mittellinie als Verknüpfung der Mittelpunkte derjenigen Kanten im Graphen, welche die Punktezuordnungen darstellen, leicht finden lässt.
+Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über die einzelnen Punkte die mit ihnen verknüpften Segmente ermittelbar sind.
 
 % TODO: ist hier der Fall, über addSegment(), welches in AbstractLine passiert. Sollte vielleicht weiter oben in 4.3.1 erwähnt werden.
 
@@ -290,9 +324,14 @@ Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in d
 % ...
 
 
+% im Wesentlichen: welche Pointer werden an Segmente drangehangen und wie hängen ResultLine, *Section und GenLines zusammen?
+
+
 
 \subsection{Zusammenfassung und ggf. Datenfluss/Interaktionswege}
 % (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
+
+% Combiner=Facade?
 
 % TODO: Big Renaming #4 (optional)
 %1: de.thaw.thesis.comb -> de.thaw.comb
@@ -348,12 +387,14 @@ Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in d
 % - I/O-Probleme
 % - Debug-Output
 % - strictly-typed language vielleicht einfach keine so besonders gute Idee zum Prototyping
+% - hat die implementierung aufwändiger gemacht und den fokus (bei limitierter zeit) verschoben etwas weg von algorithmus-entwicklung und ergebnisbeurteilung hin zu objektorientierter programmierung (wofür keiner der beiden gutachter experte ist) <-- fehlerhafte vorgabe? konnte aber eigentlich keinem vorher auffallen, denn nur ich+Jochen waren Programmierer, aber nur die anderen beiden haben akad. Erfahrung
 % - Vektoren waren superhilfreich; aber denkbar, dass hier eine Sprache mit Operator Overloading (im Gegensatz zu Java) /noch/ mehr gebracht hätte
 % - zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge von 2 oder so Elementen iteriert (teils weniger, wie die Untersuchung zu realParallels ergab) und in anderen Fällen wird durch NAHESEGMENTE die Größe der Menge stark begrenzt; deshalb in der Praxis gar nicht mal so schrecklich hoher Rechenaufwand. (Speicher/GC ist größeres Problem.)
 % - Unterschied in Implementierung zu 4.3.2 L+R: es werden Listen gepflegt. Der Output unterscheidet sich jedoch überhaupt nicht; es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird, während andererseits die Liste aller "realParallels" letztlich nur lauter Duplikate von Edges erzeugt, die von der Set-Logik automatisch ignoriert werden. Frage ist hier, welche Variante mit dem Java Collections Framework am effizientesten umzusetzen ist => Optimierungspotential
 % - dass es für das ding mit den segmenten nicht bereits geeignete klassen gab, hat einiges an zusatzarbeit verursacht. das gestalten der datenstrukturen war lehrreich, aber aufwändiger als erwartet
 % - die Shapefiles enthalten aus technischen Gründen veränderte Attribute, nicht die original-OSM-tags => io.ShapeTagsAdapter
 % - fortbestehendes Problem (aus Zeitgründen): die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section arbeiten direkt mit Highway-Klassen, obwohl das eigentlich nur der Client tun sollte
+% - "In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}." --- stimmt das überhaupt schon?
 % - Java Collections Framework sehr hilfreich (erwartungsgemäß)
 
 
