@@ -44,7 +44,7 @@ Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der 
 
 
 
-\section{Systemkonzept}
+\section{Systemarchitektur}
 
 Für ein gut funktionierendes Gesamtpaket sind vor der Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
 
@@ -283,12 +283,13 @@ Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das B
 
 
 \subsection{Punktezuordnung}
+\label{ch:impl-node-match}
 
 Für Abschnitt~\ref{ch:node-match-algorithm} ergibt sich das in Abbildung~\ref{fig:impl-node-match-model} gezeigte Datenmodell.
 Die Klasse \code{NodeMatch} implementiert die Punktezuordnungen.
 Dies sind entsprechend der formalen Definition Mengen aus exakt zwei gegenüberliegenden \term{nodes} einander paralleler Segmente.
 Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs „nächste Zuordnung $c'$“ erleichtern (vergleiche Abschnitt~\ref{ch:generalisation-algorithm}).
-Um Objekte der Klasse \code{NodeMatch} klar als Menge zu kennzeichnen, wurde sie auch als \code{Set<Node>} (Menge von \code{Node}s) im Java Collections Framework deklariert.
+Um Objekte der Klasse \code{NodeMatch} klar als Menge zu kennzeichnen, wurde sie zusätzlich als \code{Set<Node>} (Menge von \code{Node}s) im Java Collections Framework deklariert.
 Dies erleichtert auch die Implementierung der Mengeneigenschaften.
 
 \onefigure{ht}{
@@ -317,21 +318,33 @@ Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über
 
 \subsection{Liniengeneralisierung}
 
-% Datenmodell/Klassenstruktur:
+Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
+\onefigure{ht}{
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
+	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
+	\\\texttt{ [GeneralisedLines]<>--[ResultLine]<>--[Node]}
+	\\\texttt{~~~~~~~~~~~~~~~~~~1~~~0…n~~~~~~~~0…n~~2…n~~~~}
+	\caption{...}
+	\label{fig:impl-generalisation-model}
+}
 
 % TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Eventuell passiert das hier mit Nodes? Nochmal prüfen! Macht aber eigentlich keinen großen Unterschied.
 % ...
 
-
-% im Wesentlichen: welche Pointer werden an Segmente drangehangen und wie hängen ResultLine, *Section und GenLines zusammen?
+\begin{itemize}
+\item im Wesentlichen: welche Pointer werden an Segmente drangehangen und wie hängen ResultLine, *Section und GenLines zusammen?
+\end{itemize}
 
 
 
 \subsection{Zusammenfassung und ggf. Datenfluss/Interaktionswege}
-% (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
 
-% Combiner=Facade?
+\begin{itemize}
+\item Integration der beschriebenen Klassen zu einem funktionierenden System
+\item \code{Combiner} = Façade
+\item ggf. Datenfluss/Interaktionswege
+% (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
+\end{itemize}
 
 % TODO: Big Renaming #4 (optional)
 %1: de.thaw.thesis.comb -> de.thaw.comb
@@ -366,45 +379,110 @@ Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über
 
 
 
-\begin{itemize}
-	\item konzeptueller Überblick der entwickelten Software in dem Umfang, der für den Leser dieser Arbeit zum Verständnis notwendig ist
-	\begin{itemize}
-		\item z. B. Klassenstrukturen
-		\item z. B. Interaktionswege
-	\end{itemize}
-	\item Erläuterung wichtiger Designentscheidungen
-	\item Unterschiede zu den entworfenen Algorithmen
-	\item Bezug zu Kapitel 4 herstellen
-\end{itemize}
-
-
-
 \section{Schwierigkeiten bei der Umsetzung}
 \label{ch:impl-difficulties}
 
-% - I/O erfolgt nicht in OSM-Format
-% - shapefile-Probleme: shp support wurde in Geotools neu implementiert; ob dies die Probleme löst, wurde nicht getestet <http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng>
-% - I/O-Probleme
-% - Debug-Output
-% - strictly-typed language vielleicht einfach keine so besonders gute Idee zum Prototyping
-% - hat die implementierung aufwändiger gemacht und den fokus (bei limitierter zeit) verschoben etwas weg von algorithmus-entwicklung und ergebnisbeurteilung hin zu objektorientierter programmierung (wofür keiner der beiden gutachter experte ist) <-- fehlerhafte vorgabe? konnte aber eigentlich keinem vorher auffallen, denn nur ich+Jochen waren Programmierer, aber nur die anderen beiden haben akad. Erfahrung
-% - Vektoren waren superhilfreich; aber denkbar, dass hier eine Sprache mit Operator Overloading (im Gegensatz zu Java) /noch/ mehr gebracht hätte
-% - zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge von 2 oder so Elementen iteriert (teils weniger, wie die Untersuchung zu realParallels ergab) und in anderen Fällen wird durch NAHESEGMENTE die Größe der Menge stark begrenzt; deshalb in der Praxis gar nicht mal so schrecklich hoher Rechenaufwand. (Speicher/GC ist größeres Problem.)
-% - Unterschied in Implementierung zu 4.3.2 L+R: es werden Listen gepflegt. Der Output unterscheidet sich jedoch überhaupt nicht; es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird, während andererseits die Liste aller "realParallels" letztlich nur lauter Duplikate von Edges erzeugt, die von der Set-Logik automatisch ignoriert werden. Frage ist hier, welche Variante mit dem Java Collections Framework am effizientesten umzusetzen ist => Optimierungspotential
-% - dass es für das ding mit den segmenten nicht bereits geeignete klassen gab, hat einiges an zusatzarbeit verursacht. das gestalten der datenstrukturen war lehrreich, aber aufwändiger als erwartet
-% - die Shapefiles enthalten aus technischen Gründen veränderte Attribute, nicht die original-OSM-tags => io.ShapeTagsAdapter
-% - fortbestehendes Problem (aus Zeitgründen): die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section arbeiten direkt mit Highway-Klassen, obwohl das eigentlich nur der Client tun sollte
-% - "In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}." --- stimmt das überhaupt schon?
-% - Java Collections Framework sehr hilfreich (erwartungsgemäß)
-
+% TODO: "Während der Entwicklung wurde versucht, so viel existierenden Code in Form von \term{frameworks} wiederzuverwenden wie möglich. Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-difficulties} geschildert wird."
 
 % TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
 % hier NICHT Probleme mit dem Generalisierungsergebnis oder der Korrektheit der Algorithmen besprechen (gehört zu 6)
 
 
 
+\subsection{Eigenschaften der Sprache}
+
 \begin{itemize}
-	\item interessante konkrete Schwierigkeiten oder Erfolge bei der Implementierung aufzeigen
+
+\item
+Dass in den zur Verfügung stehenden Java-\term{frameworks} nicht bereits geeignete Datenstrukturen für die Arbeit mit Segmenten existieren, hat einiges an zusätzlicher Arbeit verursacht.
+Das Aufbauen der Datenstrukturen war lehrreich, aber zeitaufwändiger als erwartet.
+
+\item
+Die Entwicklung von der Idee für einen Algorithmus hin zu einer für komplexe Geodaten praxistauglichen Implementierung kann als iterativer Prozess verstanden werden.
+Unter dem Eindruck der Ergebnisse früher Versionen können Algorithmus und Implementierung nach und nach verfeinert werden.
+% http://de.wikipedia.org/wiki/Prototyping_(Softwareentwicklung)#Evolution.C3.A4res_Prototyping
+Die Wahl von Java als streng typisierte Sprache erschwerte jedoch dieses Vorgehen.
+%Der Zeitaufwand dafür, elegante Klassenstrukturen aufzubauen, wurde vom Verfasser unterschätzt.
+
+Die strenge Typisierung hat die Implementierung aufwändiger gemacht und den Fokus (bei vorgegebenem Zeitrahmen für die Arbeit) somit notwendigerweise ein Stück weit verschoben weg von Algorithmusentwicklung und -beurteilung hin zu den Details objektorientierter Programmierung.
+Dies war so vor Beginn nicht absehbar.
+% denn nur ich+Jochen waren Programmierer, aber nur die offiziellen Betreuer haben akad. Erfahrung
+Möglicherweise wäre eine dynamisch typisierte Skriptsprache wie Perl für das explorative Vorgehen geeigneter gewesen.
+% warum? -> erfordert Anpassungen der Strukturen von Algorithmen und Daten
+
+\item
+Erwartungsgemäß war das Java Collections Framework eine große Hilfe.
+
+\item
+Die Idee, nicht nur im Algorithmus, sondern auch in der Typenhierarchie Segmente als Vektoren zu behandeln, stellte sich als sehr hilfreich heraus.
+Es ist denkbar, dass eine Sprache mit Operatorüberladung wie Perl diesen Vorteil noch besser hätte ausnutzen können.
+
+\end{itemize}
+
+
+
+\subsection{Ein- und ausgabe von Geodaten}
+
+\begin{itemize}
+
+\item
+Zwar ist diese Arbeit ausdrücklich aus \osm\ fokussiert, beim Prototyping stellte sich allerdings heraus, dass das direkten Einlesen von \osm-Daten etwas schwieriger war als erwartet.
+Die Eingabe wurde daher zunächst über die Shapefiles der Geofabrik realisiert.
+Auch die Ausgabe erfolgt zunächst als Shapefile, damit das Generalisierungsergbnis leicht mit gängiger Software betrachtet werden kann.
+Schnittstellen für Ein- und Ausgabe von \osm-Daten zu ergänzen, sollte aber nicht allzu schwierig sein.
+
+\item
+Die Shapefiles der Geofabrik enthalten aus technischen Gründen veränderte Attribute, nicht die Original-\osm-\term{tags}.
+Diesem Problem wurde begegnet, indem ein Adapter die aus den Shapefiles gelesenen Attribute wieder zurück in das \osm-Format wandelt, ohne dass dies für den Combiner sichtbar wird.
+% Adapter pattern: io.ShapeTagsAdapter
+
+\item
+Die Nutzung des \term{frameworks} GeoTools zur Ein- und Ausgabe von Geodaten war problematisch.
+Zwar bietet GeoTools umfangreiche Unterstützung für verschiedene Datenformate, jedoch sind diese I/O-Klassen von GeoTools eher umständlich zu benutzen, ihr Interface ist nicht stabil und sie sind sehr teuer.
+Eine Lösung hierfür zu entwickeln, war sehr zeitaufwändig.
+
+Um die Datenausgabe auf eine akzeptable Geschwindigkeit zu beschleunigen, werden diese nun im GeoJSON-Format ausgegeben (implementiert als reine Textausgabe, was sehr billig ist).
+Das GeoJSON wird anschließend mit GDAL in ein Shapefile konvertiert.
+Insgesamt ist diese Lösung um ein Vielfaches schneller als der Shapefile-Support von GeoTools.
+
+(Allerdings wurde der Shapefile-Support in Geotools neu implementiert; ob dies die Probleme löst, wurde noch nicht getestet.)
+% http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng
+
+\item
+Außer dem eigentlichen Generalisierungsergebnis kann die entwickelte Software auch zahlreiche zusätzliche Geodatensätze ausgeben, die das Verständnis von der Arbeitsweise des Algorithmus bei Anwendung auf Real-World-Daten verbessern und auch beim Debuggen hilfreich sind.
+Diese Ausgaben sind in keiner Weise optimiert.
+
+\end{itemize}
+
+
+
+\subsection{Sonstiges: Flexibilität und Effizienz}
+
+\begin{itemize}
+
+\item
+Die Definition des Spezialfalls, auf den die Arbeit beschränkt werden soll, in einem eigenen Paket \code{highway} vom Rest des Combiners zu trennen und sie damit leicht austauschbar zu machen, war grundsätzlich eine gute Idee.
+Diese Trennung ist allerdings bisher nur begonnen worden und konnte aus Zeitgründen nicht bis zum Abschluss der Arbeit beendet werden; angesichts der ausdrücklichen Beschränkung in der Aufgabenstellung auf nur den ausgewählten Spezialfall war das aber auch streng genommen gar nicht notwendig.
+% betrifft insb. die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section
+% "In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}." --- stimmt das überhaupt schon?
+
+\item
+Im Unterschied zur formalen Definition in Abschnitt~\ref{ch:analyse-algorithm} sind $parallelLinks$ und $parallelRechts$ nicht als homogene binäre Relation auf Segmenten implementiert, sondern als Relation zwischen Segmenten und \emph{Mengen} von Segmenten.
+Mit anderen Worten: Es wird nicht jeweils nur ein einziges Segment je Seite als „parallel“ markiert, sondern mehrere.
+% es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird
+Auf die Korrektheit der Algorithmen hat dies keinen Einfluss.
+Zwar entstehen beim \textproc{NodesZuordnen} zunächst mehr Zuordnungen.
+Dies sind jedoch Duplikate, die aufgrund der Mengeneigenschaft entfallen (vergleiche Abschnitt~\ref{ch:impl-node-match}).
+Es stellt sich hier also die Frage, welche Implementierungsvariante mit dem Java Collections Framework am effizientesten umzusetzen ist.
+Ein \term{profiling} wurde noch nicht durchgeführt.
+% => Optimierungspotenzial
+
+\item
+Zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge der Mächtigkeit $2$ iteriert
+% (teils weniger, wie die Untersuchung zu realParallels ergab)
+und in anderen Fällen wird durch \textproc{NaheSegmente} die Größe der Menge stark begrenzt; deshalb ist der Rechenaufwand in der Praxis gar nicht mal so schrecklich hoch.
+Der Speicheraufwand und insbesondere das Verhalten des \term{garbage collectors} ist ein größeres Problem; hier besteht Optimierungspotenzial.
+
 \end{itemize}
 
 
