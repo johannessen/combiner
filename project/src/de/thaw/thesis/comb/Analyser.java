@@ -24,7 +24,6 @@ public interface Analyser {
 	 * η = SourceSegment.INDEX_ENVELOPE_MARGIN
 	 * PARALLEL angle = SourceSegment.PARALLEL_ANGLE_MAXIMUM / HighwayAnalyser.COLLINEAR_MAX_ANGLE
 	 * PARALLEL distance = HighwayAnalyser.MAX_DISTANCE
-	 * DISTANZ = HighwayAnalyser.evaluate()
 	 * the tag combination routines in *Section
 	 */
 	
@@ -33,6 +32,22 @@ public interface Analyser {
 	 * 
 	 */
 	boolean shouldEvaluate (Segment currentPart, Segment otherPart) ;
+	
+	
+	/**
+	 * The geometric distance between two segments (D<small>ISTANZ</small>).
+	 * How the distance is determined may depend upon the use case. For
+	 * example, in one context the distance between two segments might be
+	 * best defined as the distance of their mid points, whereas other contexts
+	 * may require it to be defined as the average distance of their respective
+	 * endpoints.
+	 * 
+	 * @return an ordinal scaled value representing the distance between the
+	 *  two segments <code>s1</code> and <code>s2</code>
+	 * @throws NullPointerException if <code>s1</code> or <code>s2</code> are
+	 *  <code>null</code>
+	 */
+	double distance (Segment s1, Segment s2) ;
 	
 	
 	/**

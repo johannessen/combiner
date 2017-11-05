@@ -102,13 +102,28 @@ public final class HighwayAnalyser implements Analyser {
 	}
 	
 	
+	/**
+	 * {@inheritDoc}<p>
+	 * 
+	 * This implementation calculates the <em>sum</em> of the distance of the
+	 * two start points and the two endpoints. If the segments are not aligned
+	 * the same way, one of them is reversed for this calculation.
+	 * 
+	 * @throws NullPointerException if <code>s1</code> or <code>s2</code> are
+	 *  <code>null</code>
+	 */
+	public double distance (final Segment s1, final Segment s2) {
+		return evaluate(s1, s2, Double.NaN);
+	}
+	
+	
 	private double evaluate (final Segment part1, final Segment part2, final double direction) {
 		
 //		assert ! (part1 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part1).fragments.size() > 0));
 //		assert ! (part2 instanceof de.thaw.thesis.comb.SourceSegment && (((de.thaw.thesis.comb.SourceSegment)part2).fragments.size() > 0));
 		
 		final Vector v1 = part1;
-		final Vector v2 = part2.aligned(v1);
+//		final Vector v2 = part2.aligned(v1);
 		final SimpleVector starts;
 		final SimpleVector ends;
 		if (part2.isAligned(v1)) {
@@ -128,8 +143,9 @@ System.err.println(starts + "  /  " + ends + "\n");
 		
 		// left / right exclusion
 		// :TODO: really test this! -- seems to work fine though, based on practical results
-		if ( Math.signum(v1.relativeBearing(starts)) != direction
-				|| Math.signum(v1.relativeBearing(ends)) != direction ) {
+		if ( ! Double.isNaN(direction) && (
+				Math.signum(v1.relativeBearing(starts)) != direction
+				|| Math.signum(v1.relativeBearing(ends)) != direction )) {
 			return worstResult();
 		}
 		
