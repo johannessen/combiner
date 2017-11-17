@@ -318,7 +318,7 @@ Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über
 
 \subsection{Liniengeneralisierung \emph{[ausstehend]}}
 
-Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
+Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
 \onefigure{ht}{
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
 	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
@@ -328,8 +328,7 @@ Für 4.3.3 ergibt sich folgendes Datenmodell/Klassenstruktur:
 	\label{fig:impl-generalisation-model}
 }
 
-% TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Eventuell passiert das hier mit Nodes? Nochmal prüfen! Macht aber eigentlich keinen großen Unterschied.
-% ...
+% TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Ist auch so implementiert, über AbstractLine, welches eine Liste von Segmenten ist. Aber macht das so wirklich Sinn? Die Segmente braucht doch keiner mehr. Eventuell nur eine Liste von Punkten speichern und dann lazy initialisation? Dafür könnte evtl. recht einfach ResultLine einige Methoden überschreiben (coordinates, add (-> protected), get/size/iterator etc.) oder wir bauen gleich AbstractLine so um, dass es lazy ist (weil ja ohnehin auch vom SourceWay her eine Node-Liste reinkommt).
 
 \begin{itemize}
 \item im Wesentlichen: welche Pointer werden an Segmente drangehangen und wie hängen ResultLine, *Section und GenLines zusammen?
@@ -421,7 +420,7 @@ Es ist denkbar, dass eine Sprache mit Operatorüberladung wie Perl diesen Vortei
 
 
 
-\subsection{Ein- und ausgabe von Geodaten}
+\subsection{Ein- und Ausgabe von Geodaten}
 
 \begin{itemize}
 
