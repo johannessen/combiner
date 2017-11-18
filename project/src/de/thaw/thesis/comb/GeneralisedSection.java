@@ -33,58 +33,48 @@ public class GeneralisedSection extends ResultLine {
 	public LinkedList<SourceSegment> originalSegments = new LinkedList<SourceSegment>();
 	public LinkedList<SourceNode> originalNodes = new LinkedList<SourceNode>();
 	
-	public NodeMatch startConnector = null;
-	public NodeMatch endConnector = null;
-	
 	private NodeGraph graph;
 	
 	
 	
-	NodeMatch startMatch = null;  // E
-	SourceNode startNode = null;  // E_S
-//	Highway startWay = null;
+	private final NodeMatch startMatch;  // E
+	private final SourceNode startNode;  // E_S
 	
 	HighwayType osmHighway = null;
 	String osmRef = null;
 	
-	GeneralisedSection (final NodeGraph graph, final NodeMatch match, final SourceNode node) {
+	GeneralisedSection (final NodeGraph graph, final NodeMatch startMatch, final SourceNode startNode) {
 		this.graph = graph;
-		
-		startMatch = match;
-		startNode = node;
+		this.startMatch = startMatch;
+		this.startNode = startNode;
 		
 		if (startNode == null) {
 			valid = false;
 			return;
 		}
 		
-		addConnector(startMatch, true);
-		addConnector(startMatch, false);
-		
 		assert startNode.connectingSegments().size() <= 2 : startNode;  // see issue #111
 		assert startNode.connectingSegments().size() > 0 : startNode;
 		
 		
-		Iterator<SourceSegment> iterator = startNode.connectingSegments().iterator();
-		for (int i = 0; i < 2 && iterator.hasNext(); i++) {
-			final SourceSegment segment = iterator.next();
-			
-			// move into both directions along segments from startNode
-			boolean forward = i == 0;
-			
+		boolean forward = true;
+		for (final SourceSegment segment : startNode.connectingSegments()) {
 			if (segment.wasGeneralised > 0) {
 				continue;
 			}
 			
-			NodeMatch lastMatch = traverseGraph(segment, forward);
-			if (lastMatch == startMatch) {
-				continue;
-			}
+			traverseGraph(segment, forward);
 			
-			addConnector(lastMatch, forward);
+			/* Move into both directions along segments from startNode:
+			 * 
+			 * The ZUSAMMENFASSEN algorithm only defines moving into one
+			 * direction and leaves concatenating the arbitrary number of line
+			 * strings that result to the client. However, we can just as
+			 * easily execute this step twice (once per direction), to yield
+			 * the maximum possible line string length right away.
+			 */
+			forward = false;
 		}
-		
-		assert ! iterator.hasNext() : startNode;  // see issue #111
 		
 		valid = size() >= 2;
 		
@@ -97,26 +87,26 @@ public class GeneralisedSection extends ResultLine {
 	
 	
 	
-	SourceSegment segment1 = null;  // A
-	SourceSegment segment2 = null;  // B
+	SourceSegment segment1 = null;  // A (s)
+	SourceSegment segment2 = null;  // B (t)
 	boolean segment1Aligned = true;
 	boolean segment2Aligned = true;
 	SourceNode currentNode1 = null;  // E_S
 	SourceNode currentNode2 = null;  // E_T
 	NodeMatch currentMatch = null;  // E
 	
-	private NodeMatch traverseGraph (final SourceSegment segment, final boolean forward) {
+	private void traverseGraph (final SourceSegment startSegment, final boolean forward) {
 		
 		currentMatch = startMatch;
 		currentNode1 = startNode;
 		currentNode2 = startMatch.other(startNode);
-		segment1 = segment;
+		segment1 = startSegment;
 		segment1Aligned = segment1.start() == currentNode1;
 		segment2 = findOppositeSegment(currentNode2, segment1, segment1Aligned);
 		if (segment2 == null) {
-			segment1.notToBeGeneralised = true;  // no parallels == no need for generlaisation
-			// :TODO: does this occur? if so, why? -- doesn't matte rmuch, it seems to do the right thing anyhow
-			return null;
+			segment1.notToBeGeneralised = true;  // no parallels == no need for generalisation
+			// :TODO: why does this occur? -- doesn't matter much, it seems to do the right thing anyhow
+			return;
 		}
 		segment2Aligned = segment2.start() == currentNode2;
 		
@@ -220,7 +210,7 @@ public class GeneralisedSection extends ResultLine {
 			
 		}
 		
-		return currentMatch;
+		return;
 	}
 	
 	
@@ -259,18 +249,6 @@ public class GeneralisedSection extends ResultLine {
 		segment2 = nextSegment2;
 
 		currentNode2 = nextNode2;
-	}
-	
-	
-	
-	private void addConnector (final NodeMatch match, final boolean addAtEnd) {
-		if (addAtEnd) {
-			endConnector = match;
-		}
-		else {
-			assert ! addAtEnd;
-			startConnector = match;
-		}
 	}
 	
 	
@@ -325,6 +303,7 @@ public class GeneralisedSection extends ResultLine {
 	
 	
 	
+/*
 	void ungeneralise () {
 		for (SourceSegment segment : originalSegments) {
 			segment.wasGeneralised -= 1;
@@ -341,7 +320,6 @@ public class GeneralisedSection extends ResultLine {
 	
 	
 	
-/* 
 	void filterShortSection () {
 //		assert valid == true;
 		
@@ -350,7 +328,7 @@ public class GeneralisedSection extends ResultLine {
 			ungeneralise();
 		}
 	}
- */
+*/
 	
 	
 	

@@ -57,10 +57,8 @@ public class GeneralisedLines {
 		
 		// (TG 1) choose segment S
 		for (final NodeMatch match : graph.matches()) {
-				
-			for (int i = 0; i < 2; i++) {
-				SourceNode node = i == 0 ? match.node0() : match.node1();
-				
+			
+			for (final SourceNode node : match) {
 				
 // eigene funktion!
 				

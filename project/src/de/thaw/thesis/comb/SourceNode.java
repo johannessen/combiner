@@ -35,6 +35,7 @@ public class SourceNode extends AbstractNode {
 	
 	private final Set<SourceSegment> connectingSegments = new TreeSet<SourceSegment>();
 	
+	// for debugging only
 	private final Collection<GeneralisedSection> generalisedSections = new LinkedList<GeneralisedSection>();
 	
 	// for use by ConcatenatedSection#relocateGeneralisedNodes()
