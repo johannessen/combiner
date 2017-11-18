@@ -312,13 +312,16 @@ Punktezuordnungen und Segmente ergeben gemeinsamen einen gemischten Graphen des 
 Als parallel erkannte Segmente sind über deren \term{nodes} derart einander zugeordnet, dass sich eine gemeinsame Mittellinie als Verknüpfung der Mittelpunkte derjenigen Kanten im Graphen, welche die Punktezuordnungen darstellen, leicht finden lässt.
 Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über die einzelnen Punkte die mit ihnen verknüpften Segmente ermittelbar sind.
 
-% TODO: ist hier der Fall, über addSegment(), welches in AbstractLine passiert. Sollte vielleicht weiter oben in 4.3.1 erwähnt werden.
+% TODO: ist hier der Fall, über addSegment(), welches in AbstractLine passiert. Sollte vielleicht weiter oben in 4.3.1 erwähnt werden. Eventuell könnte auch eine Grafik eines solchen Graphen nicht schaden.
 
 
 
-\subsection{Liniengeneralisierung \emph{[ausstehend]}}
+\subsection{Liniengeneralisierung}
 
-Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
+Das Ergebnis der Liniengeneralisierung nach Abschnitt~\ref{ch:generalisation-algorithm} ist ein Graph aus Linienzügen, von denen einige durch Zusammenfassen entstehen, andere jedoch mangels Parallelen direkt aus den Eingangsdaten übernommen werden.
+Der beschriebene Algorithmus zum \textproc{Zusammenfassen} ergibt einen möglichst langen Linienzug.
+Um die spätere Weiterverarbeitung des Generalisierungsergebnisses zu erleichtern, werden hier auch Segmente ohne Parallele zu möglichst langen Linienzügen verkettet.
+
 \onefigure{ht}{
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
 	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
@@ -328,11 +331,17 @@ Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
 	\label{fig:impl-generalisation-model}
 }
 
-% TODO: 4.3.4 spricht hier von Segmenten, die aneinandergehangen werden. Ist auch so implementiert, über AbstractLine, welches eine Liste von Segmenten ist. Aber macht das so wirklich Sinn? Die Segmente braucht doch keiner mehr. Eventuell nur eine Liste von Punkten speichern und dann lazy initialisation? Dafür könnte evtl. recht einfach ResultLine einige Methoden überschreiben (coordinates, add (-> protected), get/size/iterator etc.) oder wir bauen gleich AbstractLine so um, dass es lazy ist (weil ja ohnehin auch vom SourceWay her eine Node-Liste reinkommt).
+Entsprechend gibt es zwei unterschiedliche Arten von Linienzügen in den Ergebnisdaten.
+Dies wird auch vom Datenmodell so abgebildet (Abbildung~\ref{fig:impl-generalisation-model}).
+Die Klassen \code{GeneralisedSection} und \code{ConcatenatedSection} enthalten jeweils im Konstruktor Code, dem die Angabe eines geeigneten Startpunkts genügt, um einen Linienzug für das Ergebnis zu bilden.
+Die bearbeiteten Segmente werden dabei entsprechend markiert, um doppelte Bearbeitungen zu vermeiden.
 
-\begin{itemize}
-\item im Wesentlichen: welche Pointer werden an Segmente drangehangen und wie hängen ResultLine, *Section und GenLines zusammen?
-\end{itemize}
+Die Klasse \code{GeneralisedSection} enthält den Algorithmus zum \textproc{Zusammenfassen}.
+\code{ConcatenatedSection} ist ähnlich aufgebaut, aber wesentlich einfacher, da Punktezuordnungen keine Rolle spielen, sondern nur die jeweils anschließenden Segmente zu berücksichtigen sind.
+Beide Klassen sind vom Typ \code{ResultLine}, um dem Client des Combiners einen einheitlichen Typ für die Ergebnisdaten liefern zu können.
+
+Die Klasse \code{GeneralisedLines} ist eine einfache Façade für die Generalisierung, um deren Einsatz zu erleichtern.
+% TODO: bessere Beschreibung + GHJV95
 
 
 
@@ -347,6 +356,7 @@ Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
 
 % TODO: Big Renaming #4 (optional)
 %1: de.thaw.thesis.comb -> de.thaw.comb
+% - ShapeTagsAdapter -> ShapeGeofabrikAdapter
 %2: Dataset
 % special uses (to be reconsidered):
 % - Output for debugging
@@ -364,7 +374,7 @@ Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
 % Anhänge:
 % - komplettes ER-Modell
 % - komplette Klassenstruktur
-% - Auflösung der verwendeten Bezeichner in Kap. 4 vs. im Source:
+% - Auflösung aller verwendeten Bezeichner in Kap. 4 vs. im Source:
 % SEGMENTIERUNG: OsmWay.segmentation
 % SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
 % NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
@@ -374,7 +384,7 @@ Für 4.3.4 ergibt sich folgendes Datenmodell/Klassenstruktur:
 % PARALLEL: SourceSegment.closeParallels / MyAnalyser
 % DISTANZ: MyAnalyser.distance
 % NODESZUORDNEN: NodeGraph.createGraph
-% ZUSAMMENFASSEN: ... (GeneralisedLines/GeneralisedSection)
+% ZUSAMMENFASSEN: GeneralisedLines.traverse
 
 
 
@@ -481,6 +491,13 @@ Zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten
 % (teils weniger, wie die Untersuchung zu realParallels ergab)
 und in anderen Fällen wird durch \textproc{NaheSegmente} die Größe der Menge stark begrenzt; deshalb ist der Rechenaufwand in der Praxis gar nicht mal so schrecklich hoch.
 Der Speicheraufwand und insbesondere das Verhalten des \term{garbage collectors} ist ein größeres Problem; hier besteht Optimierungspotenzial.
+
+\item
+Durchgehende Linienzüge sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.
+Tatsächlich müssen diese Segmente jedoch für \code{AbstractLine} in jedem Fall erst anhand einer Liste von Stützpunkten erzeugt werden.
+Da für \code{ResultLine} die Segmente später ohnehin nur benötigt werden, um daraus gerade eine Liste von Stützpunkten zu erzeugen, wäre eine Optimierung von \code{AbstractLine} durch \term{lazy initialisation} angebracht:
+Es würde in \code{AbstractLine} zunächst die Liste von \term{nodes} gespeichert und die \textproc{Segmentierung} erst dann durchgeführt, wenn tatsächlich Segmente angefordert werden.
+% Oder es könnte evtl. auch recht einfach ResultLine einige Methoden überschreiben (coordinates, add (-> protected), get/size/iterator etc.)
 
 \end{itemize}
 

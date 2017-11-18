@@ -522,6 +522,9 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können anhand de
 \begin{algorithmhere}{Zusammenfassen}
 \label{alg:Zusammenfassen}
 \begin{algorithmic}
+% evtl. besser: "Assoziation" / "Relation"
+\State $\textbf{Variable } zusammengefasst : Segment \rightarrow boolean$
+\State $\textbf{Anfangswert } zusammengefasst(s) \eqdef$ nein $\forall\ s$
 \Function{Zusammenfassen}{$S, C$}\Comment{Segmente $S$, Punktezuordnungen $C$}
 	\State generalisierter Graph $\mathcal{G} \gets$ leer
 	\ForAll{Segmente $s$, die noch nicht als zusammengefasst markiert sind}

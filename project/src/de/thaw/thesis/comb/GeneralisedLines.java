@@ -55,6 +55,14 @@ public class GeneralisedLines {
 		 * only 2 or 3 items to loop through.
 		 */
 		
+		/* These loops don't exactly match those in the definition of the
+		 * ZUSAMMENFASSEN algorithm, but the end result is the same: Iteration
+		 * over each match in order to find a suitable starting point for
+		 * generalisation. That the collection of all NodeMatches is sufficient
+		 * to define the graph to be generalised is stated explicitly in
+		 * chapter 5.3.4.
+		 */
+		
 		// (TG 1) choose segment S
 		for (final NodeMatch match : graph.matches()) {
 			
