@@ -216,6 +216,15 @@
 \fi
 }
 \makeatother
+% standardised markers in graphics
+\RequirePackage[abs]{overpic}
+% https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
+\RequirePackage{pifont}
+\RequirePackage[minimum]{adjustbox}
+\definecolor{figuremark}{rgb}{1,.2,0}
+\newcommand{\figuremark}[1]{\adjustbox{lap={\width}{-.4em},valign=M}{\color{figuremark}\ding{\number\numexpr#1+191\relax}}}
+\newcommand{\textfiguremark}[1]{\ding{\number\numexpr#1+171\relax}}
+%\newcommand{\textfiguremark}[1]{#1}
 
 % algorithms
 \RequirePackage[plain]{algorithm}

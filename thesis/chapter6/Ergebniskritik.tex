@@ -25,7 +25,10 @@ Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \
 	\twofigures{H}{
 		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
 	}{
-		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
+			\put(122,84){\figuremark{1}}
+			\put(46,46){\figuremark{2}}
+		\end{overpic}
 	}
 	% map extents (Google Mercator) 778753 6607040 780874 6608252; 0.2mm stroke
 	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Autobahn L~124 bei Köln-Gremberg)}
@@ -35,8 +38,8 @@ Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \
 In Abbildung~\ref{fig:result-trivial} sind links \osm-Linienzüge in der einfachen Situation einer Autobahn ohne Anschlussstellen nebst innerstädtischen Sammelstraßen zu sehen.
 Durch Anwendung der Software ergibt sich das rechts dargestellte automatisiert zusammengefasste Ergebnis.
 Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch eine gemeinsame Mittellinie.
-Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn stört die Generalisierung nicht.
-Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst.
+Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn (bei Markierung~\textfiguremark{1}) stört die Generalisierung nicht.
+Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst (Markierung~\textfiguremark{2}).
 
 Abbildung~\ref{fig:result-trivial-styled} zeigt beispielhaft, wie sich dieses Generalisierungsergebnis sinnvoll visualisieren ließe.
 Die Software kennzeichnet die zusammengefassten Linienzüge als generalisiert.
