@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="69.9347mm" height="39.9627mm"
+ viewBox="0 0 826 472"
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<desc>Generated with Qt</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="#ffffff" fill-opacity="1" stroke="none" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M-1,-1 L827.772,-1 L827.772,473.441 L-1,473.441 L-1,-1"/>
+</g>
+
+<g fill="#ffffff" fill-opacity="1" stroke="none" transform="matrix(11.8,0,0,11.8,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M0,0 L70,0 L70,40 L0,40 L0,0"/>
+</g>
+
+<g fill="#000000" fill-opacity="0" stroke="none" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M0,0 L827,0 L827,472 L0,472 L0,0"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2.3622" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M485.766,-59.1343 L554.146,-5.95762"/>
+<path vector-effect="none" fill-rule="evenodd" d="M554.146,-5.95762 L581.278,13.9481"/>
+<path vector-effect="none" fill-rule="evenodd" d="M581.278,13.9481 L602.101,31.1782"/>
+<path vector-effect="none" fill-rule="evenodd" d="M602.101,31.1782 L622.838,47.7546"/>
+<path vector-effect="none" fill-rule="evenodd" d="M622.838,47.7546 L625.279,49.7287"/>
+<path vector-effect="none" fill-rule="evenodd" d="M625.279,49.7287 L683.154,-29.6535"/>
+<path vector-effect="none" fill-rule="evenodd" d="M843.213,235.496 L809.565,204.175"/>
+<path vector-effect="none" fill-rule="evenodd" d="M176.582,-26.2006 L175.728,9.5942"/>
+<path vector-effect="none" fill-rule="evenodd" d="M585.8,95.6334 L609.892,71.0441"/>
+<path vector-effect="none" fill-rule="evenodd" d="M609.892,71.0441 L625.279,49.7287"/>
+<path vector-effect="none" fill-rule="evenodd" d="M135.225,423.289 L142.734,422.945"/>
+<path vector-effect="none" fill-rule="evenodd" d="M142.734,422.945 L150.612,422.883"/>
+<path vector-effect="none" fill-rule="evenodd" d="M150.612,422.883 L158.867,422.147"/>
+<path vector-effect="none" fill-rule="evenodd" d="M158.867,422.147 L163.71,421.061"/>
+<path vector-effect="none" fill-rule="evenodd" d="M163.71,421.061 L166.701,419.286"/>
+<path vector-effect="none" fill-rule="evenodd" d="M166.701,419.286 L261.879,345.842"/>
+<path vector-effect="none" fill-rule="evenodd" d="M261.879,345.842 L286.479,326.743"/>
+<path vector-effect="none" fill-rule="evenodd" d="M286.479,326.743 L300.717,316.082"/>
+<path vector-effect="none" fill-rule="evenodd" d="M300.717,316.082 L313.849,306.412"/>
+<path vector-effect="none" fill-rule="evenodd" d="M313.849,306.412 L348.776,283.971"/>
+<path vector-effect="none" fill-rule="evenodd" d="M348.776,283.971 L438.522,224.54"/>
+<path vector-effect="none" fill-rule="evenodd" d="M438.522,224.54 L458.53,210.434"/>
+<path vector-effect="none" fill-rule="evenodd" d="M458.53,210.434 L477.845,194.814"/>
+<path vector-effect="none" fill-rule="evenodd" d="M477.845,194.814 L497.038,178.768"/>
+<path vector-effect="none" fill-rule="evenodd" d="M497.038,178.768 L515.924,162.632"/>
+<path vector-effect="none" fill-rule="evenodd" d="M515.924,162.632 L542.002,140.416"/>
+<path vector-effect="none" fill-rule="evenodd" d="M542.002,140.416 L554.194,128.572"/>
+<path vector-effect="none" fill-rule="evenodd" d="M554.194,128.572 L566.914,115.862"/>
+<path vector-effect="none" fill-rule="evenodd" d="M566.914,115.862 L585.8,95.6334"/>
+<path vector-effect="none" fill-rule="evenodd" d="M151.518,240.765 L147.907,246.81"/>
+<path vector-effect="none" fill-rule="evenodd" d="M147.907,246.81 L146.493,249.169"/>
+<path vector-effect="none" fill-rule="evenodd" d="M146.493,249.169 L144.802,252.306"/>
+<path vector-effect="none" fill-rule="evenodd" d="M144.802,252.306 L143.445,255.036"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.445,255.036 L142.617,258.97"/>
+<path vector-effect="none" fill-rule="evenodd" d="M142.617,258.97 L142.791,262.072"/>
+<path vector-effect="none" fill-rule="evenodd" d="M142.791,262.072 L143.783,265.752"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.783,265.752 L148.058,281.667"/>
+<path vector-effect="none" fill-rule="evenodd" d="M148.058,281.667 L148.622,285.078"/>
+<path vector-effect="none" fill-rule="evenodd" d="M148.622,285.078 L148.635,290.498"/>
+<path vector-effect="none" fill-rule="evenodd" d="M148.635,290.498 L148.214,295.903"/>
+<path vector-effect="none" fill-rule="evenodd" d="M148.214,295.903 L147.447,307.506"/>
+<path vector-effect="none" fill-rule="evenodd" d="M147.447,307.506 L142.704,342.589"/>
+<path vector-effect="none" fill-rule="evenodd" d="M142.704,342.589 L143.731,350.216"/>
+<path vector-effect="none" fill-rule="evenodd" d="M175.728,9.5942 L174.822,38.2558"/>
+<path vector-effect="none" fill-rule="evenodd" d="M174.822,38.2558 L171.6,104.485"/>
+<path vector-effect="none" fill-rule="evenodd" d="M171.6,104.485 L169.259,172.227"/>
+<path vector-effect="none" fill-rule="evenodd" d="M169.259,172.227 L164.681,215.936"/>
+<path vector-effect="none" fill-rule="evenodd" d="M207.72,114.885 L229.133,116.35"/>
+<path vector-effect="none" fill-rule="evenodd" d="M229.133,116.35 L258.805,117.258"/>
+<path vector-effect="none" fill-rule="evenodd" d="M258.805,117.258 L307.654,114.789"/>
+<path vector-effect="none" fill-rule="evenodd" d="M307.654,114.789 L342.065,109.589"/>
+<path vector-effect="none" fill-rule="evenodd" d="M342.065,109.589 L372.023,104.871"/>
+<path vector-effect="none" fill-rule="evenodd" d="M372.023,104.871 L433.25,94.6773"/>
+<path vector-effect="none" fill-rule="evenodd" d="M433.25,94.6773 L461.288,89.8008"/>
+<path vector-effect="none" fill-rule="evenodd" d="M461.288,89.8008 L483.902,86.6987"/>
+<path vector-effect="none" fill-rule="evenodd" d="M483.902,86.6987 L509.551,84.429"/>
+<path vector-effect="none" fill-rule="evenodd" d="M509.551,84.429 L519.514,84.4702"/>
+<path vector-effect="none" fill-rule="evenodd" d="M519.514,84.4702 L527.331,84.2295"/>
+<path vector-effect="none" fill-rule="evenodd" d="M527.331,84.2295 L548.263,84.3189"/>
+<path vector-effect="none" fill-rule="evenodd" d="M548.263,84.3189 L570.643,85.5363"/>
+<path vector-effect="none" fill-rule="evenodd" d="M570.643,85.5363 L591.666,88.5971"/>
+<path vector-effect="none" fill-rule="evenodd" d="M591.666,88.5971 L609.103,92.1875"/>
+<path vector-effect="none" fill-rule="evenodd" d="M609.103,92.1875 L628.678,97.7518"/>
+<path vector-effect="none" fill-rule="evenodd" d="M628.678,97.7518 L643.319,102.628"/>
+<path vector-effect="none" fill-rule="evenodd" d="M643.319,102.628 L671.873,115.318"/>
+<path vector-effect="none" fill-rule="evenodd" d="M671.873,115.318 L701.996,130.347"/>
+<path vector-effect="none" fill-rule="evenodd" d="M701.996,130.347 L720.175,142.308"/>
+<path vector-effect="none" fill-rule="evenodd" d="M720.175,142.308 L731.786,151.118"/>
+<path vector-effect="none" fill-rule="evenodd" d="M731.786,151.118 L744.393,161.587"/>
+<path vector-effect="none" fill-rule="evenodd" d="M744.393,161.587 L771.278,183.211"/>
+<path vector-effect="none" fill-rule="evenodd" d="M771.278,183.211 L791.451,201.176"/>
+<path vector-effect="none" fill-rule="evenodd" d="M809.565,204.175 L798.059,194.429"/>
+<path vector-effect="none" fill-rule="evenodd" d="M798.059,194.429 L776.663,175.735"/>
+<path vector-effect="none" fill-rule="evenodd" d="M776.663,175.735 L748.308,152.288"/>
+<path vector-effect="none" fill-rule="evenodd" d="M748.308,152.288 L737.361,143.883"/>
+<path vector-effect="none" fill-rule="evenodd" d="M737.361,143.883 L726.353,136.193"/>
+<path vector-effect="none" fill-rule="evenodd" d="M726.353,136.193 L709.384,124.315"/>
+<path vector-effect="none" fill-rule="evenodd" d="M709.384,124.315 L675.259,106.707"/>
+<path vector-effect="none" fill-rule="evenodd" d="M675.259,106.707 L644.984,93.7626"/>
+<path vector-effect="none" fill-rule="evenodd" d="M644.984,93.7626 L631.839,89.4981"/>
+<path vector-effect="none" fill-rule="evenodd" d="M631.839,89.4981 L612.446,83.3147"/>
+<path vector-effect="none" fill-rule="evenodd" d="M612.446,83.3147 L592.403,79.6143"/>
+<path vector-effect="none" fill-rule="evenodd" d="M592.403,79.6143 L572.017,76.1133"/>
+<path vector-effect="none" fill-rule="evenodd" d="M572.017,76.1133 L549.598,74.9922"/>
+<path vector-effect="none" fill-rule="evenodd" d="M549.598,74.9922 L524.69,73.9054"/>
+<path vector-effect="none" fill-rule="evenodd" d="M211.457,105.827 L192.19,103.825"/>
+<path vector-effect="none" fill-rule="evenodd" d="M192.19,103.825 L173.2,101.04"/>
+<path vector-effect="none" fill-rule="evenodd" d="M173.2,101.04 L154.488,97.1397"/>
+<path vector-effect="none" fill-rule="evenodd" d="M154.488,97.1397 L137.328,93.288"/>
+<path vector-effect="none" fill-rule="evenodd" d="M133.911,102.092 L151.926,106.329"/>
+<path vector-effect="none" fill-rule="evenodd" d="M151.926,106.329 L171.86,110.504"/>
+<path vector-effect="none" fill-rule="evenodd" d="M171.86,110.504 L191.24,113.234"/>
+<path vector-effect="none" fill-rule="evenodd" d="M191.24,113.234 L207.72,114.885"/>
+<path vector-effect="none" fill-rule="evenodd" d="M791.451,201.176 L805.438,214.822"/>
+<path vector-effect="none" fill-rule="evenodd" d="M805.438,214.822 L838.145,243.495"/>
+<path vector-effect="none" fill-rule="evenodd" d="M-76.7391,-3.80471 L-9.0831,39.2326"/>
+<path vector-effect="none" fill-rule="evenodd" d="M-9.0831,39.2326 L15.9503,55.6714"/>
+<path vector-effect="none" fill-rule="evenodd" d="M15.9503,55.6714 L66.121,79.9238"/>
+<path vector-effect="none" fill-rule="evenodd" d="M66.121,79.9238 L103.58,93.1435"/>
+<path vector-effect="none" fill-rule="evenodd" d="M103.58,93.1435 L133.911,102.092"/>
+<path vector-effect="none" fill-rule="evenodd" d="M137.328,93.288 L105.488,83.411"/>
+<path vector-effect="none" fill-rule="evenodd" d="M105.488,83.411 L67.8943,68.8294"/>
+<path vector-effect="none" fill-rule="evenodd" d="M67.8943,68.8294 L25.5144,49.0477"/>
+<path vector-effect="none" fill-rule="evenodd" d="M25.5144,49.0477 L1.59098,36.6395"/>
+<path vector-effect="none" fill-rule="evenodd" d="M1.59098,36.6395 L-80.3463,-18.0979"/>
+<path vector-effect="none" fill-rule="evenodd" d="M524.69,73.9054 L484.292,76.4159"/>
+<path vector-effect="none" fill-rule="evenodd" d="M484.292,76.4159 L471.186,79.0778"/>
+<path vector-effect="none" fill-rule="evenodd" d="M471.186,79.0778 L431.849,84.9586"/>
+<path vector-effect="none" fill-rule="evenodd" d="M431.849,84.9586 L373.163,95.7228"/>
+<path vector-effect="none" fill-rule="evenodd" d="M373.163,95.7228 L338.293,100.895"/>
+<path vector-effect="none" fill-rule="evenodd" d="M338.293,100.895 L306.93,105.579"/>
+<path vector-effect="none" fill-rule="evenodd" d="M306.93,105.579 L255.952,108.172"/>
+<path vector-effect="none" fill-rule="evenodd" d="M255.952,108.172 L228.244,107.553"/>
+<path vector-effect="none" fill-rule="evenodd" d="M228.244,107.553 L211.457,105.827"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.731,350.216 L140.536,377.678"/>
+<path vector-effect="none" fill-rule="evenodd" d="M140.536,377.678 L135.225,423.289"/>
+<path vector-effect="none" fill-rule="evenodd" d="M164.681,215.936 L158.858,230.042"/>
+<path vector-effect="none" fill-rule="evenodd" d="M158.858,230.042 L155.914,235.152"/>
+<path vector-effect="none" fill-rule="evenodd" d="M155.914,235.152 L151.518,240.765"/>
+<path vector-effect="none" fill-rule="evenodd" d="M147.933,255.504 L153.972,250.27"/>
+<path vector-effect="none" fill-rule="evenodd" d="M153.972,250.27 L159.491,243.853"/>
+<path vector-effect="none" fill-rule="evenodd" d="M159.491,243.853 L162.756,238.041"/>
+<path vector-effect="none" fill-rule="evenodd" d="M162.756,238.041 L165.032,230.558"/>
+<path vector-effect="none" fill-rule="evenodd" d="M165.032,230.558 L165.921,222.889"/>
+<path vector-effect="none" fill-rule="evenodd" d="M165.921,222.889 L164.681,215.936"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.731,350.216 L147.85,342.08"/>
+<path vector-effect="none" fill-rule="evenodd" d="M147.85,342.08 L152.658,308.62"/>
+<path vector-effect="none" fill-rule="evenodd" d="M152.658,308.62 L153.434,296.234"/>
+<path vector-effect="none" fill-rule="evenodd" d="M153.434,296.234 L153.43,283.489"/>
+<path vector-effect="none" fill-rule="evenodd" d="M153.43,283.489 L151.345,270.538"/>
+<path vector-effect="none" fill-rule="evenodd" d="M151.345,270.538 L150.66,266.302"/>
+<path vector-effect="none" fill-rule="evenodd" d="M150.66,266.302 L150.248,263.736"/>
+<path vector-effect="none" fill-rule="evenodd" d="M150.248,263.736 L149.879,261.439"/>
+<path vector-effect="none" fill-rule="evenodd" d="M149.879,261.439 L147.933,255.504"/>
+<path vector-effect="none" fill-rule="evenodd" d="M135.225,423.289 L134.059,433.935"/>
+<path vector-effect="none" fill-rule="evenodd" d="M134.059,433.935 L132.177,443.742"/>
+<path vector-effect="none" fill-rule="evenodd" d="M132.177,443.742 L131.163,446.342"/>
+<path vector-effect="none" fill-rule="evenodd" d="M131.163,446.342 L126.459,458.363"/>
+<path vector-effect="none" fill-rule="evenodd" d="M126.459,458.363 L122.522,465.351"/>
+<path vector-effect="none" fill-rule="evenodd" d="M122.522,465.351 L115.234,476.162"/>
+<path vector-effect="none" fill-rule="evenodd" d="M115.234,476.162 L111.77,481.265"/>
+<path vector-effect="none" fill-rule="evenodd" d="M111.77,481.265 L100.372,493.596"/>
+</g>
+
+</g>
+</svg>

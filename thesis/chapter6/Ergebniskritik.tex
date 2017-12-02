@@ -17,10 +17,43 @@ Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier di
 
 
 
-\section{„trivialer Fall“}
+\section{Anwendung in einfachen Situationen}
+
+Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
+
+\onefigure{t}{
+	\twofigures{H}{
+		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
+	}{
+		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
+	}
+	% map extents (Google Mercator) 778753 6607040 780874 6608252; 0.2mm stroke
+	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Autobahn L~124 bei Köln-Gremberg)}
+	\label{fig:result-trivial}
+}
+
+In Abbildung~\ref{fig:result-trivial} sind links \osm-Linienzüge in der einfachen Situation einer Autobahn ohne Anschlussstellen nebst innerstädtischen Sammelstraßen zu sehen.
+Durch Anwendung der Software ergibt sich das rechts dargestellte automatisiert zusammengefasste Ergebnis.
+Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch eine gemeinsame Mittellinie.
+Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn stört die Generalisierung nicht.
+Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst.
+
+Abbildung~\ref{fig:result-trivial-styled} zeigt beispielhaft, wie sich dieses Generalisierungsergebnis sinnvoll visualisieren ließe.
+Die Software kennzeichnet die zusammengefassten Linienzüge als generalisiert.
+Zusätzlich gibt die Software einzelne \term{tags} der \osm-Quelldaten mit aus.
+Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsignaturen definiert werden.
+
+\onefigure{t}{
+	\twofigures{H}{
+		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-styled}
+	}{
+		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-rules}
+	}
+	\caption{Visualisierung des Generalisierungsergebnisses (links Kartendarstellung, rechts Screenshot der Zeichenregeln in QGIS)}
+	\label{fig:result-trivial-styled}
+}
 
 \begin{itemize}
-\item Nachweis, dass dieser Ansatz grundsätzlich funktioniert; mit Screenshots uvm., auch von Signaturdefinition in QGIS
 \item möglichst quantifizieren („bei Eingabedaten von xy km Autobahn gibt es z Problemsituationen“)
 \item offen: Nicht-motorway/trunk sind schwieriger, da kleinere Kurvenradien. Funktioniert's hier? Wo nicht?
 \item offen: Die \textproc{Distanz} zweier Straßen ist eines der wesentlichen Kriterien für die Erkennung als \textproc{Parallel}. Macht das Probleme, zB innerstädtisch vs. Autobahn?

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="69.9347mm" height="39.9627mm"
+ viewBox="0 0 826 472"
+ xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  version="1.2" baseProfile="tiny">
+<desc>Generated with Qt</desc>
+<defs>
+</defs>
+<g fill="none" stroke="black" stroke-width="1" fill-rule="evenodd" stroke-linecap="square" stroke-linejoin="bevel" >
+
+<g fill="#ffffff" fill-opacity="1" stroke="none" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M-1,-1 L827.772,-1 L827.772,473.441 L-1,473.441 L-1,-1"/>
+</g>
+
+<g fill="#ffffff" fill-opacity="1" stroke="none" transform="matrix(11.8,0,0,11.8,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M0,0 L70,0 L70,40 L0,40 L0,0"/>
+</g>
+
+<g fill="#000000" fill-opacity="0" stroke="none" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="non-scaling-stroke" fill-rule="evenodd" d="M0,0 L827,0 L827,472 L0,472 L0,0"/>
+</g>
+
+<g fill="none" stroke="#000000" stroke-opacity="1" stroke-width="2.3622" stroke-linecap="square" stroke-linejoin="bevel" transform="matrix(0.999067,0,0,0.999067,0,0)"
+font-family=".SF NS Text" font-size="54.1667" font-weight="400" font-style="normal" 
+>
+<path vector-effect="none" fill-rule="evenodd" d="M-97.3943,-23.0487 L-78.5427,-10.9513 L-3.74607,37.936 L20.7323,52.3596 L67.0077,74.3766 L104.534,88.2773 L135.62,97.6899 L153.207,101.734 L172.53,105.772 L191.715,108.53 L209.588,110.356 L228.688,111.952 L257.379,112.715 L307.292,110.184 L340.179,105.242 L372.593,100.297 L432.549,89.818 L466.237,84.4393 L484.097,81.5573 L517.12,79.1672 L522.102,79.1878 L526.011,79.0675 L548.93,79.6555 L571.33,80.8248 L592.034,84.1057 L610.775,87.7511 L630.258,93.625 L644.152,98.1955 L673.566,111.013 L705.69,127.331 L723.264,139.251 L734.573,147.501 L746.351,156.937 L773.97,179.473 L794.755,197.802 L807.501,209.498 L840.679,239.496 L868.674,263.908 L882.827,275.717 L909.803,293.971 L918.998,299.089"/>
+<path vector-effect="none" fill-rule="evenodd" d="M145.277,342.334 L150.053,308.063 L150.824,296.068 L151.035,293.366 L151.026,284.284 L150.744,282.578 L147.564,268.145 L147.222,266.027 L147.016,264.744 L146.335,261.756 L145.275,257.237 L148.709,252.653 L149.387,251.288 L150.233,249.72 L150.939,248.54 L152.745,245.517 L155.505,242.309 L159.335,236.597 L161.945,230.3 L164.856,223.247"/>
+<path vector-effect="none" fill-rule="evenodd" d="M625.279,49.7287 L683.154,-29.6535 L707.728,-64.3275 L711.231,-68.7424"/>
+<path vector-effect="none" fill-rule="evenodd" d="M481.666,-62.5314 L485.766,-59.1343 L554.146,-5.95762 L581.278,13.9481 L602.101,31.1782 L622.838,47.7546 L625.279,49.7287"/>
+<path vector-effect="none" fill-rule="evenodd" d="M177.784,-54.2844 L177.462,-46.7738 L176.582,-26.2006 L175.728,9.5942 L174.822,38.2558 L171.6,104.485 L169.259,172.227 L164.856,223.247"/>
+<path vector-effect="none" fill-rule="evenodd" d="M135.225,423.289 L142.734,422.945 L150.612,422.883 L158.867,422.147 L163.71,421.061 L166.701,419.286 L261.879,345.842 L286.479,326.743 L300.717,316.082 L313.849,306.412 L348.776,283.971 L438.522,224.54 L458.53,210.434 L477.845,194.814 L497.038,178.768 L515.924,162.632 L542.002,140.416 L554.194,128.572 L566.914,115.862 L585.8,95.6334 L609.892,71.0441 L625.279,49.7287"/>
+<path vector-effect="none" fill-rule="evenodd" d="M145.277,342.334 L143.731,350.216"/>
+<path vector-effect="none" fill-rule="evenodd" d="M135.225,423.289 L134.059,433.935 L132.177,443.742 L131.163,446.342 L126.459,458.363 L122.522,465.351 L115.234,476.162 L111.77,481.265 L100.372,493.596 L69.2426,525.96 L52.9488,542.416"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.731,350.216 L140.536,377.678 L135.225,423.289"/>
+<path vector-effect="none" fill-rule="evenodd" d="M161.945,230.3 L165.921,222.889 L164.856,223.247"/>
+<path vector-effect="none" fill-rule="evenodd" d="M143.731,350.216 L145.277,342.334"/>
+</g>
+
+</g>
+</svg>
