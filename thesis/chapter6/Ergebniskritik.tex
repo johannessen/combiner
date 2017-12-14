@@ -21,16 +21,20 @@ Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier di
 
 Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
 
-\onefigure{t}{
+\onefigure{p}{
 	\twofigures{H}{
-		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
+			\put(122,84){\figuremark{1}}
+			\put(46,46){\figuremark{2}}
+		\end{overpic}
 	}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
 			\put(122,84){\figuremark{1}}
 			\put(46,46){\figuremark{2}}
 		\end{overpic}
 	}
-	% map extents (Google Mercator) 778753 6607040 780874 6608252; 0.2mm stroke
+	% trivial = testbed-nrw/koeln-classfied-nolinks.shp
+	% 1:30000 Google Mercator, bbox 778765 6607045 780865 6608245, 0.2mm stroke
 	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Autobahn L~124 bei Köln-Gremberg)}
 	\label{fig:result-trivial}
 }
@@ -46,7 +50,7 @@ Die Software kennzeichnet die zusammengefassten Linienzüge als generalisiert.
 Zusätzlich gibt die Software einzelne \term{tags} der \osm-Quelldaten mit aus.
 Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsignaturen definiert werden.
 
-\onefigure{t}{
+\onefigure{p}{
 	\twofigures{H}{
 		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-styled}
 	}{
@@ -54,6 +58,37 @@ Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsigna
 	}
 	\caption{Visualisierung des Generalisierungsergebnisses (links Kartendarstellung, rechts Screenshot der Zeichenregeln in QGIS)}
 	\label{fig:result-trivial-styled}
+}
+
+Bei näherer Betrachtung der Autobahn ist die beabsichtigte Arbeitsweise der implementierten Algorithmen im einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-L124}):
+Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
+Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
+Selbst dann, wenn (wie bei \textfiguremark{2}) beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt das \textproc{NodesZuordnen}, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{3}).
+Von der Präsenz anderer, nicht paralleler Linienzüge lassen sich die Algorithmen dabei nicht beeinflussen (\textfiguremark{4}).
+
+Nähere Betrachtung des scharfen Knicks im nachgeordneten Netz offenbart dagegen einige Probleme.
+
+% writeNodeMatches
+\twofigures{p}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-L124}
+		\put(0,76){\includegraphics{../chapter6/legend-nodematch}}
+		\put(37,50){\figuremark{1}}
+		\put(98,56){\figuremark{2}}
+		\put(111,55){\figuremark{3}}
+		\put(166,52){\figuremark{4}}
+	\end{overpic}
+	% 1:7500 Google Mercator, bbox 779845 6607935 780370 6608240
+	\caption{Punktezuordnungen für \textfiguremark{1}~in Abbildung~\ref{fig:result-trivial}}
+	\label{fig:result-trivial-detail-L124}
+}{
+	\begin{overpic}[grid,width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover}
+		\put(0,76){\includegraphics{../chapter6/legend-nodematch}}
+		\put(122,84){\figuremark{1}}
+		\put(46,46){\figuremark{2}}
+	\end{overpic}
+	% 1:5000 Google Mercator rotated 55°, bbox 778974 6607426.21 779324 6607629.54
+	\caption{Punktezuordnungen für \textfiguremark{2}~in Abbildung~\ref{fig:result-trivial} (Darstellung rotiert)}
+	\label{fig:result-trivial-detail-rolshover}
 }
 
 \begin{itemize}
