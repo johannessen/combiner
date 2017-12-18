@@ -556,56 +556,21 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können anhand de
 \end{algorithmic}
 \end{algorithmhere}
 
-Diese Beschreibung des Algorithmus zum \textproc{Zusammenfassen} berücksichtigt
-%der Übersichtlichkeit halber
-weder Kreuzungen noch den Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge.
+Der Algorithmus zum \textproc{Zusammenfassen} arbeitet gierig, indem er versucht, einen möglichst langen Linienzug zu bilden.
+Der Übersichtlichkeit halber berücksichtigt die hier angegebene Beschreibung jedoch nur jeweils eine Richtung vom Beginn ausgehend.
+Dass bei zufällig gewähltem Beginn der zusammengefasste Linienzug meist auch in die jeweils andere Richtung verlängert werden kann, ist offensichtlich und trivial und kann leicht bei der Implementierung berücksichtigt werden.
+
+Ebenso berücksichtigt die Beschreibung weder Kreuzungen noch den Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge.
 
 Auch der Fall von mehr als zwei Parallelen bleibt unberücksichtigt.
 Dies muss bei der Implementierung bedacht werden, da der Begriff „als zusammengefasst markiert“ sonst nicht eindeutig ist.
-Der hier beschriebene Algorithmus fasst dann $n$ parallele Linienzüge zu $n-1$ parallelen Linienzügen zusammen, die jeweils mittig zwischen zwei Parallelen in den Ausgangsdaten liegen.
+Der hier beschriebene Algorithmus fasst $n$ parallele Linienzüge zu $n-1$ parallelen Linienzügen zusammen, die jeweils mittig zwischen zwei Parallelen in den Ausgangsdaten liegen.
 Eine Erweiterung zur Zusammenfassung einer beliebigen Anzahl von Parallelen auf genau einen Linienzug ist über die Punktezuordnungen möglich, was jedoch in dieser Arbeit nicht weiter betrachtet wird.
 
 % Weiterschaltung ist notwendig, weil ansonsten Endpunkte der generalisierten Linie nicht unbedingt aneinander anstoßen (durch Bildung von "Dreiecken" im Zuordnungsgraphen überlappen sich die Mittellinien u. U.)
 
 % TODO: Grafik wäre hier keine schlechte Ergänzung
 
-
-% mit vorwärts/rückwärts-Logik (nur sinnvoll, wenn man das Verketten für Wesentlich hält, was das Themenblatt nicht tut ("Verkettung, soweit zum Zusammenfassen nötig")
-%\begin{algorithm}[H]
-%\caption{Zusammenfassen}\label{alg:Zusammenfassen}
-%\begin{algorithmic}
-%\Function{Zusammenfassen}{$S, C$}
-%	\State generalisierter Graph $\mathcal{G} \gets$ leer
-%	\ForAll{Segmente $s$, die noch nicht als zusammengefasst markiert sind}
-%		\ForAll{Zuordnungen $e$, die mit dem Start-Node $n$ von $s$ verknüpft sind}
-%			\State zusammengefasster Linienzug $L \gets$ leer
-%			\State $t \gets$ mit dem jeweils anderem Node von $e$ verknüpftes Segment, welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
-%			\While{es eine nächste Zuordnung $f$ gibt, die $s$ und $t$ an deren anderen Ende ebenfalls einander zuordnet}
-%				\State $m \gets$ Mittelpunkt von $e$
-%				\State $m' \gets$ Mittelpunkt von $f$
-%				\State füge Segment $(m, m')$ am Ende von $L$ hinzu
-%				\State markiere $s$ und $t$ als zusammengefasst
-%				\State $s \gets$ Segment, das $s$ nach $f$ fortführt
-%				\State $t \gets$ Segment, das $t$ nach $f$ fortführt
-%			\EndWhile
-%			\State $s \gets$ Segment, das $s$ in die Gegenrichtung fortführt
-%			\State $t \gets$ mit dem jeweils anderem Node von $e$ verknüpftes Segment, welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
-%			\While{es eine nächste Zuordnung $f$ gibt, die $s$ und $t$ an deren anderen Ende ebenfalls einander zuordnet}
-%				\State $m \gets$ Mittelpunkt von $e$
-%				\State $m' \gets$ Mittelpunkt von $f$
-%				\State füge Segment $(m, m')$ am Anfang von $L$ hinzu
-%				\State markiere $s$ und $t$ als zusammengefasst
-%				\State $s \gets$ Segment, das $s$ nach $f$ fortführt
-%				\State $t \gets$ Segment, das $t$ nach $f$ fortführt
-%			\EndWhile
-%			\State füge $L$ zu $\mathcal{G}$ hinzu
-%		\EndFor
-%	\EndFor
-%	\State füge alle nicht zusammengefassten Segmente zu $\mathcal{G}$ hinzu
-%	\State \textbf{Ergebnis} $\mathcal{G}$
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
 
 % Versuche mit Formelsatz
 %\begin{algorithm}[H]
