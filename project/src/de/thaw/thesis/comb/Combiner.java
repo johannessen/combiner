@@ -42,6 +42,7 @@ public final class Combiner {
 	public GeneralisedLines gen;
 	
 	public int verbose = 0;
+	private boolean cleanup = true;
 	
 //	public StatSink stats = null;
 	
@@ -76,7 +77,9 @@ Combiner.printMemoryStatistics();
 		GeneralisedLines lines = new GeneralisedLines();
 		lines.traverse(graph);
 		lines.concatUncombinedLines(dataset);
-		lines.cleanup();
+		if (cleanup) {
+			lines.cleanup();
+		}
 		gen = lines;  // :DEBUG: debugging output
 Combiner.printMemoryStatistics();
 		
@@ -182,6 +185,18 @@ Combiner.printMemoryStatistics();
 			super.add(fragments);
 		}
 		
+	}
+	
+	
+	
+	public boolean cleanup () {
+		return cleanup;
+	}
+	
+	
+	
+	public void cleanup (final boolean cleanup) {
+		this.cleanup = cleanup;
 	}
 	
 	

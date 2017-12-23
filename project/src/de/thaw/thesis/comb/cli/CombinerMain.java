@@ -40,6 +40,7 @@ public final class CombinerMain {
 	long startId = 0;
 	
 	int VERBOSE = 1;
+	boolean CLEANUP = true;
 	
 	// negative value: first analyser uses tags
 	int iterations = 0;
@@ -72,6 +73,7 @@ Combiner.printMemoryStatistics();
 		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(iterations < 0));
 //		combiner.stats = stats;
 		combiner.verbose = VERBOSE;
+		combiner.cleanup(CLEANUP);
 		combiner.run();
 Combiner.printMemoryStatistics();
 		
