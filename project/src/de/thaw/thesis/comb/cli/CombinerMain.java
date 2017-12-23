@@ -88,12 +88,12 @@ Combiner.printMemoryStatistics();
 		
 		final Output out = new Output(dataset);
 		out.verbose = VERBOSE;
-		out.writeAllNodes(nodeOutPath);
+		out.writeAllNodes(combiner.gen, nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
-		out.writeMidPointConnectors(debugOutPath);
+//		out.writeMidPointConnectors(debugOutPath);
 //		out.writeFragmentMidPointConnectors(debugOutPath);
-//		out.writeNodeMatches(combiner.cns, debugOutPath);
+		out.writeNodeMatches(combiner.cns, debugOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
 //		out.writeSimplifiedSections(combiner.gen, outPath);

@@ -10,10 +10,12 @@ package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedLines;
+import de.thaw.thesis.comb.GeneralisedNode;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.NodeMatch;
+import de.thaw.thesis.comb.ResultLine;
 import de.thaw.thesis.comb.Segment;
 import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
@@ -105,7 +107,7 @@ final class Output {
 	}
 	
 	
-	void writeAllNodes (final String path) {
+	void writeAllNodes (final GeneralisedLines gen, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
 			verbose(1, "Skipped writeAllNodes (Writer creation failed for path: " + path + ").");
@@ -115,6 +117,12 @@ final class Output {
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
 		for (final Node node : dataset.allNodes()) {
 			geometries.add( writer.toPoint(node) );
+		}
+		for (final ResultLine line : gen.lines()) {
+			for (final Node node : line.coordinates()) {
+				// :BUG: nodes in duplicate locations aren't filtered
+				geometries.add( writer.toPoint(node) );
+			}
 		}
 		
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
@@ -132,7 +140,7 @@ final class Output {
 			public List attributes (final Geometry geometry) {
 				final Node node = writer.toNode(geometry);
 				final List<Object> attributes = new LinkedList<Object>();
-				attributes.add( node.id() );
+				attributes.add( node instanceof GeneralisedNode ? -2L : node.id() );
 				if (node instanceof SourceNode) {
 					attributes.add( ((SourceNode)node).generalisedSections().size() );
 				}
@@ -441,6 +449,7 @@ final class Output {
 	
 	
 	
+/*
 	private List<Node> toNodeList (final NodeMatch match, final Node genNode) {
 		LinkedList<Node> list = new LinkedList<Node>();
 		if (match == null) {
@@ -451,6 +460,7 @@ final class Output {
 		list.add( match.node1() );
 		return list;
 	}
+*/
 	
 	
 	
