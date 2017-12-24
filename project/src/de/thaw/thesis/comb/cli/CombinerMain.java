@@ -39,12 +39,11 @@ public final class CombinerMain {
 	String debugOutPath = "";
 	long startId = 0;
 	
-	int VERBOSE = 1;
-	boolean CLEANUP = true;
-	
-	// negative value: first analyser uses tags
-	int iterations = 0;
-	
+	// options (see cli.Options)
+	int verbose;
+	boolean cleanup;
+	boolean evaluateTags;  // affects first analyser only
+	int iterations;
 	
 	
 	CombinerMain () {
@@ -70,10 +69,10 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 //		dataset.stats = stats;
 Combiner.printMemoryStatistics();
 		
-		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(iterations < 0));
+		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(evaluateTags));
 //		combiner.stats = stats;
-		combiner.verbose = VERBOSE;
-		combiner.cleanup(CLEANUP);
+		combiner.verbose = verbose;
+		combiner.cleanup(cleanup);
 		combiner.run();
 Combiner.printMemoryStatistics();
 		
@@ -87,7 +86,7 @@ Combiner.printMemoryStatistics();
 //		new Output2(dataset, reader.epsgCode()).writeAllNodes("test.sqlite");
 		
 		final Output out = new Output(dataset);
-		out.verbose = VERBOSE;
+		out.verbose = verbose;
 		out.writeAllNodes(combiner.gen, nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
@@ -110,7 +109,7 @@ Combiner.printMemoryStatistics();
 		addLinesToDataset(dataset, lines.lines());
 		
 		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(false));
-		combiner.verbose = VERBOSE;
+		combiner.verbose = verbose;
 		combiner.run();
 		
 		if (count > 1) {
@@ -122,7 +121,7 @@ Combiner.printMemoryStatistics();
 		System.out.println("Writing results...");
 		
 		final Output out = new Output(dataset);
-		out.verbose = VERBOSE;
+		out.verbose = verbose;
 //		out.writeAllNodes(nodeOutPath);
 //		out.writeGeneralisedLines(combiner.gen, outPath);
 		out.writeAllLines(combiner.gen, outPath);
@@ -167,6 +166,9 @@ Combiner.printMemoryStatistics();
 		combiner.linePartOutPath = options.outLineParts;
 		combiner.debugOutPath = options.outDebug;
 		combiner.iterations = options.iterations;
+		combiner.verbose = options.verbose ? 0 : 1;
+		combiner.cleanup = ! options.noCleanup;
+		combiner.evaluateTags = options.tags;
 		combiner.startId = options.startId;
 		
 		combiner.combineLines();

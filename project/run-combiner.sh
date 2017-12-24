@@ -43,6 +43,10 @@ time java \
 		--out-nodes "$OUT_DEBUG1" \
 		--out-lineparts "$OUT_DEBUG2" \
 		--out-debug "$OUT_DEBUG3" \
+		--verbose \
+#		--tags \
+#		--iterations 3 \
+#		--no-cleanup \
 		$@
 
 # -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps

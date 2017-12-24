@@ -34,6 +34,15 @@ public class Options {
 	@Option(name="--iterations",usage="iterations")
 	public int iterations = 0;
 	
+	@Option(name="--verbose",usage="verbose")
+	public boolean verbose = false;
+	
+	@Option(name="--no-cleanup",usage="no cleanup")
+	public boolean noCleanup = false;
+	
+	@Option(name="--tags",usage="evaluateTags")
+	public boolean tags = false;
+	
 	@Option(name="--start-id")
 	public long startId = 0;
 	
