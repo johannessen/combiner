@@ -9,6 +9,7 @@
 package de.thaw.thesis.comb.io;
 
 import de.thaw.thesis.comb.Dataset;
+import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.Nodes;
 import de.thaw.thesis.comb.Segment;
@@ -74,6 +75,16 @@ public final class InputDataset implements Dataset {
 	 */
 	public Highway createOsmWay (final AttributeProvider tags, final List<SourceNode> nodes) {
 		final Highway way = new Highway(tags, this, nodes);
+		ways.add(way);
+		return way;
+	}
+	
+	
+	/**
+	 * Create a way in this dataset with segments based on an existing line.
+	 */
+	public Highway createOsmWay (final Line line) {
+		final Highway way = new Highway(line, this);
 		ways.add(way);
 		return way;
 	}

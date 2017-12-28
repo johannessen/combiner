@@ -57,6 +57,17 @@ public class SourceNode extends AbstractNode {
 	}
 	
 	
+	/**
+	 * Creates a new node as an exact copy of another node. Useful if the
+	 * pre-existing node is not a <code>SourceNode</code>, but a
+	 * <code>SourceNode</code> is required.
+	 * @param node the node to by copied
+	 */
+	public SourceNode (final Node node) {
+		this( node.easting(), node.northing(), node.id() );
+	}
+	
+	
 	public long id () {
 		return id;
 	}

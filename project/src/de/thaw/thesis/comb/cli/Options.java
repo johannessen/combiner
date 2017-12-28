@@ -32,7 +32,7 @@ public class Options {
 	public String outDebug = "";
 	
 	@Option(name="--iterations",usage="iterations")
-	public int iterations = 0;
+	public int iterations = 1;
 	
 	@Option(name="--verbose",usage="verbose")
 	public boolean verbose = false;

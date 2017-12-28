@@ -10,10 +10,13 @@ package de.thaw.thesis.comb.highway;
 
 import de.thaw.thesis.comb.AbstractLine;
 import de.thaw.thesis.comb.Dataset;
+import de.thaw.thesis.comb.Line;
+import de.thaw.thesis.comb.Node;
 import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.SourceSegment;
 import de.thaw.thesis.comb.util.AttributeProvider;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -65,6 +68,24 @@ public final class Highway extends AbstractLine {
 	public Highway (final AttributeProvider tags, final Dataset dataset, final List<SourceNode> nodes) {
 		this(tags, dataset, nodes.size() - 1);
 		
+		segmentation(nodes);
+	}
+	
+	
+	
+	/**
+	 * Create a way with segments based on an existing line. This method is
+	 * useful for cases in which the existing line cannot be used as a highway,
+	 * for example because its nodes aren't <code>SourceNode</code> instances
+	 * as is the case with <code>ResultLine</code>s.
+	 */
+	public Highway (final Line line, final Dataset dataset) {
+		this(line.tags(), dataset, line.size());
+		
+		List<SourceNode> nodes = new ArrayList<SourceNode>(line.size() + 1);
+		for (final Node node : line.coordinates()) {
+			nodes.add(new SourceNode(node));
+		}
 		segmentation(nodes);
 	}
 	

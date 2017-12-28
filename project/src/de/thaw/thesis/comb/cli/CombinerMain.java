@@ -44,6 +44,9 @@ public final class CombinerMain {
 	boolean evaluateTags;  // affects first analyser only
 	int iterations;
 	
+	Dataset dataset;
+	Combiner combiner;
+	
 	
 	CombinerMain () {
 	}
@@ -62,18 +65,17 @@ public final class CombinerMain {
 		final File inFile = new File(inPath);
 		
 		final ShapeReader reader = new ShapeReader(inFile);
-		final Dataset dataset = reader.dataset();
+		dataset = reader.dataset();
 		
-		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(evaluateTags));
+		combiner = new Combiner(dataset, new HighwayAnalyser(evaluateTags));
 //		combiner.printMemoryStatistics();
 		combiner.verbose = verbose;
-		combiner.cleanup(cleanup);
+		combiner.cleanup(cleanup && Math.abs(iterations) <= 1);
 		combiner.run();
 //		combiner.printMemoryStatistics();
 		
 		if (Math.abs(iterations) > 1) {
-			combineLines2(Math.abs(iterations) - 1, combiner.lines());
-			return;
+			combineLinesAgain(Math.abs(iterations) - 1);
 		}
 		
 		System.out.println("Writing results...");
@@ -99,44 +101,22 @@ public final class CombinerMain {
 	
 	
 	
-	void combineLines2 (final int count, final Collection<ResultLine> lines) {
+	void combineLinesAgain (final int count) {
 		
-		InputDataset dataset = new InputDataset();
-		addLinesToDataset(dataset, lines);
+		// make generalisation result into new dataset for repetition of generalisation
+		final InputDataset inputDataset = new InputDataset();
+		for (final Line line : combiner.lines()) {
+			final Highway way = inputDataset.createOsmWay(line);
+			way.mutable(false);
+		}
+		dataset = inputDataset;
 		
-		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(false));
+		combiner = new Combiner(dataset, new HighwayAnalyser(false));
 		combiner.verbose = verbose;
 		combiner.run();
 		
 		if (count > 1) {
-			combineLines2(count - 1, combiner.lines());
-			return;
-		}
-		
-		
-		System.out.println("Writing results...");
-		
-		final Output out = new Output(dataset);
-		out.verbose = verbose;
-//		out.writeAllNodes(nodeOutPath);
-//		out.writeGeneralisedLines(combiner.lines(), outPath);
-		out.writeAllLines(combiner.lines(), outPath);
-	}
-	
-	
-	
-	// make generalisation result into new dataset for repetition of generalisation
-	void addLinesToDataset (final InputDataset dataset, final Collection<? extends Line> sections) {
-		for (final Line section : sections) {
-			final Highway way = dataset.createOsmWay(section.tags(), section.size());
-			for (Node node : section.coordinates()) {
-				node = dataset.getNodeAtEastingNorthing(node.easting(), node.northing());
-				
-//				way.addLast(node);
-				way.addLast((SourceNode)node);  // untested
-				
-			}
-			way.mutable(false);
+			combineLinesAgain(count - 1);
 		}
 	}
 	
