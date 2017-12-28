@@ -9,7 +9,6 @@
 package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Dataset;
-import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.GeneralisedNode;
 import de.thaw.thesis.comb.GeneralisedSection;
 import de.thaw.thesis.comb.Line;
@@ -107,10 +106,10 @@ final class Output {
 	}
 	
 	
-	void writeAllNodes (final GeneralisedLines gen, final String path) {
+	void writeAllNodes (final Collection<ResultLine> lines, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeAllNodes (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeAllNodes (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -118,7 +117,7 @@ final class Output {
 		for (final Node node : dataset.allNodes()) {
 			geometries.add( writer.toPoint(node) );
 		}
-		for (final ResultLine line : gen.lines()) {
+		for (final ResultLine line : lines) {
 			for (final Node node : line.coordinates()) {
 				// :BUG: nodes in duplicate locations aren't filtered
 				geometries.add( writer.toPoint(node) );
@@ -155,7 +154,7 @@ final class Output {
 	void writeAllSegments (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeAllSegments (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeAllSegments (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -223,7 +222,7 @@ final class Output {
 	void writeAllFragments (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeAllFragments (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeAllFragments (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -244,7 +243,7 @@ final class Output {
 	void writeSegmentOrientationAids (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeSegmentOrientationAids (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeSegmentOrientationAids (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -265,7 +264,7 @@ final class Output {
 	void writeFragmentMidPointConnectors (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeFragmentMidPointConnectors (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeFragmentMidPointConnectors (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -293,7 +292,7 @@ final class Output {
 	void writeMidPointConnectors (final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeMidPointConnectors (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeMidPointConnectors (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -357,7 +356,7 @@ final class Output {
 	void writeNodeMatches (final Collection<NodeMatch> cns, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeNodeMatches (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeNodeMatches (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
@@ -389,7 +388,7 @@ final class Output {
 	
 	
 	
-	void writeAllLines (final GeneralisedLines gen, final String path) {
+	void writeAllLines (final Collection<ResultLine> lines, final String path) {
 		final WriterHelper allLinesHelper = new WriterHelper() {
 			
 			// positional arguments MUST be in same order in both methods
@@ -423,7 +422,7 @@ final class Output {
 			}
 			
 			final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-			for (final Line section : gen.lines()) {
+			for (final Line section : lines) {
 				assert section.size() > 0;
 				Geometry line = writer.toLineString( section );
 				geometries.add( line );
@@ -438,13 +437,13 @@ final class Output {
 				return;
 			}
 			
-			writer.writeFeatures(gen.lines(), allLinesHelper);
+			writer.writeFeatures(lines, allLinesHelper);
 			
 		}
 		else {
 			throw new IllegalArgumentException(".json or .shp only please");
 		}
-		verbose(1, "Output: " + gen.lines().size() + " lines.");
+		verbose(1, "Output: " + lines.size() + " lines.");
 	}
 	
 	
@@ -460,36 +459,26 @@ final class Output {
 		list.add( match.node1() );
 		return list;
 	}
-*/
 	
 	
 	
-	void writeSimplifiedSections (final GeneralisedLines gen, final String path) {
+	void writeSimplifiedSections (final Collection<ResultLine> lines, final String path) {
 		final ShapeWriter writer = writer(path);
 		if (writer == null) {
-			verbose(1, "Skipped writeSections (Writer creation failed for path: " + path + ").");
+			verbose(2, "Skipped writeSections (Writer creation failed for path: " + path + ").");
 			return;
 		}
 		
 		final double distanceTolerance = 16.0;
 		
 		final LinkedList<Geometry> geometries = new LinkedList<Geometry>();
-		for (final Line section : gen.lines()) {
+		for (final Line section : lines) {
 			assert section.size() > 0;
 			Geometry line = writer.toLineString( section );
 			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
 //			simplifiedLine.setUserData(section);
 			geometries.add( simplifiedLine );
 		}
-/*
-		for (final Line section : gen.lines2()) {
-			assert section.size() > 0;
-			Geometry line = writer.toLineString( section );
-			Geometry simplifiedLine = DouglasPeuckerSimplifier.simplify(line, distanceTolerance);
-//			simplifiedLine.setUserData(section);
-			geometries.add( simplifiedLine );
-		}
-*/
 		
 		writer.writeGeometries(geometries, new ShapeWriterDelegate() {
 			
@@ -518,5 +507,6 @@ final class Output {
 		});
 		verbose(1, "Output: " + geometries.size() + " sections.");
 	}
+*/
 	
 }

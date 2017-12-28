@@ -10,15 +10,14 @@ package de.thaw.thesis.comb.cli;
 
 import de.thaw.thesis.comb.Combiner;
 import de.thaw.thesis.comb.Dataset;
-import de.thaw.thesis.comb.GeneralisedLines;
 import de.thaw.thesis.comb.Line;
 import de.thaw.thesis.comb.Node;
+import de.thaw.thesis.comb.ResultLine;
 import de.thaw.thesis.comb.SourceNode;
 import de.thaw.thesis.comb.highway.Highway;
 import de.thaw.thesis.comb.highway.HighwayAnalyser;
 import de.thaw.thesis.comb.io.InputDataset;
 import de.thaw.thesis.comb.io.ShapeReader;
-import de.thaw.thesis.comb.io.SQLiteWriter;
 
 import java.io.File;
 import java.util.Collection;
@@ -52,7 +51,7 @@ public final class CombinerMain {
 	
 	
 	void combineLines () {
-System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxMemory() / 1024L + " KB.");
+		verbose(2, "Java maximum available memory: " + Runtime.getRuntime().maxMemory() / 1024L + " KB.");
 		if (inPath == null || outPath == null) {
 			throw new IllegalStateException("set input/output file paths first");
 		}
@@ -60,24 +59,20 @@ System.err.println("Java maximum available memory: " + Runtime.getRuntime().maxM
 			throw new IllegalArgumentException(".shp input only");
 		}
 		
-//		final StatSink stats = new SQLiteWriter().connect("").createTables();
-		
 		final File inFile = new File(inPath);
 		
 		final ShapeReader reader = new ShapeReader(inFile);
 		final Dataset dataset = reader.dataset();
-//		dataset.stats = stats;
-Combiner.printMemoryStatistics();
 		
 		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(evaluateTags));
-//		combiner.stats = stats;
+//		combiner.printMemoryStatistics();
 		combiner.verbose = verbose;
 		combiner.cleanup(cleanup);
 		combiner.run();
-Combiner.printMemoryStatistics();
+//		combiner.printMemoryStatistics();
 		
 		if (Math.abs(iterations) > 1) {
-			combineLines2(Math.abs(iterations) - 1, combiner.gen);
+			combineLines2(Math.abs(iterations) - 1, combiner.lines());
 			return;
 		}
 		
@@ -87,33 +82,34 @@ Combiner.printMemoryStatistics();
 		
 		final Output out = new Output(dataset);
 		out.verbose = verbose;
-		out.writeAllNodes(combiner.gen, nodeOutPath);
+		out.writeAllLines(combiner.lines(), outPath);
+		out.writeAllNodes(combiner.lines(), nodeOutPath);
 		out.writeAllSegments(linePartOutPath);
 //		out.writeAllFragments(linePartOutPath);
 //		out.writeMidPointConnectors(debugOutPath);
 //		out.writeFragmentMidPointConnectors(debugOutPath);
 		out.writeNodeMatches(combiner.cns, debugOutPath);
-//		out.writeGeneralisedLines(combiner.gen, outPath);
-		out.writeAllLines(combiner.gen, outPath);
-//		out.writeSimplifiedSections(combiner.gen, outPath);
-Combiner.printMemoryStatistics();
-System.gc();
-Combiner.printMemoryStatistics();
+		
+		if (verbose >= 2) {
+			combiner.printMemoryStatistics();
+			System.gc();
+			combiner.printMemoryStatistics();
+		}
 	}
 	
 	
 	
-	void combineLines2 (final int count, final GeneralisedLines lines) {
+	void combineLines2 (final int count, final Collection<ResultLine> lines) {
 		
 		InputDataset dataset = new InputDataset();
-		addLinesToDataset(dataset, lines.lines());
+		addLinesToDataset(dataset, lines);
 		
 		final Combiner combiner = new Combiner(dataset, new HighwayAnalyser(false));
 		combiner.verbose = verbose;
 		combiner.run();
 		
 		if (count > 1) {
-			combineLines2(count - 1, combiner.gen);
+			combineLines2(count - 1, combiner.lines());
 			return;
 		}
 		
@@ -123,9 +119,8 @@ Combiner.printMemoryStatistics();
 		final Output out = new Output(dataset);
 		out.verbose = verbose;
 //		out.writeAllNodes(nodeOutPath);
-//		out.writeGeneralisedLines(combiner.gen, outPath);
-		out.writeAllLines(combiner.gen, outPath);
-//		out.writeSimplifiedSections(combiner.gen, outPath);
+//		out.writeGeneralisedLines(combiner.lines(), outPath);
+		out.writeAllLines(combiner.lines(), outPath);
 	}
 	
 	
@@ -142,6 +137,14 @@ Combiner.printMemoryStatistics();
 				
 			}
 			way.mutable(false);
+		}
+	}
+	
+	
+	
+	private void verbose (final int verbosity, final Object message) {
+		if (verbose >= verbosity) {
+			System.out.println( String.valueOf(message) );
 		}
 	}
 	
@@ -166,7 +169,7 @@ Combiner.printMemoryStatistics();
 		combiner.linePartOutPath = options.outLineParts;
 		combiner.debugOutPath = options.outDebug;
 		combiner.iterations = options.iterations;
-		combiner.verbose = options.verbose ? 0 : 1;
+		combiner.verbose = options.verbose ? 2 : 1;
 		combiner.cleanup = ! options.noCleanup;
 		combiner.evaluateTags = options.tags;
 		combiner.startId = options.startId;

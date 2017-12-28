@@ -36,15 +36,13 @@ public final class Combiner {
 	private final Dataset dataset;
 	
 	private final Analyser analyser;
+	private GeneralisedLines lines;
 	
 	// :DEBUG: debugging output
 	public Collection<NodeMatch> cns;
-	public GeneralisedLines gen;
 	
 	public int verbose = 0;
 	private boolean cleanup = true;
-	
-//	public StatSink stats = null;
 	
 	
 	
@@ -62,29 +60,53 @@ public final class Combiner {
 	 * 
 	 */
 	public void run () {
-		long startTime = System.currentTimeMillis();
+		final long startTime = System.currentTimeMillis();
 		
 		regionaliseSegments(/* allSegements */);
-Combiner.printMemoryStatistics();
 		splitSegments(/* ways */);
-Combiner.printMemoryStatistics();
 		analyseSegments(analyser);
-Combiner.printMemoryStatistics();
 		
 		NodeGraph graph = correlateNodes();
-		cns = graph.matches();  // :DEBUG: debugging output
+		lines = generaliseLines(graph);
 		
-		GeneralisedLines lines = new GeneralisedLines();
-		lines.traverse(graph);
-		lines.concatUncombinedLines(dataset);
-		if (cleanup) {
-			lines.cleanup();
+		printStats(startTime);
+	}
+	
+	
+	
+	private void printStats (final long startTime) {
+		final long endTime = System.currentTimeMillis();
+		printMemoryStatistics();
+		
+		int concatLength = 0, genLength = 0;
+		for (final ResultLine line : lines.lines()) {
+			if (line instanceof ConcatenatedSection) {
+				concatLength += line.length();
+			}
+			else if (line instanceof GeneralisedSection) {
+				genLength += line.length();
+			}
 		}
-		gen = lines;  // :DEBUG: debugging output
-Combiner.printMemoryStatistics();
+		String percent = String.format("%.1f", 100f * genLength / (concatLength + genLength));
+		percent = percent.equals("0.0") && genLength > 0 ? "0.1" : percent;  // avoid "0%" if generalisations did take place
+		int km = (concatLength + genLength) / 1000;
+		verbose(1, "Road network length: " + km + " km (generalised: " + (genLength / 1000) + " km or " + percent + " %, other: " + (km - genLength / 1000) + " km)");
 		
-		verbose(1, "Done.");
-		verbose(1, "Processing time: " + (System.currentTimeMillis() - startTime) + " ms");
+		verbose(1, "Processing time: " + (endTime - startTime) + " ms");
+	}
+	
+	
+	
+	/**
+	 * Retrieve the generalisation result.
+	 * @throws IllegalStateException if the Combiner hasn't been run yet
+	 * @see GeneralisedLines#lines()
+	 */
+	public Collection<ResultLine> lines () {
+		if (lines == null) {
+			throw new IllegalStateException("Call run() first");
+		}
+		return lines.lines();
 	}
 	
 	
@@ -92,7 +114,32 @@ Combiner.printMemoryStatistics();
 	NodeGraph correlateNodes () {
 		NodeGraph matches = new NodeGraph(dataset);
 		verbose(1, "Node Matching done.");
+		cns = matches.matches();  // :DEBUG: debugging output
 		return matches;
+	}
+	
+	
+	
+	GeneralisedLines generaliseLines (final NodeGraph graph) {
+		GeneralisedLines lines = new GeneralisedLines();
+		lines.traverse(graph);
+		lines.concatUncombinedLines(dataset);
+		if (cleanup) {
+			lines.cleanup();
+		}
+		
+		// stats
+		int totalCount = dataset.allSegments().size();
+		int concatCount = 0;
+		for (final ResultLine line : lines.lines()) {
+			if (line instanceof ConcatenatedSection) {
+				concatCount += line.size();
+			}
+		}
+		String percent = String.format("%.1f", 100.0 * (totalCount - concatCount) / totalCount);
+		percent = percent.equals("0.0") && totalCount - concatCount > 0 ? "0.1" : percent;  // avoid "0%" if generalisations did take place
+		verbose(1, "Done; generalised " + (totalCount - concatCount) + " of " + totalCount + " segments (" + percent + " %), leaving " + concatCount);
+		return lines;
 	}
 	
 	
@@ -102,6 +149,7 @@ Combiner.printMemoryStatistics();
 			segment.analyseLineParts(visitor);
 		}
 		verbose(1, "Analysis done.");
+		printMemoryStatistics();
 	}
 	
 	
@@ -110,7 +158,7 @@ Combiner.printMemoryStatistics();
 	@SuppressWarnings("unchecked")
 	private void regionaliseSegments () {
 		Collection<SourceSegment> allSegments = dataset.allSegments();
-		verbose(1, "Total segment count: " + allSegments.size());
+		verbose(2, "Total segment count: " + allSegments.size());
 		
 		final SpatialIndex index = new STRtree();
 		for (final SourceSegment segment : allSegments) {
@@ -135,7 +183,8 @@ Combiner.printMemoryStatistics();
 			c += closeSegments.size();
 			p += segment.closeParallels().size();
 		}
-		verbose(1, "Regionalisation done; " + (i > 0 ? "on average " + c / i + " close segments, " + p / i + " close false parallels." : "no segments exist in source data."));
+		verbose(1, "Regionalisation done; " + (i > 0 ? "on average " + c / i + " close segments (" + p / i + " aligned)." : "no segments exist in source data."));
+		printMemoryStatistics();
 	}
 	
 	
@@ -151,6 +200,7 @@ Combiner.printMemoryStatistics();
 			base.splitCloseParallels(sink);
 		}
 		verbose(1, "Splitting done.");
+		printMemoryStatistics();
 	}
 	
 	
@@ -209,7 +259,10 @@ Combiner.printMemoryStatistics();
 	
 	
 	
-	public static void printMemoryStatistics () {
+	public void printMemoryStatistics () {
+		if (verbose < 2) {
+			return;
+		}
 		long total = Runtime.getRuntime().totalMemory() / 1024L;
 		long used = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024L;
 		System.err.println("Java using " + used + " KB of " + total + " KB.");

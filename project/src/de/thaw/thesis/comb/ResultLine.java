@@ -10,7 +10,7 @@ package de.thaw.thesis.comb;
 
 import de.thaw.thesis.comb.highway.HighwayRef;
 import de.thaw.thesis.comb.util.AttributeProvider;
-import de.thaw.thesis.comb.util.SimpleVector;
+import de.thaw.thesis.comb.util.Vector;
 
 import java.util.AbstractSequentialList;
 import java.util.Collections;
@@ -48,15 +48,21 @@ public abstract class ResultLine extends AbstractLine {
 	
 /* 
 	void filterShortSection () ;  // abstract method
+*/	
 	
+	
+	/**
+	 * The geometric length of this line. Calculated by summing the length of
+	 * each segment.
+	 * @return the length in internal map units
+	 */
 	double length () {
-		if (size() < 2) {
-			return 0.0;
+		double length = 0.0;
+		for (final Vector segment : this) {
+			length += segment.distance();
 		}
-		// :BUG: calculate intermediate segments
-		return SimpleVector.distance( start(), end() );
+		return length;
 	}
- */
 	
 	
 	/**

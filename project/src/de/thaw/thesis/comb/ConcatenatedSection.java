@@ -168,6 +168,8 @@ public class ConcatenatedSection extends ResultLine {
 			}
 		}
 		
+		// :BUG: zero-length lines exist (e. g. north end of B256n)
+		
 /*
 		// remove short sections
 		// (very dumb algorithms; we shouldn't remvoe everything)
