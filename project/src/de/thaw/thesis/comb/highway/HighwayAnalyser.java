@@ -24,8 +24,6 @@ public final class HighwayAnalyser implements Analyser {
 	
 	private final double MAX_DISTANCE = 40.0;  // metres
 	
-	private final double COLLINEAR_MAX_ANGLE = 30.0 / 180.0 * Math.PI;
-	
 	private final boolean evaluateTags;
 	
 	
@@ -42,6 +40,7 @@ public final class HighwayAnalyser implements Analyser {
 	public boolean shouldEvaluate (final Segment part1, final Segment part2) {
 		assert part1.root() != part2.root();
 		
+/*
 		// ignore fragments that share a node with the current segment
 		// (otherwise the L/R point search in next step might get confused (?))
 		// :TODO: really test this!
@@ -53,18 +52,23 @@ public final class HighwayAnalyser implements Analyser {
 				|| part1.end().equals(part2.start()) ) {
 //			return false;
 		}
+*/
 		
 		final Vector v1 = part1;
 		final Vector v2 = part2.aligned(v1);
+		final SimpleVector vStart1Start2 = new SimpleVector(part1.start(), part2.start());
+		final SimpleVector vStart1End2 = new SimpleVector(part1.start(), part2.end());
+		final SimpleVector vEnd1Start2 = new SimpleVector(part1.end(), part2.start());
+		final SimpleVector vEnd1End2 = new SimpleVector(part1.end(), part2.end());
 		final SimpleVector starts;
 		final SimpleVector ends;
 		if (part2.isAligned(v1)) {
-			starts = new SimpleVector(part1.start(), part2.start());
-			ends = new SimpleVector(part1.end(), part2.end());
+			starts = vStart1Start2;
+			ends = vEnd1End2;
 		}
 		else {
-			starts = new SimpleVector(part1.start(), part2.end());
-			ends = new SimpleVector(part1.end(), part2.start());
+			starts = vStart1End2;
+			ends = vEnd1Start2;
 		}
 		
 		// ignore fragments whose start/end-points are far apart
@@ -73,15 +77,31 @@ public final class HighwayAnalyser implements Analyser {
 		}
 		
 		// ignore collinear fragments
-		if ( Math.abs( v1.relativeBearing(starts.aligned(v1)) ) < COLLINEAR_MAX_ANGLE
-				&& Math.abs( v1.relativeBearing(ends.aligned(v1)) ) < COLLINEAR_MAX_ANGLE
-				&& Math.abs( v2.relativeBearing(starts.aligned(v2)) ) < COLLINEAR_MAX_ANGLE
-				&& Math.abs( v2.relativeBearing(ends.aligned(v2)) ) < COLLINEAR_MAX_ANGLE ) {
+		final double angleStart1Start2 = Math.abs( v1.relativeBearing(vStart1Start2) );
+		final double angleStart1End2   = Math.abs( v1.relativeBearing(vStart1End2) );
+		final double angleEnd1Start2   = Math.abs( v1.relativeBearing(vEnd1Start2) );
+		final double angleEnd1End2     = Math.abs( v1.relativeBearing(vEnd1End2) );
+		/* If all relative bearings point either forwards or backwards, the
+		 * other segment must be entirely ahead or entirely behind this one,
+		 * respectively. Therefore it cannot be parallel. Relative bearings of
+		 * zero are ignored because they may carry the special meaning that
+		 * their vectors have zero length (i. e. that the two segments share
+		 * nodes). Since no specific bearing can be determined in that case,
+		 * that specific bearing is ignored for this check, but all the other
+		 * bearings are still considered.
+		 */
+		if ( angleStart1Start2 < Vector.RIGHT_ANGLE
+				&& angleStart1End2 < Vector.RIGHT_ANGLE
+				&& angleEnd1Start2 < Vector.RIGHT_ANGLE
+				&& angleEnd1End2 < Vector.RIGHT_ANGLE
+				|| (angleStart1Start2 > Vector.RIGHT_ANGLE || angleStart1Start2 == 0.0)
+				&& (angleStart1End2 > Vector.RIGHT_ANGLE || angleStart1End2 == 0.0)
+				&& (angleEnd1Start2 > Vector.RIGHT_ANGLE || angleEnd1Start2 == 0.0)
+				&& (angleEnd1End2 > Vector.RIGHT_ANGLE || angleEnd1End2 == 0.0) ) {
 			return false;
 		}
 		
 		// ignore fragments crossing each other
-		// :TODO: really test this!
 		if ( Math.signum(v1.relativeBearing(starts)) != Math.signum(v1.relativeBearing(ends)) ) {
 			return false;
 		}

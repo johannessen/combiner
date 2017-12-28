@@ -173,8 +173,20 @@ public final class SimpleVector implements Vector {
 	
 	
 	/**
+	 * The angle from this vector's direction to the specified vector's
+	 * direction, measured counterclockwise or clockwise, whichever is nearer.
+	 * 
+	 * @return relative bearing in interval [−π, π);
+	 *  <code>0.0</code> if <code>v</code> is zero-length
 	 */
 	public double relativeBearing (final Vector v) {
+		if (v.distance() == 0.0) {
+			/* The concept of bearing doesn't make much sense for vectors with
+			 * no length, so we ignore whatever is reported as bearing for the
+			 * vector passed in, resulting in a relative bearing of zero.
+			 */
+			return 0.0;
+		}
 		return normaliseRelativeBearing(v.bearing() - bearing());
 	}
 	

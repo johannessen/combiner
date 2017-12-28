@@ -22,7 +22,7 @@ public interface Analyser {
 	/* Yet to be included here as methods:
 	 * µ = AbstractSegment.MIN_FRAGMENT_LENGTH
 	 * η = SourceSegment.INDEX_ENVELOPE_MARGIN
-	 * PARALLEL angle = SourceSegment.PARALLEL_ANGLE_MAXIMUM / HighwayAnalyser.COLLINEAR_MAX_ANGLE
+	 * PARALLEL angle = SourceSegment.PARALLEL_ANGLE_MAXIMUM
 	 * PARALLEL distance = HighwayAnalyser.MAX_DISTANCE
 	 * the tag combination routines in *Section
 	 */

@@ -107,11 +107,12 @@ public interface Vector {
 	 * @param v the vector to calculate the bearing of in relation to this
 	 *  vector
 	 * @return the relative bearing (difference in direction) from this vector
-	 *  to the specified vector
+	 *  to the specified vector; if the specified vector is zero-length,
+	 *  <code>+0.0</code> must be returned
 	 * @throws NullPointerException iff <code>v == null</code>
 	 * @see SimpleVector#normaliseRelativeBearing
-	 * @see <a href="http://en.wikipedia.org/wiki/Bearing_(navigation)"
-	 *  >Bearing (Wikipedia)</a>
+	 * @see <a href="https://en.wikipedia.org/wiki/Relative_bearing"
+	 *  >Relative bearing (Wikipedia)</a>
 	 */
 	double relativeBearing (Vector v) ;
 	
