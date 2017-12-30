@@ -1,5 +1,6 @@
 .DS_Store
 *.swp
+*~
 
 /data/nrw-roads.zip
 /data/testbed-nrw

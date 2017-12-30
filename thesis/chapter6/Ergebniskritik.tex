@@ -25,19 +25,19 @@ Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \
 	\twofigures{H}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
 			\put(122,84){\figuremark{1}}
-			\put(64,61){\figuremark{2}}
-			\put(16,30){\rotatebox{50}{\figureframe{.175}}}
+			\put(58,60){\figuremark{2}}
+			\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
 		\end{overpic}
 	}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
 			\put(122,84){\figuremark{1}}
-			\put(64,61){\figuremark{2}}
-			\put(16,30){\rotatebox{50}{\figureframe{.175}}}
+			\put(58,60){\figuremark{2}}
+			\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
 		\end{overpic}
 	}
 	% trivial = testbed-nrw/koeln-classfied-nolinks.shp
 	% 1:30000 Google Mercator, bbox 778765 6607045 780865 6608245, 0.2mm stroke
-	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Autobahn L~124 bei Köln-Gremberg)}
+	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L~124)}
 	\label{fig:result-trivial}
 }
 
@@ -62,36 +62,33 @@ Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsigna
 	\label{fig:result-trivial-styled}
 }
 
-Bei näherer Betrachtung
-% der Autobahn (\textfiguremark{1} in Abbildung~\ref{fig:result-trivial})
-ist die beabsichtigte Arbeitsweise der implementierten Algorithmen im einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-L124}):
+Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algorithmen in diesem einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-rolshover}):
 Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
 Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
-Selbst dann, wenn (wie bei \textfiguremark{2}) beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt das \textproc{NodesZuordnen}, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{3}).
+Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt das \textproc{NodesZuordnen}, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
 Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie als Ergebnis ableiten.
-Von der Präsenz anderer, nicht paralleler Linienzüge lassen sich die Algorithmen nicht beeinflussen (\textfiguremark{4}).
+
+Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\textfiguremark{3}) wird unten im Abschnitt~\ref{ch:relocateGeneralisedNodes} diskutiert.
 
 % writeNodeMatches
 \onefigure{p}{
 	\twofigures{H}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-L124}
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover}
 			\put(0,76){\includegraphics{../chapter6/legend-nodematch}}
-			\put(37,50){\figuremark{1}}
-			\put(98,56){\figuremark{2}}
-			\put(111,56){\figuremark{3}}
-			\put(166,52){\figuremark{4}}
+			\put(53,7){\figuremark{1}}
+			\put(95,51){\figuremark{2}}
+			\put(184,83){\figuremark{3}}
 		\end{overpic}
 	}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-L124-gen}
-			\put(37,50){\figuremark{1}}
-			\put(98,56){\figuremark{2}}
-			\put(111,56){\figuremark{3}}
-			\put(166,52){\figuremark{4}}
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover-gen}
+			\put(53,7){\figuremark{1}}
+			\put(88,44){\figuremark{2}}
+			\put(184,83){\figuremark{3}}
 		\end{overpic}
 	}
-	% 1:7500 Google Mercator, bbox 779845 6607935 780370 6608240
-	\caption{Detaildarstellung Autobahn mit Punktezuordnungen (links Eingangsdaten, rechts Generalisierungsergebnis; \textfiguremark{1}~in Abbildung~\ref{fig:result-trivial})}
-	\label{fig:result-trivial-detail-L124}
+	% 1:3500 Google Mercator rotated 50°, bbox 779025 6607525 779270 6607665
+	\caption{Detaildarstellung Generalisierung mit Punktezuordnungen (links Eingangsdaten, rechts Generalisierungsergebnis; \textfiguremark{2}~in Abbildung~\ref{fig:result-trivial})}
+	\label{fig:result-trivial-detail-rolshover}
 }
 
 \begin{itemize}
@@ -115,6 +112,7 @@ Von der Präsenz anderer, nicht paralleler Linienzüge lassen sich die Algorithm
 \section{Verhalten an Straßenkreuzungen}
 
 \subsection{relocateGeneralisedNodes}
+\label{ch:relocateGeneralisedNodes}
 
 \begin{itemize}
 \item tlws. gelöstes Problem: an Ende der Ausbaustrecke sowie innerstädtischer Kreuzung nodes von (nicht generalisierter) Querstraße so verschieben, dass es passt
@@ -125,22 +123,6 @@ Von der Präsenz anderer, nicht paralleler Linienzüge lassen sich die Algorithm
 \end{itemize}
 
 % relocateGeneralisedNodes: "This is necessary because nodes are implemented as immutable by this project." -> Alternative: beide Nodes auf denselben Ort bewegen und dann als letzten Schritt Nodes am selben Ort erkennen und zusammenfassen (dann sollten aber sinnvollerweise auch die Node-IDs mitgeschleppt werden, sonst bringt das wenig, und die haben wir nicht, da wir OSM nicht direkt einlesen, sondern über die Geofabrik-Shapefiles gehen). Wichtig: *nur* wegen relocate() bekommt SourceNode die "edges" als Pointers!
-
-\onefigure{h}{
-	\twofigures{H}{
-		\begin{overpic}[grid,width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover}
-			\put(0,76){\includegraphics{../chapter6/legend-nodematch}}
-%		\put(90,40){\figuremark{1}}
-		\put(128,76){\figuremark{1}}
-		\end{overpic}
-	}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover-gen}
-		\end{overpic}
-	}
-	% 1:5000 Google Mercator rotated 55°, bbox 778974 6607426.21 779324 6607629.54
-	\caption{Detaildarstellung scharfer Knick mit Punktezuordnungen (links Eingangsdaten, rechts Generalisierungsergebnis; \textfiguremark{2}~in Abbildung~\ref{fig:result-trivial}; Darstellung rotiert)}
-	\label{fig:result-trivial-detail-rolshover}
-}
 
 Die korrekte Grundfunktionalität ist auch beim scharfen Knick im nachgeordneten Netz
 % (\textfiguremark{2} in Abbildung~\ref{fig:result-trivial})
