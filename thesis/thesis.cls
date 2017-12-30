@@ -225,6 +225,13 @@
 \newcommand{\figuremark}[1]{\adjustbox{lap={\width}{-.4em},valign=M}{\color{figuremark}\ding{\number\numexpr#1+191\relax}}}
 \newcommand{\textfiguremark}[1]{\ding{\number\numexpr#1+171\relax}}
 %\newcommand{\textfiguremark}[1]{#1}
+\newcommand{\figurestandardsize}{\rule{7cm}{0cm}\rule[-.5ex]{0cm}{4cm}}
+% usage: \figureframe{.2}
+\newcommand{\figureframe}[1]{\linethickness{.2mm}\color{figuremark}\frame{\scalebox{#1}{\figurestandardsize}}}
+%% usage: \figureframe{.2} or \figureframe{.2}[.3] (for scaling not in proportion)
+%\DeclareDocumentCommand{\figureframe}{ m O{} }{\linethickness{.2mm}\color{figuremark}\frame{%
+%\ifthenelse{\isempty{#2}}{\scalebox{#1}{\figurestandardsize}}{\scalebox{#1}[#2]{\figurestandardsize}}%
+%}}
 
 % algorithms
 \RequirePackage[plain]{algorithm}
