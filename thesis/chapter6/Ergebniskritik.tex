@@ -13,6 +13,11 @@
 
 Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
+Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig bearbeitet wird.
+Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mit Geodaten vom selben Stand gearbeitet wird.
+Soweit nicht anders angegeben, beschränkt sich dieses Kapitel auf einen Datensatz mit dem Straßennetz im Land Nordrhein-Westfalen vom November~2012.
+% http://dev.thaw.de/temp/highways/nrw-roads.zip (testbed-nrw-prepare.sh)
+
 % möglichst auch Untersuchung der Anwendung des Algorithmus auf Straßen in unterschiedlichen Regionen der Welt
 
 
@@ -50,7 +55,7 @@ Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines
 Abbildung~\ref{fig:result-trivial-styled} zeigt beispielhaft, wie sich dieses Generalisierungsergebnis sinnvoll visualisieren ließe.
 Die Software kennzeichnet die zusammengefassten Linienzüge als generalisiert.
 Zusätzlich gibt die Software einzelne \term{tags} der \osm-Quelldaten mit aus.
-Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsignaturen definiert werden.
+Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignaturen definiert werden.
 
 \onefigure{p}{
 	\twofigures{H}{
@@ -65,10 +70,8 @@ Anhand dieser Attribute können leicht Regeln mit jeweils passenden Liniearsigna
 Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algorithmen in diesem einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-rolshover}):
 Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
 Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
-Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt das \textproc{NodesZuordnen}, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
+Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt dies, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
 Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie als Ergebnis ableiten.
-
-Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\textfiguremark{3}) wird unten im Abschnitt~\ref{ch:relocateGeneralisedNodes} diskutiert.
 
 % writeNodeMatches
 \onefigure{p}{
@@ -91,15 +94,43 @@ Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\
 	\label{fig:result-trivial-detail-rolshover}
 }
 
-\begin{itemize}
-\item möglichst quantifizieren („bei Eingabedaten von xy km Autobahn gibt es z Problemsituationen“)
-\item offen: Nicht-motorway/trunk sind schwieriger, da kleinere Kurvenradien. Funktioniert's hier? Wo nicht?
-\item offen: Die \textproc{Distanz} zweier Straßen ist eines der wesentlichen Kriterien für die Erkennung als \textproc{Parallel}. Macht das Probleme, zB innerstädtisch vs. Autobahn?
+Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\textfiguremark{3}) wird unten im Abschnitt~\ref{ch:relocateGeneralisedNodes} diskutiert.
+
+Für den NRW-Testdatensatz wurden die in Abschnitt~\ref{ch:analyse-algorithm} genannten Beispielwerte von höchstens um $15\degree$ abweichender Ausrichtung und höchstens $\unit[40]{m}$ Abstand zweier \textproc{Parallel}er Segmente empirisch als grundsätzlich tauglich bestätigt.
+% evtl. näher ausführen, Tabelle mit Zahlen machen, ...
+Für Autobahnen genügt überwiegend bereits ein Limit von nur $10\degree$ Abweichung.
+Sonstige Straßen besitzen wesentlich engere Kurvenradien und haben vereinzelt Segmente, welche als parallel gelten könnten, deren Ausrichtung jedoch um $30\degree$ oder mehr voneinander abweicht.
+
+% Ausrichtungsgrenze 15°:
+% - empirisch ermittelter vernünftiger Bereich für autobahnähnlich etwa 8..16°
+% - empirisch ermittelter vernünftiger Bereich für innerstädtisch etwa 20..40°
+
+% Distanz 40 m:
+% - empirisch ermittelter vernünftiger Bereich für autobahnähnlich etwa 40..45 m
+% - empirisch ermittelter vernünftiger Bereich für innerstädtisch etwa 35..50 m
+
+Um Praxistauglichkeit zu erreichen, müsste die Definition von \textproc{Parallel} folglich vom Straßentyp abhängen.
+Dies wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
+
+Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attributierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
+% roads-motorway.shp
+Die entwickelte Software erkennt $\unit[4460]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
+Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wäre bei naiver Betrachtung eine Erkennungsrate von $\unit[100]{\%}$ zu erwarten gewesen.
+Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im Wesentlichen in den folgenden Fällen als \emph{nicht} parallel erkannt werden:
+
+\begin{itemize}[nosep]
+\item fehlerhafte Klassifizierung (insb. \osmtag{highway}[motorway] statt \term{motorway\_link})
+\item fehlerhafte Attribute (\osmtag{ref} einseitig fehlend oder voneinander abweichend)
+\item definierte geometrische Kriterien für Parallelität sind nicht erfüllt (z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
 \end{itemize}
+
+Letzteres ist zu erwarten und offensichtlich korrekt.
+Die ersten beiden Fälle werden in den folgenden Abschnitten~\ref{ch:result-tags} und~\ref{ch:result-junctions} näher betrachtet.
 
 
 
 \section{Attribute}
+\label{ch:result-tags}
 
 \begin{itemize}
 \item (vorläufig) implementiertes Prinzip beschreiben
@@ -110,6 +141,7 @@ Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\
 
 
 \section{Verhalten an Straßenkreuzungen}
+\label{ch:result-junctions}
 
 \subsection{relocateGeneralisedNodes}
 \label{ch:relocateGeneralisedNodes}

@@ -39,15 +39,17 @@ ogr2ogr -clipsrc "$BBOX_PATH/koeln-junkersdorf-bbox.shp"  koeln-junkersdorf.shp 
 
 echo "ogr2ogr filtering..."
 
-MOTORWAY_ONLY="fclass = 'motorway' OR fclass = 'trunk'"
+MOTORWAY_ONLY="fclass = 'motorway'"
+MOTORWAY_TRUNK="fclass = 'motorway' OR fclass = 'trunk'"
 MOTORWAY_TRUNK_PRIMARY="fclass = 'motorway' OR fclass = 'trunk' OR fclass = 'primary'"
 MOTORWAY_TRUNK_PRIMARY_LINK="$MOTORWAY_TRUNK_PRIMARY OR fclass = 'motorway_link' OR fclass = 'trunk_link' OR fclass = 'primary_link'"
 CLASSIFIED_NOLINK="fclass = 'motorway' OR fclass = 'trunk' OR fclass = 'primary' OR fclass = 'secondary' OR fclass = 'tertiary'"
 NO_SERVICE="fclass <> 'service'"  # expecting input with nothing but road network
 
+# koeln
 ogr2ogr -where "$CLASSIFIED_NOLINK" koeln-classfied-nolinks.shp koeln.shp
-ogr2ogr -where "$MOTORWAY_ONLY" koeln-motorway.shp koeln.shp
-ogr2ogr -where "$MOTORWAY_ONLY" koeln-SE-motorway.shp koeln-SE.shp
+ogr2ogr -where "$MOTORWAY_TRUNK" koeln-motorway.shp koeln.shp
+ogr2ogr -where "$MOTORWAY_TRUNK" koeln-SE-motorway.shp koeln-SE.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY_LINK" koeln-main.shp koeln.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY_LINK" koeln-SE-main.shp koeln-SE.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-main-nolinks.shp koeln-main.shp
@@ -55,6 +57,11 @@ ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-SE-main-nolinks.shp koeln-SE-main
 ogr2ogr -where "$NO_SERVICE" koeln-noservice.shp koeln.shp
 ogr2ogr -where "$NO_SERVICE" koeln-SE-noservice.shp koeln-SE.shp
 ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" koeln-junkersdorf-main.shp koeln-junkersdorf.shp
+
+# nrw
+ogr2ogr -where "$MOTORWAY_TRUNK_PRIMARY" roads-primary.shp roads.shp
+ogr2ogr -where "$MOTORWAY_TRUNK" roads-trunk.shp roads-primary.shp
+ogr2ogr -where "$MOTORWAY_ONLY" roads-motorway.shp roads-trunk.shp
 
 
 echo "Done."

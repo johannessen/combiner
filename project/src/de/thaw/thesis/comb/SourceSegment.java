@@ -28,9 +28,9 @@ import java.util.Set;
 public final class SourceSegment extends AbstractSegment {
 	
 	
-	final static double PARALLEL_ANGLE_MAXIMUM = 15.0 / 180.0 * Math.PI;
+	final static double PARALLEL_ANGLE_MAXIMUM = 30.0 / 180.0 * Math.PI;
 	
-	final static double INDEX_ENVELOPE_MARGIN = 40.0;  // metres
+	final static double INDEX_ENVELOPE_MARGIN = 20.0;  // metres (ideally MAX_DISTANCE/2.0)
 	
 	Envelope envelope;
 	
