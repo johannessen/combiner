@@ -139,7 +139,7 @@ public final class CombinerMain {
 		catch (CmdLineException e) {
 			System.err.println(e.getMessage());
 			parser.printUsage(System.err);
-			return;
+			System.exit(2);
 		}
 		
 		CombinerMain combiner = new CombinerMain();
