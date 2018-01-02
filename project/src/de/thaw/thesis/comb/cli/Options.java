@@ -40,8 +40,8 @@ public class Options {
 	@Option(name="--no-cleanup",usage="no cleanup")
 	public boolean noCleanup = false;
 	
-	@Option(name="--tags",usage="evaluateTags")
-	public boolean tags = false;
+	@Option(name="--tags",usage="evaluateTags (bitmask: 0x1=highway, 0x2=ref)")
+	public int tags = 0x1;
 	
 	@Option(name="--start-id")
 	public long startId = 0;

@@ -11,7 +11,7 @@
 % alles NUR im "Anwendungskontext", d.h. in Bezug auf die Ausgabe-Geodaten, nicht die Softwarequalität (das war in 5.4!)
 % Schritt für Schritt Probleme sammeln und katalogisieren
 
-Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
+%Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
 Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig bearbeitet wird.
 Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mit Geodaten vom selben Stand gearbeitet wird.
@@ -42,13 +42,13 @@ Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \
 	}
 	% trivial = testbed-nrw/koeln-classfied-nolinks.shp
 	% 1:30000 Google Mercator, bbox 778765 6607045 780865 6608245, 0.2mm stroke
-	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L~124)}
+	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L\,124)}
 	\label{fig:result-trivial}
 }
 
 In Abbildung~\ref{fig:result-trivial} sind links \osm-Linienzüge in der einfachen Situation einer Autobahn ohne Anschlussstellen nebst innerstädtischen Sammelstraßen zu sehen.
 Durch Anwendung der Software ergibt sich das rechts dargestellte automatisiert zusammengefasste Ergebnis.
-Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch eine gemeinsame Mittellinie.
+Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch einen einzigen Linienzug als Straßenachse.
 Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn (bei Markierung~\textfiguremark{1}) stört die Generalisierung nicht.
 Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst (Markierung~\textfiguremark{2}).
 
@@ -71,7 +71,7 @@ Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algor
 Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
 Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
 Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt dies, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
-Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie als Ergebnis ableiten.
+Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie im Verlauf der Straßenachse als Ergebnis ableiten.
 
 % writeNodeMatches
 \onefigure{p}{
@@ -114,29 +114,46 @@ Dies wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
 
 Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attributierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
 % roads-motorway.shp
-Die entwickelte Software erkennt $\unit[4460]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
+Die entwickelte Software erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
 Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wäre bei naiver Betrachtung eine Erkennungsrate von $\unit[100]{\%}$ zu erwarten gewesen.
 Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im Wesentlichen in den folgenden Fällen als \emph{nicht} parallel erkannt werden:
 
 \begin{itemize}[nosep]
-\item fehlerhafte Klassifizierung (insb. \osmtag{highway}[motorway] statt \term{motorway\_link})
-\item fehlerhafte Attribute (\osmtag{ref} einseitig fehlend oder voneinander abweichend)
-\item definierte geometrische Kriterien für Parallelität sind nicht erfüllt (z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
+\item fehlerhafte Klassifizierung (\osmtag{highway}) von Auf- und Abfahrten
+% (insb. \osmtag{highway}[motorway] statt \term{motorway\_link})
+\item fehlerhaftes Attribut für die Straßennummer (\osmtag{ref})
+% \osmtag{ref} einseitig fehlend oder voneinander abweichend
+\item definierte geometrische Kriterien für Parallelität sind nicht erfüllt \\(z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
 \end{itemize}
-
+%
 Letzteres ist zu erwarten und offensichtlich korrekt.
 Die ersten beiden Fälle werden in den folgenden Abschnitten~\ref{ch:result-tags} und~\ref{ch:result-junctions} näher betrachtet.
 
 
 
-\section{Attribute}
+\section{Berücksichtigung von Attributen}
 \label{ch:result-tags}
 
-\begin{itemize}
-\item (vorläufig) implementiertes Prinzip beschreiben
-\item Auswirkungen: Beispiel, wo es nicht klappt?
-\item möglichst quantifizieren
-\end{itemize}
+Die in Abschnitt~\ref{ch:analyse-algorithm} beschriebenen Algorithmen berücksichtigen neben der Klassifizierung der Straße als einziges Attribut die Straßennummer.
+% in der Annahme, dass diese normalerweise stimmt
+Im NRW-Testdatensatz erkennt die Software $\unit[54]{km}$ Fahrbahn nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
+
+An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahn die Straßennummer als Attribut.
+Entgegen der Annahme in \label{ch:case-selection} fällt dies den \osm-Beitragenden beim Betrachten von Karten nicht unbedingt auf, solange die Straßennummer der \emph{anderen} Richtungsfahrbahn korrekt angezeigt wird.
+
+Vereinzelt existieren auch widersprüchliche Straßennummern der beiden Richtungsfahrbahnen.
+So ist auf mehreren Abschnitten bei Dülmen die eine Fahrbahn \osmtag{ref}[A\,43] gekennzeichnet, die andere jedoch \osmtag{ref}[A\,43;B\,474], während bei Bliesheim eine der Richtungsfahrbahnen der A\,553 das Attribut \osmtag{ref}[A\,1] trägt.
+
+Da in diesen Fällen die Geometrie der Fahrbahnen offensichtlich parallel ist, muss hinterfragt werden, welche Bedeutung den Attributen beigemessen werden sollte.
+%
+% für Kap. 7:
+%Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
+%Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
+%Diese Idee wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
+%
+Die entwickelte Software berücksichtigt derzeit entgegen der ursprünglichen Definition standardmäßig nicht mehr die Straßennummer.
+%Auch dies könnte jedoch zu Problemen führen, weil damit zwei Fahrbahnen gleicher Klassifizierung, die nur zufällig parallel sind, jedoch zu unterschiedlichen Straßen gehören, fälschlich als Richtungsfahrbahnen derselben Straße erkannt werden könnten.
+Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
 
 
 

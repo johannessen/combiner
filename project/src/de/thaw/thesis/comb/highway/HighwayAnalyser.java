@@ -24,10 +24,10 @@ public final class HighwayAnalyser implements Analyser {
 	
 	private final double MAX_DISTANCE = 40.0;  // metres
 	
-	private final boolean evaluateTags;
+	private final int evaluateTags;
 	
 	
-	public HighwayAnalyser (final boolean evaluateTags) {
+	public HighwayAnalyser (final int evaluateTags) {
 		this.evaluateTags = evaluateTags;
 	}
 	
@@ -106,13 +106,15 @@ public final class HighwayAnalyser implements Analyser {
 			return false;
 		}
 		
-		if (evaluateTags) {
+		if ((evaluateTags & 0x1) > 0) {
 			// only evaluate fragments of the same highway class
 			// (tag results are interned => == works on Strings)
 			// :BUG: fails on dual carriageways having links etc. on _both_ sides
 			if ( tags(part1).get("highway") != tags(part2).get("highway") ) {
 				return false;
 			}
+		}
+		if ((evaluateTags & 0x2) > 0) {
 			if ( tags(part1).get("ref") != tags(part2).get("ref") ) {
 				return false;
 			}

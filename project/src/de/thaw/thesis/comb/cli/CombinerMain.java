@@ -41,7 +41,7 @@ public final class CombinerMain {
 	// options (see cli.Options)
 	int verbose;
 	boolean cleanup;
-	boolean evaluateTags;  // affects first analyser only
+	int evaluateTags;  // affects first analyser only
 	int iterations;
 	
 	Dataset dataset;
@@ -111,7 +111,7 @@ public final class CombinerMain {
 		}
 		dataset = inputDataset;
 		
-		combiner = new Combiner(dataset, new HighwayAnalyser(false));
+		combiner = new Combiner(dataset, new HighwayAnalyser(0));
 		combiner.verbose = verbose;
 		combiner.run();
 		
