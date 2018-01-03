@@ -38,13 +38,13 @@ public interface Dataset {
 	
 	
 	/**
-	 * 
+	 * intern
 	 */
 	Node getNode (final Node newNode) ;
 	
 	
 	/**
-	 * 
+	 * intern (based on primitives to avoid requiring extra objects)
 	 */
 	Node getNodeAtEastingNorthing (final double e, final double n) ;
 	

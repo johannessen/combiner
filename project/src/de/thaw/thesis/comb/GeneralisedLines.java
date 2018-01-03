@@ -98,6 +98,7 @@ public class GeneralisedLines {
 		
 //		section.filterShortSection();
 		if ( ! section.valid() ) {
+			// BUG: we prolly need to un-generalise the section if we don't add it
 			return;
 		}
 		

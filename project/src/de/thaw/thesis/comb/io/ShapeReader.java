@@ -88,11 +88,9 @@ public final class ShapeReader {
 	
 	private SourceNode toNode (final Coordinate coordinate) {
 		// add node to repository in dataset
-		final SourceNode node = new SourceNode(coordinate.x, coordinate.y, nextNodeId);
+		// new fictional unique IDs are created here; those are not consecutive due to interning
+		final SourceNode node = new SourceNode(coordinate.x, coordinate.y, nextNodeId--);
 		final SourceNode nodeIntern = (SourceNode)dataset().getNode(node);
-		if (node != nodeIntern) {
-			nextNodeId--;
-		}
 		return nodeIntern;
 	}
 	
