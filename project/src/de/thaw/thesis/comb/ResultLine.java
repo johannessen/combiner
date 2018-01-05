@@ -69,7 +69,13 @@ public abstract class ResultLine extends AbstractLine {
 	 * Fix topology after generalisation. Moves nodes such that line ends are
 	 * no longer dangling after generalisation, but end on the same lines they
 	 * ended on before generalisation. This is necessary because nodes are
-	 * implemented as immutable by this project.
+	 * implemented as immutable by this project. <p>
+	 * 
+	 * Note that this method is possibly a misnomer: The nodes relocated are
+	 * those that were previously <em>affected</em> by a generalisation process
+	 * insofar as some of the lines that were using these nodes have been
+	 * generalised. Nodes <em>created</em> in the generalisation process are
+	 * not relocated.
 	 */
 	protected abstract void relocateGeneralisedNodes () ;
 	

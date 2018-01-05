@@ -160,11 +160,42 @@ Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
 \section{Verhalten an Straßenkreuzungen}
 \label{ch:result-junctions}
 
-\subsection{relocateGeneralisedNodes}
+\subsection{Beseitigung von Topologielücken}
 \label{ch:relocateGeneralisedNodes}
 
+Beim Zusammenfassen von Linienzügen erzeugt die Software neue Stützpunkte entlang einer Mittellinie.
+Werden die Stützpunkte der ursprünglichen Linienzüge noch für weitere Zwecke verwendet, dürfen diese nicht entfallen, sondern müssen erhalten bleiben.
+
+An \term{nodes}, die sowohl beim Zusammenfassen entfallene Linien als auch andere Linien benutzen, wird dies zum Problem:
+Sie werden von nicht generalisierten Linien weiterbenutzt, die generalisierten Linien hingegen verwenden die neu erzeugten Punkte, so dass an den Übergängen topologische Lücken im Straßennetz entstehen.
+Die entwickelte Software versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch Punkte auf der generalisierten Mittellinie ersetzt werden.
+
+\onefigure{h}{
+	\twofigures{H}{
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/koelnarena-gen}
+			\put(51,67){\figuremark{1}}
+			\put(137,24){\figuremark{2}}
+		\end{overpic}
+	}{
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/koelnarena-gen-cleanup}
+			\put(51,67){\figuremark{1}}
+			\put(137,24){\figuremark{2}}
+		\end{overpic}
+	}
+	% 1:5500 Google Mercator, bbox 777275 6610050 777660 6610270
+	\caption{Detaildarstellung der Beseitigung von Topologielücken (links vorher, rechts nachher; L\,111 in Köln-Deutz)}
+	\label{fig:koelnarena-gen-cleanup}
+}
+
+Abbildung~\ref{fig:koelnarena-gen-cleanup} zeigt, dass diese Lösung grundsätzlich funktioniert.
+Die Straßenkreuzung bei \textfiguremark{1} wird auf einen einzelnen Punkt zusammengefasst, so dass beide Straßen korrekt miteinander verknüpft sind.
+Auch der bereits in Abschnitt~\ref{ch:generalisation-algorithm} angesprochene und zunächst offen gelassene Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge bei \textfiguremark{2} wird so gelöst.
+
+Dieses zusätzlich implementierte Verfahren ist standardmäßig aktiv, kann aber mit dem Schalter \texttt{--no-cleanup} kontrolliert werden.
+Auch in Abbildung~\ref{fig:result-trivial-detail-rolshover} kam es zum Einsatz.
+Darin ist bei \textfiguremark{3} gut zu sehen, wie am Beginn des generalisierten Abschnitts die Geometrie geringfügig geändert wird, um die Topologie zu erhalten.
+
 \begin{itemize}
-\item tlws. gelöstes Problem: an Ende der Ausbaustrecke sowie innerstädtischer Kreuzung nodes von (nicht generalisierter) Querstraße so verschieben, dass es passt
 \item offen: löst Problem nicht vollständig: funktioniert nicht (?), wenn Querstraße generalisiert ist?
 \item (auch Problem im trivialen Fall, etwa in Heumar oder Kanalstraße/A57: Lücke in Topologie)
 % Dass einander kreuzende Autobahnen durch Rampen miteinander verbunden sind, lehrt die Lebenserfahrung; aus dem Generalisierungsergebnis geht es jedoch nicht hervor.
