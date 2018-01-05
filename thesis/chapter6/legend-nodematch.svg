@@ -2,7 +2,7 @@
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="68.031px" height="36.851px" viewBox="0 0 68.031 36.851" style="enable-background:new 0 0 68.031 36.851;"
+	 width="68.882px" height="36.851px" viewBox="0 0 68.882 36.851" style="enable-background:new 0 0 68.882 36.851;"
 	 xml:space="preserve">
 <symbol  id="Node" viewBox="-2.553 -2.551 5.105 5.103">
 	<g>
@@ -24,18 +24,18 @@
 			S1.25,2.269,0,2.269L0,2.269z"/>
 	</g>
 </symbol>
-<rect style="fill:#EBEBEB;" width="68.031" height="36.851"/>
-<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 6.2349 14.2764)" style="overflow:visible;"/>
-<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_3_" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 6.2349 5.6704)" style="overflow:visible;"/>
+<rect style="fill:#EBEBEB;" width="68.882" height="36.851"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(0.8436 0 0 -0.8432 6.2349 14.2764)" style="overflow:visible;"/>
+<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_3_" x="-2.553" y="-2.551" transform="matrix(0.8883 0 0 -0.8889 6.2349 5.6704)" style="overflow:visible;"/>
+<line style="fill:none;stroke:#FF7F00;stroke-width:1.4173;stroke-linejoin:round;" x1="2.833" y1="31.394" x2="9.636" y2="31.394"/>
 <g>
 	<g>
 		
-			<line style="fill:none;stroke:#2277CC;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="31.394" x2="7.982" y2="31.394"/>
+			<line style="fill:none;stroke:#2277CC;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="22.994" x2="7.982" y2="22.994"/>
 		<g>
-			<polygon style="fill:#2277CC;" points="7.726,29.482 7.726,33.305 9.636,31.394 			"/>
+			<polygon style="fill:#2277CC;" points="7.726,21.083 7.726,24.905 9.636,22.994 			"/>
 		</g>
 	</g>
 </g>
-<line style="fill:none;stroke:#FF7F00;stroke-width:1.4173;stroke-linejoin:round;" x1="2.833" y1="22.994" x2="9.636" y2="22.994"/>
-<text transform="matrix(1 0 0 1 12.8477 7.9873)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">OSM-</tspan><tspan x="18.256" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:7;">node</tspan><tspan x="0" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">S</tspan><tspan x="3.619" y="8.4" style="font-family:'CisalpinLTStd-Bold'; font-size:4.9;">PLITTEN</tspan><tspan x="22.602" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">-Punkt</tspan><tspan x="0" y="16.8" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Punktezuordnung</tspan><tspan x="0" y="25.2" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Segment</tspan></text>
+<text transform="matrix(1 0 0 1 12.8477 7.9873)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">OSM-</tspan><tspan x="18.256" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:7;">node</tspan><tspan x="0" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">S</tspan><tspan x="3.619" y="8.4" style="font-family:'CisalpinLTStd-Bold'; font-size:4.9;">PLITTEN</tspan><tspan x="22.602" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">-Punkt</tspan><tspan x="0" y="16.8" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Segment</tspan><tspan x="0" y="25.2" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Punktezuordnung</tspan></text>
 </svg>
