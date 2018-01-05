@@ -8,6 +8,7 @@
 
 package de.thaw.thesis.comb.cli;
 
+import de.thaw.thesis.comb.ConcatenatedSection;
 import de.thaw.thesis.comb.Dataset;
 import de.thaw.thesis.comb.GeneralisedNode;
 import de.thaw.thesis.comb.GeneralisedSection;
@@ -118,8 +119,10 @@ final class Output {
 			geometries.add( writer.toPoint(node) );
 		}
 		for (final ResultLine line : lines) {
+			if (line instanceof ConcatenatedSection) {
+				continue;
+			}
 			for (final Node node : line.coordinates()) {
-				// :BUG: nodes in duplicate locations aren't filtered
 				geometries.add( writer.toPoint(node) );
 			}
 		}
