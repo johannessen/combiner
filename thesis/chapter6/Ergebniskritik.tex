@@ -169,7 +169,7 @@ Werden die Stützpunkte der ursprünglichen Linienzüge noch für weitere Zwecke
 
 An \term{nodes}, die sowohl beim Zusammenfassen entfallene Linien als auch andere Linien benutzen, wird dies zum Problem:
 Sie werden von nicht generalisierten Linien weiterbenutzt, die generalisierten Linien hingegen verwenden die neu erzeugten Punkte, so dass an den Übergängen topologische Lücken im Straßennetz entstehen.
-Die entwickelte Software versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch Punkte auf der generalisierten Mittellinie ersetzt werden.
+Die entwickelte Software versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch geeignete Punkte auf der generalisierten Mittellinie ersetzt werden.
 
 \onefigure{h}{
 	\twofigures{H}{
@@ -207,30 +207,65 @@ Darin ist bei \textfiguremark{3} gut zu sehen, wie am Beginn des generalisierten
 
 % relocateGeneralisedNodes: "This is necessary because nodes are implemented as immutable by this project." -> Alternative: beide Nodes auf denselben Ort bewegen und dann als letzten Schritt Nodes am selben Ort erkennen und zusammenfassen (dann sollten aber sinnvollerweise auch die Node-IDs mitgeschleppt werden, sonst bringt das wenig, und die haben wir nicht, da wir OSM nicht direkt einlesen, sondern über die Geofabrik-Shapefiles gehen). Wichtig: *nur* wegen relocate() bekommt SourceNode die "edges" als Pointers!
 
-Die korrekte Grundfunktionalität ist auch beim scharfen Knick im nachgeordneten Netz
-% (\textfiguremark{2} in Abbildung~\ref{fig:result-trivial})
-erkennbar (Abbildung~\ref{fig:result-trivial-detail-rolshover}).
-Nähere Betrachtung offenbart allerdings einzelne Probleme.
-So entstanden in der schwierigen Geometrie direkt beim Knick sich einander kreuzende Punktezuordnungen (Markierung~\textfiguremark{1}).
-...
-
-Des Weiteren sei daran erinnert, dass die in Abschnitt~\ref{ch:generalisation-algorithm} gegebene Definition des Algorithmus zum \textproc{Zusammenfassen} keine Behandlung für den Übergang zwischen generalisierten und nicht generalisierten Abschnitten vorsehen.
-
-Anfang und Ende einer Strecke mit zwei Richtungsfahrbahnen vorsehen (Markierung~\textfiguremark{3}).
-Um zu vermeiden, dass der generalisierte Linienzug auf der Höhe der letzten Punktezuordnung abrupt und ohne Verbindung zur nicht generaliserten Fortsetzung endet, wurde für diesen Fall in der Software eine Sonderbehandlung vorgesehen, weswegen das Problem im Ergebnis in Abbildungen~\ref{fig:result-trivial} und \ref{fig:result-trivial-styled} nicht existiert.
-...
-
-% Ebenso berücksichtigt die Beschreibung weder Kreuzungen noch den Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge.
 
 
+\subsection{Fehlende Kreuzungserkennung}
 
+\twofigures{h}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/kanal-gen-cleanup}
+		\put(0,67.5){\includegraphics{../chapter6/legend-nodematch-gen}}
+		\put(168,35){\figuremark{1}}
+		\put(161,85){\figuremark{2}}
+		\put(107,33){\figuremark{3}}
+	\end{overpic}
+	% 1:3500 Google Mercator rotated 10°, bbox 771595 6612098 771840 6612238
+	\caption{Verbleibende Topologielücken (Subbelrather Straße~/ Innere Kanalstraße, Köln)}
+	\label{fig:kanal-gen-cleanup}
+}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/roundabout-gen-cleanup}
+		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+	\end{overpic}
+	% 1:2000 Google Mercator, bbox 785968 6600972 786108 6601052
+	\caption{Verhalten am Kreisverkehr (Friedrichstraße, Köln-Porz)}
+	\label{fig:roundabout-gen-cleanup}
+}
 
-\subsection{fehlende Kreuzungserkennung}
+Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren funktioniert nicht in jeder Situation, wie Abbildung~\ref{fig:kanal-gen-cleanup} zeigt.
+Zwar führt es zu einem gelungenen Ergebnis bei \textfiguremark{1}.
+Bei \textfiguremark{2} wird hingegen aufgrund der spezifischen Kreuzungsgeometrie kein „geeigneter“ Punkt auf einer der generalisierten Linien gefunden.
+Die dortige Lücke in der Topologie bleibt somit bestehen.
+Schließlich kommt bei \textfiguremark{3} das Verfahren zur Lückenbeseitigung gar nicht erst zur Anwendung, weil hier durch den sehr spitzen Winkel der Abbiegefahrbahn mehr als zwei parallele Linienzüge erkannt und generalisiert werden und infolgedessen kein Endpunkt eines \emph{nicht} generalisierten Linienzugs existiert, der zur Lückenbeseitigung verschoben werden könnte (zur Generalisierung mehrerer Parallelen siehe Abschnitt~\ref{ch:iterated-execution} unten).
+Ähnliche Probleme existieren an vielen innerstädtischen Kreuzungen mit ungewöhnlicher Geometrie.
+
+Zwar ließe sich argumentieren, dass in vielen dieser Fälle die Attribute der \osm-Daten fehlerhaft sind.
+Beispielsweise sollte in Abbildung~\ref{fig:kanal-gen-cleanup} die \textfiguremark{1} und \textfiguremark{3} verbindende Abbiegefahrbahn eigentlich als solche klassifiziert werden (\osmtag{highway}[primary\_link] statt \term{primary}), wodurch vermieden würde, dass sie bei \textfiguremark{3} als parallel zur Hauptfahrbahn erkannt wird. \cf{osm:HighwayLink}
+
+Allerdings ist gerade dieser Fehler im NRW-Testdatensatz sehr stark verbreitet.
+So sind in der Kölner Innenstadt (bis einschließlich der Ringe) von insgesamt 79
+% 6+13+15+11+26+8
+Abbiegefahrbahnen ganze 26
+% 2+3+6+5+9+1
+nicht als solche klassifiziert.
+Es ist auch fraglich, ob hier mit fortschreitender Bearbeitung der \osm-Datenbank Verbesserungen zu erwarten sind, denn Abbiegefahrbahnen und Hauptfahrbahnen werden auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} mit der gleichen Linearsignatur gezeichnet, so dass eine falsche Klassifizierung beim Betrachten nicht auffällt.
+% gemeint ist der Effekt, dass crowdgesourcte VGI im Laufe der Zeit zu Korrektheit tendiert
+Vor dem Hintergrund der Aufgabenstellung, die das Ziel \emph{praxistauglicher} Algorithmen vorgibt, ist folglich offensichtlich, dass dieses Problem einer automatisierten Lösung bedarf.
+
+An Kreisverkehren gibt es ebenfalls typische Probleme.
+Abbildung~\ref{fig:roundabout-gen-cleanup} zeigt, wie alle im Kreis einander gegenüberliegenden Segmente als parallel erkannt werden.
+Mit dieser Masse widersprüchlicher Punktezuordnungen kann der Algorithmus zur Zusammenfassung keine brauchbaren Ergebnisse mehr liefern.
+Auch der in Abschnitt~\ref{ch:relocateGeneralisedNodes} besprochene Ansatz zur Beseitigung von Lücken in der Topologie läuft ins Leere.
+
+Zwar ließen sich die meisten Kreisverkehre über \osm-\term{tags} erkennen und von der Generalisierung ausschließen (aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt).
+Eine Generalisierung der Kreisverkehre -- zum~Beispiel durch Qualitätsumschlag der linearen Kreisfahrbahn in einen einzelnen Kreuzungspunkt -- könnte jedoch überaus nützlich sein, etwa bei der Herstellung einer Straßenkarte im mittleren Maßstabsbereich.
+
+Auffallend ist, dass alle diskutierten Probleme an Kreuzungen auftreten.
+Auf freier Strecke funktioniert die entwickelte Software weitgehend problemlos.
+Gäbe es eine zuverlässige Methode, automatisiert Kreuzungen zu erkennen, ließe sich möglicherweise leicht Praxistauglichkeit erzielen.
+
+%Abbildung XY zeigt weitere Beispiele des Scheiterns an unterschiedlichen Kreuzungen.
 
 \begin{itemize}
-\item fehlende Kreuzungserkennung
 \item umfangreiche Problemdarstellung verschiedener Typen von Kreuzungen
-\item möglichst quantifizieren
 \end{itemize}
 
 
@@ -242,6 +277,7 @@ Um zu vermeiden, dass der generalisierte Linienzug auf der Höhe der letzten Pun
 
 
 \section{Wiederholtes Ausführen für mehr als zwei Parallele}
+\label{ch:iterated-execution}
 
 ...
 
