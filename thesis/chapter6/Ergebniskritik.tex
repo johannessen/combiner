@@ -18,6 +18,8 @@ Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mi
 Soweit nicht anders angegeben, beschränkt sich dieses Kapitel auf einen Datensatz mit dem Straßennetz im Land Nordrhein-Westfalen vom November~2012.
 % http://dev.thaw.de/temp/highways/nrw-roads.zip (testbed-nrw-prepare.sh)
 
+% TODO:
+% erwähnen, dass auch aktuelle Daten getestet wurden und funktionieren?
 % möglichst auch Untersuchung der Anwendung des Algorithmus auf Straßen in unterschiedlichen Regionen der Welt
 
 
@@ -266,26 +268,42 @@ Gäbe es eine zuverlässige Methode, automatisiert Kreuzungen zu erkennen, ließ
 
 \begin{itemize}
 \item umfangreiche Problemdarstellung verschiedener Typen von Kreuzungen
+\item zeigen, wie Einbeziehung von Links zur Schließung von Topologielücken das Problem vergrößert
 \end{itemize}
 
 
 
-\section{Effizienz}
+\section{Effizienz \emph{[ausstehend]}}
 
-...
-
-
-
-\section{Wiederholtes Ausführen für mehr als zwei Parallele}
-\label{ch:iterated-execution}
-
-...
+\begin{itemize}
+\item Zeit- und Speicherverbrauch z. B. für NRW nach unterschiedlich dichten Eingangsdaten quantifizieren
+% durch Spectre/Meltdown keine großen Einbußen zu erwarten, weil die Berechnung hauptsächlich im RAM stattfindet und somit der Kernel keine Rolle spielt
+\item Optimierungspotenzial bzgl. Garbage Collector und überflüssiger Objekterzeugung erwähnen
+\item \emph{keine} Landau-Symbole (die gehören ans Ende von Kap. 4!)
+\end{itemize}
 
 
 
 \section{Anwendung auf andere Spezialfälle}
 
+\subsection{Fahrbahnen für unterschiedliche Arten von Verkehr}
+\label{ch:iterated-execution}
+
+\begin{itemize}
+\item Wiederholtes Ausführen für mehr als zwei Parallele
+\item Verteilerfahrbahnen an Autobahnen zeigen
+\item evtl. beidseitig straßenbegleitende Fahrradwege zeigen (nur Erkennung)
+\end{itemize}
+
+
+
+\subsection{Eisenbahnstrecken}
+
 ...
+
+
+
+% evtl. \subsection{Waldschneisen}
 
 
 

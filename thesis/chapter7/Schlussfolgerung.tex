@@ -1,0 +1,100 @@
+% UTF-8
+
+% single-chapter commands
+\documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\setcounter{chapter}{6}}  % single-chapter command
+\begin{document}
+
+
+\chapter{Schlussfolgerung und Ausblick \emph{[ausstehend]}}
+
+\section{Praktische Anwendbarkeit}
+
+\begin{itemize}
+	\item abschließende qualitative Gesamtbeurteilung der Arbeit auf Basis der Ergebnisuntersuchung in Bezug auf:
+	\begin{itemize}
+		\item Praxistauglichkeit
+		\item Übertragbarkeit auf andere als die spezifizierten Spezialfälle
+		\item Übertragbarkeit auf andere, ähnlich gelagerte, aber nicht identische Fragestellungen (z. B. Generalisierung durch Verdrängen)
+		\item evtl. in Relation zu existierenden Lösungsansätzen (-> Analyse)
+		\item Ungelöste Problemfälle:
+		\begin{itemize}
+			\item gründlichere Untersuchung/Quantifizierung der „Praxistauglichkeit“
+			\item ...
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+% - ansatz geometrie funktioniert wohl im prinzip mehr oder weniger und ist neben den existierenden ansätzen nicht von der hand zu weisen, obwohl er aus zeitgründen noch nicht praxistauglich ist
+
+
+
+\section{Möglichkeiten zur Weiterentwicklung}
+
+
+
+\subsection{Berücksichtigung unterschiedlicher Straßentypen}
+% vgl. 6.1
+...
+
+
+
+\subsection{Statistische Auswertung}
+% vgl. 6.2
+...
+
+% idee für zukunft: zusätzliches PARALLEL-kriterium "entgegengerichtet", bedarf aber evtl. eines tag-parsens und ggf. umdrehen bei oneway=-1
+
+
+
+\subsection{Kreuzungserkennung}
+% vgl. 6.3.2
+\begin{itemize}
+\item ...
+\item evtl. Kreuzungen erkennen durch Graphenanalyse (s.~u.) und Höchstgröße der Ringe: falls unterschritten, auf einen einzigen node zusammenfassen
+\end{itemize}
+
+
+
+\subsection{Allgemeine Anwendbarkeit}
+% statt nur der gewählte Spezialfall
+% vgl. 6.5
+...
+
+
+
+\subsection{Softwarequalität}
+
+\begin{itemize}
+\item I/O-Schnittstellen für OSM, andere Geodaten-Formate, kein hart gecodetes CRS mehr, ...
+\item Effizienz / Parallelisierbarkeit
+% https://de.wikipedia.org/wiki/Nebenl%C3%A4ufigkeit
+% vgl. 6.4
+\item GUI
+\item API-Schnittstellen für JTS/GeoTools
+\item API-Dokumentation
+\end{itemize}
+
+
+
+\subsection{OSM Inspector}
+
+...
+
+
+
+\section{Andere Ansätze und neuere Forschung}
+
+\begin{itemize}
+\item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]
+\item {[Mat17]}
+\end{itemize}
+
+% Arbeit aus dem alten Standpunkt schreiben! Neuere Forschung etc. hier (und evtl. in Einleitung Kontext erklären) -DGD
+
+
+
+% single-chapter commands
+%\onlyinsubfile{\listoffigures}
+%\onlyinsubfile{\listoftables}
+%\onlyinsubfile{\input{../bibliography}}
+\end{document}
