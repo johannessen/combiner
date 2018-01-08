@@ -35,8 +35,15 @@
 
 %\begin{abstract}
 %\end{abstract}
+\clearpage{~}
 
 \tableofcontents
+
+\newpage\addcontentsline{toc}{chapter}{Abbildungsverzeichnis\medskip}
+\listoffigures
+%\listofalgorithms
+%\listoftables
+% unified list: see KOMAscript 135
 
 \renewcommand{\onlyinsubfile}[1]{}
 %\renewcommand{\notinsubfile}[1]{#1}
@@ -51,16 +58,13 @@
 \subfile{../chapter7/Schlussfolgerung}
 \subfile{../chapter8/Zusammenfassung}
 
-\listoffigures
-%\listofalgorithms
-\listoftables
-% unified list: see KOMAscript 135
-
 \input{../bibliography}
 
-%\appendix
-%\chapter{Glossar}
-%\chapter{Abkürzungsverzeichnis}
-%\chapter{Software-Dokumentation}
+\appendix
+\addtocontents{toc}{\bigskip\medskip\textbf{Anhang}\par}
+\subfile{../appendices/Anhang}
+
+%\addtocontents{toc}{\medskip}
+%\newpage\addcontentsline{toc}{chapter}{Summary}
 
 \end{document}
