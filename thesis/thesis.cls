@@ -50,7 +50,7 @@
 % set bibliography style (default)
 %\AfterBibliographyPreamble{\raggedright}  % doesn't appear to work
 \RequirePackage[square,numbers]{natbib}  % no clue what "numbers" does in there, but adding it removes spurious warnings
-\bibliographystyle{../thesis}  % path relative to .tex files
+\bibliographystyle{../bibliography/thesis}  % path relative to document files
 
 % enable German bibliography style
 % (NB: some of the statements for 'default' above don't work as intended if babelbib is enabled)
