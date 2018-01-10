@@ -2,31 +2,120 @@
 
 % single-chapter commands
 \documentclass[../main/thesis.tex]{subfiles}
+\onlyinsubfile{\appendix}  % single-chapter command
 \begin{document}
 
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{A}{Mathematische Konventionen}}\par}
-% 4 (vgl. [Sar06])
+\chapter{Mathematische Konventionen}
+\label{appx:mathsymbols}
+% zu 4
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{B}{Datenmodell und Klassenstruktur}}\par}
-% 5.3.2 (ein Diagramm -- nur die zum eigentlichen Datenmodell gehörende Struktur)
+%
+%\\\\
+\begin{tabular}{|c|p{10.5cm}|}
+\hline
+\textbf{Symbol} & \textbf{Beschreibung} \\
+\hline
+$\equiv$ & leitet die Definition des linksseitigen Bezeichners ein \newline (z.~B. Definition durch eine Abfolge von Arbeitsschritten) \\
+\hline
+ &  \\
+\hline
+\end{tabular}
+\\\\
+%
+% TODO: neu (vgl. [Sar06])
+...
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{C}{Bezeichner im Quelltext}}\par}
-% 5.3.6 (Kap. 4 vs. Source)
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{D}{Anwendung auf ein Fernstraßennetz}}\par}
+\chapter{Datenmodell und Klassenstruktur}
+\label{appx:fullpage-model}
+% zu 5.3.2
+% - komplettes ER-Modell
+% - komplette Klassenstruktur
+
+TBD\\
+\includegraphics[width=12.5cm]{../../notes/Klassendiagramm}
+% TODO: neu (Datei aus notes ist nur Platzhalter; später Float-Umgebung verwenden!)
+% ein Diagramm -- nur die zum eigentlichen Datenmodell gehörende Struktur
+
+
+\chapter{Bezeichner im Quelltext}
+\label{appx:identifiers}
+% zu 5.3 (?)
+
+%
+%\\\\
+\begin{tabular}{|p{3.3cm}|p{10.5cm}|}
+\hline
+\textbf{in Abschnitt~\ref{ch:algorithm-parts}} & \textbf{Entsprechung im Quelltext} \\
+\hline
+\textproc{Start} & Interface \texttt{Segment}, Methode \texttt{start} \\
+\hline
+\textproc{Ende} & \texttt{Segment.end} \\
+\hline
+\textproc{Segmentierung} & \texttt{Highway.segmentation} \\
+\hline
+\textproc{Splitten} & \texttt{SplitQueueIterator} \\
+% SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
+\hline
+\textproc{NaheSegmente} & \texttt{Combiner.regionaliseSegments} \\
+% NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
+\hline
+\textproc{Hülle} & \texttt{SourceSegment.envelope} \\
+\hline
+\textproc{Fußpunkt} & \texttt{AbstractSegment.findPerpendicularFoot} \\
+\hline
+\textproc{Analyse} & \texttt{AbstractSegment.analyse} \\
+\hline
+\textproc{Parallel} & \texttt{SourceSegment.closeParallels} \\
+% PARALLEL: SourceSegment.closeParallels / MyAnalyser
+\hline
+\textproc{Distanz} & \texttt{MyAnalyser.distance} \\
+\hline
+\textproc{NodesZuordnen} & \texttt{NodeGraph.createGraph} \\
+\hline
+\textproc{Zusammenfassen} & \texttt{GeneralisedLines.traverse} \\
+\hline
+\textproc{Generalisierung} & \texttt{Combiner.run} \\
+\hline
+\end{tabular}
+\\\\
+%
+
+% TODO: Variablen innerhalb von ANALYSE und ZUSAMMENFASSEN ebenfalls aufschlüsseln?
+
+
+
+\chapter{Anwendung auf ein Fernstraßennetz}
 \label{appx:fullpage-examples-1}
-% 6 (Beispiel für größeres Gebiet im Zusammenhang in kleinem Maßstab)
-% evtl. unterschiedliche Regionen der Welt
+% zu 6
+% Beispiel für größeres Gebiet im Zusammenhang in kleinem Maßstab; evtl. unterschiedliche Regionen der Welt
+% (Titel könnte sich noch ändern, vgl. E)
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{E}{Anwendung auf ein innerstädtisches Straßennetz}}\par}
+TBD
+
+
+
+\chapter{Anwendung auf ein innerstädtisches Straßennetz}
 \label{appx:fullpage-examples-2}
-% 6 (Beispiel für größeres Gebiet im Zusammenhang in großem Maßstab)
-% evtl. unterschiedliche Regionen der Welt
+% zu 6
+% Beispiel für größeres Gebiet im Zusammenhang in großem Maßstab; evtl. unterschiedliche Regionen der Welt
+% (Titel könnte sich noch ändern, vgl. D)
 
-\addtocontents{toc}{\bigskip\textbf{\protect\numberline{F}{Beispiele für problematische Kreuzungssituationen}}\par}
+TBD
+
+
+
+\setcounter{chapter}{5}
+\chapter{Beispiele für problematische Kreuzungssituationen}
 \label{appx:junction-examples}
-% 6 (weitere Beispiele des Scheiterns an unterschiedlichen Kreuzungen; auch zeigen, wie links das Topologielückenproblem hierbei nicht lösen, sondern vergrößern)
+% zu 6
+
+TBD\\
+\\
+(weitere Beispiele des Scheiterns an unterschiedlichen Kreuzungen; auch zeigen, wie \term{\_links} das Topologielückenproblem hierbei nicht lösen, sondern vergrößern)
+
+
 
 %\chapter{Glossar}
 %\chapter{Abkürzungsverzeichnis}

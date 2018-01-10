@@ -108,6 +108,8 @@ Im folgenden Abschnitt wird näher auf die Implementierung der Liniengeneralisie
 Aus Gründen der Übersichtlichkeit werden in den folgenden Abschnitten nur wesentliche Aspekte und wichtige Entscheidungen behandelt.
 Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwiesen, welche in englischer Sprache als Teil der Softwareentwicklung im Javadoc-Format angelegt wurde und sowohl im Java-Quellcode als auch im HTML-Format zugänglich ist.
 
+Anhang~\ref{appx:identifiers} löst Bezeichner aus Abschnitt~\ref{ch:algorithm-parts} zu Bezeichnern im Quellcode auf.
+
 
 
 \subsection{Grundlegendes Geometrie-Modell (GeoTools)}
@@ -156,7 +158,7 @@ Es ließe sich für eine zukünftige Version leicht ergänzen.
 
 \subsection{Grundlegendes Geometrie-Modell (eigene Entwicklung)}
 
-Ein vollständiges Diagramm des entwickelten Datenmodells ist dem Anhang zu entnehmen.
+Ein vollständiges Diagramm des entwickelten Datenmodells ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
 Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
 Die Segmente sind wie in Abschnitt~\ref{ch:split-algorithm} beschrieben zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch nahezu trivial.
 
@@ -367,24 +369,6 @@ Die Klasse \code{GeneralisedLines} ist eine einfache Façade für die Generalisi
 % - CombinerMain: iterations / combineLines2
 % - MyAnalyser: evaluateTags
 % - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
-
-
-
-% ===========================
-% Anhänge:
-% - komplettes ER-Modell
-% - komplette Klassenstruktur
-% - Auflösung aller verwendeten Bezeichner in Kap. 4 vs. im Source:
-% SEGMENTIERUNG: OsmWay.segmentation
-% SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
-% NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
-% HÜLLE: SourceSegment.envelope
-% FUSSPUNKT: AbstractSegment.findPerpendicularFoot
-% ANALYSE: AbstractSegment.analyse
-% PARALLEL: SourceSegment.closeParallels / MyAnalyser
-% DISTANZ: MyAnalyser.distance
-% NODESZUORDNEN: NodeGraph.createGraph
-% ZUSAMMENFASSEN: GeneralisedLines.traverse
 
 
 
