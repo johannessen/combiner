@@ -7,26 +7,23 @@
 
 
 \chapter{Ergebnisdiskussion}
-% Beschreibung, was tatsächlich die Software ausspuckt, wo's hakt und wo ich noch gebastelt habe
 % alles NUR im "Anwendungskontext", d.h. in Bezug auf die Ausgabe-Geodaten, nicht die Softwarequalität (das war in 5.4!)
-% Schritt für Schritt Probleme sammeln und katalogisieren
 
 %Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
 Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig bearbeitet wird.
 Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mit Geodaten vom selben Stand gearbeitet wird.
-Soweit nicht anders angegeben, beschränkt sich dieses Kapitel auf einen Datensatz mit dem Straßennetz im Land Nordrhein-Westfalen vom November~2012.
-% http://dev.thaw.de/temp/highways/nrw-roads.zip (testbed-nrw-prepare.sh)
 
-% TODO:
-% erwähnen, dass auch aktuelle Daten getestet wurden und funktionieren?
-% möglichst auch Untersuchung der Anwendung des Algorithmus auf Straßen in unterschiedlichen Regionen der Welt
+In diesem Kapitel wird nach und nach anhand von Einzelbeispielen die Funktion der mit dieser Arbeit entwickelten Software (dem \term{Combiner}) besprochen.
+Die genutzten Geodaten beschränken sich auf einen Testdatensatz mit dem Straßennetz im Land Nordrhein-Westfalen vom November~2012.
+% http://dev.thaw.de/temp/highways/nrw-roads.zip (testbed-nrw-prepare.sh)
+Anhänge~\ref{appx:fullpage-examples-1} und~\ref{appx:fullpage-examples-2} zeigen weitere Beispiele der Anwendung des \term{Combiners} auf aktuelle Geodaten größerer zusammenhängender Areale auch in anderen Regionen.
 
 
 
 \section{Anwendung in einfachen Situationen}
 
-Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
+Bei Anwendung des \term{Combiners} auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
 
 \onefigure{p}{
 	\twofigures{H}{
@@ -44,20 +41,15 @@ Bei Anwendung der mit dieser Arbeit entwickelten Software auf Geodaten aus der \
 	}
 	% trivial = testbed-nrw/koeln-classfied-nolinks.shp
 	% 1:30000 Google Mercator, bbox 778765 6607045 780865 6608245, 0.2mm stroke
-	\caption{Ergebnis der Software im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L\,124)}
+	\caption{Ergebnis des \term{Combiners} im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L\,124)}
 	\label{fig:result-trivial}
 }
 
 In Abbildung~\ref{fig:result-trivial} sind links \osm-Linienzüge in der einfachen Situation einer Autobahn ohne Anschlussstellen nebst innerstädtischen Sammelstraßen zu sehen.
-Durch Anwendung der Software ergibt sich das rechts dargestellte automatisiert zusammengefasste Ergebnis.
+Durch Anwendung des \term{Combiners} ergibt sich das rechts dargestellte automatisiert zusammengefasste Ergebnis.
 Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch einen einzigen Linienzug als Straßenachse.
 Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn (bei Markierung~\textfiguremark{1}) stört die Generalisierung nicht.
 Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst (Markierung~\textfiguremark{2}).
-
-Abbildung~\ref{fig:result-trivial-styled} zeigt beispielhaft, wie sich dieses Generalisierungsergebnis sinnvoll visualisieren ließe.
-Die Software kennzeichnet die zusammengefassten Linienzüge als generalisiert.
-Zusätzlich gibt die Software einzelne \term{tags} der \osm-Quelldaten mit aus.
-Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignaturen definiert werden.
 
 \onefigure{p}{
 	\twofigures{H}{
@@ -69,11 +61,10 @@ Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignat
 	\label{fig:result-trivial-styled}
 }
 
-Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algorithmen in diesem einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-rolshover}):
-Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
-Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
-Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt dies, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
-Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie im Verlauf der Straßenachse als Ergebnis ableiten.
+Abbildung~\ref{fig:result-trivial-styled} zeigt beispielhaft, wie sich dieses Generalisierungsergebnis sinnvoll visualisieren ließe.
+Der \term{Combiner} kennzeichnet die zusammengefassten Linienzüge als generalisiert.
+Zusätzlich gibt der \term{Combiner} einzelne \term{tags} der \osm-Quelldaten mit aus.
+Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignaturen definiert werden.
 
 % writeNodeMatches
 \onefigure{p}{
@@ -97,6 +88,12 @@ Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt
 	\label{fig:result-trivial-detail-rolshover}
 }
 
+Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algorithmen in diesem einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-rolshover}):
+Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
+Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
+Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt dies, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
+Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie im Verlauf der Straßenachse als Ergebnis ableiten.
+
 Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\textfiguremark{3}) wird unten im Abschnitt~\ref{ch:relocateGeneralisedNodes} diskutiert.
 
 Für den NRW-Testdatensatz wurden die in Abschnitt~\ref{ch:analyse-algorithm} genannten Beispielwerte von höchstens um $15\degree$ abweichender Ausrichtung und höchstens $\unit[40]{m}$ Abstand zweier \textproc{Parallel}er Segmente empirisch als grundsätzlich tauglich bestätigt.
@@ -117,7 +114,7 @@ Dies wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
 
 Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attributierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
 % roads-motorway.shp
-Die entwickelte Software erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
+Der \term{Combiner} erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
 Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wäre bei naiver Betrachtung eine Erkennungsrate von $\unit[100]{\%}$ zu erwarten gewesen.
 Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im Wesentlichen in den folgenden Fällen als \emph{nicht} parallel erkannt werden:
 
@@ -139,7 +136,7 @@ Die ersten beiden Fälle werden in den folgenden Abschnitten~\ref{ch:result-tags
 
 Die in Abschnitt~\ref{ch:analyse-algorithm} beschriebenen Algorithmen berücksichtigen neben der Klassifizierung der Straße als einziges Attribut die Straßennummer.
 % in der Annahme, dass diese normalerweise stimmt
-Im NRW-Testdatensatz erkennt die Software $\unit[54]{km}$ Fahrbahn nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
+Im NRW-Testdatensatz erkennt der \term{Combiner} $\unit[54]{km}$ Fahrbahn nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
 
 An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahn die Straßennummer als Attribut.
 In Abschnitt~\ref{ch:case-selection} wurde dargelegt, dass im Straßennetz grundsätzlich eine vergleichsweise hohe Datenqualität zu erwarten wäre, weil Fehler darin in der Standard-Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} störend sichtbar sind und deswegen zügig von \osm-Beitragenden behoben werden.
@@ -155,24 +152,24 @@ Da in diesen Fällen die Geometrie der Fahrbahnen offensichtlich parallel ist, m
 %Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
 %Diese Idee wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
 %
-Die entwickelte Software berücksichtigt derzeit entgegen der ursprünglichen Definition standardmäßig nicht mehr die Straßennummer.
+Der \term{Combiner} berücksichtigt derzeit entgegen der ursprünglichen Definition standardmäßig nicht mehr die Straßennummer.
 %Auch dies könnte jedoch zu Problemen führen, weil damit zwei Fahrbahnen gleicher Klassifizierung, die nur zufällig parallel sind, jedoch zu unterschiedlichen Straßen gehören, fälschlich als Richtungsfahrbahnen derselben Straße erkannt werden könnten.
 Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
 
 
 
-\section{Verhalten an Straßenkreuzungen \emph{[Entwurf]}}
+\section{Verhalten an Straßenkreuzungen}
 \label{ch:result-junctions}
 
 \subsection{Beseitigung von Topologielücken}
 \label{ch:relocateGeneralisedNodes}
 
-Beim Zusammenfassen von Linienzügen erzeugt die Software neue Stützpunkte entlang einer Mittellinie.
+Beim Zusammenfassen von Linienzügen erzeugt der \term{Combiner} neue Stützpunkte entlang einer Mittellinie.
 Werden die Stützpunkte der ursprünglichen Linienzüge noch für weitere Zwecke verwendet, dürfen diese nicht entfallen, sondern müssen erhalten bleiben.
 
 An \term{nodes}, die sowohl beim Zusammenfassen entfallene Linien als auch andere Linien benutzen, wird dies zum Problem:
 Sie werden von nicht generalisierten Linien weiterbenutzt, die generalisierten Linien hingegen verwenden die neu erzeugten Punkte, so dass an den Übergängen topologische Lücken im Straßennetz entstehen.
-Die entwickelte Software versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch geeignete Punkte auf der generalisierten Mittellinie ersetzt werden.
+Der \term{Combiner} versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch geeignete Punkte auf der generalisierten Mittellinie ersetzt werden.
 
 \onefigure{h}{
 	\twofigures{H}{
@@ -223,7 +220,7 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 
 \subsection{Fehlende Kreuzungserkennung}
 
-\twofigures{b}{
+\onefigure{b}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/kanal-gen-cleanup}
 		\put(0,67.5){\includegraphics{../chapter6/legend-nodematch-gen}}
 		\put(168,35){\figuremark{1}}
@@ -231,18 +228,11 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 		\put(107,33){\figuremark{3}}
 	\end{overpic}
 	% 1:3500 Google Mercator rotated 10°, bbox 771595 6612098 771840 6612238
-	\caption{Verbleibende Topologielücken (Subbelrather Straße~/ Innere Kanalstraße, Köln)}
+	\caption{Verbleibende Topologielücken (Innere Kanalstraße, Köln)}
 	\label{fig:kanal-gen-cleanup}
-}{
-	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/roundabout-gen-cleanup}
-		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
-	\end{overpic}
-	% 1:2000 Google Mercator, bbox 785968 6600972 786108 6601052
-	\caption{Verhalten am Kreisverkehr (Friedrichstraße, Köln-Porz)}
-	\label{fig:roundabout-gen-cleanup}
 }
 
-Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren funktioniert nicht in jeder Situation, wie Abbildung~\ref{fig:kanal-gen-cleanup} zeigt.
+Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren funktioniert auch innerstädtisch nicht in jeder Situation, wie Abbildung~\ref{fig:kanal-gen-cleanup} zeigt.
 Zwar führt es zu einem gelungenen Ergebnis bei \textfiguremark{1}.
 Bei \textfiguremark{2} wird hingegen aufgrund der spezifischen Kreuzungsgeometrie kein „geeigneter“ Punkt auf einer der generalisierten Linien gefunden.
 Die dortige Lücke in der Topologie bleibt somit bestehen.
@@ -252,7 +242,7 @@ Schließlich kommt bei \textfiguremark{3} das Verfahren zur Lückenbeseitigung g
 Zwar ließe sich argumentieren, dass in vielen dieser Fälle die Attribute der \osm-Daten fehlerhaft sind.
 Beispielsweise sollte in Abbildung~\ref{fig:kanal-gen-cleanup} die \textfiguremark{1} und \textfiguremark{3} verbindende Abbiegefahrbahn eigentlich als solche klassifiziert werden (\osmtag{highway}[primary\_link] statt \term{primary}), wodurch vermieden würde, dass sie bei \textfiguremark{3} als parallel zur Hauptfahrbahn erkannt wird. \cf{osm:HighwayLink}
 
-Allerdings ist gerade dieser Fehler im NRW-Testdatensatz sehr stark verbreitet.
+Allerdings ist gerade dieser Fehler im NRW-Testdatensatz stark verbreitet.
 So sind in der Kölner Innenstadt (bis einschließlich der Ringe) von insgesamt 79
 % Ringe(außen) + Ringe(mittig) + Ringe(innen) + West + Nord-Süd-Fahrt + Ost:
 % 6+13+15+11+26+8
@@ -268,28 +258,36 @@ Abbildung~\ref{fig:roundabout-gen-cleanup} zeigt, wie alle im Kreis einander geg
 Mit dieser Masse widersprüchlicher Punktezuordnungen kann der Algorithmus zur Zusammenfassung keine brauchbaren Ergebnisse mehr liefern.
 Auch der in Abschnitt~\ref{ch:relocateGeneralisedNodes} besprochene Ansatz zur Beseitigung von Lücken in der Topologie läuft ins Leere.
 
-Zwar ließen sich die meisten Kreisverkehre über \osm-\term{tags} erkennen und von der Generalisierung ausschließen (aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt).
+\onefigure{h}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/roundabout-gen-cleanup}
+		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+	\end{overpic}
+	% 1:2000 Google Mercator, bbox 785968 6600972 786108 6601052
+	\caption{Verhalten am Kreisverkehr (Friedrichstraße, Köln-Porz)}
+	\label{fig:roundabout-gen-cleanup}
+}
+
+Zwar wäre es möglich, die meisten Kreisverkehre über \osm-\term{tags} zu erkennen und von der Generalisierung ausschließen (was aber aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt wurde).
+% prinzipiell trivial in shouldEvaluate möglich, jedoch erfordert dies, dass die Kreisverkehr-tags vorliegen
 Eine Generalisierung der Kreisverkehre -- zum~Beispiel durch Qualitätsumschlag der linearen Kreisfahrbahn in einen einzelnen Kreuzungspunkt -- könnte jedoch überaus nützlich sein, etwa bei der Herstellung einer Straßenkarte im mittleren Maßstabsbereich.
 
+\newpage
 Auffallend ist, dass alle diskutierten Probleme an Kreuzungen auftreten.
-Auf freier Strecke funktioniert die entwickelte Software weitgehend problemlos.
+Auf freier Strecke funktioniert der \term{Combiner} weitgehend problemlos.
 Gäbe es eine zuverlässige Methode, automatisiert Kreuzungen zu erkennen, ließe sich möglicherweise leicht Praxistauglichkeit erzielen.
 
-%Abbildung XY zeigt weitere Beispiele des Scheiterns an unterschiedlichen Kreuzungen.
-
-\begin{itemize}
-\item umfangreiche Problemdarstellung verschiedener Typen von Kreuzungen
-\item zeigen, wie Einbeziehung von Links zur Schließung von Topologielücken das Problem vergrößert
-\end{itemize}
+Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituationen, mit denen der \term{Combiner} nicht gut zurechtkommt.
 
 
 
 \section{Effizienz \emph{[ausstehend]}}
+% weniger wichtig, kann sehr kurz gehalten werden
 
 \begin{itemize}
 \item Zeit- und Speicherverbrauch z. B. für NRW nach unterschiedlich dichten Eingangsdaten quantifizieren
 % durch Spectre/Meltdown keine großen Einbußen zu erwarten, weil die Berechnung hauptsächlich im RAM stattfindet und somit der Kernel keine große Rolle spielt
 \item Optimierungspotenzial bzgl. Garbage Collector und überflüssiger Objekterzeugung erwähnen
+% ^-> erst in 7?
 \item \emph{keine} Landau-Symbole (die gehören ans Ende von Kap. 4!)
 \end{itemize}
 
