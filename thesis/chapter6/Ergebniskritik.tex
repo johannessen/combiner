@@ -308,7 +308,39 @@ Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituati
 
 \subsection{Eisenbahnstrecken}
 
-...
+Wie sich zeigt, ist die entwickelte Software grundsätzlich auch auf Eisenbahnstrecken anwendbar.
+Beschränkt man sich auf Haupt- und Streckengleise (\osmtag{railway}[rail], \osmtag{usage}[main]) und berücksichtigt die Streckennummer als Attribut (\osmtag{ref}[*]), so werden viele doppelgleisige Streckenabschnitte erkannt und zusammengefasst.
+
+Abbildung~\ref{fig:rail-kalk-out} zeigt das Ergebnis der Anwendung auf die südliche Einfahrt zum Güterbahnhof Köln-Kalk (\textfiguremark{1}).
+Während die Reisezug-Gleise \textfiguremark{2}--\textfiguremark{3} und auch die drei Zulaufstrecken \textfiguremark{4}, \textfiguremark{5} und \textfiguremark{6} korrekt generalisiert wurden, funktioniert die Zuordnung im Weichenbereich bei \textfiguremark{7} nicht richtig, weil sich hier Gleise mit unterschiedlichen Streckennummern kreuzen.
+Das für ein Straßennetz entwickelte Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} wird durch die spitzen Winkel der Gleiswechsel verwirrt und führt hier nicht zu einem gelungenen Ergebnis (Abbildung~\ref{fig:rail-kalk-detail}).
+% evtl. Ausschnittsvergrößerung
+
+\twofigures{h}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-out}
+%		\put(0,0){\includegraphics{../chapter6/legend-rail-out}}
+	\end{overpic}
+	% TODO: QGIS-export, ~10° rotiert
+	\caption{Generalisierungsergebnis bei Anwendung des \term{Combiners} auf Bahnstrecken}
+	\label{fig:rail-kalk-out}
+}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-detail}
+%		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+	\end{overpic}
+	% TODO: QGIS-export, ~60° rotiert
+	\caption{Detaildarstellung Generalisierung im Weichenbereich (\textfiguremark{7}~in Abbildung~\ref{fig:rail-kalk-out})}
+	\label{fig:rail-kalk-detail}
+}
+
+Anders als im Straßennetz existieren derartige Probleme im Eisenbahnnetz nicht nur an Kreuzungen, sondern auch über längere Streckenabschnitte hinweg.
+Betroffen sind insbesondere langgestreckte Überwerfungsbauwerke sowie Strecken mit Richtungsbetrieb.
+Bei letzteren liegt zwischen den beiden zusammenzufassenden Gleisen mit derselben Streckennummer jeweils ein Gleis einer Strecke mit einer \emph{anderen} Nummer. \cf{wp:Richtungsbetrieb}
+
+Auffallend ist ferner, dass für Bahnstrecken in Köln mehr als 20~Segmente als „nah“ beurteilt werden.
+Dies liegt offenbar daran, dass aufgrund der großen Kurvenradien Eisenbahngleise gerne gebündelt verlegt werden, um den Platzbedarf zu minimieren.
+Durch die größere Anzahl naher Segmente arbeitet der \term{Combiner} deutlich langsamer.
+Im Vergleich zum Hauptstraßennetz ist der Zeitbedarf für Haupt- und Streckengleise mehr als verdoppelt.
+Durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz (z.~B. $\unit[15]{m}$ \textproc{Distanz} und $8\degree$ Ausrichtungsunterschied) lässt sich dies geringfügig verbessern.
 
 
 

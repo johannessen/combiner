@@ -17,6 +17,8 @@
 /data/testbed-out/*.shx
 /data/testbed-out/*.fix
 /data/testbed-out/*.prj
+/data/koeln-regbez-180101.osm.pbf
+/data/chapter6-rail
 
 /project/build
 /project/lib/args4j-*

@@ -79,6 +79,7 @@ cd data
 echo "$TESTDATA_URI"
 curl -OL "$TESTDATA_URI"
 ./testbed-nrw-prepare.sh
+#./chapter6-prepare.sh  # optional
 rm -f nrw-roads.zip
 cd ..
 
