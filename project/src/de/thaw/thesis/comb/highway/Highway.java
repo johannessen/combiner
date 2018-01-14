@@ -101,6 +101,9 @@ public final class Highway extends AbstractLine {
 		SourceNode prevNode = iterator.next();  // m
 		while (iterator.hasNext()) {
 			final SourceNode node = iterator.next();  // n
+			if (prevNode.equals(node)) {
+				continue;
+			}
 			add(new SourceSegment( prevNode, node, this ));
 			prevNode = node;
 		}

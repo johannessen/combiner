@@ -108,8 +108,13 @@ public class GeneralisedLines {
 	
 	
 	void cleanup () {
-		for (final ResultLine line : lines) {
+		for (final Iterator<ResultLine> i = lines.iterator(); i.hasNext(); ) {
+			final ResultLine line = i.next();
+			
 			line.relocateGeneralisedNodes();
+			if (! line.valid()) {
+				i.remove();
+			}
 		}
 	}
 	
@@ -124,10 +129,10 @@ public class GeneralisedLines {
 			
 /*
 			section.filterShortSection();
+*/
 			if (! section.valid()) {
 				continue;
 			}
-*/
 			
 			lines.add(section);
 		}

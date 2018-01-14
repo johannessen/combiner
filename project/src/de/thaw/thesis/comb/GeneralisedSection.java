@@ -76,7 +76,7 @@ public class GeneralisedSection extends ResultLine {
 			forward = false;
 		}
 		
-		valid = size() >= 1;
+		valid = length() > 0.0;  // TODO: there are more efficient ways than this
 		
 		if (valid) {
 			highwayType = osmHighway;

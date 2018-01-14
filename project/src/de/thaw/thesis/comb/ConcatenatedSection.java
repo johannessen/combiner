@@ -84,7 +84,7 @@ public class ConcatenatedSection extends ResultLine {
 			}
 		}
 		
-		valid = size() > 0;
+		valid = length() > 0.0;  // TODO: there are more efficient ways than this
 		
 		if (valid) {
 			highwayType = way.type();
@@ -168,7 +168,10 @@ public class ConcatenatedSection extends ResultLine {
 			}
 		}
 		
-		// :BUG: zero-length lines exist (e. g. north end of B256n)
+		// avoid zero-length lines (e. g. north end of B256n)
+		valid = length() > 0.0;  // TODO: there are more efficient ways than this
+		
+		// BUG: in certain conditions the midPoint is apparently not visible in the debug output; it is well possible that this is in fact always the case, but it's simply sometimes masked because *other* nodes are visible at the same location.
 		
 /*
 		// remove short sections

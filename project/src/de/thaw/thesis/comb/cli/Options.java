@@ -31,7 +31,7 @@ public class Options {
 	@Option(name="--out-debug",usage="debug")
 	public String outDebug = "";
 	
-	@Option(name="--iterations",usage="iterations")
+	@Option(name="--iterations",usage="iterations count")
 	public int iterations = 1;
 	
 	@Option(name="--verbose",usage="verbose")

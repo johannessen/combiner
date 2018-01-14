@@ -70,7 +70,7 @@ public final class CombinerMain {
 		combiner = new Combiner(dataset, new HighwayAnalyser(evaluateTags));
 //		combiner.printMemoryStatistics();
 		combiner.verbose = verbose;
-		combiner.cleanup(cleanup && Math.abs(iterations) <= 1);
+		combiner.cleanup(cleanup);
 		combiner.run();
 //		combiner.printMemoryStatistics();
 		
@@ -113,6 +113,7 @@ public final class CombinerMain {
 		
 		combiner = new Combiner(dataset, new HighwayAnalyser(0));
 		combiner.verbose = verbose;
+		combiner.cleanup(cleanup);
 		combiner.run();
 		
 		if (count > 1) {
