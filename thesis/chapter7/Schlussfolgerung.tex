@@ -47,9 +47,14 @@
 
 
 \subsection{Kreuzungserkennung}
-% vgl. 6.3.2
+% vgl. 6.3
 \begin{itemize}
 \item ...
+\item Verbesserte Suche nach einem „geeigneten“ Punkt für die Schließung von Topologielücken
+% ^ vmtl. *relativ* einfach möglich. Die Strategie, einfach die nahesten Punkte (= kürzesten Matches) als geeignet zu betrachten, ist sowieso Banane; das sind höchstens zufällig die richtigen!
+% => Untersuchung der _vorher_ existierenden Verknüpfungen im Netzgraphen wäre _eigentlich_ nötig, um hinterher die Lücken wirklich _gut_ schließen zu können
+% evtl. möglicher schneller Fix für _manche_ Situationen: gdw. beide nodes eines Segments auf denselben node verschoben werden, einen von beiden weiterschieben auf den _zweit_nahesten Match
+% (löst nicht die schrecklichen "Haken", die sich manchmal bilden)
 \item evtl. Kreuzungen erkennen durch Graphenanalyse (s.~u.) und Höchstgröße der Ringe: falls unterschritten, auf einen einzigen node zusammenfassen
 \end{itemize}
 

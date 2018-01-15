@@ -194,11 +194,15 @@ Abbildung~\ref{fig:koelnarena-gen-cleanup} zeigt, dass diese Lösung grundsätzl
 Die Straßenkreuzung bei \textfiguremark{1} wird auf einen einzelnen Punkt zusammengefasst, so dass beide Straßen korrekt miteinander verknüpft sind.
 Auch der bereits in Abschnitt~\ref{ch:generalisation-algorithm} angesprochene und zunächst offen gelassene Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge bei \textfiguremark{2} wird so gelöst.
 
-Dieses zusätzliche Verfahren ist standardmäßig aktiv, kann aber mit dem Schalter \texttt{--no-cleanup} kontrolliert werden.
+Dieses zusätzliche, in Abschnitt~\ref{ch:algorithm-parts} nicht beschriebene Verfahren ist standardmäßig aktiv, kann aber mit dem Schalter \texttt{--no-cleanup} kontrolliert werden.
 Auch in Abbildung~\ref{fig:result-trivial-detail-rolshover} kam es zum Einsatz.
 Darin ist bei \textfiguremark{3} gut zu sehen, wie am Beginn des generalisierten Abschnitts die Geometrie geringfügig geändert wird, um die Topologie zu erhalten.
 
-Mit diesem Verfahren können jedoch in der gegenwärtigen Implementierung nur solche Topologielücken beseitigt werden, die erst beim Zusammenfassen von Parallelen entstanden sind.
+Topologielücken können jedoch nur dann mit diesem Verfahren geschlossen werden, wenn tatsächlich ein \emph{geeigneter} Punkt auf der generalisierten Mittellinie gefunden wird.
+Wie die folgenden Abschnitte zeigen werden, ist dies oft nicht der Fall.
+%Wird ein \emph{un}geeigneter Punkt gefunden, entstehen spitzwinklige Haken (siehe Anhang~\ref{appx:junction-examples}, Abbildung XYZ), Segmente mit Nulllänge usw. usf.
+
+Mit diesem Verfahren können überdies in der gegenwärtigen Implementierung nur solche Topologielücken beseitigt werden, die erst beim Zusammenfassen von Parallelen entstanden sind.
 Besonders auffallend ist diese Einschränkung bei Verbindungsrampen an planfreien Kreuzungen.
 Sie sind keine Richtungsfahrbahnen und werden deshalb wie in Abschnitt~\ref{ch:case-selection} festgelegt in dieser Arbeit nicht betrachtet.
 Sie sind deshalb bereits in den Eingangsdaten für die Zusammenfassung durch Objektauswahl entfallen und damit auch nicht im Generalisierungsergebnis enthalten (Abbildung~\ref{fig:breitscheid-gen-styled}).
@@ -213,8 +217,6 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 	\caption{Fehlende Verbindungsrampen im Generalisierungsergebnis ~~~~~~~~~~~~~~~~~~~~~~~~~\cf[entsättigt][Hintergrund ]{map:osm-carto}}
 	\label{fig:breitscheid-gen-styled}
 }
-
-% offen: relocateGeneralisedNodes löst Problem nicht vollständig: funktioniert nicht (?), wenn Querstraße generalisiert ist? -> eher für 6.3.2
 
 
 
@@ -234,10 +236,10 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 
 Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren funktioniert auch innerstädtisch nicht in jeder Situation, wie Abbildung~\ref{fig:kanal-gen-cleanup} zeigt.
 Zwar führt es zu einem gelungenen Ergebnis bei \textfiguremark{1}.
-Bei \textfiguremark{2} wird hingegen aufgrund der spezifischen Kreuzungsgeometrie kein „geeigneter“ Punkt auf einer der generalisierten Linien gefunden.
-Die dortige Lücke in der Topologie bleibt somit bestehen.
-Schließlich kommt bei \textfiguremark{3} das Verfahren zur Lückenbeseitigung gar nicht erst zur Anwendung, weil hier durch den sehr spitzen Winkel der Abbiegefahrbahn mehr als zwei parallele Linienzüge erkannt und generalisiert werden und infolgedessen kein Endpunkt eines \emph{nicht} generalisierten Linienzugs existiert, der zur Lückenbeseitigung verschoben werden könnte (zur Generalisierung mehrerer Parallelen siehe Abschnitt~\ref{ch:iterated-execution} unten).
-Ähnliche Probleme existieren an vielen innerstädtischen Kreuzungen mit ungewöhnlicher Geometrie.
+Bei \textfiguremark{2} und \textfiguremark{3} wird hingegen aufgrund der spezifischen Kreuzungsgeometrie kein „geeigneter“ Punkt auf einer der generalisierten Linien gefunden.
+% genauer gesagt: es werden die falschen Punkte gefunden
+Die dortigen Lücken in der Topologie bleibt somit bestehen.
+Ähnliche Probleme existieren an vielen weiteren innerstädtischen Kreuzungen.
 
 Zwar ließe sich argumentieren, dass in vielen dieser Fälle die Attribute der \osm-Daten fehlerhaft sind.
 Beispielsweise sollte in Abbildung~\ref{fig:kanal-gen-cleanup} die \textfiguremark{1} und \textfiguremark{3} verbindende Abbiegefahrbahn eigentlich als solche klassifiziert werden (\osmtag{highway}[primary\_link] statt \term{primary}), wodurch vermieden würde, dass sie bei \textfiguremark{3} als parallel zur Hauptfahrbahn erkannt wird. \cf{osm:HighwayLink}
@@ -352,8 +354,8 @@ Beschränkt man sich auf Haupt- und Streckengleise (\osmtag{railway}[rail], \osm
 
 Abbildung~\ref{fig:rail-kalk-out} zeigt das Ergebnis der Anwendung auf die südliche Einfahrt zum Güterbahnhof Köln-Kalk (\textfiguremark{1}).
 Während die Reisezug-Gleise \textfiguremark{2}--\textfiguremark{3} und auch die drei Zulaufstrecken \textfiguremark{4}, \textfiguremark{5} und \textfiguremark{6} korrekt generalisiert wurden, funktioniert die Zuordnung im Weichenbereich bei \textfiguremark{7} nicht richtig, weil sich hier Gleise mit unterschiedlichen Streckennummern kreuzen.
-Das für ein Straßennetz entwickelte Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} wird durch die spitzen Winkel der Gleiswechsel verwirrt und führt hier nicht zu einem gelungenen Ergebnis (Abbildung~\ref{fig:rail-kalk-detail}).
-% evtl. Ausschnittsvergrößerung
+
+Dem für ein Straßennetz entwickelten Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} gelingt es aufgrund der spitzen Winkel nicht, „geeignete“ Punkte zur Beseitigung der Lücken zu finden, wodurch ein gelungenes Ergebnis verhindert wird (Abbildung~\ref{fig:rail-kalk-detail}).
 
 \twofigures{h}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-out}
