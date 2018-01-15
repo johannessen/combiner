@@ -21,6 +21,17 @@ then
 	ln "../$PBFFILE" "$PBFFILE"
 else
 	curl -L -O "http://download.geofabrik.de/europe/germany/nordrhein-westfalen/$PBFFILE"
+	cat <<END
+
+Contains information from OpenStreetMap, which is made available here
+under the Open Database License (ODbL).
+https://opendatacommons.org/licenses/odbl/1.0/
+
+(C) OpenStreetMap contributors and Geofabrik GmbH
+https://www.openstreetmap.org/copyright
+https://download.geofabrik.de/
+
+END
 fi
 
 # see <https://wiki.openstreetmap.org/wiki/User:Bgirardot/How_To_Convert_osm_.pbf_files_to_Esri_Shapefiles>
