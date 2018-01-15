@@ -15,8 +15,9 @@ Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständ
 Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mit Geodaten vom selben Stand gearbeitet wird.
 
 In diesem Kapitel wird nach und nach anhand von Einzelbeispielen die Funktion der mit dieser Arbeit entwickelten Software (dem \term{Combiner}) besprochen.
-Die genutzten Geodaten beschränken sich auf einen Testdatensatz mit dem Straßennetz im Land Nordrhein-Westfalen vom November~2012.
+Die genutzten Geodaten für das Straßennetz beschränken sich auf einen Testdatensatz aus \osm\ für das Land Nordrhein-Westfalen vom November~2012.
 % http://dev.thaw.de/temp/highways/nrw-roads.zip (testbed-nrw-prepare.sh)
+
 Anhänge~\ref{appx:fullpage-examples-1} und~\ref{appx:fullpage-examples-2} zeigen weitere Beispiele der Anwendung des \term{Combiners} auf aktuelle Geodaten größerer zusammenhängender Areale auch in anderen Regionen.
 
 
@@ -89,17 +90,17 @@ Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignat
 }
 
 Bei näherer Betrachtung ist die korrekte Arbeitsweise der implementierten Algorithmen in diesem einfachen Fall gut zu erkennen (Abbildung~\ref{fig:result-trivial-detail-rolshover}):
-Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei Markierung~\textfiguremark{1}).
+Linienzüge werden durch \textproc{Splitten} derart unterteilt, dass möglichst jeweils zwei Punkte auf Parallelen einander gegenüber liegen (gut zu sehen bei~\textfiguremark{1}).
 Die dabei entstehenden einander gegenüberliegenden Fragmente sind durch ihre Ähnlichkeit offensichtlich einfach auf Parallelität zu prüfen.
 Selbst dann, wenn beim \textproc{Splitten} keine optimalen Paare entstehen, gelingt dies, solange wenigstens jeweils ein \emph{Teil} der miteinander verglichenen Segmente zueinander parallel ist (\textfiguremark{2}).
-Von diesen Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie im Verlauf der Straßenachse als Ergebnis ableiten.
+Von den so entstehenden Zuordnungen der einander gegenüberliegenden \osm-\term{nodes} lässt sich durch Verbindung ihrer Mittelpunkte leicht eine Mittellinie im Verlauf der Straßenachse als Ergebnis ableiten.
 
 Der Übergang zwischen generalisierten und nicht generalisierten Linienzügen (\textfiguremark{3}) wird unten im Abschnitt~\ref{ch:relocateGeneralisedNodes} diskutiert.
 
 Für den NRW-Testdatensatz wurden die in Abschnitt~\ref{ch:analyse-algorithm} genannten Beispielwerte von höchstens um $15\degree$ abweichender Ausrichtung und höchstens $\unit[40]{m}$ Abstand zweier \textproc{Parallel}er Segmente empirisch als grundsätzlich tauglich bestätigt.
 % evtl. näher ausführen, Tabelle mit Zahlen machen, ...
 Für Autobahnen genügt überwiegend bereits ein Limit von nur $10\degree$ Abweichung.
-Sonstige Straßen besitzen wesentlich engere Kurvenradien und haben vereinzelt Segmente, welche als parallel gelten könnten, deren Ausrichtung jedoch um $30\degree$ oder mehr voneinander abweicht.
+Sonstige Straßen besitzen wesentlich engere Kurvenradien und haben dabei vereinzelt Segmente, welche als parallel gelten könnten, deren Ausrichtung jedoch um $30\degree$ oder mehr voneinander abweicht.
 
 % Ausrichtungsgrenze 15°:
 % - empirisch ermittelter vernünftiger Bereich für autobahnähnlich etwa 8..16°
@@ -119,9 +120,9 @@ Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wär
 Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im Wesentlichen in den folgenden Fällen als \emph{nicht} parallel erkannt werden:
 
 \begin{itemize}[nosep]
-\item fehlerhafte Klassifizierung (\osmtag{highway}) von Auf- und Abfahrten
+\item fehlerhafte Klassifizierung von Auf- und Abfahrten (\osmtag{highway}[*])
 % (insb. \osmtag{highway}[motorway] statt \term{motorway\_link})
-\item fehlerhaftes Attribut für die Straßennummer (\osmtag{ref})
+\item fehlerhaftes Attribut für die Straßennummer (\osmtag{ref}[*])
 % \osmtag{ref} einseitig fehlend oder voneinander abweichend
 \item definierte geometrische Kriterien für Parallelität sind nicht erfüllt \\(z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
 \end{itemize}
@@ -139,19 +140,13 @@ Die in Abschnitt~\ref{ch:analyse-algorithm} beschriebenen Algorithmen berücksic
 Im NRW-Testdatensatz erkennt der \term{Combiner} $\unit[54]{km}$ Fahrbahn nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
 
 An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahn die Straßennummer als Attribut.
-In Abschnitt~\ref{ch:case-selection} wurde dargelegt, dass im Straßennetz grundsätzlich eine vergleichsweise hohe Datenqualität zu erwarten wäre, weil Fehler darin in der Standard-Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} störend sichtbar sind und deswegen zügig von \osm-Beitragenden behoben werden.
+In Abschnitt~\ref{ch:case-selection} wurde dargelegt, dass im Straßennetz grundsätzlich eine vergleichsweise hohe Datenqualität zu erwarten gewesen wäre, weil Fehler darin in der Standard-Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} störend sichtbar sind und deswegen zügig von \osm-Beitragenden behoben werden.
 Die nur für \emph{eine} Richtungsfahrbahn fehlende Straßennummer fällt jedoch dem Beitragenden nicht unbedingt auf, solange die Straßennummer der \emph{anderen} Richtungsfahrbahn korrekt angezeigt wird.
 
 Vereinzelt existieren allerdings sogar widersprüchliche Straßennummern der beiden Richtungsfahrbahnen.
 So ist auf mehreren Abschnitten bei Dülmen die eine Fahrbahn \osmtag{ref}[A\,43] gekennzeichnet, die andere jedoch \osmtag{ref}[A\,43;B\,474]; bei Bliesheim trägt eine der Richtungsfahrbahnen der A\,553 das Attribut \osmtag{ref}[A\,1].
 
 Da in diesen Fällen die Geometrie der Fahrbahnen offensichtlich parallel ist, muss hinterfragt werden, welche Bedeutung den Attributen beigemessen werden sollte.
-%
-% für Kap. 7:
-%Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
-%Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
-%Diese Idee wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
-%
 Der \term{Combiner} berücksichtigt derzeit entgegen der ursprünglichen Definition standardmäßig nicht mehr die Straßennummer.
 %Auch dies könnte jedoch zu Problemen führen, weil damit zwei Fahrbahnen gleicher Klassifizierung, die nur zufällig parallel sind, jedoch zu unterschiedlichen Straßen gehören, fälschlich als Richtungsfahrbahnen derselben Straße erkannt werden könnten.
 Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
@@ -209,9 +204,9 @@ Sie sind deshalb bereits in den Eingangsdaten für die Zusammenfassung durch Obj
 
 Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebenserfahrung; aus der Topologie der generalisierten Geodaten geht es indes nicht hervor.
 
-\onefigure{t}{
+\onefigure{h}{
 	\begin{overpic}[width=7cm]{../chapter6/breitscheid-bg}
-		\put(0,0){\includegraphics[width=7cm]{../chapter6/breitscheid-gen-styled}}
+		\put(0,0){\scalebox{1}[1.0008]{\includegraphics[width=7cm]{../chapter6/breitscheid-gen-styled}}}
 	\end{overpic}
 	% 1:50000 Google Mercator, bbox 761000 6682100 764500 6684100
 	\caption{Fehlende Verbindungsrampen im Generalisierungsergebnis ~~~~~~~~~~~~~~~~~~~~~~~~~\cf[entsättigt][Hintergrund ]{map:osm-carto}}
@@ -222,7 +217,7 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 
 \subsection{Fehlende Kreuzungserkennung}
 
-\onefigure{b}{
+\onefigure{t}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/kanal-gen-cleanup}
 		\put(0,67.5){\includegraphics{../chapter6/legend-nodematch-gen}}
 		\put(168,35){\figuremark{1}}
@@ -285,13 +280,12 @@ Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituati
 \section{Effizienz \emph{[ausstehend]}}
 % weniger wichtig, kann sehr kurz gehalten werden
 
+\bigskip\bigskip
 \begin{itemize}
 \item Zeit- und Speicherverbrauch z. B. für NRW nach unterschiedlich dichten Eingangsdaten quantifizieren
 % durch Spectre/Meltdown keine großen Einbußen zu erwarten, weil die Berechnung hauptsächlich im RAM stattfindet und somit der Kernel keine große Rolle spielt
-\item Optimierungspotenzial bzgl. Garbage Collector und überflüssiger Objekterzeugung erwähnen
-% ^-> erst in 7?
-\item \emph{keine} Landau-Symbole (die gehören ans Ende von Kap. 4!)
 \end{itemize}
+\biggap\biggap
 
 
 
@@ -377,11 +371,11 @@ Anders als im Straßennetz existieren derartige Probleme im Eisenbahnnetz nicht 
 Betroffen sind insbesondere langgestreckte Überwerfungsbauwerke sowie Strecken mit Richtungsbetrieb.
 Bei letzteren liegt zwischen den beiden zusammenzufassenden Gleisen mit derselben Streckennummer jeweils ein Gleis einer Strecke mit einer \emph{anderen} Nummer. \cf{wp:Richtungsbetrieb}
 
-Auffallend ist ferner, dass für Bahnstrecken in Köln mehr als 20~Segmente als „nah“ beurteilt werden.
+Auffallend ist ferner, dass für Bahnstrecken in Köln mehr als 20~Segmente als „nah“ (im Sinne von \textproc{NaheSegmente} in Abschnitt~\ref{ch:split-algorithm}) beurteilt werden.
 Dies liegt offenbar daran, dass aufgrund der großen Kurvenradien Eisenbahngleise gerne gebündelt verlegt werden, um den Platzbedarf zu minimieren.
 Durch die größere Anzahl naher Segmente arbeitet der \term{Combiner} deutlich langsamer.
 Im Vergleich zum Hauptstraßennetz ist der Zeitbedarf für Haupt- und Streckengleise mehr als verdoppelt.
-Durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz (z.~B. $\unit[15]{m}$ \textproc{Distanz} und $8\degree$ Ausrichtungsunterschied) lässt sich dies geringfügig verbessern.
+Durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz (z.~B. $\unit[15]{m}$ \textproc{Distanz} und $8\degree$ Ausrichtungsunterschied) lässt sich dies zumindest geringfügig verbessern.
 
 
 
@@ -393,3 +387,17 @@ Durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\re
 %\onlyinsubfile{\listoffigures}
 %\onlyinsubfile{\input{../bibliography/Literaturverzeichnis}}
 \end{document}
+
+
+% TODO:
+% fig:breitscheid-gen-styled - wie zentrieren und vernünftig umbrechen?
+% fig:iteration-good - fehlende Punkte darstellen (als nodes, indem das Ergebnis der ersten Gen. als SHP importiert wird) und splitPts wegnehmen (bringen hier nicht mehr viel; evtl. auch Matches wegnehmen? eher ja.)
+% fig:rail-kalk-out: neu
+% fig:rail-kalk-detail: neu
+% Legenden:
+% - fig:result-trivial-detail-rolshover (rechts +splitPts, -nodes)
+% - fig:koelnarena-gen-cleanup (+splitPts)
+% - fig:kanal-gen-cleanup (+splitPts - oder splitPts hier schon wegnehmen? eher nicht.)
+% - fig:iteration-good (unklar - erst Grafik neu)
+% - fig:rail-kalk-out (fehlt)
+% - fig:rail-kalk-detail (fehlt)

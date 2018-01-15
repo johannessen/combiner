@@ -42,6 +42,10 @@
 % vgl. 6.2
 ...
 
+%Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
+%Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
+%Diese Idee wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
+
 % idee für zukunft: zusätzliches PARALLEL-kriterium "entgegengerichtet", bedarf aber evtl. eines tag-parsens und ggf. umdrehen bei oneway=-1
 
 
@@ -49,7 +53,6 @@
 \subsection{Kreuzungserkennung}
 % vgl. 6.3
 \begin{itemize}
-\item ...
 \item Verbesserte Suche nach einem „geeigneten“ Punkt für die Schließung von Topologielücken
 % ^ vmtl. *relativ* einfach möglich. Die Strategie, einfach die nahesten Punkte (= kürzesten Matches) als geeignet zu betrachten, ist sowieso Banane; das sind höchstens zufällig die richtigen!
 % => Untersuchung der _vorher_ existierenden Verknüpfungen im Netzgraphen wäre _eigentlich_ nötig, um hinterher die Lücken wirklich _gut_ schließen zu können
@@ -73,6 +76,7 @@
 
 \begin{itemize}
 \item I/O-Schnittstellen für OSM, andere Geodaten-Formate, kein hart gecodetes CRS mehr, ...
+% "Osmpbf is a Java/C library to read and write OpenStreetMap PBF files."
 \item Effizienz / Parallelisierbarkeit
 % https://de.wikipedia.org/wiki/Nebenl%C3%A4ufigkeit
 % vgl. 6.4
@@ -81,6 +85,20 @@
 \item API-Schnittstellen für JTS/GeoTools
 \item API-Dokumentation
 \end{itemize}
+
+% TODO: Big Renaming #4 (optional)
+%1: de.thaw.thesis.comb -> de.thaw.comb
+% - ShapeTagsAdapter -> ShapeGeofabrikAdapter
+%2: Dataset
+% special uses (to be reconsidered):
+% - Output for debugging
+% - Corr.Graph to get all segments
+% - Gen.Lines to get all segments and to get midPoints
+% - AbstractSegment for debugging (parallelFragment sink etc.)
+%3: code currently contains a lot of special-cases for debugging as well as testing:
+% - CombinerMain: iterations / combineLines2
+% - MyAnalyser: evaluateTags
+% - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
 
 
 
