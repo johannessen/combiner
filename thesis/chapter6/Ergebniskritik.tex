@@ -295,14 +295,53 @@ Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituati
 
 \section{Anwendung auf andere Spezialfälle}
 
+Der nach Abschnitt~\ref{ch:case-selection} zu untersuchende Spezialfall von \emph{Richtungs}fahrbahnen impliziert, dass die entwickelten Algorithmen genau zwei entgegengerichtete Fahrbahnen derselben Straße zusammenzufassen sollen.
+Ebenda wurde jedoch bereits angedeutet, dass sie möglicherweise auch auf andere Spezialfälle anwendbar sein könnten.
+Abschließend soll deshalb an zwei Beispielen betrachtet werden, wie sich die im \term{Combiner} implementierten Algorithmen verhalten, wenn die Eingangsdaten nicht entsprechend dem Spezialfall aufgebaut sind, für den die Algorithmen entwickelt wurde.
+
+
+
 \subsection{Fahrbahnen für unterschiedliche Arten von Verkehr}
 \label{ch:iterated-execution}
 
-\begin{itemize}
-\item Wiederholtes Ausführen für mehr als zwei Parallele
-\item Verteilerfahrbahnen an Autobahnen zeigen
-\item evtl. beidseitig straßenbegleitende Fahrradwege zeigen (nur Erkennung)
-\end{itemize}
+Verteilerfahrbahnen und langgezogene Rampen für abbiegenden Verkehr sind verbreitete, schon in Abschnitt~\ref{ch:different-traffic-types-case-desc} genannte Beispiele für parallele Fahrbahnen für unterschiedliche Verkehrsarten.
+
+Nachdem der \term{Combiner} dazu vorgesehen ist, $n$~parallele Linienzüge zu $n-1$~Linienzügen zu generalisieren (mit $n=2$ im Normalfall), liegt es nahe, die Algorithmen zur Generalisierung einfach $n-1$~Mal nacheinander anzuwenden, so dass im besten Fall auch bei beliebig vielen Parallelen am Ende nur noch ein einziger Linienzug übrig bleibt.
+Abbildung~\ref{fig:iteration-good} demonstriert, dass diese Strategie gelingen könnte.
+
+\onefigure{h}{
+	\twofigures{H}{
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/opladen-gen-1}
+			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+		\end{overpic}
+	}{
+		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/opladen-gen-2}
+			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+		\end{overpic}
+	}
+	% 1:6500 Google Mercator rotated -24°, bbox 778845 6630050 779300 6630310
+	\caption{Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallele (links erste, rechts zweite Generalisierung; A\,3 bei Leverkusen)}
+	\label{fig:iteration-good}
+}
+
+Wie zu sehen ist, wird in diesem Beispiel die zwischen $2$ und $3$ variierende Zahl von Parallelen in zwei Schritten korrekt auf einen einzelnen Linienzug zusammengefasst.
+Dieser liegt allerdings nicht mehr mittig im Verlauf der Straßenachse, sondern ist jeweils seitlich in Richtung der dritten Parallele verschoben.
+Eine praxistaugliche Lösung müsste wie in Abschnitt~\ref{ch:generalisation-algorithm} schon angedeutet den Graphen aus Punktzuordnungen und Segmenten in seiner gesamten Breite in nur \emph{einem} Schritt beurteilen, um anhand von Attributen die tatsächliche Straßenachse ermitteln zu können.
+Attribute können vom \term{Combiner} bei wiederholter Ausführung gegenwärtig nicht sinnvoll berücksichtigt werden.
+
+Nicht unerwähnt bleiben darf, dass sich das Unvermögen des in Abschnitt~\ref{ch:relocateGeneralisedNodes} vorgestellten Ansatzes zur Beseitigung von Topologielücken, in allen Situationen einen „geeigneten“ Punkt für den Lückenschluss zu finden, bei wiederholter Ausführung besonders stark negativ auf das Ergebnis auswirkt.
+Wie Abbildung~\ref{fig:iteration-gaps} zeigt, kommt es vor, dass das Generalisierungsergebnis nach mehreren Wiederholungen mit zahllosen Lücken durchsetzt ist.
+Dieses Bild zeigt sich sehr verbreitet, womit das Ergebnis ungeeignet zur Weiterverarbeitung ist.
+
+\onefigure{h}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter6/leverkusen-out}
+	\caption{Überreste eines Kleeblatts nach zwei Generalisierungen (Autobahnkreuz Leverkusen)}
+	\label{fig:iteration-gaps}
+}
+
+Die Anzahl der wiederholt durchzuführenden Generalisierungen kann im \term{Combiner} mit dem Schalter \texttt{--iterations} kontrolliert werden.
+
+% evtl. beidseitig straßenbegleitende Fahrradwege zeigen (nur Erkennung)
 
 
 
