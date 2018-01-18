@@ -16,6 +16,13 @@ import org.kohsuke.args4j.Argument;
 
 public class Options {
 	
+	/**
+	 * Signals clients that they should determine a sensible default for this
+	 * value based on other options given.
+	 */
+	final static int SENSIBLE_DEFAULT_INT = -1;
+	
+	
 	@Option(name="--input",usage="input",required=true)
 	public String input = null;
 	
@@ -41,7 +48,7 @@ public class Options {
 	public boolean noCleanup = false;
 	
 	@Option(name="--tags",usage="evaluateTags (bitmask: 0x1=highway, 0x2=ref)")
-	public int tags = 0x1;
+	public int tags = SENSIBLE_DEFAULT_INT;
 	
 	@Option(name="--start-id")
 	public long startId = 0;

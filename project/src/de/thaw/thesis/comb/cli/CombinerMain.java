@@ -143,6 +143,8 @@ public final class CombinerMain {
 			System.exit(2);
 		}
 		
+		final int evaluateTagsDefault = 0x1;  // only used with no multiple iterations
+		
 		CombinerMain combiner = new CombinerMain();
 		combiner.inPath = options.input;
 		combiner.outPath = options.output;
@@ -152,7 +154,7 @@ public final class CombinerMain {
 		combiner.iterations = options.iterations;
 		combiner.verbose = options.verbose ? 2 : 1;
 		combiner.cleanup = ! options.noCleanup;
-		combiner.evaluateTags = options.tags;
+		combiner.evaluateTags = options.tags != Options.SENSIBLE_DEFAULT_INT ? options.tags : options.iterations > 1 ? 0 : evaluateTagsDefault;
 		combiner.startId = options.startId;
 		
 		combiner.combineLines();
