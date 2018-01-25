@@ -23,6 +23,7 @@ Anhänge~\ref{appx:fullpage-examples-1} und~\ref{appx:fullpage-examples-2} zeige
 
 
 \section{Anwendung in einfachen Situationen}
+\label{ch:result-trivial}
 
 Bei Anwendung des \term{Combiners} auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
 
@@ -115,7 +116,7 @@ Dies wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
 
 Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attributierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
 % roads-motorway.shp
-Der \term{Combiner} erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht zu $\unit[97,6]{\%}$ aus zusammengefassten Linienzügen.
+Der \term{Combiner} erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht auf $\unit[97,6]{\%}$ Länge aus zusammengefassten Linienzügen.
 Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wäre bei naiver Betrachtung eine Erkennungsrate von $\unit[100]{\%}$ zu erwarten gewesen.
 Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im Wesentlichen in den folgenden Fällen als \emph{nicht} parallel erkannt werden:
 
@@ -124,7 +125,7 @@ Die Untersuchung der ausgegebenen Ergebnisdaten hat gezeigt, dass Linienzüge im
 % (insb. \osmtag{highway}[motorway] statt \term{motorway\_link})
 \item fehlerhaftes Attribut für die Straßennummer (\osmtag{ref}[*])
 % \osmtag{ref} einseitig fehlend oder voneinander abweichend
-\item definierte geometrische Kriterien für Parallelität sind nicht erfüllt \\(z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
+\item definierte geometrische Kriterien für Parallelität nicht erfüllt \\(z.~B. ungewöhnlich großer Abstand der Richtungsfahrbahnen)
 \end{itemize}
 %
 Letzteres ist zu erwarten und offensichtlich korrekt.
@@ -137,7 +138,7 @@ Die ersten beiden Fälle werden in den folgenden Abschnitten~\ref{ch:result-tags
 
 Die in Abschnitt~\ref{ch:analyse-algorithm} beschriebenen Algorithmen berücksichtigen neben der Klassifizierung der Straße als einziges Attribut die Straßennummer.
 % in der Annahme, dass diese normalerweise stimmt
-Im NRW-Testdatensatz erkennt der \term{Combiner} $\unit[54]{km}$ Fahrbahn nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
+Im NRW-Testdatensatz erkennt der \term{Combiner} $\unit[54]{km}$ der Autobahn-Fahrbahnen nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
 
 An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahn die Straßennummer als Attribut.
 In Abschnitt~\ref{ch:case-selection} wurde dargelegt, dass im Straßennetz grundsätzlich eine vergleichsweise hohe Datenqualität zu erwarten gewesen wäre, weil Fehler darin in der Standard-Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} störend sichtbar sind und deswegen zügig von \osm-Beitragenden behoben werden.
@@ -216,6 +217,7 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 
 
 \subsection{Fehlende Kreuzungserkennung}
+\label{ch:missing-junction-detection}
 
 \onefigure{t}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/kanal-gen-cleanup}
@@ -290,6 +292,7 @@ Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituati
 
 
 \section{Anwendung auf andere Spezialfälle}
+\label{ch:result-other-cases}
 
 Der nach Abschnitt~\ref{ch:case-selection} zu untersuchende Spezialfall von \emph{Richtungs}fahrbahnen impliziert, dass die entwickelten Algorithmen genau zwei entgegengerichtete Fahrbahnen derselben Straße zusammenzufassen sollen.
 Ebenda wurde jedoch bereits angedeutet, dass sie möglicherweise auch auf andere Spezialfälle anwendbar sein könnten.

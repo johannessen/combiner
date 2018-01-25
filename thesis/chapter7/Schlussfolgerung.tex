@@ -10,6 +10,22 @@
 
 \section{Praktische Anwendbarkeit}
 
+Es konnte durch die Implementierung in Software gezeigt werden, dass die Erkennung paralleler Linienzüge auf der Basis eines geometrischen Vergleichs möglichst kurzer Fragmente prinzipiell funktioniert.
+Mit den im Rahmen hierfür entwickelten Algorithmen können auch viele schwierige Situationen des in Abschnitt~\ref{3.1} ausgewählten Spezialfalls der „Richtungsfahrbahnen ...“ zufriedenstellend gelöst werden.
+
+Bei der Anwendung auf komplexe Straßennetze zeigt sich jedoch, dass erhebliche Probleme im Kreuzungsbereich, wie sie bereits in Abschnitt~\ref{2.5} von anderen Ansätzen ähnlich berichtet wurden, auch bei den in dieser Arbeit vorgestellten Algorithmen auftreten (siehe Abschnitt~\ref{6.3}).
+Aus Zeitgründen konnten praxistaugliche Lösungen hierfür nicht mehr als Teil dieser Arbeit entwickelt werden.
+
+Die praktische Anwendbarkeit der entwickelten Algorithmen ist deshalb eingeschränkt auf Situationen mit nur wenigen oder einfachen Kreuzungen.
+
+Im Vergleich zu den in Abschnitt~\ref{2.5} diskutierten existierenden Ansätzen zeigt sich ...
+% - vgl. Schluss von 4.1: Idee der möglichst kurzen Linienstücke funktioniert grundsätzlich (jedoch: Effizienz fraglich)
+% - ansatz geometrie funktioniert wohl im prinzip mehr oder weniger und ist neben den existierenden ansätzen nicht von der hand zu weisen, obwohl er aus zeitgründen noch nicht praxistauglich ist
+
+...
+
+
+
 \begin{itemize}
 	\item abschließende qualitative Gesamtbeurteilung der Arbeit auf Basis der Ergebnisuntersuchung in Bezug auf:
 	\begin{itemize}
@@ -34,17 +50,38 @@
 
 \subsection{Berücksichtigung unterschiedlicher Straßentypen}
 % vgl. 6.1
-...
+
+\begin{itemize}
+
+\item
+Wie schon in Abschnitt~\ref{ch:result-trivial} erläutert, unterscheiden sich die in in Abschnitt~\ref{ch:analyse-algorithm} für die Definition von \textproc{Parallel} benutzten baulichen Kriterien für Abstand und Winkel der Richtungsfahrbahnen je nach Straßentyp.
+Es wäre deshalb sinnvoll, diese Kriterien je nach Klassifikation der Straßen in der \osm-Datenbank entsprechend zu variieren. Die Fehlerrate in der Erkennung würde so geringfügig sinken.
+
+\item
+Diese kleine Verbesserung konnte lediglich aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
+
+\end{itemize}
 
 
 
 \subsection{Statistische Auswertung}
 % vgl. 6.2
-...
 
-%Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
-%Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
-%Diese Idee wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
+\begin{itemize}
+
+\item
+Abschnitt~\ref{ch:result-tags} erläutert, dass die gewählte Art und Weise der „absoluten“ Berücksichtigung von Attributen nicht zufriedenstellend funktioniert.
+
+\item
+Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
+
+\item
+Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attributiert sind, ein korrektes Ergebnis verhindern.
+
+\item
+Diese Idee erscheint vielversprechend, konnte jedoch aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
+
+\end{itemize}
 
 % idee für zukunft: zusätzliches PARALLEL-kriterium "entgegengerichtet", bedarf aber evtl. eines tag-parsens und ggf. umdrehen bei oneway=-1
 
@@ -52,13 +89,46 @@
 
 \subsection{Kreuzungserkennung}
 % vgl. 6.3
+
 \begin{itemize}
-\item Verbesserte Suche nach einem „geeigneten“ Punkt für die Schließung von Topologielücken
-% ^ vmtl. *relativ* einfach möglich. Die Strategie, einfach die nahesten Punkte (= kürzesten Matches) als geeignet zu betrachten, ist sowieso Banane; das sind höchstens zufällig die richtigen!
-% => Untersuchung der _vorher_ existierenden Verknüpfungen im Netzgraphen wäre _eigentlich_ nötig, um hinterher die Lücken wirklich _gut_ schließen zu können
-% evtl. möglicher schneller Fix für _manche_ Situationen: gdw. beide nodes eines Segments auf denselben node verschoben werden, einen von beiden weiterschieben auf den _zweit_nahesten Match
+
+\item
+Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren zur Schließung von Topologielücken arbeitet in vielen Fällen nicht zufriedenstellend. Eine verbesserte Suche nach einem „geeigneten“ Punkt wäre vermutlich \emph{relativ} einfach möglich.
+
+\item
+Die derzeitige Strategie ist es, immer die nahesten Stützpunkte des generalisierten Linienzugs (also die kürzesten verknüpften Punktezuordnungen) als „geeignet“ zu betrachten.
+Dies sind jedoch in vielen Fällen eben gerade nicht die „geeigneten“ Punkte.
+
+\item
+Nötig wäre eigentlich eine Analyse des Graphen des Straßennetzes, um anhand der \emph{vorher} existierenden Verknüpfungen im Netz \emph{hinterher} die bei der Generalisierung entstandenen Lücken wirklich sinnvoll schließen zu können.
+%Die bereits in Abschnitt~\ref{ch:graph-based} diskutierten auf Graphenanalysen basierenden Ansätze
+
+\item
+Bereits eine deutliche Verbesserung für manche Situationen wäre zu erwarten, wenn verhindert würde, dass bei der Schließung von Topologielücken mehrere Punkte auf dieselbe Position verschoben werden.
+Wird dieser Fall erkannt, so könnte der zweite Punkt beispielsweise auf die zweitkürzeste verknüpfte Punktezuordnung verschoben werden.
+Dies löst jedoch nicht alle denkbaren Probleme.
 % (löst nicht die schrecklichen "Haken", die sich manchmal bilden)
-\item evtl. Kreuzungen erkennen durch Graphenanalyse (s.~u.) und Höchstgröße der Ringe: falls unterschritten, auf einen einzigen node zusammenfassen
+
+\item
+Dass Kreuzungen nicht automatisiert als solche erkannt werden, hat sich als das größte Problem der entwickelten Algorithmen herausgestellt (Abschnitt~\ref{ch:missing-junction-detection}).
+Diesen Mangel teilt der vom Verfasser gewählte Ansatz mit vielen der in Abschnitt~\ref{ch:existing-approaches} besprochenen älteren Ansätze.
+
+\item
+Die Implementierung einer praxistauglichen Kreuzungserkennung wäre demnach die Voraussetzung für eine gelungene automatisierte Zusammenfassung paralleler Linienzüge.
+Sie scheint die vielversprechendste Möglichkeit zur Weiterentwicklung zu sein.
+
+\item
+Um Kreuzungen zu erkennen, sind unterschiedliche Ansätze denkbar.
+Beispielsweise lassen sich wahrscheinlich Kreuzungen erkennen durch eine graphentheoretische Analyse des Straßennetzes auf kürzestmögliche Zyklen mit anschließender geometrischer Auswertung:
+Unterschreitet die Fläche des Zyklus eine bestimmte Mindestgröße, so handelt es sich bei dessen Knoten möglicherweise um Bestandteile einer einzigen Straßenkreuzung, die auf einen einzelnen Punkt zusammengefasst werden können.
+% https://de.wikipedia.org/wiki/Zyklus_(Graphentheorie)
+% "Masche"?
+% Graphenanalyse (s.~u.)
+
+\item Länge (Screenshot mit roten Puffern)
+
+\item {[MM99]} (2.5.5)
+
 \end{itemize}
 
 
@@ -66,7 +136,28 @@
 \subsection{Allgemeine Anwendbarkeit}
 % statt nur der gewählte Spezialfall
 % vgl. 6.5
-...
+
+\begin{itemize}
+
+\item
+Um die Anwendung auf andere Spezialfälle als die in Abschnitt~\ref{ch:case-selection} ausgewählten Richtungsfahrbahnen zu ermöglichen, wäre eine Verallgemeinerung der entwickelten Algorithmen und ihrer Implementierung im \term{Combiner} nötig.
+
+\item
+Abschnitt~\ref{ch:result-other-cases} beschreibt zwei konkrete Beispiele für Spezialfälle, auf welche die Ergebnisse dieser Arbeit wahrscheinlich übertragbar sind.
+Um Praxistauglichkeit für diese Fälle zu erzielen, müsste der \term{Combiner} es erlauben, die auf den Spezialfall der Richtungsfahrbahnen zugeschnittenen Module zur Laufzeit durch entsprechende andere Module zu ersetzen.
+Diese Möglichkeit wurde bei der Implementierung ausdrücklich vorgesehen (Abschnitt~\ref{ch:impl-analyser}), ist jedoch noch nicht voll nutzbar, da dies im Rahmen dieser Arbeit nicht erforderlich war (Abschnitt~\ref{ch:impl-special-case}).
+Außerdem wäre eine Lösung zur Kreuzungserkennung erforderlich, möglicherweise wiederum auf den jeweiligen Spezialfall zugeschnitten.
+
+\item
+Es ist jedoch nicht anzunehmen, dass die Anwendung der entwickelten Algorithmen in allen in Abschnitt~\ref{ch:case-comparison} aufgeführten Spezialfällen erfolgreich wäre.
+Die Definition des \textproc{Fußpunkt}s in Abschnitt~\ref{ch:split-algorithm} bringt mit sich, dass gegenüberliegende Segmente nur genau dann überhaupt auf Parallelität analysiert werden, wenn sie sich wenigstens teilweise überlappen.
+% TODO: stimmt dies überhaupt?
+Bei anthropogenen Parallelen wie gerade den für diese Arbeit zu betrachtenden Richtungsfahrbahnen ist dies normalerweise der Fall.
+Segmente von Linienzügen, die natürlich Gewachsenes darstellen, können hingegen -- bei präziser Erfassung, wie sie von \osm\ im Grundsatz angestrebt wird -- derart windschief zueinander liegen, dass eine Überlappung gegenüberliegender Segmente nicht mehr durchgehend gegeben ist.
+Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialfälle wie die in Abschnitt~\ref{vegetation-case-desc} besprochenen Vegetationsgrenzen ist deshalb wahrscheinlich unmöglich.
+
+\end{itemize}
+
 % die ANALYSE-Kriterien müssten auch jeweils optimiert werden; für Richtungsfahrbahnen scheinen sie zu funktionieren, könnten aber evtl. noch optimiert werden
 % Zick-Zack-Problem?
 
@@ -103,6 +194,7 @@
 
 
 \subsection{OSM Inspector}
+% vgl. insb. 6.2
 
 ...
 

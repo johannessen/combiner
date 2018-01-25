@@ -261,6 +261,7 @@ Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in d
 
 
 \subsection{Analyse und Anwendbarkeit auf andere Spezialfälle}
+\label{ch:impl-analyser}
 
 Die Algorithmen zur \textproc{Analyse} erfordern die Ergänzung des Datenmodells aus Abbildung~\ref{fig:impl-geometry-model} mit den zusätzlichen Attributen $parallelLinks$ und $parallelRechts$, in denen das Ergebnis der \textproc{Analyse} abgelegt wird.
 Wie in Abschnitt~\ref{ch:algorithm-parts} definiert sind dies Attribute des Wurzel-Segments, also der Klasse \code{SourceSegment}.
@@ -442,6 +443,7 @@ Diese Ausgaben sind in keiner Weise optimiert.
 
 \begin{itemize}
 
+\label{ch:impl-special-case}
 \item
 Die Definition des Spezialfalls, auf den die Arbeit beschränkt werden soll, in einem eigenen Paket \code{highway} vom Rest des Combiners zu trennen und sie damit leicht austauschbar zu machen, war grundsätzlich eine gute Idee.
 Diese Trennung ist allerdings bisher nur begonnen worden und konnte aus Zeitgründen nicht bis zum Abschluss der Arbeit beendet werden; angesichts der ausdrücklichen Beschränkung in der Aufgabenstellung auf nur den ausgewählten Spezialfall war das aber auch streng genommen gar nicht notwendig.
