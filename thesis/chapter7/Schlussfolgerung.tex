@@ -196,7 +196,33 @@ Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialf
 \subsection{OSM Inspector}
 % vgl. insb. 6.2
 
-...
+\begin{itemize}
+
+\item
+Der \term{OSM~Inspector} ist ein von der Geofabrik entwickeltes Web-Werkzeug, das Beitragenden helfen kann, bestimmte Fehler in der \osm-Datenbank zu entdecken.
+Auch einige Attribute von Linienzügen im \osm-Straßennetz können damit überprüft werden:
+„Highways [...] are one of the most important features in OSM.
+This view helps finding problems on highways such as missing names, unusal highway types or wrong oneway tags.“
+\citex{osm:InspectorHighways}
+
+\item
+Bisher kann der \term{OSM~Inspector} für Straßen immer nur einen einzelnen \term{way} prüfen.
+Zusammenhänge zwischen mehreren \term{ways}, die Teil derselben Straße sind, können nicht erkannt werden.
+Der in Abschnitt~\ref{ch:result-tags} beschriebene Fehler widersprüchlicher Attribute zweier Richtungsfahrbahnen bleibt deshalb im \term{OSM~Inspector} unentdeckt.
+
+\item
+Es ist denkbar, dass die Integration einer geometrischen Prüfung auf Parallelität -- wie sie die in dieser Arbeit entwickelten Algorithmen bieten -- in den \term{OSM~Inspector} sinnvoll sein könnte.
+Es besteht die Chance, dass viele der angesprochenen Fälle fehlerhafter \term{tags} so durch die \osm-Community beseitigt werden können.
+Dies würde die Datenqualität in \osm\ insgesamt erhöhen und damit die automatisierte Weiterverarbeitung nicht nur mit dem \term{Combiner} vereinfachen.
+
+\item
+Allerdings ist der \term{Combiner} zur Integration in den \term{OSM~Inspector} gegenwärtig nicht gut geeignet.
+% obige Korrektheit-Probleme, Performance (weltweit?), Java cs. C++ etc.
+Es ist auch fraglich, ob die mit einer Integration verbundenen Kosten den potenziellen Nutzen rechtfertigen.
+% weitere Tools erwähnen?
+% https://wiki.openstreetmap.org/wiki/Quality_assurance#Error_detection_tools
+
+\end{itemize}
 
 
 
