@@ -255,12 +255,12 @@ Aus Gründen der Effizienz bietet es sich jedoch an, die \textproc{Hülle} recht
 Für diesen Fall hängt die Größe der Hülle auch von der Orientierung des Segments ab.
 Im Ergebnis wird dann später zu sehen sein, dass diagonal zum Koordinatennetz ausgerichtete Segmente bei größeren Abständen zueinander als parallel erkannt werden als solche Segmente, die orthogonal zum Koordinatennetz ausgerichtet sind.
 
-Weiterhin hängen diese Erkennungsabstände vom gewählten Koordinatennetz ab.
-Wird beispielsweise mit geographischen Koordinaten gearbeitet, variiert das Verhältnis der Erkennungsabstände in Ost/West- und in Nord/Süd-Richtung mit der geographischen Breite.
-Insbesondere auf höheren Breiten bietet sich daher der Einsatz einer winkeltreuen Abbildung wie etwa Gauß-Krüger an, um diese Einflüsse zu minimieren.
-
 Um die Korrektheit der Algorithmen sicherzustellen, ist aus diesen Gründen in der späteren \textproc{Analyse} auf Parallelität eine erneute Prüfung des tatsächlichen Abstands zweier zu vergleichender Segmente notwendig.
 Diese kann dann jedoch auf \textproc{NaheSegmente} beschränkt werden und ist dementsprechend billig (vergleiche Abschnitt~\ref{ch:analyse-algorithm}).
+
+Weiterhin hängen diese Erkennungsabstände vom gewählten Koordinatennetz ab.
+Würde beispielsweise mit geographischen Koordinaten gearbeitet, so variiert das Verhältnis der Erkennungsabstände in Ost/West- und in Nord/Süd-Richtung mit der geographischen Breite.
+Für geometrische Operationen in der euklidischen Ebene bieten sich jedoch nur winkeltreue Abbildungen mit geringen Maßstabsfehlern im Anwendungsgebiet an. \cf[20]{Sny87}
 
 % TODO: Grafik?
 

@@ -166,8 +166,14 @@ Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialf
 \subsection{Softwarequalität}
 
 \begin{itemize}
-\item I/O-Schnittstellen für OSM, andere Geodaten-Formate, kein hart gecodetes CRS mehr, ...
+\item I/O-Schnittstellen für OSM, andere Geodaten-Formate
 % "Osmpbf is a Java/C library to read and write OpenStreetMap PBF files."
+\item
+Entsprechend Abschnitt~\ref{ch:impl-architecture} wird derzeit als internes Koordinatensystem nur die UTM-Zone~32 verwendet, welche gut zu dem in Kapitel~\ref{ch:result} verwendeten Testdatensatz passt.
+% in io.Projection
+Um Geodaten aus anderen Regionen der Welt verarbeiten zu können, muss der \term{Combiner} für eine andere UTM-Zone neu kompiliert werden.
+Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anhand der Eingangsdaten ermitteln.
+% in io.ShapeReader
 \item Effizienz / Parallelisierbarkeit
 % https://de.wikipedia.org/wiki/Nebenl%C3%A4ufigkeit
 % vgl. 6.4

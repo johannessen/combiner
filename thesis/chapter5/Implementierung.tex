@@ -45,6 +45,7 @@ Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der 
 
 
 \section{Systemarchitektur}
+\label{ch:impl-architecture}
 
 Für ein gut funktionierendes Gesamtpaket sind vor der Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
 
@@ -64,19 +65,16 @@ Zur Vermeidung einer zu engen Kopplung der Generalisierung an das gewählte \ter
 Stattdessen sollten eigene Datenstrukturen genutzt werden, um Modularität zu fördern.
 Die dabei entstehenden Kosten in Form von Rechenzeit und Speicherverbrauch sind zu berücksichtigen.
 
-Da die Algorithmen auf der euklidischen Ebene definiert sind (vgl. Abschnitt~\ref{ch:split-algorithm}), bietet es sich an, die Implementierung zunächst auf kartesische Koordinaten zu beschränken und zu verlangen, dass aus der \osm-Datenbank stammende Eingangsdaten nach Länge und Breite vor der Verarbeitung vom Benutzer in einem geeigneten Kartennetzentwurf abgebildet werden.
-% Achtung: das passiert im ShapeReader automatisch, wenn die Eingangsdaten eine Abbildung vorgeben! -> Text hier anpassen!
-Grundsätzlich wären angesichts der hier durchzuführenden geometrischen Operationen winkeltreue Abbildungen wie etwa ein Mercator-Netz zu bevorzugen.
-\cf[20]{Sny87}
-Aufgrund der üblicherweise geringen Abstände der Parallelen ist Winkeltreue jedoch kein strenges Kriterium.
-% Wiederholung eines ähnlichen Gedanken in 4.3.1
+Da die entwickelten Algorithmen ein für das jeweilige Anwendungsgebiet optimiertes kartesisches Koordinatennetz verlangen (vgl. Abschnitt~\ref{ch:split-algorithm}), sind die aus der \osm-Datenbank stammenden Eingangsdaten nach Länge und Breite vor der Verarbeitung in einem geeigneten Kartennetzentwurf abzubilden.
+Hierzu bietet sich unter anderem die UTM-Abbildung an \term{(Universal Transverse Mercator)}, welche einen querachsigen Schnittzylinder winkeltreu abbildet und zur Minimierung des Maßstabsfehlers in jeweils 6° breite Zonen unterteilt. \cf[57--58]{Sny87}
+Zur Vereinfachung wird die Implementierung zunächst auf eine einzelne UTM-Zone beschränkt.
 
 Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition für \textproc{NaheSegmente} kann leicht mit Hilfe eines R-Baums als räumlicher Index umgesetzt werden.
 Die \textproc{Hülle} ist dabei das minimal umgebende Rechteck eines Blatts im R-Baum.
 Nachdem die \osm-Eingangsdaten vor der Generalisierung vollständig bekannt und somit statisch sind, bietet sich der Einsatz eines gepackten R-Baums an \cf[255-256]{RSV02}.
 Ein solcher Baum wird von der JTS Topology Suite (JTS) angeboten, welche vom \term{framework} GeoTools als Implementierung des Geometriemodells verwendet wird.
 
-GeoTools bietet außerdem Möglichkeiten zur Ein- und Ausgabe (\term{input/output,} I/O) von Geodaten in zahlreichen Formaten.
+GeoTools bietet außerdem Möglichkeiten zur Ein- und Ausgabe (\term{input/output,} I/O) von Geodaten in zahlreichen Formaten einschließlich der Transformation von Koordinatensystemen.
 Zwar wird das native \osm-XML-Format ebensowenig unterstützt wie das neuere Protocol Buffer Binary Format (PBF).
 Das verbreitete Format ESRI~Shapefile wird jedoch unterstützt.
 Die Geofabrik stellt aktuelle OSM-Auszüge öffentlich als Shapefile bereit.
