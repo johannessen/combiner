@@ -6,9 +6,9 @@
 \begin{document}
 
 
-\chapter{Schlussfolgerung und Ausblick \emph{[ausstehend]}}
+\chapter{Schlussfolgerung und Ausblick}
 
-\section{Praktische Anwendbarkeit}
+\section{Praktische Anwendbarkeit \emph{[ausstehend]}}
 
 Es konnte durch die Implementierung in Software gezeigt werden, dass die Erkennung paralleler Linienzüge auf der Basis eines geometrischen Vergleichs möglichst kurzer Fragmente prinzipiell funktioniert.
 Mit den im Rahmen hierfür entwickelten Algorithmen können auch viele schwierige Situationen des in Abschnitt~\ref{3.1} ausgewählten Spezialfalls der „Richtungsfahrbahnen ...“ zufriedenstellend gelöst werden.
@@ -44,7 +44,7 @@ Im Vergleich zu den in Abschnitt~\ref{2.5} diskutierten existierenden Ansätzen 
 
 
 
-\section{Möglichkeiten zur Weiterentwicklung}
+\section{Möglichkeiten zur Weiterentwicklung \emph{[Entwurf]}}
 
 
 
@@ -165,22 +165,87 @@ Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialf
 
 \subsection{Softwarequalität}
 
+In der Aufgabenstellung war nicht die Entwicklung einer \emph{Softwarelösung,} sondern die Entwicklung von \emph{Algorithmen} gefordert.
+Die Implementierung in Software musste erfolgen, um die Praxistauglichkeit der Algorithmen beurteilen zu können, jedoch stand dabei die Qualität der Software selbst nicht im Vordergrund.
+% vgl. 4.4
+
+In den Abschnitten~\ref{ch:impl-architecture} und~\ref{ch:impl-difficulties} waren bereits Entscheidungen diskutiert worden, die zugunsten einer schnelleren Implementierung qualitative Nachteile mit sich brachten.
+Eine Weiterentwicklung der folgenden Aspekte kann die Verwendbarkeit des \term{Combiners} durch den Endnutzer verbessern und wäre deshalb wünschenswert:
+%
 \begin{itemize}
-\item I/O-Schnittstellen für OSM, andere Geodaten-Formate
+
+\item
+Die Umwandlung von \osm-Daten in Shapefiles (vgl. Abschnitt~\ref{ch:impl-architecture}) ist zum Teil umständlich.
+Es wäre wünschenswert, dass der \term{Combiner} die für \osm\ üblichen Formate XML oder PBF direkt verwenden kann.
 % "Osmpbf is a Java/C library to read and write OpenStreetMap PBF files."
+Für kleinere Bereiche wäre auch die Möglichkeit einer direkten Abfrage der \osm-Datenbank denkbar.
+\cf[233]{RT09}
+
+\item
+Die Datenausgabe ist ebenfalls verbesserungsfähig.
+Das Verketten aller Segmente (vgl. Abschnitt~\ref{ch:impl-generalisation}) sollte besser eine optionale Operation sein, da sie je nach der vorgesehenen Weiterverarbeitung womöglich nicht benötigt wird.
+Durch das Verketten ist es zudem schwierig, \term{tags} aus den Eingangsdaten beizubehalten, da sich \term{tags} im Verlauf einer Straße oft ändern.
+Deshalb sind bisher nur wenige Attribute überhaupt im Ergebnis enthalten.
+
 \item
 Entsprechend Abschnitt~\ref{ch:impl-architecture} wird derzeit als internes Koordinatensystem nur die UTM-Zone~32 verwendet, welche gut zu dem in Kapitel~\ref{ch:result} verwendeten Testdatensatz passt.
 % in io.Projection
 Um Geodaten aus anderen Regionen der Welt verarbeiten zu können, muss der \term{Combiner} für eine andere UTM-Zone neu kompiliert werden.
 Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anhand der Eingangsdaten ermitteln.
 % in io.ShapeReader
+
 \item Effizienz / Parallelisierbarkeit
+% vgl. 6.4 + 5.4.3
+
+\begin{itemize}[nosep]
+\item
+...
+\item
+Teile der Algorithmen eignen sich für nebenläufige Ausführung.
+Mit entsprechenden Anpassungen könnte die Leistungsfähigkeit moderner Hardware besser ausgenutzt werden.
 % https://de.wikipedia.org/wiki/Nebenl%C3%A4ufigkeit
-% vgl. 6.4
-\item GUI
+\end{itemize}
+
+\item
+Die Bedienung über die Kommandozeile (CLI) ist zwar ausreichend für das Testen der Algorithmen durch den Entwickler, ist jedoch für den Endnutzer unnötig anspruchsvoll.
+\cf[363]{CR03}
+Eine graphische Benutzeroberfläche (GUI) würde die Einstiegshürde erheblich senken.
+Mit einer Integration in JOSM als \term{plug-in} (vgl. Abschnitt~\ref{ch:impl-architecture}) würden sich gleichzeitig die zuvor beschriebenen Probleme beim Einlesen der Ausgangsdaten lösen lassen, da JOSM alle angesprochenen Formate bereits unterstützt.
+
+\end{itemize}
+
+Des Weiteren ist gegenwärtig die Wiederverwendbarkeit des \term{Combiners} und seiner Bestandteile für Entwickler nicht optimal.
+Verbesserungen hieran können sich indirekt auch auf den Endnutzer auswirken, indem sie die Entwicklung von Software mit weniger Fehlern fördern:
+%
+\begin{itemize}
+
 \item Test Coverage
+\begin{itemize}[nosep]
+\item
+praktisch null
+\end{itemize}
+
+\item Debugging Output
+\begin{itemize}[nosep]
+\item
+vielerorts im Quellcode für Debugging-Output Kapselung verletzt etc.
+\item
+insb. \texttt{Dataset}  (s. „Big Renaming \#4“)
+\item
+evtl. common sink/listener
+\end{itemize}
+
 \item API-Schnittstellen für JTS/GeoTools
+\begin{itemize}[nosep]
+\item würde die Verwendung in anderen Projekten erleichtern
+\item Abschnitt~\ref{ch:data-structures-geotools}
+\end{itemize}
+
 \item API-Dokumentation
+\begin{itemize}[nosep]
+\item noch Lückenhaft
+\end{itemize}
+
 \end{itemize}
 
 % TODO: Big Renaming #4 (optional)
@@ -193,8 +258,6 @@ Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anha
 % - Gen.Lines to get all segments and to get midPoints
 % - AbstractSegment for debugging (parallelFragment sink etc.)
 %3: code currently contains a lot of special-cases for debugging as well as testing:
-% - CombinerMain: iterations / combineLines2
-% - MyAnalyser: evaluateTags
 % - pervasive debug output needs to be overhauled; perhaps as a common sink/listener
 
 
@@ -206,6 +269,7 @@ Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anha
 
 \item
 Der \term{OSM~Inspector} ist ein von der Geofabrik entwickeltes Web-Werkzeug, das Beitragenden helfen kann, bestimmte Fehler in der \osm-Datenbank zu entdecken.
+\cf[142]{RT09}
 Auch einige Attribute von Linienzügen im \osm-Straßennetz können damit überprüft werden:
 „Highways [...] are one of the most important features in OSM.
 This view helps finding problems on highways such as missing names, unusal highway types or wrong oneway tags.“
@@ -232,7 +296,7 @@ Es ist auch fraglich, ob die mit einer Integration verbundenen Kosten den potenz
 
 
 
-\section{Andere Ansätze und neuere Forschung}
+\section{Andere Ansätze und neuere Forschung \emph{[ausstehend]}}
 
 \begin{itemize}
 \item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]

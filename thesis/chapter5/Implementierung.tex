@@ -50,7 +50,7 @@ Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der 
 Für ein gut funktionierendes Gesamtpaket sind vor der Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
 
 Zunächst stellt sich die Frage nach der Benutzerschnittstelle der Software.
-Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (GUI) zu gestalten.
+Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (\term{graphical user interface,} GUI) zu gestalten.
 Denkbar wäre beispielsweise eine Integration in den weit verbreiteten \osm-Editor JOSM als \term{plug-in.}
 Das Entwickeln und Debuggen einer GUI-Anwendung neigt jedoch dazu, zeitaufwändig zu sein.
 Ohnehin würde es ein modularer Aufbau der Anwendung erlauben, zu einem späteren Zeitpunkt eine optionale GUI zu ergänzen.
@@ -111,6 +111,7 @@ Anhang~\ref{appx:identifiers} löst Bezeichner aus Abschnitt~\ref{ch:algorithm-p
 
 
 \subsection{Grundlegendes Geometrie-Modell (GeoTools)}
+\label{ch:data-structures-geotools}
 
 Zur Umsetzung der in Abschnitt~\ref{ch:algorithm-parts} definierten geometrischen Algorithmen werden zunächst Strukturen zur Repräsentation der grundlegenden Datentypen benötigt.
 Im Kontext dieses Projekts sind dies:
@@ -318,6 +319,7 @@ Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über
 
 
 \subsection{Liniengeneralisierung}
+\label{ch:impl-generalisation}
 
 Das Ergebnis der Liniengeneralisierung nach Abschnitt~\ref{ch:generalisation-algorithm} ist ein Graph aus Linienzügen, von denen einige durch Zusammenfassen entstehen, andere jedoch mangels Parallelen direkt aus den Eingangsdaten übernommen werden.
 Der beschriebene Algorithmus zum \textproc{Zusammenfassen} ergibt einen möglichst langen Linienzug.
