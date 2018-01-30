@@ -618,7 +618,10 @@ Eine Erweiterung zur Zusammenfassung einer beliebigen Anzahl von Parallelen auf 
 
 
 
-\section{Gesamtüberblick \emph{[ausstehend]}}
+\section{Gesamtüberblick}
+\label{ch:algorithm-overview}
+
+Setzt man die beschriebenen Algorithmen wie vorgesehen zusammen, so ergibt sich:
 
 \begin{algorithmhere}{Generalisierung}
 \label{alg:Generalisierung}
@@ -634,16 +637,84 @@ Eine Erweiterung zur Zusammenfassung einer beliebigen Anzahl von Parallelen auf 
 \end{algorithmic}
 \end{algorithmhere}
 
+%Das Ergebnis der Analyse sind Relationen der Segmente untereinander („Segment 1 ist parallel zu Segment 2“).
+%Deshalb ist dieser Algorithmus hier ohne Rückgabemenge dargestellt.
+
 Je nach Anwendungsfall sind Nachbearbeitungen und weitere Generalisierungsvorgänge sinnvoll.
 In Frage kommen insbesondere die Verknüpfung von aneinander anschließenden Linienzügen sowie eine Formvereinfachung.
+Entsprechend der Aufgabenstellung wird darauf hier nicht weiter eingegangen.
 
-% TODO: Algorithmus-Eigenschaften beschreiben:
-% - korrekt: nicht definiert, also nicht nachweisbar, Nachweis würde auch den Rahmen sprengen (aber anschaulich klar und später zu prüfen)
+Der Rechenaufwand der gesamten \textproc{Generalisierung} lässt sich nicht exakt angeben, da er von der Geometrie der Eingangsdaten abhängt.
+So findet das \textproc{Splitten} nur dann statt, wenn \textproc{NaheSegmente} passende \textproc{Fußpunkt}e haben, an denen sie aufgeteilt werden können.
+Eine grobe Abschätzung des Rechenaufwands ist jedoch möglich:
+
+In erster Näherung kann davon ausgegangen werden, dass für jeden Punkt genau ein \textproc{Fußpunkt} auf einem anderen (möglicherweise parallelen) Segment gefunden wird, an dem dieses jeweils geteilt wird, dass weitere \textproc{Fußpunkt}e jedoch nicht gefunden werden.
+Die Größe der Menge von Segmenten würde damit durch das \textproc{Splitten} verdoppelt:
+\[
+|S'| \approx 2 \cdot |S|
+\]
+
+Tatsächlich werden für \term{real world}--Daten viele \textproc{Fußpunkt}e, an denen Segmente aufgeteilt werden, bei erneuter Lotfällung zum Auffinden weiterer \textproc{Fußpunkt}e und damit zu zusätzlichen Teilungen führen, insbesondere innerstädtisch und in der Nähe von Straßenkreuzungen.
+Jedoch werden gleichzeitig auch viele Punkte gar keine \textproc{Fußpunkt}e haben und somit auch nicht zu Teilungen führen, insbesondere in ländlichen Gebieten, wo es insgesamt weniger Straßen und seltener Richtungsfahrbahnen gibt.
+Da ländliche Gebiete insgesamt in der Fläche überwiegen, kann angenommen werden, dass $|S'|$ jedenfalls im durchschnittlichen Fall nicht wesentlich größer als $2 \cdot |S|$ ist.
+
+Diese Überlegung bestätigt sich anhand der Betrachtung einer einfachen Autobahn mit zwei Richtungsfahrbahnen:
+Hierbei liegen in den Eingangsdaten oftmals Stützpunkte einander gegenüber.
+% TODO: Verweis auf Abbildung in 4.2
+In diesen Fällen werden meist keine \textproc{Fußpunkt}e auf der Gegenfahrbahn gefunden, weil deren Definition eine Mindestlänge~$\mu$ für geteilte Segmente fordert.
+Demnach wäre hier $2 \cdot |S|$ als obere Schranke für $|S'|$ im durchschnittlichen Fall zutreffend.
+
+Es seien nun $n = |S|$ die Anzahl der Segmente in den Eingangsdaten, $\nu$ die durchschnittliche Anzahl der jeweils „nahen“ Segmente und $\phi$ die durchschnittliche Anzahl der Punktezuordnungen je Punkt.
+Für die Abschätzung des gesamten Rechenaufwands ergibt sich mit Zählung der geschachtelten Iterationen: \cf{wp:Landau}
+\begin{align*}
+\textproc{Splitten} &\in \mathcal{O}(2 n \cdot 2 \cdot \nu) = \mathcal{O}(n \cdot \nu)
+\\
+\textproc{Analyse} &\in \mathcal{O}(2 n \cdot 2 \nu^2) = \mathcal{O}(n \cdot \nu^2)
+\\
+\textproc{NodesZuordnen} &\in \mathcal{O}(n \cdot 2 \cdot 2) = \mathcal{O}(n)
+\\
+\textproc{Zusammenfassen} &\in \mathcal{O}(n \cdot \phi)
+\end{align*}
+
+Jedoch sind $\nu$ und $\phi$ im Verhältnis zu $n$ vernachlässigbar, weil sie regelmäßig sehr klein sind.
+So werden durch die Beschränkung der \textproc{Hülle} auf die unmittelbare Umgebung des jeweiligen Segments nur wenige Segmente als „nah“ betrachtet;
+es ist abhängig von der Struktur der Eingangsdaten eine Zahl im unteren zweistelligen Bereich zu erwarten.
+%eine nahezu konstante Zahl höchstens im unteren
+Weiterhin sind mehr als zwei Punktezuordnungen im Wesentlichen nur im (seltenen) Fall von mehr als zwei erkannten Paralellen zu erwarten.
+Mit
+\[
+\{\nu, \phi\} \subseteq \hbox{o}(n)
+\]
+zeigen somit im durchschnittlichen Fall alle Teile der Generalisierung und folglich auch die Generalisierung insgesamt ein lineares Wachstum des Rechenaufwands:
+\[
+\textproc{Generalisierung} \in \mathcal{O}(n)
+\]
+
+%Es ist zu bemerken, dass der Zeitaufwand implementierungsabhängig schneller oder langsamer wachsen kann als der Rechenaufwand.
+
+Im \emph{schlechtesten} Fall liegen alle Segmente so nah beieinander und haben so ungünstige Winkel, dass \emph{alle} Segmente solange aufgeteilt werden, bis \emph{jede} weitere Teilung zur Unterschreitung der Mindestlänge~$\mu$ führen muss.
+An diesem Punkt bricht das \textproc{Splitten} ab, weil die Einhaltung der Mindestlänge definitionsgemäß Bedingung für die Existenz eines \textproc{Fußpunkt}s ist.
+Die Größe der Menge $S'$ und damit der weitere Rechenaufwand hängen dann von der geometrischen Länge der Segmente und der Wahl von $\mu$ ab.
+Eine solche Situation ist allerdings in \term{real world}--Daten für ein Straßennetz wenig wahrscheinlich.
+Sie könnte nur dann überhaupt auftreten, wenn der Höchstabstand $\eta$ für \textproc{NaheSegmente} zu groß gewählt wurde (vgl. Abschnitt~\ref{ch:split-algorithm}).
+
+Selbst in diesem schlechtesten Fall terminieren die Algorithmen.
+Für das \textproc{Splitten} wurde dies soeben begründet; für alle anderen imperativ beschriebenen Algorithmen ist es trivial zu erkennen, da sie nur über endliche unveränderliche Mengen iterieren.
 % - terminierend: ja, weil alle Schleifen auf abschließenden Mengen arbeiten, mit Ausnahme des Splittens, wobei aber durch die minimale Fragmentlänge µ eine klare Abbruchbedingung gegeben ist
+
+Die Algorithmen arbeiten jedoch nicht deterministisch:
+Abhängig von den Eingabedaten ist anzunehmen, dass je nach Reihenfolge der Iteration das \textproc{Splitten} und damit auch die \textproc{Analyse} unterschiedliche Ergebnisse liefern.
+Es ist jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben.
 % - deterministisch: nein; erstens abhängig von Input denkbar, dass je nach Reihenfolge der Iteration das Splitten und damit die Analyse unterschiedliche Ergebnisse liefert; zweitens Länge der generalisierten Linienzüge zufallsabhängig (da "rückwärts" nicht spezifiziert); jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben
-% - Effizienz: evtl. grobe Landau-Betrachtung, bezogen auf ||W||, genaueres weiter hinten
 
 % TODO: Analyse-Ergebnis beschreiben
+
+Auf eine formale Festlegung der Kriterien für die Korrektheit der Generalisierung wurde verzichtet.
+% "korrekt": nicht definiert, also nicht nachweisbar; Nachweis würde auch den Rahmen sprengen
+Um nachzuweisen, dass die entwickelten Algorithmen funktionieren, wurden diese stattdessen ausführbar in Software implementiert.
+Dies beschreibt Kapitel~\ref{ch:impl}.
+Im Anschluss daran werden in Kapitel~\ref{ch:result} das Generalisierungsergebnis und die Praxistauglichkeit der Algorithmen für unterschiedliche Fälle diskutiert.
+% vgl. 7.2.5
 
 
 
