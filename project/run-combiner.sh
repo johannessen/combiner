@@ -23,6 +23,7 @@ IN=../data/testbed-nrw/koeln-classfied-nolinks.shp
 #IN=../data/testbed-nrw/koeln-junkersdorf-main.shp
 #IN=../data/shape-test/simple3.shp
 #IN=../data/chapter6-rail/koeln-main.shp
+#IN=../data/chapter6-profiling/koeln-rbz-primary-link.shp
 #IN=../data/testbed-nrw/roads-motorway.shp
 
 #IN=../data/quads/de_1x2-mtp/baden-wuerttemberg/n48.5-e9.shp
