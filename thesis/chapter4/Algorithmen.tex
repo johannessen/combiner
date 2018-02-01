@@ -388,9 +388,9 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie:
 	\begin{itemize}[nosep,leftmargin=3.5em]
 		% [SourceSegment.closeParallels]
-		\item ähnlich ausgerichtet sind (z.~B. $\abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
+		\item ähnlich ausgerichtet sind (z.~B. $\alpha = \abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
 		% [MyAnalyser.shouldEvaluate]
-		\item nahe beieinander liegen (z.~B. $\textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
+		\item nahe beieinander liegen (z.~B. $\eta = \textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
 		\item nicht so sehr zueinander versetzt sind, dass sie mehr hintereinander als nebeneinander liegen,  % "ignore collinear fragments"; sollte durch die geschickte Fragmentierung normal nicht vorkommen
 		\item sich nicht überkreuzen,  % (sollte bereits durch \textproc{Analyse} ausgeschlossen sein)
 		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{highway}[*] sind und
@@ -664,7 +664,7 @@ Hierbei liegen in den Eingangsdaten oftmals Stützpunkte einander gegenüber.
 In diesen Fällen werden meist keine \textproc{Fußpunkt}e auf der Gegenfahrbahn gefunden, weil deren Definition eine Mindestlänge~$\mu$ für geteilte Segmente fordert.
 Demnach wäre hier $2 \cdot |S|$ als obere Schranke für $|S'|$ im durchschnittlichen Fall zutreffend.
 
-Es seien nun $n = |S|$ die Anzahl der Segmente in den Eingangsdaten, $\nu$ die durchschnittliche Anzahl der jeweils „nahen“ Segmente und $\phi$ die durchschnittliche Anzahl der Punktezuordnungen je Punkt.
+Es seien nun $n = |S|$ die Anzahl der Segmente in den Eingangsdaten, $\nu$ die durchschnittliche Anzahl der jeweils „nahen“ Segmente und $\psi$ die durchschnittliche Anzahl der Punktezuordnungen je Punkt.
 Für die Abschätzung des gesamten Rechenaufwands ergibt sich mit Zählung der geschachtelten Iterationen: \cf{wp:Landau}
 \begin{align*}
 \textproc{Splitten} &\in \mathcal{O}(2 n \cdot 2 \cdot \nu) = \mathcal{O}(n \cdot \nu)
@@ -673,17 +673,17 @@ Für die Abschätzung des gesamten Rechenaufwands ergibt sich mit Zählung der g
 \\
 \textproc{NodesZuordnen} &\in \mathcal{O}(n \cdot 2 \cdot 2) = \mathcal{O}(n)
 \\
-\textproc{Zusammenfassen} &\in \mathcal{O}(n \cdot \phi)
+\textproc{Zusammenfassen} &\in \mathcal{O}(n \cdot \psi)
 \end{align*}
 
-Jedoch sind $\nu$ und $\phi$ im Verhältnis zu $n$ vernachlässigbar, weil sie regelmäßig sehr klein sind.
+Jedoch sind $\nu$ und $\psi$ im Verhältnis zu $n$ vernachlässigbar, weil sie regelmäßig sehr klein sind.
 So werden durch die Beschränkung der \textproc{Hülle} auf die unmittelbare Umgebung des jeweiligen Segments nur wenige Segmente als „nah“ betrachtet;
 es ist abhängig von der Struktur der Eingangsdaten eine Zahl im unteren zweistelligen Bereich zu erwarten.
 %eine nahezu konstante Zahl höchstens im unteren
 Weiterhin sind mehr als zwei Punktezuordnungen im Wesentlichen nur im (seltenen) Fall von mehr als zwei erkannten Paralellen zu erwarten.
 Mit
 \[
-\{\nu, \phi\} \subseteq \hbox{o}(n)
+\{\nu, \psi\} \subseteq \hbox{o}(n)
 \]
 zeigen somit im durchschnittlichen Fall alle Teile der Generalisierung und folglich auch die Generalisierung insgesamt ein lineares Wachstum des Rechenaufwands:
 \[

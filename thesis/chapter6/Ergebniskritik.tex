@@ -280,15 +280,52 @@ Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituati
 
 
 
-\section{Effizienz \emph{[ausstehend]}}
-% weniger wichtig, kann sehr kurz gehalten werden
+\section{Effizienz}
 
-\bigskip\bigskip
-\begin{itemize}
-\item Zeit- und Speicherverbrauch z. B. für NRW nach unterschiedlich dichten Eingangsdaten quantifizieren
+Die Implementierung der vorgestellten Algorithmen im \term{Combiner} hat bei Anwendung auf den NRW-Testdatensatz wie in Abschnitt~\ref{ch:algorithm-overview} erwartet einen Zeitaufwand, der im Verhältnis zur Zahl der Segmente nicht schneller als linear wächst.
+Tabelle~\ref{tab:profiling-segments} stellt die gemessenen Ausführungszeiten $t$ am Beispiel von Fernstraßen (bis einschließlich \osmtag{highway}[primary], ohne \term{links}) in der Umgebung von Köln dar.
+% wall clock ("processing time")
+Angefangen mit einer Gruppe von Stadtteilen bis hin zum Bundesland Nordrhein-Westfalen wurden steigende Flächengrößen berechnet bei ansonsten gleichen Bedingungen.
+
+\onetable{h}{
+	\begin{tabular}{lrrlcccrc}
+&&&& \multicolumn{2}{@{}c@{}}{Wachstumsfaktor} &&& \\
+Gebiet & \multicolumn{1}{c}{Fläche} & \multicolumn{1}{c}{$|S|$} & \multicolumn{1}{c}{$t$} & für $|S|$ & für $t$ & $\frac{|S'|}{|S|}$ & \multicolumn{1}{c}{$\nu$} & $\psi$ \\
+\hline\rule{0mm}{0.8\normalbaselineskip}%
+Stadtteile &   161\,km$^2$ &   3516 & 0,41\,s & --  & --  & 1,56 & 10 & 1,31 \\
+Großstadt  &   647\,km$^2$ &   8776 & 0,78\,s & 2,5 & 1,9 & 1,48 &  8 & 1,25 \\
+Reg.-Bez.  &  7556\,km$^2$ &  54247 & 2,2\,s  & 6,2 & 2,8 & 1,23 &  8 & 1,37 \\
+Bundesland & 34881\,km$^2$ & 157014 & 5,7\,s  & 2,9 & 2,6 & 1,27 &  6 & 1,27 \\
+	\end{tabular}
+	\caption{Zeitbedarf für unterschiedlich große Gebiete}
+	\label{tab:profiling-segments}
+}
+
+Es bestätigt sich, dass die in Abschnitt~\ref{ch:algorithm-overview} eingeführten Größen $\nu$ und $\psi$ nicht von $|S|$ abhängig sind.
+Der Wachstumsfaktor für $|S|$ beim Schritt von der Großstadt zum Regierungsbezirk ist mit 6,2 deutlich größer als der Faktor für $t$ mit 2,8.
+Wie das Verhältnis $|S'|\nobreak:\nobreak|S|$ der Segmentanzahl nach bzw. vor dem \textproc{Splitten} zeigt, liegt dies an dem mit diesem Schritt erstmals inkludierten ländlichen Raum.
+Auch dies entspricht den Erwartungen.
+
+\onetable{b}{
+	\begin{tabular}{lcrcccrc}
+&&& \multicolumn{2}{@{}c@{}}{Wachstumsfaktor} &&& \\
+\term{links} & $|S|$ & \multicolumn{1}{c}{$t$} & für $|S|$ & für $t$ & $\frac{|S'|}{|S|}$ & \multicolumn{1}{c}{$\nu$} & $\psi$ \\
+\hline\rule{0mm}{0.8\normalbaselineskip}%
+ohne & 54247 & 2,2\,s  & --  & --  & 1,23 &  8 & 1,37 \\
+mit & 73408 & 12,8\,s & 1,4 & 5,9 & 1,85 & 11 & 1,42 \\
+	\end{tabular}
+	\caption{Zeitbedarf ohne und mit Verbindungsfahrbahnen}
+	\label{tab:profiling-links}
+}
+
+Wird neben der Segmentanzahl in den Eingangsdaten auch deren Detaillierungsgrad geändert, ergibt sich jedoch ein anderes Bild.
+Tabelle~\ref{tab:profiling-links} zeigt das Verhalten des \term{Combiners} beim Hinzufügen von Abbiege- und Verbindungsfahrbahnen \term{(links)}.
+Der Zeitbedarf wächst hier überproportional.
+Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
+
+Auch dies ist ein deutlicher Hinweis auf die oben diskutierte Notwendigkeit einer Kreuzungserkennung.
+
 % durch Spectre/Meltdown keine großen Einbußen zu erwarten, weil die Berechnung hauptsächlich im RAM stattfindet und somit der Kernel keine große Rolle spielt
-\end{itemize}
-\biggap\biggap
 
 
 
@@ -302,7 +339,7 @@ Abschließend soll deshalb an zwei Beispielen betrachtet werden, wie sich die im
 
 
 \subsection{Fahrbahnen für unterschiedliche Arten von Verkehr}
-\label{ch:iterated-execution}
+%\label{ch:result-iterated-execution}
 
 Verteilerfahrbahnen und langgezogene Rampen für abbiegenden Verkehr sind verbreitete, schon in Abschnitt~\ref{ch:different-traffic-types-case-desc} genannte Beispiele für parallele Fahrbahnen für unterschiedliche Verkehrsarten.
 
@@ -346,6 +383,7 @@ Die Anzahl der wiederholt durchzuführenden Generalisierungen kann im \term{Comb
 
 
 \subsection{Eisenbahnstrecken}
+\label{ch:result-railways}
 
 Wie sich zeigt, ist die entwickelte Software grundsätzlich auch auf Eisenbahnstrecken anwendbar.
 Beschränkt man sich auf Haupt- und Streckengleise (\osmtag{railway}[rail], \osmtag{usage}[main]) und berücksichtigt die Streckennummer als Attribut (\osmtag{ref}[*]), so werden viele doppelgleisige Streckenabschnitte erkannt und zusammengefasst.
@@ -375,11 +413,26 @@ Anders als im Straßennetz existieren derartige Probleme im Eisenbahnnetz nicht 
 Betroffen sind insbesondere langgestreckte Überwerfungsbauwerke sowie Strecken mit Richtungsbetrieb.
 Bei letzteren liegt zwischen den beiden zusammenzufassenden Gleisen mit derselben Streckennummer jeweils ein Gleis einer Strecke mit einer \emph{anderen} Nummer. \cf{wp:Richtungsbetrieb}
 
-Auffallend ist ferner, dass für Bahnstrecken in Köln mehr als 20~Segmente als „nah“ (im Sinne von \textproc{NaheSegmente} in Abschnitt~\ref{ch:split-algorithm}) beurteilt werden.
-Dies liegt offenbar daran, dass aufgrund der großen Kurvenradien Eisenbahngleise gerne gebündelt verlegt werden, um den Platzbedarf zu minimieren.
-Durch die größere Anzahl naher Segmente arbeitet der \term{Combiner} deutlich langsamer.
-Im Vergleich zum Hauptstraßennetz ist der Zeitbedarf für Haupt- und Streckengleise mehr als verdoppelt.
-Durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz (z.~B. $\unit[15]{m}$ \textproc{Distanz} und $8\degree$ Ausrichtungsunterschied) lässt sich dies zumindest geringfügig verbessern.
+Auffallend ist ferner, dass der Zeitbedarf des \term{Combiners} für Bahnstrecken wesentlich höher ist als im Straßennetz.
+Für Bahnstrecken in Köln werden mehr als 20~Segmente als „nah“ (im Sinne von \textproc{NaheSegmente} in Abschnitt~\ref{ch:split-algorithm}) beurteilt.
+Dies liegt daran, dass Eisenbahngleise oft gebündelt verlegt werden, offenbar um angesichts der großen Kurvenradien den Platzbedarf zu minimieren.
+Folglich sind auch entsprechend mehr Teilungen von Segmenten notwendig;
+die Annahme $|S'| \approx 2 \cdot |S|$ aus Abschnitt~\ref{ch:algorithm-overview} ist selbst mit der Beschränkung auf Hauptgleise nicht mehr zutreffend.
+
+Tabelle~\ref{tab:profiling-railways} zeigt, dass sich der Zeitbedarf durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz zumindest geringfügig verbessern lässt.
+
+\onetable{h}{
+	\begin{tabular}{lrcrlcccrc}
+& \multicolumn{2}{@{}c@{}}{\textproc{Parallel}} &&& \multicolumn{2}{@{}c@{}}{Wachstumsfaktor} &&& \\
+Spezialfall & \multicolumn{1}{c}{$\alpha$} & $\eta$ & \multicolumn{1}{c}{$|S|$} & \multicolumn{1}{c}{$t$} & für $|S|$ & für $t$ & $\frac{|S'|}{|S|}$ & \multicolumn{1}{c}{$\nu$} & $\psi$ \\
+\hline\rule{0mm}{0.8\normalbaselineskip}%
+Straßen    & 15\degree & 40\,m &  8776 & 0,78\,s & --  & -- & 1,48 &  8 & 1,25 \\
+Bahngleise & 15\degree & 40\,m & 11607 & 8,2\,s  & 1,3 & 11\hphantom{,2} & 2,81 & 22 & 1,77 \\
+Bahngleise &  8\degree & 15\,m & 11607 & 2,5\,s  & 1,3 & \hphantom{1}3,2 & 2,14 & 11 & 1,66 \\
+	\end{tabular}
+	\caption{Zeitbedarf für unterschiedliche Spezialfälle und \textproc{Parallel}-Definitionen}
+	\label{tab:profiling-railways}
+}
 
 
 

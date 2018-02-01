@@ -203,6 +203,13 @@
 		#2
 	\end{figure}
 }
+\newcommand{\onetable}[2]{
+	\begin{table}[#1]
+		\centering
+		\capstart
+		#2
+	\end{table}
+}
 
 % graphics
 \RequirePackage{graphicx}

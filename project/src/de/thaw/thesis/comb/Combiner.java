@@ -92,6 +92,23 @@ public final class Combiner {
 		int km = (concatLength + genLength) / 1000;
 		verbose(1, "Road network length: " + km + " km (generalised: " + (genLength / 1000) + " km or " + percent + " %, other: " + (km - genLength / 1000) + " km)");
 		
+		int fragments = 0, nodeMatches = 0, matchedNodes = 0;
+		for (final SourceSegment segment : dataset.allSegments()) {
+			for (final Segment fragment : segment) {
+				fragments++;
+			}
+		}
+		for (final Node node : dataset.allNodes()) {
+			if (node instanceof SourceNode) {
+				if ( ((SourceNode)node).matches().size() > 0 ) {
+					nodeMatches += ((SourceNode)node).matches().size();
+					matchedNodes++;
+				}
+			}
+		}
+		String psi = String.format("%.2f", (double) nodeMatches / matchedNodes);
+		verbose(1, "Segments after splitting |S'| = " + fragments + ", matches per node ψ = " + psi + " on average.");
+		
 		verbose(1, "Processing time: " + (endTime - startTime) + " ms");
 	}
 	

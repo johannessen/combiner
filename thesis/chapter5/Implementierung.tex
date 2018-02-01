@@ -463,10 +463,13 @@ Ein \term{profiling} wurde noch nicht durchgeführt.
 % => Optimierungspotenzial
 
 \item
-Zahllose geschachtelte Schleifen lassen Schlimmes für die Effizienz befürchten, jedoch wird in vielen Fällen nur über eine Menge der Mächtigkeit $2$ iteriert
-% (teils weniger, wie die Untersuchung zu realParallels ergab)
-und in anderen Fällen wird durch \textproc{NaheSegmente} die Größe der Menge stark begrenzt; deshalb ist der Rechenaufwand in der Praxis gar nicht mal so schrecklich hoch.
-Der Speicheraufwand und insbesondere das Verhalten des \term{garbage collectors} ist ein größeres Problem; hier besteht Optimierungspotenzial.
+Eine besonders effiziente Implementierung stand nicht im Vordergrund.
+Die gewählten Datenstrukturen haben einen höheren Speicherbedarf als eigentlich nötig.
+Beispielsweise werden in den Implementierungen der Algorithmen \textproc{Fußpunkt} und \textproc{Analyse} zahlreiche neue Vektoren-Objekte erzeugt, die jeweils nur für eine einzige geometrische Berechnung benötigt werden.
+% in 6.4 wird insbesondere das SPLITTEN diskutiert; das sollte hier erwähnt werden!
+Die dadurch häufiger notwendige automatische Freispeichersammlung \term{(garbage collection)} zur Beseitigung dieser Objekte ist zeitaufwändig.
+Diese Zeit- und Speicherkosten hängen von der gewählten Implementierung ab und wurden deshalb in Abschnitt~\ref{ch:algorithm-overview} nicht berücksichtigt.
+Insbesondere für den Speicheraufwand besteht Optimierungspotenzial.
 
 \item
 Durchgehende Linienzüge sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.
