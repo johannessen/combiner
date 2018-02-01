@@ -43,8 +43,11 @@
 
 \newpage\addcontentsline{toc}{chapter}{Abbildungsverzeichnis\medskip}
 \listoffigures
+
+\newpage\addcontentsline{toc}{chapter}{Tabellenverzeichnis\medskip}
+\listoftables
+
 %\listofalgorithms
-%\listoftables
 % unified list: see KOMAscript 135
 
 \renewcommand{\onlyinsubfile}[1]{}
@@ -61,7 +64,7 @@
 \subfile{../chapter8/Zusammenfassung}
 
 \appendix
-\addtocontents{toc}{\bigskip\medskip\newpage\textbf{Anhang}\par}
+\addtocontents{toc}{\bigskip\medskip\textbf{Anhang}\par}
 \subfile{../appendices/Anhang}
 
 %\addtocontents{toc}{\medskip}
