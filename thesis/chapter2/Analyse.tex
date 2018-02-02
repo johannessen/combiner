@@ -93,14 +93,14 @@ Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schw
 \section{Kartenherstellung mit OpenStreetMap} \label{kartenherstellung}
 
 Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
-% Erkläung zu "wohl" in Fußnote übertrieben, da Zusammenhang trivial; siehe Mail Dietmar.
-Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 19 verschiedenen Maßstäben angeboten werden von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ \cf{osm:ZoomLevels}
-% \cf[154–155]{RT09} hat nur 19 zoomlevel (allerdings ist osm:ZoomLevels von August 2013)
-Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} eine Maßstabswahl und macht den Kartenausschnitt verschiebbar, so dass jeder im eingesetzten Kartennetz abbildbare Punkt der Erde angezeigt werden kann.
-%\noref %evtl. irgendwas aus RT09 für Kachelanzahl im größten Maßstab}
+Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 19 verschiedenen Maßstäben%
+\footnote{In 2013 wurde ein noch größerer, 20.~Maßstab ergänzt%
+% (von null an gezählt \cf{Dijk82}die Zoomstufe 19)
+% http://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF
+.}
+angeboten werden von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ \cf[154–155]{RT09}
+Eine interaktive Oberfläche erlaubt über die freie Wahl der Zoomstufe eine Maßstabswahl und macht den Kartenausschnitt verschiebbar, so dass jeder im eingesetzten Kartennetz abbildbare Punkt der Erde angezeigt werden kann.
 % evtl. Datenmenge etc. betonen
-
-% Zoomstufe deutsch? -> alles im Duden checken! Konsistenz ist für \term entscheidend -DGD
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/osm-org}
@@ -108,7 +108,7 @@ Eine interaktive Oberfläche erlaubt über die freie Wahl der \term{Zoomstufe} e
 	\label{fig:osm.org}
 }
 
-Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet \cf{osm:TileUsagePolicy}.
+Wegen der sehr großen Anzahl von Kacheln werden diese in größeren Maßstäben \term{just in time} gezeichnet. \cf{osm:TileUsage}
 Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte OSM-Datenbank.
 %\noref % TODO: evtl. Verweis auf RT09, insb. für basis, minutengenau -> p. 157 zu osmarender, -> p. 195 zu diffs
 
@@ -120,10 +120,10 @@ Weiterhin bedeutet die Zahl der Beiträge mit teilweise über 1000 \term{changes
 dass der Arbeitsaufwand für eine manuelle Generalisierung prohibitiv hoch wäre.
 Klassische kartographische Generalisierung von Hand kommt daher nur für nicht nachzuführende und geographisch begrenzte Einzelanfertigungen in Betracht, etwa wenn auf Basis von OpenStreetMap eine traditionelle gedruckte Karte hergestellt werden soll.
 
-Typischerweise besteht die Grundlage für Web-Karten wie derjenigen auf \url{osm.org} aus einer Geodatenbank, die mit einer Kopie der OpenStreetMap-Datenbank gefüllt und anschließend minütlich aktualisiert wird.
-Diese Geodatenbank enthält die Geometrie und Attribute der Rohdaten.
+Typischerweise besteht die Grundlage für Web-Karten wie derjenigen auf \url{osm.org} aus einer Geodatenbank, die mit einer Kopie der OpenStreetMap-Datenbank gefüllt und anschließend minütlich aktualisiert wird (Abbildung~\ref{fig:osm-datenfluss}).
+Diese Geodatenbank enthält die Geometrie und Attribute \term{(tags)} der Rohdaten.
 Vom Kartenleser in der interaktiven Oberfläche im Webbrowser erzeugte Anfragen nach Kacheln der Karte werden dann von der Renderer-Software unter Zugriff auf die Geodatenbank abgearbeitet, wobei die Geometrie anhand der vorgegebenen Zeichenregeln dargestellt wird.
-Gerenderte Kacheln werden gecacht und zum Browser geschickt.
+Gerenderte Kacheln werden in einem Cache abgelegt und zum Browser geschickt.
 
 Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf nicht vorgesehen (im Gegensatz zu den Abläufen im AAA-Modell der deutschen Landesvermessung \cf[263]{ML12}).
 Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch den Renderer wird eine begrenzte Modell-\noncf[194 17.2]{RT09} bzw. kartographische Generalisierung durchgeführt. \cf[194, 198]{RT09}

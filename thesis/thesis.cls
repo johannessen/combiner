@@ -151,6 +151,9 @@
 [#1\ifthenelse{\isempty{#1}}{}{ }\?] %
 }
 
+% Fußnoten
+\deffootnote{1em}{1em}{\thefootnotemark\ }
+
 % URLS and links
 % should be the last packages imported to avoid issues (says <https://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_url> without mentioning specifics)
 % see http://ctan.space-pro.be/tex-archive/macros/latex/contrib/hyperref/doc/manual.html#x1-140004
