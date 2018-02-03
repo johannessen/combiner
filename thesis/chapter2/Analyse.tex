@@ -132,7 +132,7 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/osm-datenfluss}
-	\caption{typischer OSM-Datenfluss (vereinfacht dargestellt)}
+	\caption{typischer \osm-Datenfluss (vereinfacht dargestellt)}
 	\label{fig:osm-datenfluss}
 	% Mapnik nur ein Beispiel
 }
@@ -146,26 +146,9 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 % lesen: -> KN 56 (4) 191ff Modellgeneralisierung in ATKIS
 
 
-%\begin{itemize}
-%	\item erklären, wie die OSM-Rendering-Pipeline funktioniert, denn zum Verständnis von 2.3 ist wichtig, dass der Renderer die Geometrie nicht ändern kann
-%\end{itemize}
-
 % MapCSS includes an eval function, and has rules that act as 'commands' to modify data. CartoCSS does not support eval or any data-modifying operations.
 % https://gist.github.com/tmcw/4319642
 
-
-%\begin{itemize}
-%	\item bisher im Wesentlichen nur automatische, (fast) ungeneralisierte Mercator-Tiles fürs Web
-%	\item Datenmenge, Maßstäbe, ständige Änderungen und Aktualisierungen etc.
-%	\begin{itemize}
-%		\item manuelle Generalisierung ist nicht zielführend außer für nicht nachzuführende Einzelanfertigungen
-%	\end{itemize}
-%	\item in der Praxis fast nur einfache semantische Modellgeneralisierung unmittelbar im Tile-Renderer, keine kartographische Generalisierung oder Folgekarten bzw. -datenbanken
-%	\begin{itemize}
-%		\item nahe beieinander liegende Punktsignaturen werden willkürlich selektiert, Linearsignaturen überdecken einander
-%	\end{itemize}
-%	\item insbesondere kaum Vereinfachung, Qualitätsumschlag, Zusammenfassung oder Verdrängung (jedoch einige lohnenswerte Ansätze, z. B. \cf{MWG12} oder Haltestellen-Relationen {z. B. Konrad-Adenauer-Platz Beuel})
-%\end{itemize}
 
 % Angesichts dessen wären automatisiert abgeleitete, generalisierte Datenbanken für kleinere Maßstäbe zur Weiterverwendung wünschenswert, existieren jedoch bisher nicht. Entsprechend sind auch die aus OSM-Daten hergestellten Karten in aller Regel nicht kartographisch generalisiert: Nahe beieinander liegende Objekte überdecken einander scheinbar wahllos, Mindestgrößen und notwendige Formvereinfachungen werden von den automatischen Renderern ignoriert.
 
@@ -175,29 +158,30 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 
 \section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
 
-Wie im Folgenden einige Beispiele zeigen, lassen sich Auswahl auf Basis der Objektklasse sowie Betonung und Vergrößerung durch veränderte Strichbreite vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt.
+Wie im Folgenden einige Beispiele zeigen, lassen sich von den sieben elementaren Generalisierungsvorgängen \cf[168]{HGM02} die Auswahl auf Basis der Objektklasse sowie die Betonung und Vergrößerung durch veränderte Strichbreite vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt.
 Andere Arten kartographischer Generalisierung wie etwa die Formvereinfachung oder der Qualitätsumschlag würden die Geometrie verändern, sind damit schwieriger zu implementieren und werden bisher nicht oder kaum eingesetzt.
-
-% Hake et al. 2002, Abb. 3.63
-% \cf[25]{Kla11} 3.1 !
 
 
 
 \subsection{Generalisierung durch Objektauswahl}
 
-Zur Herstellung der Kacheln der Web-Karte wird notwendigerweise für jede \term{Zoomstufe} eine Auswahl der jeweils darzustellenden Objektklassen vorgenommen.
-Beispielsweise werden Anliegerstraßen \term{(residentials)} unterhalb von \term{zoom}~12 nicht mehr dargestellt (Abbildungen~\ref{fig:kampen11} und~\ref{fig:kampen12}).
+Zur Herstellung der Kacheln der Web-Karte wird für jede Zoomstufe eine Auswahl der jeweils darzustellenden Objektklassen vorgenommen.
+Beispielsweise werden Anliegerstraßen \term{(residentials)} unterhalb von Zoom~12 nicht mehr dargestellt (Abbildungen~\ref{fig:kampen11} und~\ref{fig:kampen12}).
 Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berechnende Datenmenge für den Renderer.
 
 % Qualitätsumschlag fällt in OSM tlws. auch hierunter, gibt's aber nur für Flächen
 
 \twofigures{t}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z11}
-	\caption{Karte von \url{osm.org}, \term{zoom}~11, \term{residentials} nicht dargestellt \citex{map:osm-carto}}
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~11, \term{residentials} nicht dargestellt]
+		{Karte von \nolinkurl{osm.org}, Zoom~11, \term{residentials} nicht dargestellt \citex{map:osm-carto}}
 	\label{fig:kampen11}
 }{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z12}
-	\caption{Karte von \url{osm.org}, \term{zoom}~12, \term{residentials} dargestellt \citex{map:osm-carto}}
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~12, \term{residentials} dargestellt]
+		{Karte von \nolinkurl{osm.org}, Zoom~12, \term{residentials} dargestellt \citex{map:osm-carto}}
 	\label{fig:kampen12}
 }
 
@@ -208,25 +192,31 @@ Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berech
 
 \twofigures{t}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z14}
-	\caption{Karte von \url{osm.org}, \term{zoom}~14, \term{residentials} $\unit[3]{px}$ breit \citex{map:osm-carto}}
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~14, \term{residentials} 3~Pixel breit]
+		{Karte von \nolinkurl{osm.org}, Zoom~14, \term{residentials} $\unit[3]{px}$ breit \citex{map:osm-carto}}
 	\label{fig:kampen14}
 }{
 	\includegraphics[width=7cm]{../chapter2/kampen-z17}
-	\caption{Karte von \url{osm.org}, \term{zoom}~17, \term{residentials} $\unit[12]{px}$ breit \citex{map:osm-carto}}
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~17, \term{residentials} 12~Pixel breit]
+		{Karte von \nolinkurl{osm.org}, Zoom~17, \term{residentials} $\unit[12]{px}$ breit \citex{map:osm-carto}}
 	\label{fig:kampen17}
 }
 
 \capstartfalse  % empty figures aren't supported by the document class
 \twofigures{t!}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z13}
-	\caption{Karte von \url{osm.org}, \term{zoom}~13, \term{residentials} $\unit[3]{px}$ breit \citex{map:osm-carto}}
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~13, \term{residentials} 3~Pixel breit]
+		{Karte von \nolinkurl{osm.org}, Zoom~13, \term{residentials} $\unit[3]{px}$ breit \citex{map:osm-carto}}
 	\label{fig:kampen13}
 }{
 }
 \capstarttrue
 
 Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Generalisierung durch Vergrößerung, indem für bestimmte Maßstäbe eine Strichbreite gewählt wird, welche im Abbildungsmaßstab die tatsächliche Größe des Objekts übersteigt.
-Anliegerstraßen haben für die \term{Zoomstufen} 14 bis 19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen17} und~\ref{fig:kampen14}). \cf{All15}
+Anliegerstraßen haben für die Zoomstufen 14 bis~19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen17}). \cf{All15}
 Die Breite von $\unit[3]{px}$ auf \term{zoom} 14 entspräche ca.~$\unit[27]{m}$ in der Realität. \cf[155]{RT09}
 Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
 
