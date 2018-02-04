@@ -321,23 +321,32 @@ Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein untersch
 
 Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen.
 Zufriedenstellende voll automatisiert arbeitende Algorithmen dafür stehen nicht zur Verfügung und ein Eingreifen von Hand ist wie zuvor in Abschnitt \ref{kartenherstellung} erläutert nicht vorgesehen. \cf[25]{Kla11}
-In kleineren Maßstäben ergibt dies beispielsweise für Straßen mit vielen kleineren Kurven eine zittrige Darstellung, so etwa in Abbildung~\ref{fig:trollstigen-osm} am unteren Bildrand.
+In kleineren Maßstäben ergibt dies beispielsweise für Straßen mit vielen kleineren Kurven eine zittrige Darstellung, so etwa in Abbildung~\ref{fig:trollstigen-osm} bei Markierung~\textfiguremark{1}.
 Der Leser kann mit etwas Phantasie zwar erkennen, dass die Straße nicht absolut gerade verläuft, jedoch macht dies die Darstellung undeutlich und ist auch in diesem Maßstab nicht von Bedeutung.
 
 \twofigures{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trollstigen-z11}
-	\caption{Trollstigen, Web-Karte mit \osm-Daten, $1\nobreak:\nobreak135\,000$ \citex{map:thunderforest}}
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/trollstigen-z11}
+		\put(87,16){\figuremark[white]{1}}
+		\put(125,52){\figuremark[white]{2}}
+	\end{overpic}
+	\caption
+		[Trollstigen, Web-Karte mit \osm-Daten, $1\nobreak:\nobreak135\,000$]
+		{Trollstigen, Web-Karte mit \osm-Daten, $1\nobreak:\nobreak135\,000$ \citex{map:thunderforest}}
 	\label{fig:trollstigen-osm}
 }{
-	
-	\includegraphics[width=7cm]{../chapter2/trollstigen-kartverket-z11}
+	\begin{overpic}[width=7cm]{../chapter2/trollstigen-kartverket-z11}
+		\put(87,16){\figuremark[white]{1}}
+		\put(125,52){\figuremark[white]{2}}
+	\end{overpic}
 	% replace Kartverket placeholder with custom-made example?
 	% this example may be at a different scale than the OSM image!
+	\caption
+		[Trollstigen, manuell kartographisch generalisiert, $1\nobreak:\nobreak135\,000$]
+		{Trollstigen, manuell kartographisch generalisiert, $1\nobreak:\nobreak135\,000$ \citex{map:n250}}
 	\label{fig:trollstigen-manual}
-	\caption{Trollstigen, manuell kartographisch generalisiert, $1\nobreak:\nobreak135\,000$ \citex{map:n250}}
 }
 
-An Serpentinen fällt dieser Mangel an Generalisierung besonders auf.
+An Serpentinen fällt dieser Mangel an Generalisierung besonders auf (Markierung~\textfiguremark{2}).
 Im Extremfall kann sich hier in kleinem Maßstab durch das Zusammenfließen der Strecken zwischen den Kehren der falsche Eindruck einer großen, ebenen Straßenfläche ergeben (Abbildung~\ref{fig:trollstigen-osm}).
 Eine sorgfältige Formvereinfachung müsste dagegen den Charakter der Straße durch Darstellung nur einiger ausgewählter Kehren mit vereinfachtem Verlauf erhalten (Abbildung~\ref{fig:trollstigen-manual}).
 %Die Abbildungen~\ref{fig:trollstigen-osm} und~\ref{fig:trollstigen-manual} zeigen auch, wie in der kartographischen Generalisierung die Serpentinen als das Signifikante dieser Straße betont und die unwesentlichen kleineren Kurven davor und danach durch Formvereinfachung entfallen.
@@ -349,14 +358,15 @@ Der vielfach benutzte Algorithmus von Ramer, Douglas und Peucker zur Linienglät
 Eine Formvereinfachung nach kartographischen Gesichtspunkten ergibt sich mit ihm in der Regel nicht.
 
 \onefigure{!b}{
-	\label{fig:crossing-parallels}
 	\includegraphics[width=12.25cm]{../chapter2/crossing}
-	\caption{Überkreuzen paralleler Linienzüge nach Vereinfachung mit Ramer-Douglas-Peucker \citex[bearbeitet]{map:osm-carto}}
+	\caption
+		[Überkreuzen paralleler Linienzüge nach Vereinfachung mit Ramer-Doug\-las-Peucker]
+		{Überkreuzen paralleler Linienzüge nach Vereinfachung mit Ramer-Douglas-Peucker \citex[entsättigt][Hintergrund]{map:osm-carto}}
+	\label{fig:crossing-parallels}
 }
 % TODO: Grafik neu erstellen: Originalkarte -> PSD -> Image/Adjustments/Black&White + QGIS-Export zur Registrierung => PDF in AI
 
-Eines der Probleme bei der Automatisierung der Formvereinfachung besteht in der Notwendigkeit, alle vereinfachten Linien aufeinander abzustimmen, damit die charakteristischen Formen im Kartenbild insgesamt erhalten bleiben. \cf[Formv.]{BK01}
-% TODO: ibid.
+Eines der Probleme bei der Automatisierung der Formvereinfachung besteht in der Notwendigkeit, alle vereinfachten Linien aufeinander abzustimmen, damit die charakteristischen Formen im Kartenbild insgesamt erhalten bleiben. \cf[\ibidabbr]{BK01}
 %Formvereinfachung in kartographisch relevantem Ausmaß wäre daher nur mit einem ganzheitlichem Ansatz sinnvoll, der alle Objektklassen berücksichtigt und sie zueinander passend generalisiert.
 %Beispielsweise müsste der Verlauf einer in einem engen Flusstal verlaufenden Straße in gleicher Weise vereinfacht werden wie der Verlauf des Flusses.
 %Wenn nötig, müsste eines dieser beiden Objekte dazu auch verdrängt werden.
@@ -367,7 +377,7 @@ Dies wird unter anderem dort deutlich, wo parallele Linienzüge mit Ramer-Dougla
 %Optisch besonders auf{\nolig}fällig ist fehlende Erkennung paralleler Linienzüge als zusammengehörig, wenn sie einer starken Formvereinfachung unterzogen werden.
 %Weil beide Linien dann unabhängig voneinander generalisiert werden, kann es abhängig vom eingesetzten Algorithmus zu unterschiedlichen Formen der beiden Linien kommen, die sich im Extremfall sogar gegenseitig überkreuzen können (Abbildung~\ref{fig:crossing-parallels}).
 
-Beispielsweise zeigt Abbildung~\ref{fig:crossing-parallels} Richtungsfahrbahnen von Autobahnen (zur Verdeutlichung in verschiedenen Farben dargestellt), die nach Vereinfachung mit Ramer-Douglas-Peucker durch die ungleichmäßige Verteilung ihrer Stützpunkte stark variierende Abstände zueinander haben und sich sogar teilweise überkreuzen.
+Beispielsweise zeigt Abbildung~\ref{fig:crossing-parallels} Richtungsfahrbahnen von Autobahnen, die nach Vereinfachung mit Ramer-Douglas-Peucker durch die ungleichmäßige Verteilung ihrer Stützpunkte stark variierende Abstände zueinander haben und sich sogar teilweise überkreuzen.
 Dieses Problem ließe sich wenigstens für den Fall paralleler Linien leicht umgehen, wenn diese vor der Formvereinfachung zusammengefasst werden könnten.
 
 Als weiteres Beispiel sind breite Flüsse zu nennen, für die in OpenStreetMap üblicherweise neben einer Mittellinie auch beide Uferlinien erfasst sind, um die flächenhafte Ausdehnung abzubilden.
@@ -383,25 +393,29 @@ Web-Karten mit \osm-Daten sind hier keine Ausnahme.
 
 \onefigure{ht}{
 	\includegraphics[width=13cm]{../chapter2/verdraengung}
-	\caption{typisches Generalisierungsergebnis in Web-Karten; fiktives Beispiel nach [sgk02, 49]}
+	\caption
+		[typisches Generalisierungsergebnis in Web-Karten]
+		{typisches Generalisierungsergebnis in Web-Karten \cf[49]{sgk02}}
 	\label{fig:verdraengung}
 }
 
 \twofigures{H}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen-me}
-	\caption{straßenbegleitender Radweg (rot) schneidet Straßenfläche \citex{map:me}}
+	\caption
+		[straßenbegleitender Radweg schneidet Straßenfläche]
+		{straßenbegleitender Radweg (rot) schneidet Straßenfläche \citex[rotiert]{map:me}}
 	\label{fig:stuelinghausen-maps.me}
 	% Section 4 of the Apache License 2.0 used by maps.me permits relicensing of Derivative Works under different terms. It's not clear if this screenshot even qualifies as a Derivative Works under § 51 UrhG, but even if it does, relicensing under CC terms would be allowed as per the Apache License's terms.
 }{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/stuelinghausen@2-z17}
-	\caption{straßenbegleitender Radweg (blau strichliert) von Straße verdeckt \citex{map:osm-carto}}
+	\caption
+		[straßenbegleitender Radweg von Straße verdeckt]
+		{straßenbegleitender Radweg (blau strichliert) von Straße verdeckt \citex[rotiert]{map:osm-carto}}
 	\label{fig:stuelinghausen-mapnik}
 }
 
-%Solcherart einander verdeckende Linien sind ebenfalls verbreitet.
-Abbildungen~\ref{fig:stuelinghausen-mapnik} und~\ref{fig:stuelinghausen-maps.me} zeigen beispielhaft, wie ein straßenbegleitender Radweg mal „über“, mal „unter“ der Straße zu liegen kommt.
+Abbildungen~\ref{fig:stuelinghausen-maps.me} und~\ref{fig:stuelinghausen-mapnik} zeigen beispielhaft, wie ein straßenbegleitender Radweg mal „über“, mal „unter“ der Straße zu liegen kommt.
 Keiner dieser beiden Ansätze ist kartographisch gelungen.
-% TODO explizit: Zu lösen wäre dieser Konflikt durch eine Generalisierung durch Verdrängung.
 Bevor eine Generalisierung durch Verdrängung stattfinden kann, muss zunächst der Konflikt zwischen Straße und Radweg erkannt werden.
 Es ist denkbar, dass dies durch Untersuchen auf Parallelität geschehen oder erleichtert werden könnte.
 
@@ -635,8 +649,16 @@ Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrund
 % - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
 
 Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung.
-Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt.
+Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt (Abbildung~\ref{fig:skeleton}).
 Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
+
+\onefigure{h}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-skeleton}
+	\caption
+		[Sukzessive Verkleinerung und Skelettlinien]
+		{Sukzessive Verkleinerung (links) und Skelettlinien (blau; rechts) \citex{Hub12}}
+	\label{fig:skeleton}
+}
 
 % HS04: straight skeleton for MRDB
 % <http://web.archive.org/web/20070613154012/http://www.ikg.uni-hannover.de/skalen/buendel/PDF/Skeleton.pdf>
@@ -685,8 +707,6 @@ Der Aufwand für die Implementierung wird mit sieben Mann-Monaten beschrieben. \
 
 Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thiessen-Polygon-Methode erst möglich wird, puffert Skeletron zuvor die \osm-\term{ways} wie in Abschnitt~\ref{ch:buffer} beschrieben. \cf{ME11}
 
-%  All11: \cf[][\?]{All11} ????
-
 
 \subsection{Konflikterkennung}
 \label{ch:conflict-detection}
@@ -728,11 +748,18 @@ Er bezeichnet dieses Konzept als „perceptual grouping“ und zählt unter den 
 % - erwähnt sehr deutlich meine Probleme mit "hanging streets" an Kreuzungen etc. [3]
 % - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
 
-Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“). \cf{TR99}
+Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“, Abbildung~\ref{fig:strokes}). \cf{TR99}
 Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen. \cf{EM00a}
-% ################ "hanging streets" erwähnen?
-% ################ forward pointer zu graphbasiert????
 Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde nach Kenntnis des Verfassers bisher nicht konkret untersucht.
+
+\onefigure{h}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-strokes_51}
+	% copyrighted image used under § 51 UrhG - not included in git repository
+	\caption
+		[ein Netzwerk und seine \term{strokes}]
+		{ein Netzwerk (a) und seine \term{strokes} (b) \citex[\term{figure} 2][\copyright]{TR99}}
+	\label{fig:strokes}
+}
 
 % ! OS MasterMap
 % CM05: ganzheitlicher Ansatz für Ordnance Survey in Road Network

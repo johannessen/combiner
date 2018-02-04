@@ -72,7 +72,8 @@
 \newcommand{\f}{ seq.}
 \newcommand{\ff}{ seqq.}
 \newcommand{\cfabbr}{cf.}
-\newcommand{\cfibid}{\cfabbr\ ibid.}
+\newcommand{\ibidabbr}{ibid.}
+\newcommand{\cfibid}{\cfabbr\ \ibidabbr}
 \DeclareDocumentCommand{\cf}{ O{} O{} m }{%
 \ifthenelse{\isempty{#1}}{\cfx[][#2\cfabbr]{#3}}{\cfx[#1][#2\cfabbr]{#3}}%
 }

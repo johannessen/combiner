@@ -26,5 +26,9 @@
 /project/lib/testng-*
 /project/nohup.out
 
+# TeX intermediate files
 /thesis/chapter?/*.aux
 /thesis/main/*.aux
+
+# copyrighted images used under § 51 UrhG
+*_51.png
