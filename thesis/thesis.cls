@@ -229,10 +229,14 @@
 % standardised markers in graphics
 \RequirePackage[abs]{overpic}
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
+\RequirePackage{tikz}
 \RequirePackage{pifont}
 \RequirePackage[minimum]{adjustbox}
 \definecolor{figuremark}{rgb}{1,.2,0}
-\newcommand{\figuremark}[1]{\adjustbox{lap={\width}{-.4em},valign=M}{\color{figuremark}\ding{\number\numexpr#1+191\relax}}}
+\NewDocumentCommand{\figuremark}{o m}{\adjustbox{lap={\width}{-.4em},valign=M}{%
+\IfNoValueF{#1}{\tikz{\fill[#1] (0,0) circle (.4em);}\hspace{-.8em}}%
+\color{figuremark}\ding{\number\numexpr#2+191\relax}%
+}}
 \newcommand{\textfiguremark}[1]{\ding{\number\numexpr#1+171\relax}}
 %\newcommand{\textfiguremark}[1]{#1}
 \newcommand{\figurestandardsize}{\rule{7cm}{0cm}\rule[-.5ex]{0cm}{4cm}}

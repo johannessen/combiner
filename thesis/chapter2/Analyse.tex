@@ -238,12 +238,7 @@ Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]
 Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich dargestellten Objekte vorgenommen, auch dies abhängig vom Maßstab.
 So werden Anliegerstraßen auf \term{zoom}~12 als schmaler, einfacher Strich gezeichnet, ab \term{zoom}~13 jedoch als weißer Breitstrich mit grauem Rand (Abbildungen~\ref{fig:kampen12} und~\ref{fig:kampen13}).
 
-% Ist dies Bewertung? Sicherstellen in HGM02 o. ä.
-% Hake, Grünreich, Meng 2002 Kartographie (8)
-
 % weitere Fälle von Bewertung: evtl. Klassifizierung nach primary, secondary etc mit unterschiedlich definierten Strichbreiten? TODO: verifizieren
-
-% ++++++++++++++++++
 
 %Ein unklares Kartenbild ist jedoch auch in weniger exotischen
 % "näher liegenden"?
@@ -253,58 +248,71 @@ So werden Anliegerstraßen auf \term{zoom}~12 als schmaler, einfacher Strich gez
 \label{dual-highway-case-1}
 
 Ein weit verbreitetes unklares Kartenbild lässt sich allerdings als scheinbare Betonung einiger auf \url{osm.org} gezeichneten Straßen missverstehen, wie Abbildung~\ref{fig:utrecht14} beispielhaft zeigt.
-Die als Sammelstraße klassifizierte Croeselaan wird mit breiterem Strich gezeichnet als Teile der Hauptstraßen.
-% entweder durch Pfeil oder (1) kenntlich machen
-Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}).
-In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Striche der beiden Fahrbahnen und fließen zusammen. 
-Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite der links im Bild von Nordwest nach Süd verlaufenden Hauptstraße.
-% entweder Satz weglassen oder durch (2) kenntlich machen
+Die als Sammelstraße klassifizierte Croeselaan (bei Markierung~\textfiguremark{1}) wird mit breiterem Strich gezeichnet als Teile der Hauptstraßen (bei~\textfiguremark{2}).
+Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand%
+\footnote{Der kürzlich begonnene in der Abbildung bei~\textfiguremark{2} zu erkennende Neubau einer Busfahrbahn verschmälert die Hauptstraße nicht.}
+oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}).
+In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Signaturen der beiden Fahrbahnen und fließen zusammen. 
+Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite einer Hauptstraße:
+Hier existiert bei Markierung~\textfiguremark{2} nur eine einzige Fahrbahn, während sich bei~\textfiguremark{3} die Signaturen von zwei parallelen Fahrbahnen überlappen.
 
-% gera/utrecht - evtl. MapQuest / osm.de hier einbringen
 \twofigures{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z14}
-	\caption{Karte von \url{osm.org}, \term{zoom}~14, Zusammenfließen von benachbarten Fahrbahnen \citex{map:osm-carto}}
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/utrecht-z14}
+		\put(115,48){\figureframe{.25}}
+		\put(121,54){\figuremark[white]{1}}
+		\put(30,45){\figuremark[white]{2}}
+		\put(19,94){\figuremark[white]{3}}
+	\end{overpic}
+	% http://render.openstreetmap.org/cgi-bin/export?bbox=5.099716,52.074811,5.122461,52.082776&scale=30000&format=pdf
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~14, Zusammenfließen benachbarter Fahrbahnen]
+		{Karte von \nolinkurl{osm.org}, Zoom~14, Zusammenfließen von benachbarten Fahrbahnen \citex{map:osm-carto}}
 	\label{fig:utrecht14}
 }{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/utrecht-z16}
-	\caption{Karte von \url{osm.org}, \term{zoom}~16, Fahrbahnen getrennt erkennbar \citex{map:osm-carto}}
+	% http://render.openstreetmap.org/cgi-bin/export?bbox=5.112805,52.078108,5.118492,52.080099&scale=7500&format=pdf
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~16, Fahrbahnen getrennt erkennbar]
+		{Karte von \nolinkurl{osm.org}, Zoom~16, Fahrbahnen getrennt erkennbar (\textfiguremark{1} in Abbildung~\ref{fig:utrecht14}) \citex{map:osm-carto}}
 	\label{fig:utrecht16}
 }
 
-% zweite Abbildung mit überlagerten Ways?
-
-Abbildung~\ref{fig:gera13} zeigt ähnliche Probleme.
-Die Strichbreite der aus Südosten in die Stadt Gera hineinführenden Hauptstraße ist in deren Verlauf nicht konstant, sondern wechselt scheinbar unmotiviert.
-Dann nach Norden zwischen Fluss und Eisenbahn wird dieselbe Straße erheblich breiter, ab der Kreuzung nach Westen am Ortsteil Debschwitz vorbei auf einmal wieder schmaler.
-
-% Absatz etwas unklar, insb. letzter Satz (implizit)
-Würde man den Maßstab stark vergrößern, träte an diesen Stellen die gleiche Ursache zutage wie oben anhand Abbildung~\ref{fig:b256}
-% TODO: nix "oben" -- "unten" wäre passend => umschreiben
-%und~\ref{fig:utrecht16}
-gezeigt: Die Straßen verfügen über baulich getrennte Richtungsfahrbahnen und werden deshalb mit zwei Linienzügen in der Datenbank modelliert, deren Abstände variieren.
-Die bauliche Trennung ist überdies nicht überall vorhanden.
-% durch (1) kenntlich machen (oder evtl. diesen Teil komplett weg)
+Abbildung~\ref{fig:gera13} zeigt ein ähnlich unklares Kartenbild.
+Hier ist die Hauptstraße längs der Eisenbahnstrecke bei Markierung~\textfiguremark{1} deutlich breiter als bei \textfiguremark{2}.
+Auch hier liegt keine gezielte Bewertung vor; vielmehr wird die Straße von der Bahnstrecke teilweise verdeckt, so dass die Karte den falschen Eindruck einer unterschiedlichen Strichbreite verschafft.
 
 \twofigures{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z14}
-	\caption{Karte von \url{osm.org}, \term{zoom}~14, Straße neben Bahnstrecke \citex{map:osm-carto}}
-	\label{fig:gera14}
-}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/gera-z13}
-	\caption{Karte von \url{osm.org}, \term{zoom}~13, Straße teilweise durch Bahnstrecke verdeckt \citex{map:osm-carto}}
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/gera-z13}
+		\put(52,54){\figuremark[white]{1}}
+		\put(64,77){\figuremark[white]{2}}
+%		\put(23,44){\figureframe{.5}}
+%		\put(118,96){\figuremark[white]{3}}
+	\end{overpic}
+	% http://render.openstreetmap.org/cgi-bin/export?bbox=12.058353,50.868971,12.102371,50.884842&scale=70000&format=pdf
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~13, Straße teilweise durch Bahnstrecke verdeckt]
+		{Karte von \nolinkurl{osm.org}, Zoom~13, Straße teilweise durch Bahnstrecke verdeckt \citex{map:osm-carto}}
 	\label{fig:gera13}
+}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/gera-z14}
+		\put(65,21){\figuremark[white]{1}}
+		\put(82,57){\figuremark[white]{2}}
+	\end{overpic}
+	% http://render.openstreetmap.org/cgi-bin/export?bbox=12.063503,50.875014,12.085512,50.88295&scale=35000&format=pdf
+	\caption
+		[Karte von \nolinkurl{osm.org}, Zoom~14, Straße neben Bahnstrecke]
+		{Karte von \nolinkurl{osm.org}, Zoom~14, Straße neben Bahnstrecke \citex{map:osm-carto}}
+%		{Karte von \nolinkurl{osm.org}, Zoom~14, Straße neben Bahnstrecke (\textfiguremark{3}~in Abbildung~\ref{fig:gera13}) \citex{map:osm-carto}}
+	\label{fig:gera14}
 }
 
-In Gera ergibt sich besonders im Vergleich zweier Maßstäbe ein unklares Kartenbild.
-Westlich des Zentrums verläuft eine Hauptstraße in einem Abschnitt sehr dicht neben der Bahnstrecke.
-In großem Maßstab (Abbildung~\ref{fig:gera14}) scheint die Straße an dieser Stelle breiter zu sein als ein paar Meter weiter südlich, wo der Abstand zur Bahnstrecke größer ist.
-In kleinem Maßstab (Abbildung~\ref{fig:gera13}) erscheint dieses Verhältnis umgekehrt.
-Dies liegt daran, dass die Straße in genau diesem Abschnitt baulich getrennte Fahrbahnen hat, in kleinerem Maßstab aber teilweise durch die Bahnstrecke verdeckt wird.
-% durch (2)/(3) kenntlich machen
+Interessanterweise kehrt sich in größerem Maßstab das Verhältnis der Strichbreiten um:
+In Abbildung~\ref{fig:gera14} ist die Hauptstraße bei Markierung~\textfiguremark{1} nun deutlich \emph{schmaler} als bei~\textfiguremark{2}.
+Dies liegt an getrennt erfassten Richtungsfahrbahnen bei~\textfiguremark{2}, wie sie schon in Abbildung~\ref{fig:utrecht16} gezeigt wurden, während bei~\textfiguremark{1} mangels baulicher Trennung der beiden Fahrtrichtungen nur ein einziger Linienzug erfasst ist.
+Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein unterschiedlicher Strichbreiten ist unbeabsichtigt.
 
 %(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
 
-% Fraglich, ob Platz für beide Beispiele Gera+Utrecht geopfert werden soll. Die Probleme sind ja recht ähnlich. Es zeigt so eigentlich nur, dass es kein Einzelfall ist. Eventuell beide Beispiele nehmen, aber nur auszugsweise beschreiben?
 % Eventuell Gera ganz weg -- es geht am Thema "Bewertung" teilweise vorbei
 
 
