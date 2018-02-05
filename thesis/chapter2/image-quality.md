@@ -14,7 +14,7 @@ Bildqualität
 - Auflösung im Druck: ca. 60 l/cm
 - Qualitätsfaktor: mindestens 2
 - benötigte PNG-Auflösung (für Karten, mit Reserve): ca. 160 px/cm ≈ 400 ppi
-- benötigte PNG-Auflösung (für Fotos, ohne Reserve): ca. 120 px/cm ≈ 300 ppi
+- benötigte JPG-Auflösung (für Fotos, ohne Reserve): ca. 120 px/cm ≈ 300 ppi
 
 
 

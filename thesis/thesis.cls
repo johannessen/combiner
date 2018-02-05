@@ -186,7 +186,7 @@
 %\addto\captionsngerman{\renewcommand\figurename{Abb.}}
 %\RequirePackage{afterpage}
 % \capstart makes in-document links point to top of figures instead of the caption below them; \usepackage[all]{hypcap} might also do the trick
-\newcommand{\twofigures}[3]{
+\newcommand{\onedoublefigure}[4]{
 	\begin{figure}[#1]
 		\begin{minipage}[t]{.5\linewidth}
 			\centering
@@ -197,9 +197,11 @@
 			\centering
 			\capstart
 			#3
-		\end{minipage}
+		\end{minipage}%
+		#4
 	\end{figure}
 }
+\newcommand{\twofigures}[3]{\onedoublefigure{#1}{#2}{#3}{}}
 \newcommand{\onefigure}[2]{
 	\begin{figure}[#1]
 		\centering

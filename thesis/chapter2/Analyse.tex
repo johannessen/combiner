@@ -94,10 +94,7 @@ Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schw
 
 Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
 Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 19 verschiedenen Maßstäben%
-\footnote{In 2013 wurde ein noch größerer, 20.~Maßstab ergänzt%
-% (von null an gezählt \cf{Dijk82}die Zoomstufe 19)
-% http://www.cs.utexas.edu/users/EWD/ewd08xx/EWD831.PDF
-.}
+\footnote{In 2013 wurde ein noch größerer, 20.~Maßstab ergänzt (bei null beginnend gezählt \cf{Dijk82} die Zoomstufe~19).}
 angeboten werden von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ \cf[154–155]{RT09}
 Eine interaktive Oberfläche erlaubt über die freie Wahl der Zoomstufe eine Maßstabswahl und macht den Kartenausschnitt verschiebbar, so dass jeder im eingesetzten Kartennetz abbildbare Punkt der Erde angezeigt werden kann.
 % evtl. Datenmenge etc. betonen
@@ -252,7 +249,8 @@ Die als Sammelstraße klassifizierte Croeselaan (bei Markierung~\textfiguremark{
 Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand%
 \footnote{Der kürzlich begonnene in der Abbildung bei~\textfiguremark{2} zu erkennende Neubau einer Busfahrbahn verschmälert die Hauptstraße nicht.}
 oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}).
-In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Signaturen der beiden Fahrbahnen und fließen zusammen. 
+In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Signaturen der beiden Fahrbahnen und fließen zusammen, so dass sich für den Betrachter der Eindruck einer besonders breiten oder wichtigen Straße ergibt.
+
 Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite einer Hauptstraße:
 Hier existiert bei Markierung~\textfiguremark{2} nur eine einzige Fahrbahn, während sich bei~\textfiguremark{3} die Signaturen von zwei parallelen Fahrbahnen überlappen.
 
@@ -312,8 +310,6 @@ Dies liegt an getrennt erfassten Richtungsfahrbahnen bei~\textfiguremark{2}, wie
 Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein unterschiedlicher Strichbreiten ist unbeabsichtigt.
 
 %(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
-
-% Eventuell Gera ganz weg -- es geht am Thema "Bewertung" teilweise vorbei
 
 
 
@@ -423,32 +419,24 @@ Es ist denkbar, dass dies durch Untersuchen auf Parallelität geschehen oder erl
 
 \subsection{Generalisierung durch Zusammenfassung}
 
-%\begin{itemize}
-%	\item hier: ohne Flächen zu berücksichtigen, obwohl dort evtl. ähnliche Probleme auftreten könnten
-% (ich glaube, ähnliche Probleme treten eigentlich nicht auf)
-	
-%	\item Auswahl, Vergrößern und Betonen funktioniert zufriedenstellend
-%		\item einfache Screenshots aus osm.org als Beispiele
-	
-%	\item Problem bei Zusammenfassung: Linienzüge müssen (oft?) als zusammengehörig (z. B. parallel) erkannt werden, bevor zusammengefasst werden kann
-
-%\end{itemize}
-
 Die Generalisierung durch Zusammenfassung von Linienzügen kommt vor allem bei Parallelität in Betracht.
-% +++++++++++++++++++++
-%Im Falle paralleler Linienzüge
 Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 
 \label{dual-highway-case-2}
 
 Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße.
-% kann dies in Kap. 6 quantifiziert werden?
-Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht, aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt.
-An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen.
+Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht (Markierung~\textfiguremark{1}), aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt (\textfiguremark{2}).
+An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen (\textfiguremark{3}).
 
 \twofigures{ht}{
-	\includegraphics[width=7cm]{../chapter2/b256@2-z16}
-	\caption{variierende Abstände von Richtungsfahrbahnen \citex[bearbeitet]{map:osm-carto}}
+	\begin{overpic}[width=7cm]{../chapter2/b256@2-z16}
+		\put(33,96){\figuremark[white]{1}}
+		\put(96,81){\figuremark[white]{2}}
+		\put(134,94){\figuremark[white]{3}}
+	\end{overpic}
+	\caption
+		[variierende Abstände von Richtungsfahrbahnen]
+		{variierende Abstände von Richtungsfahrbahnen \citex[bearbeitet]{map:osm-carto}}
 	\label{fig:b256}
 }{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/combined-symbols}
@@ -456,22 +444,25 @@ An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gez
 	\label{fig:dual-carriageway}
 }
 
-In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine statt dessen mittig zwischen den beiden Fahrbahnen gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}).
-Da jedoch in \osm{} die gesonderte Erfassung einer Mittellinie als Straßenachse unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
+In Maßstabsbereichen, in denen die Grundrisstreue keine Rolle spielt, könnte möglicherweise eine stattdessen entlang der mittig zwischen den beiden Fahrbahnen verlaufenden Straßenachse gezeichnete kombinierte Signatur ein besseres Kartenbild erreichen (Abbildung~\ref{fig:dual-carriageway}).
+Da jedoch in \osm\ die gesonderte Erfassung der Straßenachse unüblich ist, müssten hierzu zunächst die beiden Richtungsfahrbahnen als zusammengehörig (parallel) erkannt werden.
 
-% 256 (großer maßstab)
-% dual carriageway (kleiner maßstab) (evtl. fotos trunk NO)
+% TODO: evtl. Verweis auf ch2.1 / Sch09?
+% siehe "Überleitung" unten!
+
 % Grund für folgenden Absatz: zeigen, dass Verfahren von osm.de keine Lösung ist
 
-In Deutschland erfasst die \osm-\term{community} autobahnähnliche Straßen als \osmtag{highway=trunk} aufgrund ihres Ausbauzustands.
+In Deutschland erfasst die \osm-Community autobahnähnliche Straßen als \osmtag{highway}[trunk] anhand ihres Ausbauzustands.
 Allerdings bildet die \osm-Straßenklassifizierung historisch bedingt das britische System ab, wo \term{trunk roads} ausdrücklich keinen bestimmten Ausbauzustand haben, sondern das Kernnetz der wichtigsten Straßen erster Ordnung bilden.
-Unter Umständen wird \osmtag{highway=trunk} somit auch für schmalere Landstraßen verwendet.
-Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norway}). \cf{osm:HighwayTrunk}
+Unter Umständen wird \osmtag{highway}[trunk] somit auch für schmalere Landstraßen verwendet.
 
-% TODO: schauen, ob Karte von Dolkviktunnelen / Rv557 besser passt, weil beide Richtungen des Problems gezeigt werden (analog rail tracks) -- theoretisch ja, aber vmtl. schwierig umzusetzen
+Wird den Gepflogenheiten in Deutschland entsprechend für \osmtag{highway}[trunk] eine auf den Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung.
+Abbildung~\ref{fig:trunk-norway-osm-de} zeigt eine solche Situation aus Norwegen:
+Die Kartensignatur erweckt den Eindruck eines autobahnähnlichen Ausbaus, tatsächlich handelt es sich jedoch um eine einfache Landstraße mit Grundstückszufahrten und engen Kurvenradien (Abbildung~\ref{fig:trunk-norway}).
 
 % TODO: Relationen-Probleme erläutern? -> eher weiter vorne!
 
+% alternative Beispiele für schmale trunks in NO:
 % Ev39 Kalandseidet, > 6 m aber Karte zeigt "mitten im Dorf"
 % Ev39 Søfteland, Bild noch besser, aber keine Häuser in Karte
 % Ev39 nach Nesttun rein, ginge auch, aber mit Radweg
@@ -483,18 +474,21 @@ Gleiches gilt u.~a. für Norwegen (\term{riksveg}, Abbildung~\ref{fig:trunk-norw
 %   https://goo.gl/maps/Y4NwWfRWSZ82
 
 \twofigures{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-photo2}
-	\caption{typischer \osmtag{highway=trunk} in Norwegen (E\,39, Vallaheiane)}
-	\label{fig:trunk-norway}
-}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-map1}
-	\caption{Landstraße (Vallaheiane) als \osmtag{highway=trunk} mit autobahnähnlicher Signatur \citex{map:osm-de}}
+	\caption
+		[Landstraße als {\osmtag{highway}[trunk]} mit autobahnähnlicher Signatur]
+		{Landstraße (Vallaheiane) als {\osmtag{highway}[trunk]} mit \mbox{autobahnähnlicher} Signatur \citex{map:osm-de}}
 	\label{fig:trunk-norway-osm-de}
+}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter2/trunk-no-ev39-frame1639}
+	\caption
+		[typische norwegische Fernstraße \term{(riksveg),} als {\osmtag{highway}[trunk]} erfasst]
+		{typische norwegische Fern\-straße (\term{riksveg} E\,39, Vallaheiane), als {\osmtag{highway}[trunk]} erfasst}
+	\label{fig:trunk-norway}
 }
 
-Wird den Gepflogenheiten in Deutschland entsprechend für \osmtag{highway=trunk} eine auf den Ausbau mit baulich getrennten Fahrbahnen hindeutende Signatur gewählt, so birgt dies im internationalen Einsatz Potenzial für Verwirrung (Abbildung~\ref{fig:trunk-norway-osm-de}).
-Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung aus der Geometrie der Geodaten interessant.
-% Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier eine Erkennung als zusammengehörig hilfreich.
+Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand oft nicht unmittelbar hervorgeht, macht die Möglichkeit einer algorithmischen Ableitung desselben aus der Geometrie der Geodaten interessant.
+Möchte man einheitliche Zeichenregeln verwenden, so wäre auch hier die Möglichkeit einer Erkennung von zwei Richtungsfahrbahnen als parallel und zusammengehörig hilfreich.
 
 
 % --------------------
@@ -505,39 +499,55 @@ Dass aus dem \osm-Datenmodell samt Attributen der tatsächliche Ausbauzustand of
 
 \label{railway-case}
 
-Die Probleme sind nicht auf das Straßennetz beschränkt.
-Mit \osmtag{tracks=*} wird in \osm{} die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht.
-Abbildungen~\ref{fig:tracks-small} und~\ref{fig:tracks-large} stellen diesen \term{tag} farblich dar.
-Bei Betrachtung in kleinem Maßstab (Abbildung~\ref{fig:tracks-small}) sieht (1) zunächst nach einer viergleisigen Strecke aus, in Abbildung~\ref{fig:tracks-large} plötzlich nach einer insgesamt 16gleisigen Strecke.
-Tatsächlich liegen insgesamt vier einzelne Gleise.
-Möglicherweise hat ein \osm-Beitragender \osmtag{tracks=*} missverstanden als die Gesamtanzahl der Gleise \cf{Fox12}, wofür jedoch ein anderer \term{tag} steht (\osmtag{passenger\_lines=*}).
+Die Probleme durch fehlende Generalisierung durch Zusammenfassung sind nicht auf das Straßennetz beschränkt.
+So wird in \osm\ mit \osmtag{tracks}[*] die Anzahl der Eisenbahngleise gekennzeichnet, für die ein \term{way} steht.
+Die Karten in Abbildung~\ref{fig:tracks} stellen diesen \term{tag} farblich dar.
 
-\twofigures{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-small}
-	\caption{Zusammenfließen benachbarter Bahngleise in kleinem Maßstab}
-	\label{fig:tracks-small}
+Bei Betrachtung in kleinem Maßstab sieht darin \textfiguremark{1} zunächst nach einer viergleisigen Strecke aus, in großem Maßstab plötzlich nach wenigstens \emph{zwei} viergleisigen Strecken nebeneinander.
+Tatsächlich liegen insgesamt vier einzelne Gleise, die jeweils durch einen \term{way} mit dem Attribut \osmtag{tracks}[4] erfasst sind%
+\footnote{Das \osmtag{tracks}-Attribut wurde zwischenzeitlich durch Beitragende von diesen \term{ways} entfernt.}.
+In kleinem Maßstab fließen sie zusammen, in großem Maßstab sind sie jedoch einzeln erkennbar und vermitteln dem Leser das falsche Bild von insgesamt 16~Gleisen.
+Möglicherweise hat ein \osm-Beitragender \osmtag{tracks}[*] missverstanden als die Gesamtanzahl der Gleise, \cf{Fox12} wofür jedoch das Attribut \osmtag{passenger\_lines}[*] zu verwenden ist.
+
+\onedoublefigure{ht}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/tracks-small}
+		\put(92,63){\figuremark[white]{1}}
+		\put(103,72){\figuremark[white]{2}}
+		\put(95,13){\figuremark[white]{3}}
+		\put(122,14){\figuremark[white]{4}}
+	\end{overpic}
 }{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/tracks-large}
-	\caption{einzelne Gleise erkennbar in größerem Maßstab}
-	\label{fig:tracks-large}
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/tracks-large}
+		\put(33,75){\figuremark[white]{1}}
+		\put(114,93){\figuremark[white]{2}}
+		\put(76,10){\figuremark[white]{3}}
+		\put(116,10){\figuremark[white]{4}}
+	\end{overpic}
+}{
+	% fiktives Beispiel
+	\caption
+		[fehlerhafte Repräsentation der Gesamtzahl paraleller Gleise mit dem \osmtag{tracks}-Attribut]
+		{fehlerhafte Repräsentation der Gesamtzahl paraleller Gleise mit dem \osmtag{tracks}-Attribut (links Zoom~15, rechts Zoom~17; Karlsruhe-Weiherfeld) \cf{map:ito-tracks}}
+	\label{fig:tracks}
 }
-% TODO: fiktives Beispiel (?)
-% <http://www.itoworld.com/map/14> ca. 2012/2013
 
-Analog kann in Abbildung~\ref{fig:tracks-small} der Eindruck entstehen, dass von der eingleisigen Strecke (2) zwei doppelgleisige Strecken (3) und (4) derart abzweigen, dass am unteren Bildrand insgesamt fünf Gleise nebeneinander liegen.
-In größerem Maßstab (Abbildung~\ref{fig:tracks-large}) wird (2) plötzlich der Realität entsprechend als zwei parallele Gleise erkennbar, deren Signaturen im kleineren Maßstab zusammengeflossen waren.
-Der Abzweig (3) und (4) besteht tatsächlich aus jeweils einem einzelnen Gleis, das fälschlich \osmtag{tracks=2} gesetzt hat.
+Analog kann in kleinem Maßstab der Eindruck entstehen, dass von der eingleisigen Strecke \textfiguremark{2} zwei doppelgleisige Strecken \textfiguremark{3} und \textfiguremark{4} derart abzweigen, dass am unteren Kartenrand insgesamt fünf Gleise nebeneinander liegen.
+In größerem Maßstab wird erkennbar, dass es sich gerade umgekehrt verhält:
+Die Strecke \textfiguremark{2} ist korrekt mit zwei parallelen Gleisen erfasst, deren Signaturen jedoch im kleineren Maßstab zusammenfließen;
+die Abzweige \textfiguremark{3} und \textfiguremark{4} bestehen allerdings aus jeweils nur einem einzelnen Gleis, das fälschlich das Attribut \osmtag{tracks}[2] trägt.
 
 % Fußnote?
-Insgesamt ist diese Karte mit \osmtag{tracks=*} wenig gelungen.
-Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird.
-Das unglücklich benannte \osmtag{passenger\_lines} reicht für manche Anwendungen aus, wird jedoch nur auf speziellen Karten angezeigt,
+Insgesamt sind die Darstellungen von \osmtag{tracks}[*] in Abbildung~\ref{fig:tracks} wenig gelungen%
+\footnote{Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird.}.
+Das unglücklich benannte Attribut \osmtag{passenger\_lines} reicht dazu aus, \osmtag{tracks}[*] für manche Anwendungen zu ersetzen, wird jedoch nur auf speziellen Karten angezeigt,
 % zu implizit?
 so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/passenger_lines-europe}
-	\caption{Eisenbahnstrecken in Europa, für die \osmtag{passenger\_lines} erfasst ist \citex{map:ito-passenger-lines}}
+	\caption
+		[Eisenbahnstrecken in Europa, für die {\osmtag{passenger\_lines}[*]} erfasst ist]
+		{Eisenbahnstrecken in Europa, für die \osmtag{passenger\_lines}[*] erfasst ist \citex{map:ito-passenger-lines}}
 	\label{fig:passenger_lines}
 }
 
@@ -546,35 +556,12 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
 %\subsection{Generalisierung durch Qualitätsumschlag}
 
 %Beispiele für Qualitätsumschläge in Web-Karten sind schwierig zu finden. Oft handelt es sich bei entsprechenden graphischen Effekten technisch um eine Generalisierung durch Auswahl, durch die ein bisher verdecktes Element zum Vorschein kommt.
-% Qualitätsumschlag? railway=rail -> landuse=railway ?
 
 
-
-%\subsection{„Zielsetzung der Arbeit“ (alt) TBD}
 
 %\item Erkennung als parallel ist bisher ein Problem
-% [CTGV14] benennen?
-% _war_ bisher! oder "ist gewesen"...
-
-%\textbf{offener Punkt: Redundanz mit Themenblatt}
-
-% -> Google Traffic
-% nur hier nennen...? -> bessere Kapitelabgrenzung!
-
-% google
-%\begin{figure}[ht]
-%    \centering
-%    \includegraphics[width=\ScaleIfNeeded]{../chapter2/google-traffic}
-%    \caption{google-traffic}\label{fig:google-traffic}
-%\end{figure}
-
-
 
 \section{Zielsetzung der Arbeit}
-
-% Kapitel ist nach Reorganisation jetzt kürzer als geplant
-% => Text insgesamt überarbeiten, auf flüssiges Lesen und logischen Zusammenhang optimieren
-% eventuell Norwegen-Beispiel hierhin oder zur Spezifikation (Kap. 3)
 
 Das automatisierte Zusammenfassen paralleler Linienzüge kann zur Vermeidung einiger der oben diskutierten Probleme bei der Generalisierung und Darstellung von Geodaten beitragen.
 
@@ -582,42 +569,20 @@ Bereits das Zusammenfassen selbst ist ein Vorgang der kartographischen Generalis
 Es kann das Kartenbild vereinfachen und verbessern.
 % TODO: Abgleich mit oben
 
-Beim Zusammenfassen können Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben.
-Beispielsweise kann beim Zusammenfassen paralleler Gleise die in \osmtag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden.
+Beim Zusammenfassen könnten Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben.
+Beispielsweise könnte beim Zusammenfassen paralleler Gleise die in \osmtag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden (vgl. Abschnitt~\ref{railway-case}).
 Die so vereinfachten Geodaten können dann entsprechend ihrer Attribute visualisiert werden.
 Die Gefahr von missverständlichen oder unschönen Kartenbildern, die wie oben gezeigt etwa durch Überlagerung entstehen können, wird so verringert.
 
 Ebenfalls verringert wird die Datenmenge an sich.
 Das Arbeiten mit Geodaten für große Gebiete, aber auch die Weiternutzung für andere Zwecke wird so unter Umständen einfacher.
-% (möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
 
-Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf parallele Linienzüge mehr genommen werden muss (siehe Abbildung~\ref{fig:crossing-parallels}).
+Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf eventuell parallele Linienzüge mehr genommen werden muss (siehe Abbildung~\ref{fig:crossing-parallels}).
 % TODO: Referenz
 % Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 
 Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm{}.
 Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere weder eine Formvereinfachung noch eine Verdrängung.
-
-%\begin{itemize}
-%	% „Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap“
-%	
-%	\item \eyecatcher{Ziel der Arbeit:} die automatisierte Generalisierung durch Zusammenfassung von Linienzügen
-%	
-%	\item Visionen:
-%	\begin{itemize}
-%		\item kartographische Generalisierung => besseres Kartenbild
-%			\item Zusammenfassung der Attribute derart, dass die Möglichkeit zur Darstellung der Gesamtwerte besteht (z. B. Railway-Tracks / lanes)
-%		\item Verringerung der Datenmenge => einfacheres Arbeiten mit Daten für große Gebiete, Vereinfachung der Weiternutzung
-%			(möglichst Zahlenbeispiele für Dateigröße, Featurezahl und/oder Laufzeiten anhand meiner Skripte für größere OSM-Datensätze nennen)
-%		\item Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
-%	\end{itemize}
-%	
-%	\item \emph{nicht} Teil der Arbeit sind insbesondere:
-%	\begin{itemize}
-%		\item die Formvereinfachung selbst
-%		\item eine wie auch immer geartete Verdrängung (obgleich eine solche durch diese Arbeit vielleicht erleichtert werden könnte)
-%	\end{itemize}
-%\end{itemize}
 
 
 
@@ -635,7 +600,7 @@ Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere we
 % - löst auch Erkennung nicht
 
 Das Projekt „OSM-3D“ verwendet \osm-Daten automatisiert zum Aufbau eines 3D-Modells für die ganze Welt.
-Die \term{ways} aus \osm{} werden für die 3D-Szene durch Pufferung mit attributabhängigem Radius in Polygone gewandelt, um ein Gesamtbild mit realistischen Breiten von Straßen, Wegen und Bahnlinien zu erzeugen.
+Die \term{ways} aus \osm\ werden für die 3D-Szene durch Pufferung mit attributabhängigem Radius in Polygone gewandelt, um ein Gesamtbild mit realistischen Breiten von Straßen, Wegen und Bahnlinien zu erzeugen.
 Um dabei durch Überlappungen von eng parallelen \term{ways} entstehende unnötig große Datenmengen zu vermeiden, werden diese Polygone anschließend vereinigt. \cf[2–3]{OHSZ10}
 
 Durch diesen Ansatz werden unerwünschte Parallelen beseitigt.
@@ -655,8 +620,8 @@ Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 \onefigure{h}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-skeleton}
 	\caption
-		[Sukzessive Verkleinerung und Skelettlinien]
-		{Sukzessive Verkleinerung (links) und Skelettlinien (blau; rechts) \citex{Hub12}}
+		[sukzessive Verkleinerung einer Fläche und deren Skelettlinien]
+		{sukzessive Verkleinerung einer Fläche (links) und deren Skelettlinien (blau; rechts) \citex{Hub12}}
 	\label{fig:skeleton}
 }
 
@@ -756,7 +721,7 @@ Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehe
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-strokes_51}
 	% copyrighted image used under § 51 UrhG - not included in git repository
 	\caption
-		[ein Netzwerk und seine \term{strokes}]
+		[ein Netzwerk und seine \term{strokes} {[\copyright]}]
 		{ein Netzwerk (a) und seine \term{strokes} (b) \citex[\term{figure} 2][\copyright]{TR99}}
 	\label{fig:strokes}
 }
