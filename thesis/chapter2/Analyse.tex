@@ -2,6 +2,7 @@
 
 \documentclass[../main/thesis.tex]{subfiles}
 \onlyinsubfile{\setcounter{chapter}{1}}  % single-chapter command
+%\onlyinsubfile{\renewcommand{\BibTeXenabled}{1}}
 \begin{document}
 
 
@@ -72,7 +73,7 @@ Tatsächlich scheinen Relationen vergleichsweise wenig Beachtung zu finden%
 % 58712 relations with route=road
 Möglicherweise hängt dies damit zusammen, dass Relationen von \osm-Software noch nicht optimal  unterstützt werden. \cf[83]{RT09}
 
-Das oben beschriebene Fehlen interner Strukturen unter den \osm-Mitwirkenden (der Community) macht es aufwändig, die Erfassung und Kodierung der Geodaten zu verändern. \cf[84--85]{Sch09}
+Das oben beschriebene Fehlen interner Strukturen unter den \osm"=Mitwirkenden (der Community) macht es aufwändig, die Erfassung und Kodierung der Geodaten zu verändern. \cf[84--85]{Sch09}
 Änderungsvorschläge müssen zuerst von der Community akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden.
 Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann.
 Das macht eine automatisierte Ableitung der nötigen Informationen aus den bereits existierenden Geodaten interessant.
@@ -114,6 +115,7 @@ Gerenderte Kacheln werden in einem Cache abgelegt und zum Browser geschickt.
 Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf nicht vorgesehen (im Gegensatz zu den Abläufen im AAA-Modell der deutschen Landesvermessung \cf[263]{ML12}).
 Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch den Renderer wird eine begrenzte Modell-\noncf[194 17.2]{RT09} bzw. kartographische Generalisierung durchgeführt. \cf[194, 198]{RT09}
 % [ML12] beschreibt einzelne kommerzielle Lösung (hat aber nette Bilder); -> möglichst noch bessere Quelle suchen
+% -> UD06 ???
 % http://wiki.openstreetmap.org/wiki/Mod_tile/Setup_of_your_own_tile_server
 
 \onefigure{ht}{
@@ -130,6 +132,7 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 % LVAs verwenden (?) kartographische Hints, um die Ableitung von FOlge-DLMs zu erleichtern (?) [ML12, KN 62 (5) 263]. Das geht bei OSM nicht, weil auch das eben die Generalisierung und damit auch die Kartenherstellung verzögern und somit das schnelle ERfolgserlebnis verhindern würde. Es muss eben tatsächlich vollautomatisch ablaufen, wie auch immer.
 
 % lesen: -> KN 56 (4) 191ff Modellgeneralisierung in ATKIS
+% 193 (3.5): Kleeblatte sind "komplexes Objekt", d. h. leicht gesondert zu behandeln!
 
 
 % MapCSS includes an eval function, and has rules that act as 'commands' to modify data. CartoCSS does not support eval or any data-modifying operations.
@@ -157,7 +160,7 @@ Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berech
 
 % Qualitätsumschlag fällt in OSM tlws. auch hierunter, gibt's aber nur für Flächen
 
-\twofigures{t}{
+\twofigures{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z11}
 	\caption
 		[Karte von \nolinkurl{osm.org}, Zoom~11, \term{residentials} nicht dargestellt]
@@ -176,7 +179,7 @@ Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berech
 \subsection{Generalisierung durch Vergrößerung}
 % Vergrößerung -> maßstabsbedingt notwendig
 
-\twofigures{t}{
+\twofigures{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z14}
 	\caption
 		[Karte von \nolinkurl{osm.org}, Zoom~14, \term{residentials} 3~Pixel breit]
@@ -191,7 +194,7 @@ Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berech
 }
 
 \capstartfalse  % empty figures aren't supported by the document class
-\twofigures{t!}{
+\twofigures{ht!}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/kampen-z13}
 	\caption
 		[Karte von \nolinkurl{osm.org}, Zoom~13, \term{residentials} 3~Pixel breit]
@@ -302,6 +305,7 @@ Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein untersch
 
 
 
+\FloatBarrier
 \subsection{Generalisierung durch Formvereinfachung}
 
 Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen.
@@ -370,6 +374,7 @@ Je nach den gewählten Parametern kann eine Formvereinfachung hier dazu führen,
 
 
 
+\FloatBarrier
 \subsection{Generalisierung durch Verdrängung}
 
 Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltung kartographischer Minimalabstände und -dimensionen.
@@ -548,15 +553,12 @@ so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:pass
 
 
 
-%\item Erkennung als parallel ist bisher ein Problem
-
 \section{Zielsetzung der Arbeit}
 
 Das automatisierte Zusammenfassen paralleler Linienzüge kann zur Vermeidung einiger der oben diskutierten Probleme bei der Generalisierung und Darstellung von Geodaten beitragen.
 
 Bereits das Zusammenfassen selbst ist ein Vorgang der kartographischen Generalisierung.
 Es kann das Kartenbild vereinfachen und verbessern.
-% TODO: Abgleich mit oben
 
 Beim Zusammenfassen könnten Attribute der beteiligten \term{ways} derart aggregiert werden, dass zuvor durch Geometrie ausgedrückte Zusammenhänge in den generalisierten Daten erhalten bleiben.
 Beispielsweise könnte beim Zusammenfassen paralleler Gleise die in \osmtag{passenger\_lines} vermerkte Gleisanzahl der zuvor getrennten \term{ways} für das generalisierte Ergebnis addiert werden (vgl. Abschnitt~\ref{railway-case}).
@@ -567,10 +569,10 @@ Ebenfalls verringert wird die Datenmenge an sich.
 Das Arbeiten mit Geodaten für große Gebiete, aber auch die Weiternutzung für andere Zwecke wird so unter Umständen einfacher.
 
 Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, wenn keine Rücksicht auf eventuell parallele Linienzüge mehr genommen werden muss (siehe Abbildung~\ref{fig:crossing-parallels}).
-% TODO: Referenz
+
 % Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 
-Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm{}.
+Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm\.
 Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere weder eine Formvereinfachung noch eine Verdrängung.
 
 
@@ -606,7 +608,7 @@ Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skeletti
 Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt (Abbildung~\ref{fig:skeleton}).
 Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 
-\onefigure{h}{
+\onefigure{b}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-skeleton}
 	\caption
 		[sukzessive Verkleinerung einer Fläche und deren Skelettlinien]
@@ -706,7 +708,7 @@ Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kon
 Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen. \cf{EM00a}
 Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde nach Kenntnis des Verfassers bisher nicht konkret untersucht.
 
-\onefigure{h}{
+\onefigure{hb}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-strokes_51}
 	% copyrighted image used under § 51 UrhG - not included in git repository
 	\caption
@@ -786,8 +788,18 @@ Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähn
 
 Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt.
 Mackaness und Mackechnie demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen. \cf{MM99}
-Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe.
+Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe (Abbildung~\ref{fig:graph-edges-parallel}).
 Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings nicht.
+
+\onefigure{ht}{
+	\includegraphics[width=11.4cm]{../chapter2/graph-edges-parallel_51}
+	% copyrighted image used under § 51 UrhG - not included in git repository
+	\caption
+		[graphentheoretische Form des „Königsberger Brückenproblems“ und eine Reduktion des Graphen {[\copyright]}]
+		{das „Königsberger Brückenproblem“ (a), seine graphentheoretische Form (b) und eine Reduktion des Graphen (c) \citex[188][\copyright]{MM99}}
+	\label{fig:graph-edges-parallel}
+}
+
 
 
 %\begin{itemize}
@@ -804,8 +816,6 @@ Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings
 % <http://wiki.openstreetmap.org/wiki/Roadmatcher>
 % + http://sourceforge.net/projects/jump-pilot/files/OpenJUMP_plugins/More%20Plugins/Matching%20PlugIn/
 % <http://sourceforge.net/projects/jump-pilot/files/OpenJUMP_plugins/More%20Plugins/Matching%20PlugIn/>
-
-%(jeweils einschließlich Anwendbarkeit auf die vorliegende Fragestellung, ggf. Vor- und Nachteilen, ggf. Bezug der darin verwendeten Fachsprache zur in dieser Arbeit verwendeten Terminologie)
 
 
 

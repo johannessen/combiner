@@ -61,7 +61,7 @@
 % \cfx[p. 34 seq.][cf.]{AB12} ==>> [cf. AB12, p. 34 seq.]
 \RequirePackage{xparse}
 \RequirePackage{xifthen}
-\DeclareDocumentCommand{\cfx}{ O{} O{} m }{%
+\NewDocumentCommand{\cfx}{ O{} O{} m }{%
 \ifthenelse{\equal{\BibTeXenabled}{1}}%
 {\cite[#2][#1]{#3}}%
 {[\ifthenelse{\isempty{#2}}{}{#2 }#3\ifthenelse{\isempty{#1}}{}{, #1}]}%
@@ -74,15 +74,15 @@
 \newcommand{\cfabbr}{cf.}
 \newcommand{\ibidabbr}{ibid.}
 \newcommand{\cfibid}{\cfabbr\ \ibidabbr}
-\DeclareDocumentCommand{\cf}{ O{} O{} m }{%
+\NewDocumentCommand{\cf}{ O{} O{} m }{%
 \ifthenelse{\isempty{#1}}{\cfx[][#2\cfabbr]{#3}}{\cfx[#1][#2\cfabbr]{#3}}%
 }
 
-\DeclareDocumentCommand{\citex}{ O{} O{} m }{%
+\NewDocumentCommand{\citex}{ O{} O{} m }{%
 \ifthenelse{\isempty{#1}}{\cfx[][#2]{#3}}{\cfx[#1][#2]{#3}}%
 }
 
-\DeclareDocumentCommand{\noncf}{ O{} O{} m }{}
+\NewDocumentCommand{\noncf}{ O{} O{} m }{}
 
 % --------------
 
@@ -91,22 +91,15 @@
 % http://www.golatex.de/wiki/%5Cnocite
 
 %\RequirePackage{microtype}
+% http://www.khirevich.com/latex/microtype/
 
 % word wrap and hyphenation
-%\tolerance=2500  % Paddy
-%\hyphenation{Hash-funk-tion Hash-funk-tionen}  % Paddy
+\tolerance=1414
+\hbadness=1414
+\setlength{\emergencystretch}{1.5em}
+\hfuzz=.3pt
 \hyphenation{mul-ti-step}
-\setlength{\emergencystretch}{3em}
 % http://www.tex.ac.uk/FAQ-overfull.html
-% http://en.wikibooks.org/wiki/LaTeX/Paragraph_Formatting#Hyphenation
-
-% Versuch, lange URLs umzubrechen (funktioniert nicht wirklich)
-%\newcommand{\origttfamily}{}% sollte noch nicht definiert sein!
-%\let\origttfamily=\ttfamily % alte Definition von \ttfamily sichern
-%\renewcommand{\ttfamily}{\origttfamily \hyphenchar\font=`\-}
-
-% increased leading
-%\renewcommand{\baselinestretch}{1.4}
 
 % use 'normal' (serif) font for all headers and captions
 \setkomafont{sectioning}{\normalfont\bfseries}
@@ -124,7 +117,7 @@
 \newcommand{\term}{\textit}
 
 % usage: \osmtag{highway} or \osmtag{highway}[*] or \osmtag{highway}[trunk]
-\DeclareDocumentCommand{\osmtag}{ m O{} }{%
+\NewDocumentCommand{\osmtag}{ m O{} }{%
 \textit{#1}%
 \ifthenelse{\isempty{#2}}{}{%
 \textit{\kern+.1em=\kern+.1em \ifthenelse{\equal{#2}{*}}{\kern+.1em$*$}{#2}}%
@@ -142,7 +135,7 @@
 
 % Hinweis auf fehlende Referenz
 %\newcommand{\noref}[1]{[#1\ifthenelse{\isempty{#1}}{}{ }\?] }
-\DeclareDocumentCommand{\noref}{ O{} }{%
+\NewDocumentCommand{\noref}{ O{} }{%
 [#1\ifthenelse{\isempty{#1}}{}{ }\?] %
 }
 
@@ -240,7 +233,7 @@
 % usage: \figureframe{.2}
 \newcommand{\figureframe}[1]{\linethickness{.2mm}\color{figuremark}\frame{\scalebox{#1}{\figurestandardsize}}}
 %% usage: \figureframe{.2} or \figureframe{.2}[.3] (for scaling not in proportion)
-%\DeclareDocumentCommand{\figureframe}{ m O{} }{\linethickness{.2mm}\color{figuremark}\frame{%
+%\NewDocumentCommand{\figureframe}{ m O{} }{\linethickness{.2mm}\color{figuremark}\frame{%
 %\ifthenelse{\isempty{#2}}{\scalebox{#1}{\figurestandardsize}}{\scalebox{#1}[#2]{\figurestandardsize}}%
 %}}
 
