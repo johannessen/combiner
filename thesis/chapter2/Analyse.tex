@@ -7,88 +7,77 @@
 
 \chapter{Analyse der Ausgangslage}
 
-\begin{draft}
-\section{OpenStreetMap: Alles für Alle \emph{[Entwurf]}}
-Topographische Vermessungen führten ursprünglich nur zu relativ ungenauen Ergebnissen. \cf[43]{Koh04}
-Für die im 18.~und 19.~Jahrhundert erstmals durchgeführte systematische Landesaufnahme standen nur am Boden operierte Messinstrumente zur Verfügung.
-Bis in die zweite Hälfte des 20. Jahrhunderts waren der manuell horizontierte und abgelesene Theodolit und das Bandmaß die dabei primär eingesetzten Instrumente. \cf[3–6]{WG06}
-Deren Natur entsprechend ging dies mit einem immensen Aufwand an Arbeitskräften einher.
+\section{OpenStreetMap: Alles für Alle}
+\label{ch:osm-intro}
 
-Die schiere Menge der eingesetzten Vermesser machte im Laufe der Zeit auch mit einfachen Instrumenten zufriedenstellende Ergebnisse möglich.
-In den letzten Jahrzehnten haben Photogrammetrie, Fernerkundung und satellitengestützte Ortsbestimmung das Vermessungswesen revolutioniert.
-Genauere Resultate ließen sich in kürzerer Zeit und so auch mit geringeren Kosten erreichen. \noref
+Ziel des Projekts OpenStreetMap (OSM) ist die Erstellung einer Geodatenbank für eine freie Weltkarte. \cf[47]{Top09}
+Zehntausende Freiwillige verwenden z.~B. in ihrer Freizeit preisgünstige tragbare GPS-Empfänger oder dafür freigegebene Luftbilder, um Geodaten zu erfassen (\term{volunteered geographic information,} VGI). \cf[148--149, 154]{NZ12}
+Die so erstellte Geodatenbank kann unter einer freien Lizenz%
+\footnote{seit 12.~September 2012 die Open~Database~License (ODbL) \cf{osm:ODbL}}
+zu beliebigen Zwecken weiterverwendet werden. \cf[119--120]{SP11}
 
-% Ist die Kostendiskussion wirklich von Interesse? Eigentlich geht's ja nur um die ursprüngliche Motivation für OSM
-
-Obgleich die Kosten geringer als zuvor sind, liegen sie nach wie vor in mehrstelliger Millionenhöhe allein für die amtlichen Geobasisdaten eines deutschen Bundeslandes. \cf[3]{lgm05}
+%Im Unterschied zu kommerziell verfügbaren Geodaten anderer Anbieter (Ämter, Navteq etc.) entstehen bei \osm\ keine Lizenzkosten. \noref\
+%Im Unterschied zu kostenlos verfügbaren Kartendarstellungen anderer Anbieter (Google, Ämter etc.) sind bei \osm\ auch die rohen Geodaten verfügbar und erlauben die ... \cf[6]{RT09}
+%%Im Gegensatz zu vielen amtlichen Geobasisdaten dürfen OpenStreetMap-Daten lizenzkostenfrei verwendet werden, auch für kommerzielle Zwecke. \cf[217, 221\f]{RT09}
+% \cf[336]{Böh07}
 % [lgm05 3 (LG München, Beschl. vom 9. Nov. 2005, Az. 21 O 7402/02, 3; in: GRUR 2006, 225)]
-In Europa \noref herrscht heutzutage \cf[119]{Fis01} die Auffassung vor, dass diese solcherart mit Steuergeldern erhobenen Daten der Allgemeinheit nicht kostfrei zur Weiternutzung zur Verfügung gestellt werden, sondern die \emph{konkreten} Nutzenden zusätzlich Lizenzgebühren zahlen sollen \noref.
-Diese Lizenzkosten schränken den Nutzen amtlicher Geodaten nicht nur für kommerzielle Zwecke \cf[336]{Böh07}, sondern auch für Privatleute \noref erheblich ein \noref.
 
-% [Egg99 \noref]
+Das von \osm\ verwendete Datenmodell ist sehr einfach gehalten:
+Es kennt nur Punkte \term{(nodes),} Linienzüge \term{(ways)} und Relationen, die alle jeweils über Attribute \term{(tags)} in Form von \term{key-value-pairs}%
+\footnote{Kombinationen aus einem Schlüssel und einem Wert (im Falle von \osm\ jeweils Zeichenketten) \cf[52]{RT09}}
+verfügen können.
+Dabei definieren \term{ways} eine Liste von \term{nodes} als ihre Stützpunkte, während Relationen Beziehungen zwischen mehreren \term{ways,} \term{nodes} oder anderen Relationen ausdrücken.
+Flächen werden nur über \term{tags} modelliert.
+\cf[49--55]{RT09}
 
-Heute haben selbst billige GPS-Empfänger eine Genauigkeit, welche die mancher Vermessung des 19. Jahrhunderts übertreffen kann. \cf[346][\?]{WG06}
-Die „freie Weltkarte“ \eyecatcher{OpenStreetMap} (OSM) \cf[3]{RT09} macht sich dies zu Nutze, um mit Hilfe zehntausender Freiwilliger eine weltweite Datenbank mit Geobasisdaten aufzubauen und nachzuführen (Volunteered Geographic Information, VGI). \cf[147, 154]{NZ12}
-Im Gegensatz zu vielen amtlichen Geobasisdaten dürfen OpenStreetMap-Daten lizenzkostenfrei verwendet werden, auch für kommerzielle Zwecke. \cf[217, 221\f]{RT09}
-
-% ODBL? -> 3rd ed
-
-% fühlt sich alles _viel_ zu lang an … was davon brauche ich wirklich als Überleitung zu Fragmentierung und Process?
-% straff kürzen, unbekannte Begriffe a la KV-Pair einfach in Fußnote packen…
-% Oder wild ausdehnen, z. B. Verweis auf NoSQL-Prinzip hinsichtlich Flexibilität? … Nein, das ist nicht Aufagbe dieser Arbeit. Lieber noch mehr Verweise suchen.
-
-Der Name OpenStreetMap mag fehlleitend sein, denn es handelt sich dabei nicht um eine Straßenkarte, sondern vielmehr um eine Geodatenbank mit Inhalten nahezu beliebiger Themen.
-Bei der Gründung von OSM im Jahr 2004 wurde auf das Festlegen starrer Klassifizierungsschemata oder Kartierschlüssel verzichtet.
-Statt dessen kann jedes Element in der Datenbank mit einer beliebigen Anzahl Attribute – sogenannter \term{tags} – versehen werden, die jeweils aus einem Schlüssel und einem Wert bestehen \term{(key-value-pair)}. \cf[56]{RT09}
-
-% ways / relationen / fragmentierung !!
-
-Syntax und Semantik der einzelnen \term{tags} werden bei OpenStreetMap seit der Gründung fortlaufend von den Beitragenden diskutiert, gestützt auf bisherige Erfahrungen.
+Der Name „OpenStreetMap“ mag irreführend sein, denn es handelt sich dabei nicht um eine Straßenkarte, sondern vielmehr um eine maßstabslose Datenbank mit teils sehr detaillierten Inhalten nahezu beliebiger Themen. \cf[115--116]{SP11}
+Alle \osm-Attribute sind Freitext-Angaben ohne starre Klassifizierungsschemata oder Kartierschlüssel.
+Syntax und Semantik der einzelnen \term{tags} werden seit der Gründung von \osm\ fortlaufend von den Beitragenden diskutiert, gestützt auf bisherige Erfahrungen.
 Die Diskussion findet vornehmlich im Internet statt; Ergebnisse werden öffentlich dokumentiert und in Software wie z.~B. Renderern implementiert.
-Wer neue Inhalte erfasst, orientiert sich oft an den bisher in der Datenbank üblichen oder im Web dokumentierten Konventionen. \cf[48]{Top09} \cf[17\f, 59–66]{RT09}
+Wer neue Inhalte erfasst, orientiert sich oft an den bisher in der Datenbank üblichen oder im Web dokumentierten Konventionen. \cf[59--62]{RT09}
 
-Gegenüber einer vor der Erfassung vereinbarten gemeinsamen Ontologie \cf[14]{GOS09} hat dieses System zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich interessiert und für wichtig halten.
-Jeder der Beitragenden entscheidet die Kriterien für die Erfassungsgeneralisierung für sich selbst.
+Dieses Vorgehen hat
+%gegenüber einer vor der Erfassung vereinbarten gemeinsamen Ontologie \cf[14]{GOS09}
+zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich für interessant oder wichtig halten. \cf[47--48]{Top09}
+Jeder der Beitragenden entscheidet somit die Kriterien für die Erfassungsgeneralisierung jeweils für sich selbst.
+\osm-Daten sind dadurch zwar inhomogen, verfügen aber oft über sehr hohen Detailreichtum.
+So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein. \cf[115]{SP11}
+
+% "alles für alle": Es können *alle* Datenthemen beliebig detailliert erfasst werden und stehen aufgrund der freien Lizenz dann *allen* Nutzern zur Verfügung => enormer Detailreichtum, aber auch u. U. enorme Schwierigkeiten, der Datenmengen Herr zu werden.
+
 %Dies führt zu großen regionalen Unterschieden in Datendichte, -aktualität und -qualität.
-% Regionalität ist nicht entscheidend für uns.
+%„Die individuelle Interessenlage des Nutzers ist [...] zugleich Stärke und Schwäche“ \citex[115]{SP11} von \osm.
 
-% Verweis auf Sch09 deckt schon vieles ab; Kne09 eher knapp, Beh11 noch knapper, Kla11 umständlich
+Veränderungen an den Attributen im Verlauf eines \term{ways} führen im \osm-Datenmodell zwangsläufig zu einer Fragmentierung in mehrere aufeinander folgende \term{ways,} jeweils mit unterschiedlichen \term{tags.}
+Dies erhöht die Datenmenge und erschwert die Weiterverarbeitung.
+Eine Verknüpfung dieser Fragmente -- im aktuellen \osm-Datenmodell durch Relationen -- kann in manchem Kontext hilfreich sein, ist jedoch auch eine Quelle neuer Probleme. \cf[56--57]{RT09}
+Es wäre außerdem möglich, einander parallele \term{ways} in gleicher Weise über Relationen zu verknüpfen, um das Zusammenfassen zu erleichtern.
 
-\label{osm-fragmentation}
+Für Organisationen mit homogeneren Datenbeständen und Erfassungsweisen wie etwa Vermessungsämter wäre eine solche Lösung naheliegend.
+So erfasst beispielsweise die deutsche Landesvermessung die Straßenachse bereits in den Basisdaten mitsamt Verknüpfungen zu allen Fahrbahnen und Fragmenten. \cf[48--50]{adv08}
+Einige Generalisierungsvorgänge werden so deutlich vereinfacht. \cf[193]{UD06}
 
-Oft verfügen die OpenStreetMap-Daten über sehr hohen Detailreichtum.
-So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein.
-Veränderungen an diesen Attributen im Verlauf der Straße führen im OSM-Datenmodell zwangsläufig zu einer Fragmentierung in mehrere aufeinander folgende Linienabschnitte \term{(ways)}, jeweils mit unterschiedlichen \term{tags}. \cf[57]{RT09}
+In \osm\ ist dies jedoch bisher nicht üblich.
+Tatsächlich scheinen Relationen vergleichsweise wenig Beachtung zu finden%
+\footnote{Neuere Forschung bestätigt dies jedenfalls allgemein und anekdotenhaft. \cf[2]{PM17}}%
+.
+%Während die \osm-Datenbank derzeit etwa $10^9$ \term{nodes} und $10^8$ \term{ways} enthält, existieren nur etwa $10^6$ Relationen. \cf{osm:stats}
+% "OpenStreetMap stats report run at 2013-03-18 00:00:04 +0000"
+% Number of nodes      1816655618
+% Number of ways       174204113
+% Number of relations  1860585
+%Weniger als $10^5$ Relationen weltweit sind mit dem Attribut \osmtag{route}[road] als Relationen gekennzeichnet, die \term{ways} einer Straße verknüpfen%
+%\footnote{Bis Fertigstellung der vorliegenden Arbeit hat sich die Anzahl der \osmtag{route}[road]--Relationen ungefähr verdoppelt auf etwa $130\,000$.}%
+%. \cf{osm:RouteRoad}
+% 58712 relations with route=road
+Möglicherweise hängt dies damit zusammen, dass Relationen von \osm-Software noch nicht optimal  unterstützt werden. \cf[83]{RT09}
 
-% "Detailreichtum entsprechend einer Grundkarte" (?) -> verdeutlicht, dass OSM ungeneralisiert ist
-
-Baulich getrennte Fahrbahnen wie etwa Autobahnen bildet OpenStreetMap mittels zweier paralleler Einbahn-Linienzüge ab. \cf[62]{RT09}
-Dies ist eine in der Geoinformatik gängige Vorgehensweise. \cf[2][\?]{Tho05}
-
-Sowohl die Fragmentierung als auch die parallelen Linienzüge führen zu Schwierigkeiten in der Weiterverarbeitung und Visualisierung. \noref[Mig12 u. a.]
-% Abbildungen:
-% - Marker-Wucherung
-% - stark unregelmäßige Plazierung von Namen \cf{Mig12}
-% - Blitzer/Freistellung
-% - Doppelnamen \cf{Mig12}
-% o. ä.
-Offensichtlich ist, dass eine Verkettung der Fragmente bzw. parallelen Linienzüge als Bestandteil des Datenmodells die Probleme wesentlich verkleinern, wenn nicht gar gänzlich lösen würde.
-Für eine hierarchisch orientierte Organisation wie etwa Vermessungsämter wäre eine solche Lösung naheliegend.
-Über \term{relations} ist dies auch in OpenStreetMap möglich. \cf[57]{RT09}
-Das oben beschriebene Fehlen interner Strukturen unter den zu OpenStreetMap Beitragenden (der \term{community}) macht es jedoch unmöglich, „mal eben“ die Regeln für die Erfassung und Kodierung der Geodaten zu ändern. \cf{Sch09}
-
-% unklar: "hierarchisch orientierte Organisation"? gemeint ist wohl das Ding mit der manuell gepflegten Mittellinie in den Daten?
-
-Statt dessen müssen Änderungsvorschläge erst von der \term{community} akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden.
-Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann, der umso schwieriger wird, je geringer der unmittelbare Einfluss der Datenbank-Änderungen auf das in Karten sichtbare Ergebnis ist \noref.
-
-
-% OSM ist per design völlig ungeneralisiert, da maßstabslos und für auch sehr große maßstäbe eingesetzt. WIrd das im Zusammenhang deutlich? wichtig für logik im folgeabschnitt
-\end{draft}
+Das oben beschriebene Fehlen interner Strukturen unter den \osm-Mitwirkenden (der Community) macht es aufwändig, die Erfassung und Kodierung der Geodaten zu verändern. \cf[84--85]{Sch09}
+Änderungsvorschläge müssen zuerst von der Community akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden.
+Die Erfahrung zeigt, dass dies ein langwieriger Prozess sein kann.
+Das macht eine automatisierte Ableitung der nötigen Informationen aus den bereits existierenden Geodaten interessant.
 
 
-
-%\biggap
 
 \section{Kartenherstellung mit OpenStreetMap} \label{kartenherstellung}
 

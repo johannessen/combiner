@@ -137,12 +137,6 @@
 \texttt{#1}}%
 %}
 
-% drafting aids
-\newcommand{\biggap}{\bigskip\bigskip\bigskip\bigskip\bigskip}
-%\RequirePackage{comment}
-\definecolor{draftcolor}{gray}{.7}
-\newenvironment{draft}[0]{\color{draftcolor}}{\color{black}}
-
 % shortcut for frequently-used abbreviation (for use where using the abbreviation in the final text might be appropriate)
 \newcommand{\osm}{Open\-Street\-Map}
 
