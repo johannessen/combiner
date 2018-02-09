@@ -16,18 +16,18 @@ Kapitel
 
 2 ✅  
 
-3 🅰 ⬅
+3 ✅
 
 4 🅰
 
 5.1 🅰  
 5.2 🅰  
 5.3.1 🅰  
-5.3.2 🅰  
+5.3.2 🅰 ⬅  
 5.3.3 🅰  
-5.3.4 🅰  
-5.3.5 🅰  
-5.3.6 ✏ ⬅  
+5.3.4 🅰 ⬅  
+5.3.5 🅰 ⬅  
+5.3.6 ✏  
 5.4 🅰
 
 6 🅰
@@ -43,7 +43,7 @@ Anhänge
 -------
 
 A ✏  
-B ✏  
+B ✏ ⬅  
 C 🅰  
 D ✏  
 E ✏  
@@ -83,6 +83,11 @@ Insbesondere:
 - 2.3.6 relations/[Sch09]
 - 2.5.5 Abb. 26 neu
 
+- 3.1 Überschrift vs. Inhaltsverzeichnis
+- 3.1.1 evtl. Ref für Bahnachsen?
+- 3.1.4 Abb. neu scannen
+- 3.1.4 OSeaM implizit; evtl. neu?
+- 3.1.5 evtl. Ref für Diskussion? Fußnote für aktuellen Stand?
 
 
 Blocker
