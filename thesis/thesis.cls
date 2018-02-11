@@ -20,7 +20,9 @@
 \newcommand{\BibTeXenabled}{}  % disable BibTeX in subfiles for speed
 
 % front matter
+\RequirePackage{hyperxmp}
 \RequirePackage{ccicons}
+\newcommand{\makededicationpage}[1]{\clearpage\thispagestyle{empty}\vspace*{\stretch{1}}{\centering #1 \par}\vspace{\stretch{3}}\clearpage}
 \RequirePackage{pdfpages}
 
 % enable UTF-8 input support
@@ -148,7 +150,7 @@
 % URLS and links
 % should be the last packages imported to avoid issues (says <https://de.wikibooks.org/wiki/LaTeX-W%C3%B6rterbuch:_url> without mentioning specifics)
 % see http://ctan.space-pro.be/tex-archive/macros/latex/contrib/hyperref/doc/manual.html#x1-140004
-\RequirePackage[colorlinks=false]{hyperref}
+\RequirePackage{hyperref}
 \RequirePackage[all]{hypcap}
 % break URLs at arbitrary positions to avoid ugly word spacing in justified text:
 \expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one

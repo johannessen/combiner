@@ -27,8 +27,14 @@
 /project/nohup.out
 
 # TeX intermediate files
-/thesis/chapter?/*.aux
-/thesis/main/*.aux
+/thesis/main/thesis.aux
+/thesis/main/thesis.bbl
+/thesis/main/thesis.blg
+/thesis/main/thesis.lof
+/thesis/main/thesis.lot
+/thesis/main/thesis.out
+/thesis/main/thesis.toc
+/thesis/main/thesis*.log
 
 # copyrighted images used under § 51 UrhG
 *_51.png

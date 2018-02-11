@@ -1,17 +1,35 @@
 
 \documentclass{../thesis}
 
-\subtitle{Diplomarbeit}
-\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap\\ für konkrete Spezialfälle}
-\author{Arne Johannessen}
-\publishers{betreut durch\\ Prof. Dr. rer. nat. Detlef Günther-Diringer\\ und\\ Dipl.-Wi.-Ing. Frederik Ramm}
-%\date{Arbeitsentwurf}
-%\dedication{}
+\renewcommand{\onlyinsubfile}[1]{}
+%\renewcommand{\notinsubfile}[1]{#1}
+\renewcommand{\BibTeXenabled}{1}
 
-%\ccbysa
-% https://creativecommons.org/licenses/by-sa/4.0/legalcode.de
-% https://wiki.creativecommons.org/wiki/License_Versions
-% ODBL: 2009 <http://www.ifross.org/artikel/open-database-license-odbl-veroeffentlicht>
+\titlehead{\centering Hochschule Karlsruhe -- Technik und Wirtschaft}
+\subject{Diplomarbeit -- Arbeitsentwurf}
+
+%\title{Automatisierte Zusammenfassung\\ von Linienzügen in OpenStreetMap}
+%\title{Zusammenfassen paralleler Linienzüge}
+%\subtitle{Algorithmen zur automatisierten Generalisierung\\ durch Zusammenfassung von Linienzügen\\ in OpenStreetMap für konkrete Spezialfälle}
+%\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap\\ für konkrete Spezialfälle}
+\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap}
+\subtitle{für konkrete Spezialfälle}
+
+\author{Arne Johannessen}
+\publishers{betreut durch\\ Prof.\,Dr.\,rer.\,nat.\,Detlef Günther-Diringer\\ und\\ Dipl.-Wi.-Ing.\,Frederik Ramm}
+\date{\today\ (Entwurfsdatum)}
+
+\hypersetup{%
+	pdfsubject={Diplomarbeit},
+	pdfauthor={Arne Johannessen},
+	pdftitle={Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap für konkrete Spezialfälle},
+	pdfkeywords={Algorithmen, zur,automatisierten},
+	pdflang={de},
+%	pdfborder={0 0 0},
+	pdfcreator={LaTeX 2e},
+}
+
+
 \usepackage[type={CC},modifier={by-nd},version={4.0}]{doclicense}
 \newcommand{\makelicensepage}{
 \clearpage\thispagestyle{empty}\vspace*{\stretch{1}}
@@ -77,36 +95,23 @@ werden.
 }\clearpage
 }
 
-% je4
-%\pdfinfo{
-%  /Author (Name)
-%  /Title (Titel der Diplomarbeit)
-%  /Producer     (pdfeTex 3.14159-1.30.6-2.2)
-%  /Keywords ()
-%}
-%\hypersetup{
-%pdftitle=Titel der Diplomarbeit,
-%pdfauthor=Name,
-%pdfsubject={Diplomarbeit},
-%pdfproducer={pdfeTex 3.14159-1.30.6-2.2},
-%colorlinks=false,
-%%pdfborder=0 0 0	% keine Box um die Links!
-%}
+
+
 
 \begin{document}
 
 \maketitle
 
-%\begin{abstract}
-%\end{abstract}
-\clearpage{~}
 \makelicensepage
+
+\makededicationpage{\small (bleibt frei)}
 
 \subfile{../main/AufgabeVorbemerkung}
 
+
 \tableofcontents
 
-\newpage\addcontentsline{toc}{chapter}{Abbildungsverzeichnis\medskip}
+\newpage\addcontentsline{toc}{chapter}{Abbildungsverzeichnis}
 \listoffigures
 
 \newpage\addcontentsline{toc}{chapter}{Tabellenverzeichnis\medskip}
@@ -115,9 +120,6 @@ werden.
 %\listofalgorithms
 % unified list: see KOMAscript 135
 
-\renewcommand{\onlyinsubfile}[1]{}
-%\renewcommand{\notinsubfile}[1]{#1}
-\renewcommand{\BibTeXenabled}{1}
 
 \subfile{../chapter1/Einleitung}
 \subfile{../chapter2/Analyse}
@@ -128,12 +130,10 @@ werden.
 \subfile{../chapter7/Schlussfolgerung}
 \subfile{../chapter8/Zusammenfassung}
 
+
 \appendix
 \addtocontents{toc}{\bigskip\medskip\textbf{Anhang}\par}
 \subfile{../appendices/Anhang}
-
-%\addtocontents{toc}{\medskip}
-%\newpage\addcontentsline{toc}{chapter}{Summary}
 
 \input{../bibliography/Literaturverzeichnis}
 
