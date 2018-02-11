@@ -19,6 +19,9 @@
 %\newcommand{\notinsubfile}[1]{}
 \newcommand{\BibTeXenabled}{}  % disable BibTeX in subfiles for speed
 
+% front matter
+\RequirePackage{pdfpages}
+
 % enable UTF-8 input support
 \RequirePackage{fontspec}
 \XeTeXinputnormalization=1

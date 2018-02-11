@@ -64,6 +64,8 @@ Titelei
 Titel 🅰  
 Widmung ✏  
 Lizenz ✏  
+Themenblatt ✅  
+Vorbemerkung ✏ ⬅  
 Bibliographie 🅰
 
 
@@ -74,6 +76,8 @@ Offene Punkte
 Ja, viele.
 
 Insbesondere:
+
+- 2.x auf Vorbemerkung abstimmen
 - 2.x zu [Sch09] auch Forum erwähnen? (Link im Kommentar)
 - 2.2 [ML12] durch [UD06] ersetzen
 - 2.3.x evtl. Abb. für Oslo neu (1/3 kleinerer Maßstab)
