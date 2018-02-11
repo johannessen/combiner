@@ -20,6 +20,7 @@
 \newcommand{\BibTeXenabled}{}  % disable BibTeX in subfiles for speed
 
 % front matter
+\RequirePackage{ccicons}
 \RequirePackage{pdfpages}
 
 % enable UTF-8 input support
@@ -40,7 +41,6 @@
 \RequirePackage{amssymb}  % includes amsfonts
 \RequirePackage{textcomp}
 \RequirePackage{gensymb}
-%\RequirePackage[scale=1.0]{ccicons}
 
 % own symbols
 \newcommand{\eqdef}{\overset{\mathrm{def}}{=\joinrel=}}
