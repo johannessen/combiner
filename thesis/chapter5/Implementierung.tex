@@ -84,7 +84,7 @@ GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebi
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter5/system-concept}
-	\caption{Systemkonzept (schwarz: eigene Entwicklung, blau: benutztes \term{framework})}
+	\caption{Komponenten (schwarz: eigene Entwicklung, blau: benutztes \term{framework})}
 	\label{fig:system-concept}
 }
 
@@ -431,6 +431,7 @@ Insgesamt ist diese Lösung um ein Vielfaches schneller als der Shapefile-Suppor
 
 (Allerdings wurde der Shapefile-Support in Geotools neu implementiert; ob dies die Probleme löst, wurde noch nicht getestet.)
 % http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng
+% Fußnote: In der später erschienen Version xy von GeoTools ist der Shapefile-Support neu implementiert ...
 
 \item
 Außer dem eigentlichen Generalisierungsergebnis kann die entwickelte Software auch zahlreiche zusätzliche Geodatensätze ausgeben, die das Verständnis von der Arbeitsweise des Algorithmus bei Anwendung auf Real-World-Daten verbessern und auch beim Debuggen hilfreich sind.
@@ -470,6 +471,8 @@ Beispielsweise werden in den Implementierungen der Algorithmen \textproc{Fußpun
 Die dadurch häufiger notwendige automatische Freispeichersammlung \term{(garbage collection)} zur Beseitigung dieser Objekte ist zeitaufwändig.
 Diese Zeit- und Speicherkosten hängen von der gewählten Implementierung ab und wurden deshalb in Abschnitt~\ref{ch:algorithm-overview} nicht berücksichtigt.
 Insbesondere für den Speicheraufwand besteht Optimierungspotenzial.
+
+% https://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html
 
 \item
 Durchgehende Linienzüge sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.

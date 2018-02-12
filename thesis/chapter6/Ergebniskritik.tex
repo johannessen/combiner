@@ -13,7 +13,7 @@
 %Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
 Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig bearbeitet wird.
-Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern daher, dass immer mit Geodaten vom selben Stand gearbeitet wird.
+Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern dagegen, dass immer mit Geodaten vom selben Stand gearbeitet wird.
 
 In diesem Kapitel wird nach und nach anhand von Einzelbeispielen die Funktion der mit dieser Arbeit entwickelten Software (dem \term{Combiner}) besprochen.
 Die genutzten Geodaten für das Straßennetz beschränken sich auf einen Testdatensatz aus \osm\ für das Land Nordrhein-Westfalen vom November~2012.
@@ -164,6 +164,8 @@ Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
 Beim Zusammenfassen von Linienzügen erzeugt der \term{Combiner} neue Stützpunkte entlang einer Mittellinie.
 Werden die Stützpunkte der ursprünglichen Linienzüge noch für weitere Zwecke verwendet, dürfen diese nicht entfallen, sondern müssen erhalten bleiben.
 
+% [NZZ12, 14]
+
 An \term{nodes}, die sowohl beim Zusammenfassen entfallene Linien als auch andere Linien benutzen, wird dies zum Problem:
 Sie werden von nicht generalisierten Linien weiterbenutzt, die generalisierten Linien hingegen verwenden die neu erzeugten Punkte, so dass an den Übergängen topologische Lücken im Straßennetz entstehen.
 Der \term{Combiner} versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch geeignete Punkte auf der generalisierten Mittellinie ersetzt werden.
@@ -269,7 +271,7 @@ Auch der in Abschnitt~\ref{ch:relocateGeneralisedNodes} besprochene Ansatz zur B
 
 Zwar wäre es möglich, die meisten Kreisverkehre über \osm-\term{tags} zu erkennen und von der Generalisierung ausschließen (was aber aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt wurde).
 % prinzipiell trivial in shouldEvaluate möglich, jedoch erfordert dies, dass die Kreisverkehr-tags vorliegen
-Eine Generalisierung der Kreisverkehre -- zum~Beispiel durch Qualitätsumschlag der linearen Kreisfahrbahn in einen einzelnen Kreuzungspunkt -- könnte jedoch überaus nützlich sein, etwa bei der Herstellung einer Straßenkarte im mittleren Maßstabsbereich.
+Eine Generalisierung der Kreisverkehre -- zum~Beispiel durch Qualitätsumschlag der linearen Kreisfahrbahn in einen einzelnen Kreuzungspunkt im Zentrum -- könnte jedoch überaus nützlich sein, etwa bei der Herstellung einer Straßenkarte im mittleren Maßstabsbereich.
 
 \newpage
 Auffallend ist, dass alle diskutierten Probleme an Kreuzungen auftreten.
@@ -302,7 +304,7 @@ Bundesland & 34881\,km$^2$ & 157014 & 5,7\,s  & 2,9 & 2,6 & 1,27 &  6 & 1,27 \\
 }
 
 Es bestätigt sich, dass die in Abschnitt~\ref{ch:algorithm-overview} eingeführten Größen $\nu$ und $\psi$ nicht von $|S|$ abhängig sind.
-Der Wachstumsfaktor für $|S|$ beim Schritt von der Großstadt zum Regierungsbezirk ist mit 6,2 deutlich größer als der Faktor für $t$ mit 2,8.
+Der Wachstumsfaktor für $t$ beim Schritt von der Großstadt zum Regierungsbezirk ist mit 2,8 deutlich kleiner als der Faktor für $|S|$ mit 6,2 (also besser als für die anderen Schritte).
 Wie das Verhältnis $|S'|\nobreak:\nobreak|S|$ der Segmentanzahl nach bzw. vor dem \textproc{Splitten} zeigt, liegt dies an dem mit diesem Schritt erstmals inkludierten ländlichen Raum.
 Auch dies entspricht den Erwartungen.
 
@@ -321,7 +323,7 @@ mit & 73408 & 12,8\,s & 1,4 & 5,9 & 1,85 & 11 & 1,42 \\
 Wird neben der Segmentanzahl in den Eingangsdaten auch deren Detaillierungsgrad geändert, ergibt sich jedoch ein anderes Bild.
 Tabelle~\ref{tab:profiling-links} zeigt das Verhalten des \term{Combiners} beim Hinzufügen von Abbiege- und Verbindungsfahrbahnen \term{(links)}.
 Der Zeitbedarf wächst hier überproportional.
-Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
+Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{ch:impl-special-case} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
 
 Auch dies ist ein deutlicher Hinweis auf die oben diskutierte Notwendigkeit einer Kreuzungserkennung.
 
@@ -393,14 +395,15 @@ Während die Reisezug-Gleise \textfiguremark{2}--\textfiguremark{3} und auch die
 
 Dem für ein Straßennetz entwickelten Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} gelingt es aufgrund der spitzen Winkel nicht, „geeignete“ Punkte zur Beseitigung der Lücken zu finden, wodurch ein gelungenes Ergebnis verhindert wird (Abbildung~\ref{fig:rail-kalk-detail}).
 
-\twofigures{h}{
+\onefigure{h}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-out}
 %		\put(0,0){\includegraphics{../chapter6/legend-rail-out}}
 	\end{overpic}
 	% TODO: QGIS-export, ~10° rotiert
 	\caption{Generalisierungsergebnis bei Anwendung des \term{Combiners} auf Bahnstrecken}
 	\label{fig:rail-kalk-out}
-}{
+}
+\onefigure{h}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-detail}
 %		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
 	\end{overpic}

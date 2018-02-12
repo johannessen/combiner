@@ -79,13 +79,13 @@ Insbesondere:
 
 - 2.x auf Vorbemerkung abstimmen
 - 2.x zu [Sch09] auch Forum erwähnen? (Link im Kommentar)
+- 2.x Fußnoten: vollständige Sätze
 - 2.2 [ML12] durch [UD06] ersetzen
 - 2.3.x evtl. Abb. für Oslo neu (1/3 kleinerer Maßstab)
 - 2.3.4 Abb. 14 neu
 - 2.3.5 Abb. 15 überdenken (evtl. doch besser das Original?)
 - 2.3.5 Abb. 17 besser rotieren
 - 2.3.6 relations/[Sch09]
-- 2.5.5 Abb. 26 neu
 
 - 3.1 Überschrift vs. Inhaltsverzeichnis
 - 3.1.1 evtl. Ref für Bahnachsen?

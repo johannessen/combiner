@@ -14,7 +14,7 @@
 Ziel des Projekts OpenStreetMap (OSM) ist die Erstellung einer Geodatenbank für eine freie Weltkarte. \cf[47]{Top09}
 Zehntausende Freiwillige verwenden z.~B. in ihrer Freizeit preisgünstige tragbare GPS-Empfänger oder dafür freigegebene Luftbilder, um Geodaten zu erfassen (\term{volunteered geographic information,} VGI). \cf[148--149, 154]{NZ12}
 Die so erstellte Geodatenbank kann unter einer freien Lizenz%
-\footnote{seit 12.~September 2012 die Open~Database~License (ODbL) \cf{osm:ODbL}}
+\footnote{Seit 12.~September 2012 verwendet OSM die Open~Database~License (ODbL). \cf{osm:ODbL}}
 zu beliebigen Zwecken weiterverwendet werden. \cf[119--120]{SP11}
 
 %Im Unterschied zu kommerziell verfügbaren Geodaten anderer Anbieter (Ämter, Navteq etc.) entstehen bei \osm\ keine Lizenzkosten. \noref\
@@ -25,7 +25,7 @@ zu beliebigen Zwecken weiterverwendet werden. \cf[119--120]{SP11}
 
 Das von \osm\ verwendete Datenmodell ist sehr einfach gehalten:
 Es kennt nur Punkte \term{(nodes),} Linienzüge \term{(ways)} und Relationen, die alle jeweils über Attribute \term{(tags)} in Form von \term{key-value-pairs}%
-\footnote{Kombinationen aus einem Schlüssel und einem Wert (im Falle von \osm\ jeweils Zeichenketten) \cf[52]{RT09}}
+\footnote{\osm-\term{tags} sind Kombinationen aus zwei Zeichenketten: einem Attributschlüssel und einem Wert. \cf[52]{RT09} Sie werden meist als \osmtag{key}[value] notiert (z.\,B. \osmtag{name}[Geofabrik]).}
 verfügen können.
 Dabei definieren \term{ways} eine Liste von \term{nodes} als ihre Stützpunkte, während Relationen Beziehungen zwischen mehreren \term{ways,} \term{nodes} oder anderen Relationen ausdrücken.
 Flächen werden nur über \term{tags} modelliert.
@@ -59,17 +59,16 @@ So erfasst beispielsweise die deutsche Landesvermessung die Straßenachse bereit
 Einige Generalisierungsvorgänge werden so deutlich vereinfacht. \cf[193]{UD06}
 
 In \osm\ ist dies jedoch bisher nicht üblich.
-Tatsächlich scheinen Relationen vergleichsweise wenig Beachtung zu finden%
-\footnote{Neuere Forschung bestätigt dies jedenfalls allgemein und anekdotenhaft. \cf[2]{PM17}}%
-.
+Tatsächlich scheinen Relationen vergleichsweise wenig Beachtung zu finden.%
+\footnote{Neuere Forschung bestätigt dies jedenfalls allgemein und anekdotenhaft. \cf[2]{PM17}}
 %Während die \osm-Datenbank derzeit etwa $10^9$ \term{nodes} und $10^8$ \term{ways} enthält, existieren nur etwa $10^6$ Relationen. \cf{osm:stats}
 % "OpenStreetMap stats report run at 2013-03-18 00:00:04 +0000"
 % Number of nodes      1816655618
 % Number of ways       174204113
 % Number of relations  1860585
-%Weniger als $10^5$ Relationen weltweit sind mit dem Attribut \osmtag{route}[road] als Relationen gekennzeichnet, die \term{ways} einer Straße verknüpfen%
+%Weniger als $10^5$ Relationen weltweit sind mit dem Attribut \osmtag{route}[road] als Relationen gekennzeichnet, die \term{ways} einer Straße verknüpfen.%
 %\footnote{Bis Fertigstellung der vorliegenden Arbeit hat sich die Anzahl der \osmtag{route}[road]--Relationen ungefähr verdoppelt auf etwa $130\,000$.}%
-%. \cf{osm:RouteRoad}
+%\cf{osm:RouteRoad}
 % 58712 relations with route=road
 Möglicherweise hängt dies damit zusammen, dass Relationen von \osm-Software noch nicht optimal  unterstützt werden. \cf[83]{RT09}
 
@@ -208,8 +207,8 @@ Dies vereinfacht das Kartenbild für den Betrachter und verringert die zu berech
 
 Die Wahl der Zeichenregeln beinhaltet für einige Objektklassen auch eine Generalisierung durch Vergrößerung, indem für bestimmte Maßstäbe eine Strichbreite gewählt wird, welche im Abbildungsmaßstab die tatsächliche Größe des Objekts übersteigt.
 Anliegerstraßen haben für die Zoomstufen 14 bis~19 jeweils eine unterschiedliche Strichbreite von $\unit[3]{px}$ bis $\unit[17]{px}$ definiert, so dass die Darstellung der Straße in der Karte Maßstabsänderungen andeutungsweise folgt (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen17}). \cf{All15}
-Die Breite von $\unit[3]{px}$ auf \term{zoom} 14 entspräche ca.~$\unit[27]{m}$ in der Realität. \cf[155]{RT09}
-Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
+Die Breite von $\unit[3]{px}$ auf Zoom~14 entspräche ca.~$\unit[27]{m}$ in der Realität. \cf[155]{RT09}
+Auf Zoom~13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]{px}$ gezeichnet (ca.~$\unit[57]{m}$) und damit deutlich vergrößert, um die Erkennbarkeit im kleinerem Maßstab zu fördern (Abbildungen~\ref{fig:kampen14} und~\ref{fig:kampen13}).
 
 % z13+z14 erst 2015 exakt gleiche Strichbreite:
 % https://github.com/gravitystorm/openstreetmap-carto/blob/fe4f8d48757cf85bb692129b5d9755ba5cadbbee/roads.mss
@@ -227,7 +226,7 @@ Auf \term{zoom} 13 werden Anliegerstraßen gar auf dieselbe Breite von $\unit[3]
 % Bewertung -> nach Bedeutung für den Kartenzweck
 
 Weiterhin wird durch die Wahl der Zeichenregeln eine Bewertung der tatsächlich dargestellten Objekte vorgenommen, auch dies abhängig vom Maßstab.
-So werden Anliegerstraßen auf \term{zoom}~12 als schmaler, einfacher Strich gezeichnet, ab \term{zoom}~13 jedoch als weißer Breitstrich mit grauem Rand (Abbildungen~\ref{fig:kampen12} und~\ref{fig:kampen13}).
+So werden Anliegerstraßen auf Zoom~12 als schmaler, einfacher Strich gezeichnet, ab Zoom~13 jedoch als weißer Breitstrich mit grauem Rand (Abbildungen~\ref{fig:kampen12} und~\ref{fig:kampen13}).
 
 % weitere Fälle von Bewertung: evtl. Klassifizierung nach primary, secondary etc mit unterschiedlich definierten Strichbreiten? TODO: verifizieren
 
@@ -500,8 +499,8 @@ So wird in \osm\ mit \osmtag{tracks}[*] die Anzahl der Eisenbahngleise gekennzei
 Die Karten in Abbildung~\ref{fig:tracks} stellen diesen \term{tag} farblich dar.
 
 Bei Betrachtung in kleinem Maßstab sieht darin \textfiguremark{1} zunächst nach einer viergleisigen Strecke aus, in großem Maßstab plötzlich nach wenigstens \emph{zwei} viergleisigen Strecken nebeneinander.
-Tatsächlich liegen insgesamt vier einzelne Gleise, die jeweils durch einen \term{way} mit dem Attribut \osmtag{tracks}[4] erfasst sind%
-\footnote{Das \osmtag{tracks}-Attribut wurde zwischenzeitlich durch Beitragende von diesen \term{ways} entfernt.}.
+Tatsächlich liegen insgesamt vier einzelne Gleise, die jeweils durch einen \term{way} mit dem Attribut \osmtag{tracks}[4] erfasst sind.%
+\footnote{Das \osmtag{tracks}-Attribut wurde zwischenzeitlich durch Beitragende von diesen \term{ways} entfernt.}
 In kleinem Maßstab fließen sie zusammen, in großem Maßstab sind sie jedoch einzeln erkennbar und vermitteln dem Leser das falsche Bild von insgesamt 16~Gleisen.
 Möglicherweise hat ein \osm-Beitragender \osmtag{tracks}[*] missverstanden als die Gesamtanzahl der Gleise, \cf{Fox12} wofür jedoch das Attribut \osmtag{passenger\_lines}[*] zu verwenden ist.
 
@@ -533,8 +532,8 @@ Die Strecke \textfiguremark{2} ist korrekt mit zwei parallelen Gleisen erfasst, 
 die Abzweige \textfiguremark{3} und \textfiguremark{4} bestehen allerdings aus jeweils nur einem einzelnen Gleis, das fälschlich das Attribut \osmtag{tracks}[2] trägt.
 
 % Fußnote?
-Insgesamt sind die Darstellungen von \osmtag{tracks}[*] in Abbildung~\ref{fig:tracks} wenig gelungen%
-\footnote{Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird.}.
+Insgesamt sind die Darstellungen von \osmtag{tracks}[*] in Abbildung~\ref{fig:tracks} wenig gelungen.%
+\footnote{Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird.}
 Das unglücklich benannte Attribut \osmtag{passenger\_lines} reicht dazu aus, \osmtag{tracks}[*] für manche Anwendungen zu ersetzen, wird jedoch nur auf speziellen Karten angezeigt,
 % zu implizit?
 so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
@@ -627,7 +626,7 @@ Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 % - ermittelt eine Relation zwischen ALK ATKIS
 
 Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten.
-Der Algorithmus von Eppstein und Erickson \citex{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Netz auf die gewünschten Mittellinien der Flächen zu reduzieren.
+Der Algorithmus von Eppstein und Erickson \citex{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Straßennetz auf die gewünschten Mittellinien der Flächen zu reduzieren.
 Dennoch kommt es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden können. \cf[4–6]{HS04}
 
 % Mig12: Projekt für "schöne" topo. Karte
@@ -790,7 +789,8 @@ Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähn
 
 Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt.
 Mackaness und Mackechnie demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen. \cf{MM99}
-Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe (Abbildung~\ref{fig:graph-edges-parallel}).
+
+Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe (Abbildung~\ref{fig:graph-edges-parallel} verdeutlicht dies anhand von als parallel geltenden Brücken).
 Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings nicht.
 
 \onefigure{ht}{
