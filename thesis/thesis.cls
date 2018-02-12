@@ -223,6 +223,8 @@
 \fi
 }
 \makeatother
+% fall back to placeholder if the image file is missing
+\NewDocumentCommand{\includegraphicsmaybe}{O{width=\ScaleIfNeeded} m}{\IfFileExists{#2.png}{\includegraphics[#1]{#2}}{\includegraphics{../image-missing}}}
 % standardised markers in graphics
 \RequirePackage[abs]{overpic}
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
