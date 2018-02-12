@@ -179,17 +179,19 @@
 %\RequirePackage{afterpage}
 % \capstart makes in-document links point to top of figures instead of the caption below them; \usepackage[all]{hypcap} might also do the trick
 \newcommand{\onedoublefigure}[4]{
-	\begin{figure}[#1]
-		\begin{minipage}[t]{.5\linewidth}
+	\begin{figure}[#1]%
+		\hfill%
+		\begin{minipage}[t]{.5\linewidth-1.5mm}
 			\centering
 			\capstart
 			#2
-		\end{minipage}%
-		\begin{minipage}[t]{.5\linewidth}
+		\end{minipage}\hspace{\stretch{2}}%
+		\begin{minipage}[t]{.5\linewidth-1.5mm}
 			\centering
 			\capstart
 			#3
 		\end{minipage}%
+		\hspace*{\fill}%
 		#4
 	\end{figure}
 }
