@@ -224,7 +224,8 @@
 }
 \makeatother
 % fall back to placeholder if the image file is missing
-\NewDocumentCommand{\includegraphicsmaybe}{O{width=\ScaleIfNeeded} m}{\IfFileExists{#2.png}{\includegraphics[#1]{#2}}{\includegraphics{../image-missing}}}
+\NewDocumentCommand{\IfImageExists}{mmm}{\IfFileExists{#1}{#2}{\IfFileExists{#1.png}{#2}{\IfFileExists{#1.pdf}{#2}{#3}}}}
+\NewDocumentCommand{\includegraphicsmaybe}{O{width=\ScaleIfNeeded} m}{\IfImageExists{#2}{\includegraphics[#1]{#2}}{\includegraphics{../image-missing}}}
 % standardised markers in graphics
 \RequirePackage[abs]{overpic}
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
