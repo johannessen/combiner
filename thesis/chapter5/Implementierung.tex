@@ -84,7 +84,9 @@ GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebi
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter5/system-concept}
-	\caption{Komponenten (schwarz: eigene Entwicklung, blau: benutztes \term{framework})}
+	\caption
+		[Komponenten der entwickelten Software]
+		{Komponenten der entwickelten Software (schwarz: eigene Entwicklung, blau: benutztes \term{framework})}
 	\label{fig:system-concept}
 }
 
@@ -166,10 +168,8 @@ Die Segmente sind wie in Abschnitt~\ref{ch:split-algorithm} beschrieben zunächs
 
 \onefigure{ht}{
 % [Dataset]1 <>-- 0…n[Line]1 <>-- 1…n[Segment]1…n <>-- 2[Node]
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\\\texttt{ [Dataset]<>--[Line]<>--[Segment]<>--[Node]}
-	\\\texttt{~~~~~~~~~1~~~0…n~~~1~~~1…n~~~~~1…n~~~2~~~~~}
-	\caption{...}
+	\includegraphics[scale=.8]{../chapter5/model-geometry}
+	\caption{Datenmodell für die Geometrie}
 	\label{fig:impl-geometry-model}
 }
 
@@ -177,9 +177,8 @@ Die hier gezeigten Datentypen wurden als Interfaces (formale Schnittstellendefin
 Abbildung~\ref{fig:impl-class-structure-splitting} zeigt die bei der Implementierung dieses Datenmodells entstandene Klassenstruktur.
 
 \onefigure{ht}{
-% [Klassenstruktur "Splitten"]
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\caption{Klassenstruktur „Splitten“}
+	\includegraphics[scale=.8]{../chapter5/class-structure-splitting}
+	\caption{Strukturdiagramm der für das \textproc{Splitten} relevanten Klassen}
 	\label{fig:impl-class-structure-splitting}
 }
 
@@ -205,8 +204,10 @@ Gleiches gilt auch für Komposita, so dass sich in einer nur auf Vererbung beste
 Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster \term{(Bridge pattern)} einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
 
 \onefigure{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\caption{Composite-Bridge}
+	\includegraphics[scale=.8]{../chapter5/composite-bridge}
+	\caption
+		[Strukturdiagramm der Kombination aus \term{Composite} und \term{Bridge pattern}]
+		{Strukturdiagramm der Kombination aus \term{Composite pattern} und \term{Bridge pattern} \cf[153, 164]{GHJV95}}
 	\label{fig:impl-composite-bridge}
 }
 
@@ -222,8 +223,8 @@ Im vorliegenden Kompositum würde \term{immutability} gerade erfordern, dass bei
 Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier gar nicht angebracht; vielmehr bietet es sich \emph{in Anlehnung an} standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
 
 \onefigure{ht}{
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\caption{Composite (IST)}
+	\includegraphics[scale=.8]{../chapter5/composite-actual}
+	\caption{Diagramm der anstelle des \term{Composite pattern} gewählten vereinfachten Klassenstruktur für die beim \textproc{Splitten} entstehenden Fragmente}
 	\label{fig:impl-class-structure-composite}
 }
 
@@ -297,10 +298,8 @@ Dies erleichtert auch die Implementierung der Mengeneigenschaften.
 
 \onefigure{ht}{
 % [NodeGraph]1 <>-- 1…n[NodeMatch]0…n <>-- 2[Node]
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\\\texttt{ [NodeGraph]<>--[NodeMatch]<>--[Node]}
-	\\\texttt{~~~~~~~~~~~1~~~1…n~~~~~~~0…n~~~2~~~~~}
-	\caption{...}
+	\includegraphics[scale=.8]{../chapter5/model-node-match}
+	\caption{Datenmodell für die Punktezuordnung}
 	\label{fig:impl-node-match-model}
 }
 
@@ -328,10 +327,8 @@ Um die spätere Weiterverarbeitung des Generalisierungsergebnisses zu erleichter
 
 \onefigure{ht}{
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
-	\includegraphics[width=\ScaleIfNeeded]{../image-missing}
-	\\\texttt{ [GeneralisedLines]<>--[ResultLine]<>--[Node]}
-	\\\texttt{~~~~~~~~~~~~~~~~~~1~~~0…n~~~~~~~~0…n~~2…n~~~~}
-	\caption{...}
+	\includegraphics[scale=.8]{../chapter5/model-generalisation}
+	\caption{Datenmodell für das Zusammenfassen}
 	\label{fig:impl-generalisation-model}
 }
 
