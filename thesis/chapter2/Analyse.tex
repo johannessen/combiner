@@ -41,7 +41,7 @@ Dieses Vorgehen hat
 %gegenüber einer vor der Erfassung vereinbarten gemeinsamen Ontologie \cf[14]{GOS09}
 zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich für interessant oder wichtig halten. \cf[47--48]{Top09}
 Jeder der Beitragenden entscheidet somit die Kriterien für die Erfassungsgeneralisierung jeweils für sich selbst.
-\osm-Daten sind dadurch zwar inhomogen, verfügen aber oft über sehr hohen Detailreichtum.
+\osm-Daten sind dadurch zwar inhomogen, verfügen aber oft über ein sehr hohes Detailreichtum. \cf{Sch12}
 So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein. \cf[115]{SP11}
 
 % "alles für alle": Es können *alle* Datenthemen beliebig detailliert erfasst werden und stehen aufgrund der freien Lizenz dann *allen* Nutzern zur Verfügung => enormer Detailreichtum, aber auch u. U. enorme Schwierigkeiten, der Datenmengen Herr zu werden.
@@ -147,8 +147,12 @@ Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch
 \section{Automatisierte Linien-Generalisierung von OpenStreetMap-Daten}
 \label{ch:existing-generalisation}
 
-Wie im Folgenden einige Beispiele zeigen, lassen sich von den sieben elementaren Generalisierungsvorgängen \cf[168]{HGM02} die Auswahl auf Basis der Objektklasse sowie die Betonung und Vergrößerung durch veränderte Strichbreite vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt.
-Andere Arten kartographischer Generalisierung wie etwa die Formvereinfachung oder der Qualitätsumschlag würden die Geometrie verändern, sind damit schwieriger zu implementieren und werden bisher nicht oder kaum eingesetzt.
+Hake et~al. benennen sieben elementare Generalisierungsvorgänge:
+„Vereinfachen -- Vergrößern -- Verdrängen -- Zusammenfassen [...] -- Auswählen [...] -- Klassifizieren -- Bewerten [...].“ \citex[168]{HGM02}
+Von diesen lassen sich Auswahl (auf Basis der Objektklasse) sowie Vergrößerung und Bewertung (durch veränderte Strichbreite) vergleichsweise einfach im Renderer implementieren, da die Geometrie der zugrundeliegenden Geodaten dabei unverändert bleibt.
+
+Andere Arten kartographischer Generalisierung wie etwa Formvereinfachung oder Zusammenfassung würden die Geometrie verändern, sind damit schwieriger zu implementieren und werden bisher nicht oder kaum eingesetzt.
+Dies demonstrieren im Folgenden Beispiele zu einigen Generalisierungsvorgängen.
 
 
 
@@ -264,13 +268,14 @@ Hier existiert bei Markierung~\textfiguremark{2} nur eine einzige Fahrbahn, wäh
 	% http://render.openstreetmap.org/cgi-bin/export?bbox=5.112805,52.078108,5.118492,52.080099&scale=7500&format=pdf
 	\caption
 		[Karte von \nolinkurl{osm.org}, Zoom~16, Fahrbahnen getrennt erkennbar]
-		{Karte von \nolinkurl{osm.org}, Zoom~16, Fahrbahnen getrennt erkennbar (\textfiguremark{1} in Abbildung~\ref{fig:utrecht14}) \citex{map:osm-carto}}
+		{Karte von \nolinkurl{osm.org}, Zoom~16, Fahrbahnen getrennt erkennbar (\textfiguremark{1} in Abb.~\ref{fig:utrecht14}) \citex{map:osm-carto}}
 	\label{fig:utrecht16}
 }
 
 Abbildung~\ref{fig:gera13} zeigt ein ähnlich unklares Kartenbild.
 Hier ist die Hauptstraße längs der Eisenbahnstrecke bei Markierung~\textfiguremark{1} deutlich breiter als bei \textfiguremark{2}.
 Auch hier liegt keine gezielte Bewertung vor; vielmehr wird die Straße von der Bahnstrecke teilweise verdeckt, so dass die Karte den falschen Eindruck einer unterschiedlichen Strichbreite verschafft.
+Die eigentlich notwendige Verdrängung findet nicht statt.
 
 \twofigures{ht}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/gera-z13}
@@ -302,11 +307,9 @@ In Abbildung~\ref{fig:gera14} ist die Hauptstraße bei Markierung~\textfiguremar
 Dies liegt an getrennt erfassten Richtungsfahrbahnen bei~\textfiguremark{2}, wie sie schon in Abbildung~\ref{fig:utrecht16} gezeigt wurden, während bei~\textfiguremark{1} mangels baulicher Trennung der beiden Fahrtrichtungen nur ein einziger Linienzug erfasst ist.
 Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein unterschiedlicher Strichbreiten ist unbeabsichtigt.
 
-%(Dies könnte durch Verdrängung gelöst werden; siehe dort.)
 
 
-
-\FloatBarrier
+%\FloatBarrier
 \subsection{Generalisierung durch Formvereinfachung}
 
 Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen.
@@ -375,7 +378,7 @@ Je nach den gewählten Parametern kann eine Formvereinfachung hier dazu führen,
 
 
 
-\FloatBarrier
+%\FloatBarrier
 \subsection{Generalisierung durch Verdrängung}
 
 Typisch für Web-Karten ist das völlige Fehlen von Verdrängungen zur Einhaltung kartographischer Minimalabstände und -dimensionen.
@@ -500,9 +503,12 @@ Die Karten in Abbildung~\ref{fig:tracks} stellen diesen \term{tag} farblich dar.
 
 Bei Betrachtung in kleinem Maßstab sieht darin \textfiguremark{1} zunächst nach einer viergleisigen Strecke aus, in großem Maßstab plötzlich nach wenigstens \emph{zwei} viergleisigen Strecken nebeneinander.
 Tatsächlich liegen insgesamt vier einzelne Gleise, die jeweils durch einen \term{way} mit dem Attribut \osmtag{tracks}[4] erfasst sind.%
-\footnote{Das \osmtag{tracks}-Attribut wurde zwischenzeitlich durch Beitragende von diesen \term{ways} entfernt.}
+\footnote{Die \osmtag{tracks}-Attribute wurden zwischenzeitlich durch Beitragende von diesen \term{ways} entfernt.}
 In kleinem Maßstab fließen sie zusammen, in großem Maßstab sind sie jedoch einzeln erkennbar und vermitteln dem Leser das falsche Bild von insgesamt 16~Gleisen.
 Möglicherweise hat ein \osm-Beitragender \osmtag{tracks}[*] missverstanden als die Gesamtanzahl der Gleise, \cf{Fox12} wofür jedoch das Attribut \osmtag{passenger\_lines}[*] zu verwenden ist.
+
+% unklar, ob das Beispiel typisch war oder nicht
+% (ich meine mich zu erinnern, dass der Fehler in GB stark verbreitet war, in DE eher untypisch)
 
 \onedoublefigure{ht}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter2/tracks-small}
@@ -521,8 +527,8 @@ Möglicherweise hat ein \osm-Beitragender \osmtag{tracks}[*] missverstanden als 
 }{
 	% fiktives Beispiel
 	\caption
-		[fehlerhafte Repräsentation der Gesamtzahl paraleller Gleise mit dem \osmtag{tracks}-Attribut]
-		{fehlerhafte Repräsentation der Gesamtzahl paraleller Gleise mit dem \osmtag{tracks}-Attribut (links Zoom~15, rechts Zoom~17; Karlsruhe-Weiherfeld) \cf{map:ito-tracks}}
+		[fehlerhafte Repräsentation der Gesamtzahl paralleler Gleise mit dem \osmtag{tracks}-Attribut]
+		{fehlerhafte Repräsentation der Gesamtzahl paralleler Gleise mit dem \osmtag{tracks}-Attribut (links Zoom~15, rechts Zoom~17; Karlsruhe-Weiherfeld) \cf{map:ito-tracks}}
 	\label{fig:tracks}
 }
 
@@ -535,8 +541,8 @@ die Abzweige \textfiguremark{3} und \textfiguremark{4} bestehen allerdings aus j
 Insgesamt sind die Darstellungen von \osmtag{tracks}[*] in Abbildung~\ref{fig:tracks} wenig gelungen.%
 \footnote{Hier zeigt sich eine Schwäche von \osm: Zwar ist mit \term{relations} eine logische Verknüpfung paralleler Gleise in der \osm-Datenbank technisch möglich, jedoch ist dies nicht zuverlässig und simpel genug, dass es von einer Mehrheit der \osm-Beitragenden angewandt wird.}
 Das unglücklich benannte Attribut \osmtag{passenger\_lines} reicht dazu aus, \osmtag{tracks}[*] für manche Anwendungen zu ersetzen, wird jedoch nur auf speziellen Karten angezeigt,
-% zu implizit?
-so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).
+so dass es nicht annähernd flächendeckend erfasst ist (Abbildung~\ref{fig:passenger_lines}).%
+\footnote{Bis Fertigstellung der vorliegenden Arbeit haben \osm-Beitragende das Attribut \osmtag{passenger\_lines} für die meisten europäischen Strecken ergänzt.}
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/passenger_lines-europe}
@@ -573,7 +579,7 @@ Zum Beispiel sind automatisierte Formvereinfachungen einfacher durchzuführen, w
 
 % Zusammenfassung kann theoretisch auch Erstellen von MRDBs vereinfachen
 
-Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm\.
+Ziel \emph{dieser} Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung parallel verlaufender Linienzüge in \osm.
 Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere weder eine Formvereinfachung noch eine Verdrängung.
 
 
@@ -609,7 +615,7 @@ Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skeletti
 Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt (Abbildung~\ref{fig:skeleton}).
 Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 
-\onefigure{b}{
+\onefigure{bt}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-skeleton}
 	\caption
 		[sukzessive Verkleinerung einer Fläche und deren Skelettlinien]
