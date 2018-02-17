@@ -11,7 +11,7 @@ Paste that line at a Terminal prompt. The [bash script](https://github.com/johan
 
 Dependencies automatically provided as part of the installation:
 - [args4j](http://args4j.kohsuke.org/) 2.33
-- [GeoTools](http://www.geotools.org/) 18.0
+- [GeoTools](http://www.geotools.org/) 18.2
 - [TestNG](http://testng.org/) 6.8
 
 
