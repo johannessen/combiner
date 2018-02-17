@@ -232,7 +232,7 @@ Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelit
 \label{alg:NaheSegmente}
 \begin{algorithmic}
 \Function{NaheSegmente}{$s, S$}\Comment{Menge aller Segmente $S$}
-	\State \textbf{Ergebnis} $\{t : t \in S \wedge \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \varnothing\}$
+	\State \textbf{Ergebnis} $\{t : t \in S \wedge \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \TheEmptySet\}$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
@@ -343,9 +343,9 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 \begin{algorithmic}
 % evtl. besser: "Assoziation" / "Relation"
 \State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelLinks(s) \eqdef \varnothing\ \forall\ s$
+\State $\textbf{Anfangswert } parallelLinks(s) \eqdef \TheEmptySet\ \forall\ s$
 \State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelRechts(s) \eqdef \varnothing\ \forall\ s$
+\State $\textbf{Anfangswert } parallelRechts(s) \eqdef \TheEmptySet\ \forall\ s$
 \Function{Analyse}{$S$}\Comment{Menge aller \emph{unterteilten} Segmente $S$}
 	\ForAll{$s \textbf{ mit } s \in S$}
 %		\State $T \gets \{t : wurzel(t) \in \textproc{NaheSegmente}(wurzel(s), S)\} \wedge \textproc{Parallel}(s, t)$  % exakt wie implementiert, aber eigentlich in dieser Form hier nicht nötig
@@ -469,7 +469,7 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 \label{alg:Zuordnen}
 \begin{algorithmic}
 \Function{NodesZuordnen}{$S$}
-	\State $C \gets \varnothing$
+	\State $C \gets \TheEmptySet$
 	\ForAll{$s \textbf{ mit } s \in S$}
 		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}$}
 			\ForAll{$n_1 \textbf{ mit } n_1 \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
@@ -602,7 +602,7 @@ Eine Erweiterung zur Zusammenfassung einer beliebigen Anzahl von Parallelen auf 
 %	\EndFor
 %	
 %	
-%%	\State $C \gets \varnothing$
+%%	\State $C \gets \TheEmptySet$
 %%	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}% \wedge \neg$ $fertig7(t)$}
 %%		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}, t =: (n_3, n_4)$}
 %%			\ForAll{$e_1 \textbf{ mit } e_1 \in \{n_1, n_2\} $}
@@ -684,7 +684,7 @@ es ist abhängig von der Struktur der Eingangsdaten eine Zahl im unteren zweiste
 Weiterhin sind mehr als zwei Punktezuordnungen im Wesentlichen nur im (seltenen) Fall von mehr als zwei erkannten Paralellen zu erwarten.
 Mit
 \[
-\{\nu, \psi\} \subseteq \hbox{o}(n)
+\{\nu, \psi\} \subset \hbox{o}(n)
 \]
 zeigen somit im durchschnittlichen Fall alle Teile der Generalisierung und folglich auch die Generalisierung insgesamt ein lineares Wachstum des Rechenaufwands:
 \[

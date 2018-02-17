@@ -6,29 +6,108 @@
 \begin{document}
 
 
+
 \chapter{Mathematische Konventionen}
 \label{appx:mathsymbols}
 % zu 4
 
-\onetable{H}{
-
-\begin{tabular}{|c|p{10.5cm}|}
+{\setlength{\doublerulesep}{1mm}%\renewcommand{\arraystretch}{1.1}
+\begin{longtable}[c]{|c|p{12cm}|}
 \hline
 \textbf{Symbol} & \textbf{Beschreibung} \\
 \hline
-$\equiv$ & leitet die Definition des linksseitigen Bezeichners ein \newline (z.~B. Definition durch eine Abfolge von Arbeitsschritten) \\
 \hline
- &  \\
-\hline
-px & Pixel; Einheit für die kleinste rechteckige Fläche in gerasterter Darstellung, z.~B. auf dem Bildschirm; für \osm\ in der Regel quadratisch; bezeichnet als Einheit für eine Länge die Länge einer Pixelreihe von 1\,px Breite \\
-\hline
-\end{tabular}
-
+\endhead
+\caption*{(fortgesetzt)}
+\endfoot
 \caption{Mathematische Abkürzungen und Symbole}
-\label{tab:mathsymbols}
+%\label{tab:mathsymbols}
+\endlastfoot
+\multicolumn{2}{|l|}{\textbf{Bezeichner}} \\
+\hline
+$\alpha,\beta,\gamma,...$ & Griechische Kleinbuchstaben bezeichnen reelle Größen mit oder ohne Dimension wie Winkel, Längen oder Verhältniszahlen. \\
+\hline
+$a,b,c,...$ & Lateinische Kleinbuchstaben bezeichnen in aller Regel Vektoren. \newline Lediglich solche reelle Größen, für die ein lateinischer Buchstabe im jeweiligen Kontext fest etabliert ist, werden mit lateinischen Buchstaben bezeichnet. \\
+\hline
+$A,B,C,...$ & Lateinische Großbuchstaben bezeichnen Mengen. \\
+\hline
+\hline
+\multicolumn{2}{|l|}{\textbf{Arithmetik}} \\
+\hline
+$\abs[\alpha]$ & absoluter Betrag der Zahl $\alpha$ \\
+\hline
+$\abs[a]$ & geometrische Länge des Vektors $a$ \\
+\hline
+$\sphericalangle(a,b)$ & gerichteter rechtsdrehender Winkel von $a$ zu $b$ im Intervall $(-\pi,\pi)$ \\
+\hline
+\hline
+\multicolumn{2}{|l|}{\textbf{Logische Aussagen}} \\
+\hline
+$\wedge$ & und \\
+\hline
+$\forall\, M$ & für alle Elemente der Menge $M$ \\
+\hline
+$\exists\ a$ & es existiert ein $a$ \\
+\hline
+$:$ & so dass gilt \\
+\hline
+\hline
+\multicolumn{2}{|l|}{\textbf{Mengen}} \\
+\hline
+\multicolumn{2}{|p{13cm}|}{Mengen sind ungeordnet und können kein Element mehrfach enthalten.} \\
+\hline
+$\set{a,b}$ & Menge bestehend aus den Elementen $a$ und $b$ \\
+\hline
+$\TheEmptySet$ & leere Menge \\
+\hline
+$\abs M \abs$ & Anzahl der Elemente der Menge \\
+\hline
+$\cup$ & Vereinigung \hfill $\set{a,b} \cup \set{b,c} = \set{a,b,c}$ \\
+\hline
+$\cap$ & Schnittmenge \hfill $\set{a,b} \cap \set{b,c} = \set{b}$ \\
+\hline
+$\setminus$ & Restmenge (gelesen „ohne“) \hfill $\set{a,b} \setminus \set{b,c} = \set{a}$ \\
+\hline
+$\in$ & Element in Menge \hfill $a \in \set{a,b}$ \\
+\hline
+$\subset$ & Teilmenge \hfill $\set{a} \subset \set{a,b}$ \\
+\hline
+\hline
+\multicolumn{2}{|l|}{\textbf{Algorithmen}} \\
+\hline
+$\textproc{Name}$ & Kurzbezeichnung eines Algorithmus durch dessen Namen \\
+\hline
+$\equiv$ & identisch mit \newline (es folgt die Definition des linksseitigen Bezeichners, z.~B. durch eine Abfolge von Arbeitsschritten) \\
+\hline
+$\triangleright$ & Kommentar \\
+\hline
+$\gets$ & Zuweisung \\
+\hline
+\algorithmicforall & wiederhole die folgenden eingerückten Schritte nacheinander einmal für jedes Element der angegebenen Menge \\
+\hline
+\algorithmicwhile & wiederhole die folgenden eingerückten Schritte nacheinander solange, wie die angegebene Bedingung wahr ist \\
+\hline
+\algorithmicif & führe die folgenden eingerückten Schritte nur aus genau dann, wenn die angegebene Bedingung wahr ist \\
+\hline
+\textbf{Ergebnis} & Ergebnis des Algorithmus (Rückgabewert) \\
+\hline
+$\rightarrow$ & Definition einer Relation (Assoziation) der genannten Datentypen \\
+\hline
+{\small$\eqdef$} & Definition des Anfangswerts einer Relation \\
+\hline
+$\mathcal{O}(f)$ & Menge aller Algorithmen, deren Rechenaufwand nicht wesentlich schneller als $f$ wächst \\
+\hline
+$\hbox{o}(f)$ & Menge aller Algorithmen, deren Rechenaufwand wesentlich langsamer als $f$ wächst \\
+\hline
+\hline
+\multicolumn{2}{|l|}{\textbf{Einheiten und Datentypen}} \\
+\hline
+px & Pixel \newline die kleinste rechteckige Fläche in gerasterter Darstellung, z.~B. auf dem Bildschirm (für \osm\ in der Regel quadratisch); \newline als Längeneinheit: die Länge einer Pixelreihe von 1\,px Breite \\
+\hline
+boolean & wahr oder falsch (bezogen auf logische Aussagen) \\
+\hline
+\end{longtable}
 }
-% TODO: neu (vgl. [Sar06])
-...
 
 
 

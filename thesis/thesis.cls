@@ -47,7 +47,9 @@
 % own symbols
 \newcommand{\eqdef}{\overset{\mathrm{def}}{=\joinrel=}}
 %\newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
-\newcommand{\abs}{|\!\;\!|}
+\NewDocumentCommand{\abs}{o}{|\!\;\!|\IfValueT{#1}{#1\abs}}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\TheEmptySet}{\varnothing}
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
@@ -210,6 +212,7 @@
 		#2
 	\end{table}
 }
+\RequirePackage{longtable}
 
 % graphics
 \RequirePackage{graphicx}
