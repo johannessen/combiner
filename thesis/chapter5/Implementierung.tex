@@ -10,6 +10,7 @@
 \label{ch:impl}
 
 \section{Entwicklungsumgebung}
+\label{ch:impl-env}
 
 Zur Umsetzung der entwickelten Algorithmen in Software wurde die Plattform Java verwendet.
 Die Wahl von Java erfolgte neben der Vertrautheit des Verfassers mit dem zugehörigen \term{framework} aufgrund zu erwartender Effizienzvorteile von kompiliertem Code gegenüber Skriptsprachen wie Perl.
@@ -19,12 +20,12 @@ Java als imperative Sprache erlaubt es nicht, Algorithmen mit dem gleichen Grad 
 Dort konnten zugunsten einer vereinfachten
 % jedoch präzisen, cf. EWD656
 Beschreibung praktische Erwägungen wie der Bedarf an Rechenzeit und Speicherplatz teilweise hintenanstehen.
-Bei der Implementierung in Java müssen hingegen sorgfältig solche Datenstrukturen gewählt werden, die eine effiziente Ausführung erlauben, und die Algorithmen soweit nötig entsprechend angepasst werden.
+Bei der Implementierung in Java sollten hingegen sorgfältig solche Datenstrukturen gewählt werden, die eine effiziente Ausführung erlauben, und die Algorithmen soweit nötig entsprechend angepasst werden.
 Das Ergebnis wird in Abschnitt~\ref{ch:data-structures} beschrieben.
 
-Während der Entwicklung wurde versucht, so viel existierenden Code in Form von \term{frameworks} wiederzuverwenden wie möglich.
-Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-difficulties} geschildert wird.
-Bei der Entwicklung kamen zuletzt die folgenden Plattformen und \term{frameworks} zum Einsatz:
+Während der Entwicklung wurde versucht, so viel existierenden Code in Form von \term{frameworks} und anderen Programmbibliotheken wiederzuverwenden wie möglich.
+Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-io} geschildert wird.
+Bei der Entwicklung kamen zuletzt die folgenden Plattformen und Bibliotheken zum Einsatz:
 
 \begin{itemize}[nosep]
 	\item Darwin 15.6 / Mac OS X 10.11.6
@@ -41,7 +42,7 @@ Ursprünglich wurden ältere Softwareversionen verwendet.
 Die nötigen Anpassungen an die hier genannten aktuellen Versionen waren gering, Kompatibilität mit den älteren Versionen ist jedoch gegenwärtig aufgrund von Änderungen in GeoTools nicht mehr vollständig gegeben.
 Der Code ist dabei noch immer konform zum Syntax von Java 6. \cf{GJSB05}
 
-Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der \term{frameworks} relevant waren.
+Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der Bibliotheken relevant waren.
 
 
 
@@ -50,25 +51,23 @@ Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der 
 
 Für ein gut funktionierendes Gesamtpaket sind vor der Umsetzung von vorgegebenen Algorithmen in ausführbarem Code einige praktische Aspekte zu bedenken.
 
-Zunächst stellt sich die Frage nach der Benutzerschnittstelle der Software.
+Da die entwickelten Algorithmen ein für das jeweilige Anwendungsgebiet optimiertes kartesisches Koordinatennetz verlangen (vgl. Abschnitt~\ref{ch:split-algorithm}), sind die aus der \osm-Datenbank stammenden Eingangsdaten nach Länge und Breite vor der Verarbeitung in einem geeigneten Kartennetzentwurf abzubilden.
+Hierzu bietet sich unter anderem die UTM-Abbildung an \term{(Universal Transverse Mercator),} welche einen querachsigen Schnittzylinder winkeltreu abbildet und zur Minimierung des Maßstabsfehlers in jeweils 6° breite Zonen unterteilt. \cf[57--58]{Sny87}
+Zur Vereinfachung wird die Implementierung zunächst auf eine einzelne UTM-Zone beschränkt.
+
+Weiterhin stellt sich die Frage nach der Benutzerschnittstelle der Software.
 Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (\term{graphical user interface,} GUI) zu gestalten.
 Denkbar wäre beispielsweise eine Integration in den weit verbreiteten \osm-Editor JOSM als \term{plug-in.}
 Das Entwickeln und Debuggen einer GUI-Anwendung neigt jedoch dazu, zeitaufwändig zu sein.
 Ohnehin würde es ein modularer Aufbau der Anwendung erlauben, zu einem späteren Zeitpunkt eine optionale GUI zu ergänzen.
-\cf[171]{Muc05}
 Aus diesen Gründen soll im Rahmen dieser Arbeit auf eine GUI zugunsten einer einfachen textbasierten Kommandozeilen-Schnittstelle (\term{command-line interface,} CLI) verzichtet werden.
-Zum Parsen der CLI-Parameter bieten sich einfache \term{frameworks} wie etwa args4j an.
+Zum Parsen der CLI-Parameter bieten sich einfache Bibliotheken wie etwa args4j an.
 
 Zur Verarbeitung beliebiger Geodaten müssen diese aus Datenspeichern eingelesen und wieder ausgegeben werden können.
-Um Entwicklungszeit zu sparen, sollte hierfür nach Möglichkeit ein existierendes \term{framework} genutzt werden.
-Zur Vermeidung einer zu engen Kopplung der Generalisierung an das gewählte \term{framework} ist es zu vermeiden, die Primitiven des \term{frameworks} intern weiterzubenutzen.
-% -> ???
-Stattdessen sollten eigene Datenstrukturen genutzt werden, um Modularität zu fördern.
-Die dabei entstehenden Kosten in Form von Rechenzeit und Speicherverbrauch sind zu berücksichtigen.
-
-Da die entwickelten Algorithmen ein für das jeweilige Anwendungsgebiet optimiertes kartesisches Koordinatennetz verlangen (vgl. Abschnitt~\ref{ch:split-algorithm}), sind die aus der \osm-Datenbank stammenden Eingangsdaten nach Länge und Breite vor der Verarbeitung in einem geeigneten Kartennetzentwurf abzubilden.
-Hierzu bietet sich unter anderem die UTM-Abbildung an \term{(Universal Transverse Mercator)}, welche einen querachsigen Schnittzylinder winkeltreu abbildet und zur Minimierung des Maßstabsfehlers in jeweils 6° breite Zonen unterteilt. \cf[57--58]{Sny87}
-Zur Vereinfachung wird die Implementierung zunächst auf eine einzelne UTM-Zone beschränkt.
+Um Entwicklungszeit zu sparen, soll hierfür nach Möglichkeit ein existierendes \term{framework} genutzt werden.
+%Zur Vermeidung einer zu engen Kopplung der Generalisierung an das gewählte \term{framework} sollte jedoch möglichst vermieden werden, die Primitiven des \term{frameworks} intern weiterzubenutzen.
+%Stattdessen sollten eigene Datenstrukturen genutzt werden, um Modularität zu fördern.
+%Die dabei entstehenden Kosten in Form von Rechenzeit und Speicherverbrauch sind zu berücksichtigen.
 
 Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition für \textproc{NaheSegmente} kann leicht mit Hilfe eines R-Baums als räumlicher Index umgesetzt werden.
 Die \textproc{Hülle} ist dabei das minimal umgebende Rechteck eines Blatts im R-Baum.
@@ -86,18 +85,19 @@ GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebi
 	\includegraphics[width=\ScaleIfNeeded]{../chapter5/system-concept}
 	\caption
 		[Komponenten der entwickelten Software]
-		{Komponenten der entwickelten Software (schwarz: eigene Entwicklung, blau: benutztes \term{framework})}
+		{Komponenten der entwickelten Software (schwarz: eigene Entwicklung, blau: benutzte Bibliothek)}
 	\label{fig:system-concept}
 }
 
 Zusammengesetzt ergibt sich aus den besprochenen Aspekten die in Abbildung~\ref{fig:system-concept} dargestellte Architektur:
-Dem Anwender steht eine Kommandozeilen-Schnittstelle (CLI) zur Verfügung, die ihrerseits das \term{framework} args4j zum Parsen der Parameter sowie selbst entwickelte Routinen zur Ein- und Ausgabe der Geodaten verwendet.
-Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als „Combiner“ bezeichnet), welche ihrerseits neben dem \term{framework} GeoTools noch einige selbst entwickelte Hilfsmodule verwendet, die nicht vom Combiner abhängig sind und deshalb als separates Softwarepaket dargestellt werden (mit „util“ bezeichnet).
-Schließlich sitzt zwischen Combiner und CLI ein mit „highway“ bezeichnetes Paket, welches versucht, die Logik des in Abschnitt~\ref{ch:case-selection} ausgewählten Spezialfalls an einem Ort zu bündeln, um die Anpassung auf andere Spezialfälle zu erleichtern.
+Dem Anwender steht eine Kommandozeilen-Schnittstelle (CLI) zur Verfügung, welche die Bibliothek args4j zum Parsen der Parameter sowie selbst entwickelte Routinen zur Ein- und Ausgabe der Geodaten verwendet (welche ihrerseits auf GeoTools zurückgreifen).
+
+Die CLI steuert damit die eigentliche Liniengeneralisierung (hier als \term{Combiner} bezeichnet), welche ihrerseits neben dem \term{framework} GeoTools noch einige selbst entwickelte Hilfsmodule verwendet, die nicht vom \term{Combiner} abhängig sind und deshalb als separates Softwarepaket dargestellt werden („util“).
+Schließlich sitzt zwischen \term{Combiner} und CLI ein mit „highway“ bezeichnetes Paket, welches versucht, die Logik des in Abschnitt~\ref{ch:case-selection} ausgewählten Spezialfalls an einem einzigen Ort zu bündeln, um die Anpassung auf andere Spezialfälle zu erleichtern.
 
 % Noch mal Modularisierung; java Packages erwähnen/erklären? -> eher nein
 
-Im folgenden Abschnitt wird näher auf die Implementierung der Liniengeneralisierung insbesondere im Combiner eingegangen.
+In den folgenden Abschnitten wird näher auf die Implementierung der Liniengeneralisierung insbesondere im \term{Combiner} eingegangen.
 
 
 
@@ -159,6 +159,7 @@ Es ließe sich für eine zukünftige Version leicht ergänzen.
 
 
 \subsection{Grundlegendes Geometrie-Modell (eigene Entwicklung)}
+\label{ch:data-structures-new}
 
 Ein zusammengesetztes Diagramm des entwickelten Datenmodells ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
 Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
@@ -281,8 +282,8 @@ Stattdessen empfehlen Gamma et~al. das Besucher-Muster \term{(Visitor pattern)} 
 Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. \term{visitor} als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. \cf[331--335]{GHJV95}
 
 In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert.
-Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}.
-Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Abschnitt~\ref{ch:case-selection} gewählten Spezialfalls „baulich getrennte Richtungsfahrbahnen im Straßenraum“ nicht Teil des Combiners zu sein, sondern kann vom Client auf andere Themen angepasst werden.
+Dieses Objekt soll die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz} enthalten.
+Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das Behandeln des in Abschnitt~\ref{ch:case-selection} gewählten Spezialfalls „baulich getrennte Richtungsfahrbahnen im Straßenraum“ nicht Teil des \term{Combiners} zu sein, sondern kann vom Client auf andere Themen angepasst werden.
 
 
 
@@ -339,7 +340,7 @@ Die bearbeiteten Segmente werden dabei entsprechend markiert, um doppelte Bearbe
 
 Die Klasse \code{GeneralisedSection} enthält den Algorithmus zum \textproc{Zusammenfassen}.
 \code{ConcatenatedSection} ist ähnlich aufgebaut, aber wesentlich einfacher, da Punktezuordnungen keine Rolle spielen, sondern nur die jeweils anschließenden Segmente zu berücksichtigen sind.
-Beide Klassen sind vom Typ \code{ResultLine}, um dem Client des Combiners einen einheitlichen Typ für die Ergebnisdaten liefern zu können.
+Beide Klassen sind vom Typ \code{ResultLine}, um dem Client des \term{Combiners} einen einheitlichen Typ für die Ergebnisdaten liefern zu können.
 
 Die Klasse \code{GeneralisedLines} ist eine einfache Façade für die Generalisierung, um deren Einsatz zu erleichtern.
 % TODO: bessere Beschreibung + GHJV95
@@ -357,99 +358,75 @@ Die Klasse \code{GeneralisedLines} ist eine einfache Façade für die Generalisi
 
 
 
-\section{Schwierigkeiten bei der Umsetzung \emph{[Entwurf]}}
+\section{Schwierigkeiten bei der Umsetzung}
 \label{ch:impl-difficulties}
-
-% TODO: "Während der Entwicklung wurde versucht, so viel existierenden Code in Form von \term{frameworks} wiederzuverwenden wie möglich. Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-difficulties} geschildert wird."
-
-% TODO: commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
 
 % Wichtig: die Implementierung sollte nur dann nennenswert vom Alg. abweichen, wenn es einen Grund dafür gibt. Der muss dann auch benannt werden.
 % Imperfektionen am Alg. sind aber kein Grund, ihn vor Abgabe noch zu verbessern! <= Zeitmangel
+
+Im Laufe der Implementierung ergaben sich nicht vorhergesehene Probleme und Erkenntnisse.
+In den folgenden Abschnitten werden diese kurz erläutert.
 
 
 
 \subsection{Eigenschaften der Sprache}
 
-\begin{itemize}
-
-\item
-Dass in den zur Verfügung stehenden Java-\term{frameworks} nicht bereits geeignete Datenstrukturen für die Arbeit mit Segmenten existieren, hat einiges an zusätzlicher Arbeit verursacht.
-Das Aufbauen der Datenstrukturen war lehrreich, aber zeitaufwändiger als erwartet.
-
-\item
-Die Entwicklung von der Idee für einen Algorithmus hin zu einer für komplexe Geodaten praxistauglichen Implementierung kann als iterativer Prozess verstanden werden.
-Unter dem Eindruck der Ergebnisse früher Versionen können Algorithmus und Implementierung nach und nach verfeinert werden.
+Die Entwicklung von der Idee für einen Algorithmus hin zu einer für komplexe Geodaten praxistauglichen Implementierung kann als iterativer Prozess verstanden werden:
+Unter dem Eindruck der Ergebnisse früher Versionen werden Algorithmus und Implementierung nach und nach verfeinert.
 % http://de.wikipedia.org/wiki/Prototyping_(Softwareentwicklung)#Evolution.C3.A4res_Prototyping
 Die Wahl von Java als streng typisierte Sprache erschwerte jedoch dieses Vorgehen.
 %Der Zeitaufwand dafür, elegante Klassenstrukturen aufzubauen, wurde vom Verfasser unterschätzt.
-
-Die strenge Typisierung hat die Implementierung aufwändiger gemacht und den Fokus (bei vorgegebenem Zeitrahmen für die Arbeit) somit notwendigerweise ein Stück weit verschoben weg von Algorithmusentwicklung und -beurteilung hin zu den Details objektorientierter Programmierung.
+Die strenge Typisierung hat den Fokus dieser Arbeit (unter Berücksichtigung des vorgegebenen Umfangs notwendigerweise) ein Stück weit verschoben von Algorithmusentwicklung und -beurteilung zu den Details objektorientierter Programmierung.
 Dies war so vor Beginn nicht absehbar.
 % denn nur ich+Jochen waren Programmierer, aber nur die offiziellen Betreuer haben akad. Erfahrung
-Möglicherweise wäre eine dynamisch typisierte Skriptsprache wie Perl für das explorative Vorgehen geeigneter gewesen.
-% warum? -> erfordert Anpassungen der Strukturen von Algorithmen und Daten
 
-\item
-Erwartungsgemäß war das Java Collections Framework eine große Hilfe.
+Möglicherweise wäre eine dynamisch typisierte Skriptsprache wie Perl für dieses explorative Vorgehen geeigneter gewesen.
+Den vermuteten Effizienznachteilen solcher Sprachen (siehe Abschnitt~\ref{ch:impl-env}) steht die einfachere Umsetzung von Änderungen gegenüber.
 
-\item
-Die Idee, nicht nur im Algorithmus, sondern auch in der Typenhierarchie Segmente als Vektoren zu behandeln, stellte sich als sehr hilfreich heraus.
-Es ist denkbar, dass eine Sprache mit Operatorüberladung wie Perl diesen Vorteil noch besser hätte ausnutzen können.
+Weiterhin war das Aufbauen eigener Datenstrukturen für die Arbeit mit Segmenten lehrreich, aber zeitaufwändiger als erwartet.
+Erwartungsgemäß war dabei jedoch das Java Collections Framework äußerst hilfreich.
 
-\end{itemize}
+Ebenfalls als hilfreich stellte sich die Idee heraus, nicht nur im Algorithmus (Abschnitt~\ref{ch:split-algorithm}), sondern auch in der Typenhierarchie Segmente als Vektoren zu behandeln.
+Die Implementierung des \term{Combiners} setzt dies um, indem über Interface-Vererbung alle Segmente auch Vektoren sind (siehe Anhang~\ref{appx:fullpage-model}, Abbildung~\ref{fig:appx-class-structure}).
+Es ist denkbar, dass eine Sprache mit Operatorüberladung wie Perl dies noch eleganter hätte lösen können.
 
 
 
 \subsection{Ein- und Ausgabe von Geodaten}
+\label{ch:impl-io}
 
-\begin{itemize}
-
-\item
-Zwar ist diese Arbeit ausdrücklich aus \osm\ fokussiert, beim Prototyping stellte sich allerdings heraus, dass das direkten Einlesen von \osm-Daten etwas schwieriger war als erwartet.
-Die Eingabe wurde daher zunächst über die Shapefiles der Geofabrik realisiert.
+Im Zuge der Entwicklung stellte sich schnell heraus, dass die direkte Verwendung von \osm-Daten etwas schwieriger war als erwartet.
+Die Eingabe wurde daher zunächst über die unter \href{https://download.geofabrik.de/}{\nolinkurl{download.geofabrik.de}} angebotenen \osm-Shapefiles realisiert.
 % ein spezielles Shapefile, das zusätzlich die OSM-IDs der Start- und End-Nodes enthält (nur als Debugging-Hilfe; die Algorithmen sind nicht davon abhängig)
 Auch die Ausgabe erfolgt zunächst als Shapefile, damit das Generalisierungsergbnis leicht mit gängiger Software betrachtet werden kann.
-Schnittstellen für Ein- und Ausgabe von \osm-Daten zu ergänzen, sollte aber nicht allzu schwierig sein.
 
-\item
-Die Shapefiles der Geofabrik enthalten aus technischen Gründen veränderte Attribute, nicht die Original-\osm-\term{tags}.
-Diesem Problem wurde begegnet, indem ein Adapter die aus den Shapefiles gelesenen Attribute wieder zurück in das \osm-Format wandelt, ohne dass dies für den Combiner sichtbar wird.
+Die Shapefiles der Geofabrik enthalten aus technischen Gründen veränderte Attribute anstelle der Original-\osm-\term{tags}.
+Diesem Problem wurde begegnet, indem ein Adapter (\term{object adapter} \cf[139--141]{GHJV95}) die aus den Shapefiles gelesenen Attribute wieder zurück in das \osm-Format wandelt, ohne dass dies für den \term{Combiner} sichtbar wird.
 % Adapter pattern: io.ShapeTagsAdapter
 
-\item
-Die Nutzung des \term{frameworks} GeoTools zur Ein- und Ausgabe von Geodaten war problematisch.
-Zwar bietet GeoTools umfangreiche Unterstützung für verschiedene Datenformate, jedoch sind diese I/O-Klassen von GeoTools eher umständlich zu benutzen, ihr Interface ist nicht stabil und sie sind sehr teuer.
-Eine Lösung hierfür zu entwickeln, war sehr zeitaufwändig.
+Die Nutzung des \term{frameworks} GeoTools zur Ein- und Ausgabe von Geodaten war unerwartet problematisch.
+Zwar bietet GeoTools umfangreiche Unterstützung für verschiedene Datenformate, jedoch sind die entsprechenden GeoTools-Klassen umständlich zu benutzen, ihr Interface ist nicht stabil und sie arbeiten sehr langsam.
+Eine Lösung hierfür zu entwickeln, war mit erheblichem Zeitaufwand verbunden.
 
 Um die Datenausgabe auf eine akzeptable Geschwindigkeit zu beschleunigen, werden diese nun im GeoJSON-Format ausgegeben (implementiert als reine Textausgabe, was sehr billig ist).
 Das GeoJSON wird anschließend mit GDAL in ein Shapefile konvertiert.
-Insgesamt ist diese Lösung um ein Vielfaches schneller als der Shapefile-Support von GeoTools.
-
-(Allerdings wurde der Shapefile-Support in Geotools neu implementiert; ob dies die Probleme löst, wurde noch nicht getestet.)
+Insgesamt ist diese Lösung um ein Vielfaches schneller als die von GeoTools zur Verfügung gestellte Shapefile-Ausgabe.%
+\footnote{In der später in 2013 erschienenen Version 10.0 von GeoTools ist die Shapefile-Unterstützung neu implementiert. \cf{Deo13} Dem ersten Anschein nach löst dies die beschriebenen Probleme nicht.}
 % http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng
-% Fußnote: In der später erschienen Version xy von GeoTools ist der Shapefile-Support neu implementiert ...
 
-\item
-Außer dem eigentlichen Generalisierungsergebnis kann die entwickelte Software auch zahlreiche zusätzliche Geodatensätze ausgeben, die das Verständnis von der Arbeitsweise des Algorithmus bei Anwendung auf Real-World-Daten verbessern und auch beim Debuggen hilfreich sind.
+Außer dem eigentlichen Generalisierungsergebnis kann der \term{Combiner} auch zahlreiche zusätzliche Geodatensätze ausgeben, die das Verständnis von der Arbeitsweise des Algorithmus bei Anwendung auf \term{real world}--Daten verbessern und auch bei der Fehlersuche hilfreich sind.
 Diese Ausgaben sind in keiner Weise optimiert.
-
-\end{itemize}
+Sie können mit dem Schalter \texttt{--debug} kontrolliert werden.
 
 
 
 \subsection{Sonstiges: Flexibilität und Effizienz}
-
-\begin{itemize}
-
 \label{ch:impl-special-case}
-\item
+
 Die Definition des Spezialfalls, auf den die Arbeit beschränkt werden soll, in einem eigenen Paket \code{highway} vom Rest des Combiners zu trennen und sie damit leicht austauschbar zu machen, war grundsätzlich eine gute Idee.
 Diese Trennung ist allerdings bisher nur begonnen worden und konnte aus Zeitgründen nicht bis zum Abschluss der Arbeit beendet werden; angesichts der ausdrücklichen Beschränkung in der Aufgabenstellung auf nur den ausgewählten Spezialfall war das aber auch streng genommen gar nicht notwendig.
 % betrifft insb. die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section
-% "In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert. Dieses Objekt enthält die Implementierungen der Algorithmen \textproc{Parallel} und \textproc{Distanz}." --- stimmt das überhaupt schon?
 
-\item
 Im Unterschied zur formalen Definition in Abschnitt~\ref{ch:analyse-algorithm} sind $parallelLinks$ und $parallelRechts$ nicht als homogene binäre Relation auf Segmenten implementiert, sondern als Relation zwischen Segmenten und \emph{Mengen} von Segmenten.
 Mit anderen Worten: Es wird nicht jeweils nur ein einziges Segment je Seite als „parallel“ markiert, sondern mehrere.
 % es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird
@@ -460,25 +437,25 @@ Es stellt sich hier also die Frage, welche Implementierungsvariante mit dem Java
 Ein \term{profiling} wurde noch nicht durchgeführt.
 % => Optimierungspotenzial
 
-\item
 Eine besonders effiziente Implementierung stand nicht im Vordergrund.
 Die gewählten Datenstrukturen haben einen höheren Speicherbedarf als eigentlich nötig.
-Beispielsweise werden in den Implementierungen der Algorithmen \textproc{Fußpunkt} und \textproc{Analyse} zahlreiche neue Vektoren-Objekte erzeugt, die jeweils nur für eine einzige geometrische Berechnung benötigt werden.
+Beispielsweise werden in den Implementierungen der Algorithmen \textproc{Fußpunkt} (verwendet beim \textproc{Splitten} von Segmenten) und \textproc{Analyse} zahlreiche neue Vektoren-Objekte erzeugt, die jeweils nur für eine einzige geometrische Berechnung benötigt werden.
 % in 6.4 wird insbesondere das SPLITTEN diskutiert; das sollte hier erwähnt werden!
 Die dadurch häufiger notwendige automatische Freispeichersammlung \term{(garbage collection)} zur Beseitigung dieser Objekte ist zeitaufwändig.
-Diese Zeit- und Speicherkosten hängen von der gewählten Implementierung ab und wurden deshalb in Abschnitt~\ref{ch:algorithm-overview} nicht berücksichtigt.
+Diese Zeit- und Speicherkosten hängen von der gewählten Implementierung ab und konnten deshalb in Abschnitt~\ref{ch:algorithm-overview} nicht berücksichtigt werden.
 Insbesondere für den Speicheraufwand besteht Optimierungspotenzial.
 
 % https://docs.oracle.com/javase/7/docs/api/java/lang/ref/WeakReference.html
 
-\item
-Durchgehende Linienzüge sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.
+Ohnehin musste die Software aus Zeitgründen ohne besondere Rücksicht auf die Eigenschaften von Compiler und Hardware entwickelt werden.
+Speicherzugriff und -verwaltung sind deshalb wahrscheinlich erhebliche Engpässe des \term{Combiners.}
+
+Ein Beispiel für unnötigen Speicheraufwand ist die Bildung durchgehender Linienzüge im Generalisierungsergebnis:
+Diese sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.
 Tatsächlich müssen diese Segmente jedoch für \code{AbstractLine} in jedem Fall erst anhand einer Liste von Stützpunkten erzeugt werden.
 Da für \code{ResultLine} die Segmente später ohnehin nur benötigt werden, um daraus gerade eine Liste von Stützpunkten zu erzeugen, wäre eine Optimierung von \code{AbstractLine} durch \term{lazy initialisation} angebracht:
-Es würde in \code{AbstractLine} zunächst die Liste von \term{nodes} gespeichert und die \textproc{Segmentierung} erst dann durchgeführt, wenn tatsächlich Segmente angefordert werden.
+Es würde in \code{AbstractLine} zunächst die Liste von \term{nodes} gespeichert und die \textproc{Segmentierung} nur dann durchgeführt, wenn tatsächlich Segmente angefordert werden.
 % Oder es könnte evtl. auch recht einfach ResultLine einige Methoden überschreiben (coordinates, add (-> protected), get/size/iterator etc.)
-
-\end{itemize}
 
 
 

@@ -18,17 +18,17 @@ Kapitel
 
 3 ✅
 
-4 🅰
+4 🅰 ⬅
 
-5.1 🅰  
-5.2 🅰  
+5.1 ✅  
+5.2 ✅  
 5.3.1 🅰  
 5.3.2 🅰  
 5.3.3 🅰  
 5.3.4 🅰  
 5.3.5 🅰  
-5.3.6 ✏ ⬅  
-5.4 🅰
+5.3.6 ✏  
+5.4 ✅
 
 6 🅰
 
@@ -43,8 +43,8 @@ Anhänge
 -------
 
 A ✏ ⬅  
-B ✅  
-C 🅰  
+B 🅰  
+C ✅  
 D ✏  
 E ✏  
 F ✏
@@ -101,6 +101,16 @@ Kapitel 3
 - 3.1.4 Abb. neu scannen
 - 3.1.4 OSeaM implizit; evtl. neu?
 - 3.1.5 evtl. Ref für Diskussion? Fußnote für aktuellen Stand?
+
+
+Kapitel 5
+---------
+
+- 5.1 Tempus sollte hier Präsens sein, oder etwa nicht? (Fußnote?)
+- 5.2 Komponentenbeschreibung und Abbildung
+- 5.3 Link zur Doku angeben
+- 5.3.6 ✏
+- 5.4 commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
 
 
 Blocker
