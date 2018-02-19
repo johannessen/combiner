@@ -29,10 +29,12 @@
 # TeX intermediate files
 /thesis/*/*.aux
 /thesis/*/*.bbl
+/thesis/*/*.bcf
 /thesis/*/*.blg
 /thesis/*/*.lof
 /thesis/*/*.lot
 /thesis/*/*.out
+/thesis/*/*.run.xml
 /thesis/*/*.toc
 /thesis/*/*.log
 

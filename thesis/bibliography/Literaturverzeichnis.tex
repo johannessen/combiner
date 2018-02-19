@@ -2,9 +2,14 @@
 
 \nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
 
-\setbibpreamble{Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert. Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par Um ein eventuelles Nachschlagen zu erleichtern, sind die Referenzen wo immer möglich durch Hyperlinks zu Orten ergänzt, an denen eine Kopie des jeweiligen Werks in den Tagen von der Abgabe dieser Arbeit aufzufinden war.\bigskip\bigskip}
+%\setbibpreamble{%
+\defbibnote{thesisBibIntro}{%
+Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert.
+Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par%
+Um ein eventuelles Nachschlagen zu erleichtern, sind die Referenzen wo immer möglich durch Hyperlinks in dicktengleicher Schrift zu Orten ergänzt, an denen eine Kopie des jeweiligen Werks in den Tagen von der Abgabe dieser Arbeit aufzufinden war.
+\bigskip}
 
-\addtocontents{toc}{\medskip}
+%\defbibheading{bibliography}{\chapter*{Literaturverzeichnis}\addcontentsline{toc}{chapter}{Literaturverzeichnis}}
 
-\bibliography{../bibliography/references-papers,../bibliography/references-manual}
-%\bibliography{../bibliography/references-manual}
+\newpage\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+\printbibliography[title=Literaturverzeichnis,prenote=thesisBibIntro]

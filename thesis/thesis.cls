@@ -2,15 +2,12 @@
 % the ../ path component is part of the class name because all TeX files are in sub-directories
 \ProvidesClass{../thesis}[2012/12/13 HSKA-DA Arne Johannessen]
 \LoadClass[
-	version=3.19,  % request that Koma typeset this document just like the Koma version it was written with would have
+	version=3.24,  % request that Koma typeset this document just like the Koma version it was written with would have
 	a4paper,
 	draft,  % mark overflowing line boxes
 	bibliography=totoc,  % include bibliography in TOC
-%	toc=flat,  % don't indent TOC sections
 	headings=normal,  % chapter heading font size (default is 'big', 'small' is also available)
 	numbers=noendperiod,  % 1.2.3 instead of 1.2.3. (even in the presence of appendices)
-	abstract,  % add heading 'Abstract'
-%	captions=tableheading,  % (not sure if this works)
 ]{scrreprt}
 \RequirePackage{scrhack}
 
@@ -26,7 +23,8 @@
 \RequirePackage{pdfpages}
 
 % enable UTF-8 input support
-\RequirePackage{fontspec}
+\RequireXeTeX
+\RequirePackage[no-logos]{xltxtra}
 \XeTeXinputnormalization=1
 
 % enable German style, dictionary and macros
@@ -56,8 +54,9 @@
 
 % set bibliography style (default)
 %\AfterBibliographyPreamble{\raggedright}  % doesn't appear to work
-\RequirePackage[square,numbers]{natbib}  % no clue what "numbers" does in there, but adding it removes spurious warnings
-\bibliographystyle{../bibliography/thesis}  % path relative to document files
+\RequirePackage{csquotes,xpatch}
+\RequirePackage[bibencoding=auto,style=../bibliography/thesis,natbib=true]{biblatex}
+\input{../bibliography/ref}
 
 % enable German bibliography style
 % (NB: some of the statements for 'default' above don't work as intended if babelbib is enabled)
@@ -154,14 +153,6 @@
 % see http://ctan.space-pro.be/tex-archive/macros/latex/contrib/hyperref/doc/manual.html#x1-140004
 \RequirePackage{hyperref}
 \RequirePackage[all]{hypcap}
-% break URLs at arbitrary positions to avoid ugly word spacing in justified text:
-\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
-  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
-  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
-  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
-  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
-  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
-  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
 
 % compact lists
 \RequirePackage{enumitem}
@@ -234,12 +225,12 @@
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
 \RequirePackage{tikz}
 \RequirePackage{pifont}
-\RequirePackage[minimum]{adjustbox}
+%\RequirePackage[minimum]{adjustbox}
 \definecolor{figuremark}{rgb}{1,.2,0}
-\NewDocumentCommand{\figuremark}{o m}{\adjustbox{lap={\width}{-.4em},valign=M}{%
-\IfNoValueF{#1}{\tikz{\fill[#1] (0,0) circle (.4em);}\hspace{-.8em}}%
-\color{figuremark}\ding{\number\numexpr#2+191\relax}%
-}}
+\NewDocumentCommand{\figuremark}{o m}{%
+\IfNoValueF{#1}{\hspace{-1.7mm}\tikz[baseline=(current bounding box.center)]{\fill[#1] (0,0) circle (1.7mm);}\hspace{-1.7mm}}%
+\hspace{-1.7mm}\hspace{.18mm}\tikz[baseline=(current bounding box.center)]{\node[shape=circle,draw,color=figuremark,minimum size=2.86mm,line width=.18mm,inner sep=0mm] (char) {\color{figuremark}\textsf{\textbf{\fontsize{7}{7}\selectfont #2}}};}
+}
 \newcommand{\textfiguremark}[1]{\ding{\number\numexpr#1+171\relax}}
 %\newcommand{\textfiguremark}[1]{#1}
 \newcommand{\figurestandardsize}{\rule{7cm}{0cm}\rule[-.5ex]{0cm}{4cm}}

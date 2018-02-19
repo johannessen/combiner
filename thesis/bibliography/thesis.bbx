@@ -1,0 +1,31 @@
+\ProvidesFile{thesis.bbx}
+\RequireBibliographyStyle{alphabetic}
+
+
+% the label used for citing
+\ExecuteBibliographyOptions{maxalphanames=4,minalphanames=3}
+\renewcommand*{\labelalphaothers}{\textsuperscript{+}}
+
+% full list of author names in the bib list
+\ExecuteBibliographyOptions{maxbibnames=99}
+
+% *if* the list of authors is shortened, do it with 'et al.'
+\DefineBibliographyStrings{ngerman}{andothers={et\addabbrvspace al\adddot}}
+
+% set the title of the work italic
+\DeclareFieldFormat*{title}{\textit{#1}}
+% (clears "all type-specifc formats")
+%\DeclareFieldFormat[thesis]{title}{\textit{#1}}
+
+% set the title of journals etc. upright
+%\DeclareFieldFormat*{journaltitle}{\textbf{#1}}
+
+% no document ID numbers
+\ExecuteBibliographyOptions{isbn=false,doi=false}
+
+% enable breaks inside URLs after any char
+\setcounter{biburllcpenalty}{1}
+\setcounter{biburlucpenalty}{1}
+\setcounter{biburllcpenalty}{1}
+
+\endinput

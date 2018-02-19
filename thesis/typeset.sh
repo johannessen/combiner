@@ -6,6 +6,7 @@
 #  typeset.sh a  # builds PDF of appendices only
 
 
+
 # determine file to typeset
 SUBDIR="main"
 FILENAME="thesis"
@@ -39,25 +40,35 @@ then
 fi
 
 
+# clean biblatex cache (if desired)
+CLEAN=1
+function cleancache {
+	(( "$CLEAN" )) || return
+	echo "Cleanup:"
+#	rm -fR `biber --cache`
+	rm -vf "$FILENAME.aux"
+	rm -vf "$FILENAME.bbl"
+	rm -vf "$FILENAME.bcf"
+	rm -vf "$FILENAME.lof"
+	rm -vf "$FILENAME.lot"
+	rm -vf "$FILENAME.out"
+	rm -vf "$FILENAME.run.xml"
+	rm -vf "$FILENAME.toc"
+}
+#cleancache
+
 # typeset TeX file
 xelatex --file-line-error "$FILENAME.tex"
-bibtex "$FILENAME" | tee "$FILENAME.bibtex.log"
-#makeindex "$FILENAME.idx"
-#makeglossaries "$FILENAME"
+biber "$FILENAME"
+mv "$FILENAME.blg" "$FILENAME.biber.log"
 xelatex --file-line-error "$FILENAME.tex"
-xelatex --file-line-error "$FILENAME.tex"
+biber "$FILENAME"  # cross-references
+cat "$FILENAME.blg" >> "$FILENAME.biber.log" && rm -f "$FILENAME.blg"
+#xelatex --file-line-error "$FILENAME.tex"
 xelatex --file-line-error "$FILENAME.tex" | tee "$FILENAME.stdout.log"
+cleancache
 
-# the 3rd run might be superfluous
-
-echo "Cleanup:"
-rm -vf "$FILENAME.aux"
-rm -vf "$FILENAME.bbl"
-rm -vf "$FILENAME.blg"
-rm -vf "$FILENAME.lof"
-rm -vf "$FILENAME.lot"
-rm -vf "$FILENAME.out"
-rm -vf "$FILENAME.toc"
+# the 4th xelatex run might be superfluous
 
 
 # show license status
