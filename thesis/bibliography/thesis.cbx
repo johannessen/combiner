@@ -4,4 +4,14 @@
 % suppress pagination prefix ("Sch01, p. 123" -> "Scho01 123")
 \DeclareFieldFormat{postnote}{#1}
 
+% if citing authors' names, mention at most two persons
+\ExecuteBibliographyOptions{maxcitenames=2,mincitenames=1}
+
+% use 'et al.' for shortening that list
+\DefineBibliographyStrings{ngerman}{andothers={et\addabbrvspace al\adddot}}
+
+% include "von" before the last name where appropriate
+% (this solution also includes a "v" in the label, which is undesired, but also clearly the lesser evil)
+\ExecuteBibliographyOptions{useprefix=true}
+
 \endinput

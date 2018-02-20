@@ -5,6 +5,7 @@
 	version=3.24,  % request that Koma typeset this document just like the Koma version it was written with would have
 	a4paper,
 	draft,  % mark overflowing line boxes
+	listof=totoc,
 	bibliography=totoc,  % include bibliography in TOC
 	headings=normal,  % chapter heading font size (default is 'big', 'small' is also available)
 	numbers=noendperiod,  % 1.2.3 instead of 1.2.3. (even in the presence of appendices)
@@ -226,7 +227,7 @@
 \RequirePackage{tikz}
 \RequirePackage{pifont}
 %\RequirePackage[minimum]{adjustbox}
-\definecolor{figuremark}{rgb}{1,.2,0}
+\definecolor{figuremark}{rgb}{1,.1,0}
 \NewDocumentCommand{\figuremark}{o m}{%
 \IfNoValueF{#1}{\hspace{-1.7mm}\tikz[baseline=(current bounding box.center)]{\fill[#1] (0,0) circle (1.7mm);}\hspace{-1.7mm}}%
 \hspace{-1.7mm}\hspace{.18mm}\tikz[baseline=(current bounding box.center)]{\node[shape=circle,draw,color=figuremark,minimum size=2.86mm,line width=.18mm,inner sep=0mm] (char) {\color{figuremark}\textsf{\textbf{\fontsize{7}{7}\selectfont #2}}};}

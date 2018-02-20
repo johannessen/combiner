@@ -41,8 +41,8 @@ Dieses Vorgehen hat
 %gegenüber einer vor der Erfassung vereinbarten gemeinsamen Ontologie \cf[14]{GOS09}
 zur Folge, dass die zu OSM Beitragenden genau das erfassen, was sie persönlich für interessant oder wichtig halten. \cf[47--48]{Top09}
 Jeder der Beitragenden entscheidet somit die Kriterien für die Erfassungsgeneralisierung jeweils für sich selbst.
-\osm-Daten sind dadurch zwar inhomogen, verfügen aber oft über ein sehr hohes Detailreichtum. \cf{Sch12}
-So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -Qualität, Baujahr und mehr eingetragen worden sein. \cf[115]{SP11}
+\osm-Daten sind dadurch zwar inhomogen, verfügen aber oft über einen sehr hohen Detailreichtum. \cf{Sch12}
+So könnten zum Beispiel für Teilstücke einer Straße \term{tags} für Tempolimits, Überholverbote, Fahrspurenanzahl, Oberflächenmaterial sowie -qualität, Baujahr und mehr eingetragen worden sein. \cf[115]{SP11}
 
 % "alles für alle": Es können *alle* Datenthemen beliebig detailliert erfasst werden und stehen aufgrund der freien Lizenz dann *allen* Nutzern zur Verfügung => enormer Detailreichtum, aber auch u. U. enorme Schwierigkeiten, der Datenmengen Herr zu werden.
 
@@ -70,7 +70,7 @@ Tatsächlich scheinen Relationen vergleichsweise wenig Beachtung zu finden.%
 %\footnote{Bis Fertigstellung der vorliegenden Arbeit hat sich die Anzahl der \osmtag{route}[road]--Relationen ungefähr verdoppelt auf etwa $130\,000$.}%
 %\cf{osm:RouteRoad}
 % 58712 relations with route=road
-Möglicherweise hängt dies damit zusammen, dass Relationen von \osm-Software noch nicht optimal  unterstützt werden. \cf[83]{RT09}
+Möglicherweise hängt dies damit zusammen, dass Relationen von \osm-Software noch nicht optimal unterstützt werden. \cf[83]{RT09}
 
 Das oben beschriebene Fehlen interner Strukturen unter den \osm"=Mitwirkenden (der Community) macht es aufwändig, die Erfassung und Kodierung der Geodaten zu verändern. \cf[84--85]{Sch09}
 Änderungsvorschläge müssen zuerst von der Community akzeptiert und anschließend \emph{großräumig} und \emph{korrekt} in der Datenbank Anwendung finden.
@@ -84,7 +84,7 @@ Das macht eine automatisierte Ableitung der nötigen Informationen aus den berei
 Wohl am bekanntesten ist OpenStreetMap für die auf der Projekt-Homepage \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} zugängliche Web-Karte (Abbildung~\ref{fig:osm.org}).
 Sie besteht aus quadratischen Kacheln \term{(tiles)} von $256\times\unit[256]{px}$, die dort in 19 verschiedenen Maßstäben%
 \footnote{In 2013 wurde ein noch größerer, 20.~Maßstab ergänzt (bei null beginnend gezählt \cf{Dijk82} die Zoomstufe~19).}
-angeboten werden von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ \cf[154–155]{RT09}
+von etwa $1 \nobreak : \nobreak 2000$ bis $1 \nobreak : \nobreak 500~\unit{Mio.}$ angeboten werden. \cf[154–155]{RT09}
 Eine interaktive Oberfläche erlaubt über die freie Wahl der Zoomstufe eine Maßstabswahl und macht den Kartenausschnitt verschiebbar, so dass jeder im eingesetzten Kartennetz abbildbare Punkt der Erde angezeigt werden kann.
 % evtl. Datenmenge etc. betonen
 
@@ -101,7 +101,6 @@ Die Kartenbasis ist für alle Maßstäbe die jeweils minutengenau aktualisierte 
 Diese schnelle Aktualisierung ist für OpenStreetMap besonders wichtig, um den freiwillig Mitwirkenden nach einem Beitrag zur Datenbank ein schnelles Erfolgserlebnis zu geben, indem der Beitrag in der Karte weltweit für jeden sofort sichtbar wird.
 Aus diesem Grund muss jede Generalisierung der Karte automatisiert ablaufen.
 Weiterhin bedeutet die Zahl der Beiträge mit teilweise über 1000 \term{changesets} pro Stunde, \cf{Nei15}
-% http://osmstats.neis-one.org/?item=changesets&date=7-11-2015
 % http://neis-one.org/2013/08/osm-activity-report-2013/
 dass der Arbeitsaufwand für eine manuelle Generalisierung prohibitiv hoch wäre.
 Klassische kartographische Generalisierung von Hand kommt daher nur für nicht nachzuführende und geographisch begrenzte Einzelanfertigungen in Betracht, etwa wenn auf Basis von OpenStreetMap eine traditionelle gedruckte Karte hergestellt werden soll.
@@ -111,10 +110,8 @@ Diese Geodatenbank enthält die Geometrie und Attribute \term{(tags)} der Rohdat
 Vom Kartenleser in der interaktiven Oberfläche im Webbrowser erzeugte Anfragen nach Kacheln der Karte werden dann von der Renderer-Software unter Zugriff auf die Geodatenbank abgearbeitet, wobei die Geometrie anhand der vorgegebenen Zeichenregeln dargestellt wird.
 Gerenderte Kacheln werden in einem Cache abgelegt und zum Browser geschickt.
 
-Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf nicht vorgesehen (im Gegensatz zu den Abläufen im AAA-Modell der deutschen Landesvermessung \cf[263]{ML12}).
+Eigene Bearbeitungsschritte zur Generalisierung von Daten sind bei diesem Ablauf nicht vorgesehen (im Gegensatz zu den Abläufen im AAA-Modell der deutschen Landesvermessung  \cf[263]{ML12}).
 Lediglich als Nebeneffekt des Einlesens in die Datenbank und des Zeichnens durch den Renderer wird eine begrenzte Modell-\noncf[194 17.2]{RT09} bzw. kartographische Generalisierung durchgeführt. \cf[194, 198]{RT09}
-% [ML12] beschreibt einzelne kommerzielle Lösung (hat aber nette Bilder); -> möglichst noch bessere Quelle suchen
-% -> UD06 ???
 % http://wiki.openstreetmap.org/wiki/Mod_tile/Setup_of_your_own_tile_server
 
 \onefigure{ht}{
@@ -246,7 +243,7 @@ Die als Sammelstraße klassifizierte Croeselaan (bei Markierung~\textfiguremark{
 Grund dafür sind nicht tatsächliche Unterschiede im Ausbauzustand%
 \footnote{Der kürzlich begonnene in der Abbildung bei~\textfiguremark{2} zu erkennende Neubau einer Busfahrbahn verschmälert die Hauptstraße nicht.}
 oder der Verkehrsbedeutung, sondern der Umstand, dass die Fahrbahnen der niederrangigen Straße durch einen breiten, parkähnlichen Grünstreifen getrennt werden  (Abbildung~\ref{fig:utrecht16}).
-In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Signaturen der beiden Fahrbahnen und fließen zusammen, so dass sich für den Betrachter der Eindruck einer besonders breiten oder wichtigen Straße ergibt.
+In kleinerem Maßstab überlappen sich die verbreitert gezeichneten Signaturen der beiden Fahrbahnen und fließen zusammen, so dass sich für den Betrachter der irreführende Eindruck einer besonders breiten oder wichtigen Straße ergibt.
 
 Gleiches gilt für die ebenfalls in Abbildung~\ref{fig:utrecht14} auffallende wechselhafte Strichbreite einer Hauptstraße:
 Hier existiert bei Markierung~\textfiguremark{2} nur eine einzige Fahrbahn, während sich bei~\textfiguremark{3} die Signaturen von zwei parallelen Fahrbahnen überlappen.
@@ -313,7 +310,7 @@ Wiederum handelt es sich nicht um eine gezielte Bewertung; der Anschein untersch
 \subsection{Generalisierung durch Formvereinfachung}
 
 Eine kartographische Formvereinfachung wird für die Web-Karte nicht vorgenommen.
-Zufriedenstellende voll automatisiert arbeitende Algorithmen dafür stehen nicht zur Verfügung und ein Eingreifen von Hand ist wie zuvor in Abschnitt \ref{kartenherstellung} erläutert nicht vorgesehen. \cf[25]{Kla11}
+Zufriedenstellende, voll automatisiert arbeitende Algorithmen dafür stehen nicht zur Verfügung und ein Eingreifen von Hand ist wie zuvor in Abschnitt \ref{kartenherstellung} erläutert nicht vorgesehen. \cf[25]{Kla11}
 In kleineren Maßstäben ergibt dies beispielsweise für Straßen mit vielen kleineren Kurven eine zittrige Darstellung, so etwa in Abbildung~\ref{fig:trollstigen-osm} bei Markierung~\textfiguremark{1}.
 Der Leser kann mit etwas Phantasie zwar erkennen, dass die Straße nicht absolut gerade verläuft, jedoch macht dies die Darstellung undeutlich und ist auch in diesem Maßstab nicht von Bedeutung.
 
@@ -345,7 +342,7 @@ Eine sorgfältige Formvereinfachung müsste dagegen den Charakter der Straße du
 %Die Abbildungen~\ref{fig:trollstigen-osm} und~\ref{fig:trollstigen-manual} zeigen auch, wie in der kartographischen Generalisierung die Serpentinen als das Signifikante dieser Straße betont und die unwesentlichen kleineren Kurven davor und danach durch Formvereinfachung entfallen.
 
 „Die Formvereinfachung ist insgesamt eine Reduzierung der Anzahl von Stützpunkten, wenngleich u.~U. lokal Stützpunkte hinzugefügt werden, um typische Formen übertreibend zu betonen.“ \citex[Formv.]{BK01}
-Während letzteres nach Kenntnis des Verfassers gegenwärtig nicht automatisiert möglich ist, kann eine bloße Reduzierung der Zahl der Stützpunkte zur Linienglättung automatisiert erfolgen.
+Während Letzteres nach Kenntnis des Verfassers gegenwärtig nicht automatisiert möglich ist, kann eine bloße Reduzierung der Zahl der Stützpunkte zur Linienglättung automatisiert erfolgen.
 Ein wichtiger Nebeneffekt ist dabei die verringerte Menge an Geodaten und damit deren vereinfachte Verarbeitung.
 Der vielfach benutzte Algorithmus von Ramer, Douglas und Peucker zur Linienglättung zielt gerade auf Effizienz ab („efficient representation“ \citex[244]{Ram72}).
 Eine Formvereinfachung nach kartographischen Gesichtspunkten ergibt sich mit ihm in der Regel nicht.
@@ -423,7 +420,7 @@ Dabei treten immer wieder in verschiedenen Situationen Darstellungsprobleme auf.
 \label{dual-highway-case-2}
 
 Beispielsweise variiert in OpenStreetMap auffallend oft der Abstand von zwei Richtungsfahrbahnen einer Straße.
-Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht (Markierung~\textfiguremark{1}), aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke erwirkt (\textfiguremark{2}).
+Abbildung~\ref{fig:b256} zeigt, wie innerhalb weniger hundert Meter die Linearsignaturen zweier Richtungsfahrbahnen teilweise so weit voneinander entfernt liegen, dass dazwischen eine Lücke entsteht (Markierung~\textfiguremark{1}), aber teilweise auch so dicht beieinander, dass die Lücke geschlossen wird und die Randstriche der beiden Signaturen ineinander übergehen, was den Eindruck eines Mittelstriches wechselnder Strichstärke bewirkt (\textfiguremark{2}).
 An einer Stelle sind die beiden Richtungsfahrbahnen gar so dicht beieinander gezeichnet, dass der Rand- bzw. Mittelstrich verschwindet und beide Fahrbahnen ineinander übergehen (\textfiguremark{3}).
 
 \twofigures{ht}{
@@ -587,7 +584,7 @@ Weitere Generalisierungsvorgänge sind nicht Teil dieser Arbeit, insbesondere we
 \section[Diskussion existierender Ansätze]{Diskussion existierender Ansätze zur automatisierten Linien-Generalisierung}
 \label{ch:existing-approaches}
 
-\subsection{Linien zusammenfassen mit Puffer}
+\subsection{Zusammenfassen durch Pufferung}
 \label{ch:buffer}
 % - für eine Darstellung von OSM-Daten als Teil eines 3D-Modells werden Straßen "realistisch" verbreitert per Buffer in PostGIS
 % - um Fragmente und Parallelen zu beseitigen, werden die so entstandenen Polygone nun vereinigt
@@ -602,7 +599,7 @@ Die \term{ways} aus \osm\ werden für die 3D-Szene durch Pufferung mit attributa
 Um dabei durch Überlappungen von eng parallelen \term{ways} entstehende unnötig große Datenmengen zu vermeiden, werden diese Polygone anschließend vereinigt. \cf[2–3]{OHSZ10}
 
 Durch diesen Ansatz werden unerwünschte Parallelen beseitigt.
-Allerdings ist die für diese Arbeit erwünschte Rückführung des durch das Puffern entstandenden Flächen zu einer Linie nicht ohne Weiteres möglich.
+Allerdings ist die für diese Arbeit erwünschte Rückführung der durch die Pufferung entstandenden Flächen zu einer Linie nicht ohne Weiteres möglich.
 Auch werden Parallelen nicht als solche erkannt, sondern entfallen restlos durch die Polygonvereinigung.
 Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrundeliegende Fragestellung nicht geeignet.
 
@@ -616,7 +613,7 @@ Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkl
 Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 
 \onefigure{bt}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter2/approach-skeleton}
+	\includegraphics[width=9cm]{../chapter2/approach-skeleton}
 	\caption
 		[sukzessive Verkleinerung einer Fläche und deren Skelettlinien]
 		{sukzessive Verkleinerung einer Fläche (links) und deren Skelettlinien (blau; rechts) \citex{Hub12}}
@@ -631,8 +628,8 @@ Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 % - schlägt angeblich fehl an komplizierteren Stellen
 % - ermittelt eine Relation zwischen ALK ATKIS
 
-Haunert und Sester nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten.
-Der Algorithmus von Eppstein und Erickson \citex{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Straßennetz auf die gewünschten Mittellinien der Flächen zu reduzieren.
+\Citeauthor{HS04} nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten.
+Der Algorithmus von \citeauthor{EE99} \citex{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Straßennetz auf die gewünschten Mittellinien der Flächen zu reduzieren.
 Dennoch kommt es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden können. \cf[4–6]{HS04}
 
 % Mig12: Projekt für "schöne" topo. Karte
@@ -643,7 +640,7 @@ Dennoch kommt es zu teils erheblichen Problemen an Kreuzungen, die nicht in alle
 % - Anwendung von Skeletron (mit Implementierung von LM96 für OSM)
 % - Ziel letztlich "nur" Shields und Straßennamen
 
-Migurski setzt eine Skelettierung ein, um für eine topographische Karte auf \osm-Basis Straßennamen und -nummern graphisch ansprechend darzustellen.
+\Citeauthor{Mig12} setzt eine Skelettierung ein, um für eine topographische Karte auf \osm-Basis Straßennamen und -nummern graphisch ansprechend darzustellen.
 Im Falle von zwei zueinander parallelen Fahrbahnen derselben Straße sollen Nummer und Name so gezeichnet werden, dass sie für beide Fahrbahnen gelten und unschöne Doppelungen des Namens vermieden werden.
 Hierzu benutzt Migurski die Software Skeletron. \citetext{\citealp{ME11}, cf. \citealp{Mig12}}
 
@@ -651,8 +648,8 @@ Hierzu benutzt Migurski die Software Skeletron. \citetext{\citealp{ME11}, cf. \c
 % <https://github.com/migurski/Skeletron>
 % - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
 
-Skeletron benutzte ursprünglich ein Straight Skeleton nach dem erwähnten Ansatz von Haunert und Sester, was aber letztlich nicht besonders gut funktioniert hat („ultimately didn't work very well“ \citex[Readme]{ME11}).
-Inzwischen wird die von Ladak und Martinez für diesen Zweck beschriebene Thiessen-Polygon-Methode eingesetzt.
+Skeletron benutzte ursprünglich ein Straight Skeleton nach dem erwähnten Ansatz von \citeauthor{HS04}, was aber letztlich nicht besonders gut funktioniert hat („ultimately didn't work very well“ \citex[Readme]{ME11}).
+Inzwischen wird die von \citeauthor{LM96} für diesen Zweck beschriebene Thiessen-Polygon-Methode eingesetzt.
 
 % LM96: Straßen_flächen_ -> Einzellinie
 % - Ziel: Eliminierung _oder_ Minimierung manueller Eingriffe
@@ -681,7 +678,7 @@ Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thi
 % - nutzt Voronoi region
 % - eigentlich nicht speziell für parallelen gedacht oder geeignet (nutzt Dijkstra, um längeren von zwei Wegen zu eliminieren), aber speziell der "Second step: eliminate conflicts" könnte anwendbar sein, und der Voronoi-Kram gibt zumindest ein paar hübsche Bilder
 
-Von Kreveld und Peschier beschreiben eine Möglichkeit, bei der automatischen Ableitung von Straßenkarten Konflikte nahe beieinander liegender Straßen zu erkennen und durch Auswahl nur einer der beteiligten Straßen aufzulösen.
+\Citeauthor{KP98} beschreiben eine Möglichkeit, bei der automatischen Ableitung von Straßenkarten Konflikte nahe beieinander liegender Straßen zu erkennen und durch Auswahl nur einer der beteiligten Straßen aufzulösen.
 Neben anderen Bedingungen werden so auch graphische Mindestabstände eingehalten. \cf{KP98}
 
 Es liegt auf der Hand, dass sich parallele Straßen meist durch ein Unterschreiten dieser Mindestabstände auf ihrer gesamten Länge auszeichnen.
@@ -693,7 +690,7 @@ Dieser Ansatz erscheint daher für diese Arbeit wenig erfolgversprechend.
 % - erwähnt ausdrücklich mein Problem als "hilfreich" (in gelöstem Zustand)
 % - Skeleton??
 
-Thom erwähnt ausdrücklich, dass die Erkennung eines Konflikts von parallelen Straßenabschnitten für die automatische Generalisierung hilfreich wäre („... recognizing stretches of parallel road sections would help their automatic generalization“ \citex[676]{Tho06a}), allerdings ohne dabei eine mögliche Lösung anzudeuten.
+\Citeauthor{Tho06a} erwähnt ausdrücklich, dass die Erkennung eines Konflikts von parallelen Straßenabschnitten für die automatische Generalisierung hilfreich wäre („... recognizing stretches of parallel road sections would help their automatic generalization“ \citex[676]{Tho06a}), allerdings ohne dabei eine mögliche Lösung anzudeuten.
 
 
 %\subsection{Kognitive Wahrnehmung}
@@ -704,7 +701,7 @@ Thom erwähnt ausdrücklich, dass die Erkennung eines Konflikts von parallelen S
 % - primär Behandlung kollinearer Linien, erwähnt beiläufig aber auch Erkennung von Parallelen [evtl. mehr in den zahlreichen Referenzen darin?]
 % - "perceptual grouping" [684]
 
-Thomson beschreibt, wie das menschliche Gehirn optisch wahrgenommene Elemente selbst dann „spontan organisiert“, wenn deren Semantik völlig unbekannt ist.
+\Citeauthor{Tho06b} beschreibt, wie das menschliche Gehirn optisch wahrgenommene Elemente selbst dann „spontan organisiert“, wenn deren Semantik völlig unbekannt ist.
 Er bezeichnet dieses Konzept als „perceptual grouping“ und zählt unter den dazu herangezogenen geometrischen Eigenschaften neben Nähe, Ähnlichkeit und Symmetrie auch Parallelität und Kontinuität auf. \cf[683–684]{Tho06b}
 
 % EM00:
@@ -712,7 +709,7 @@ Er bezeichnet dieses Konzept als „perceptual grouping“ und zählt unter den 
 % - erwähnt keine Parallelen, zeigt aber Implementierung der Theorien von Tho06b bzw. TR99
 
 Zusammen mit Richardson beschreibt er eine Möglichkeit, die Eigenschaft der Kontinuität von Linienzügen (genannt \term{stroke}) zu nutzen, um deren Wichtigkeit einzustufen und damit ein Straßennetz zu generalisieren („Principle of Good Continuation“, Abbildung~\ref{fig:strokes}). \cf{TR99}
-Edwardes und Mackaness nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen. \cf{EM00a}
+\Citeauthor{EM00a} nutzen denselben Ansatz zur Analyse des Netzes, um damit ihre auf Graphentheorie basierende Generalisierung zu unterstützen. \cf{EM00a}
 Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehen könnte, wurde nach Kenntnis des Verfassers bisher nicht konkret untersucht.
 
 \onefigure{hb}{
@@ -730,7 +727,7 @@ Wie ein „perceptual grouping“ nach der Eigenschaft der Parallelität aussehe
 % - Fig 10 zeigt Resultat, welches Parallelen hat, welche nicht erwähnt werden
 % - hebt Kreuzungsproblem als ungelöst hervor
 
-Chaudry und Mackaness schlagen das Konzept von \term{strokes} zur Generalisierung von Straßennetzen durch Auswahl wichtiger Straßen für die digitale OS~MasterMap des Ordnance Survey vor.
+\Citeauthor{CM05} schlagen das Konzept von \term{strokes} zur Generalisierung von Straßennetzen durch Auswahl wichtiger Straßen für die digitale OS~MasterMap des Ordnance Survey vor.
 Sie betonen jedoch, dass trotz ermutigender Resultate noch weitere Probleme gelöst werden müssen.
 Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
 
@@ -751,11 +748,11 @@ Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
 
 \label{os-mastermap}
 
-Thom beschreibt vier Schritte zum Zusammenfassen getrennter Richtungsfahrbahnen von zweibahnigen Straßen und Verkehrsinseln auf eine gemeinsame Mittellinie für die OS~MasterMap.
+\Citeauthor{Tho05} beschreibt vier Schritte zum Zusammenfassen getrennter Richtungsfahrbahnen von zweibahnigen Straßen und Verkehrsinseln auf eine gemeinsame Mittellinie für die OS~MasterMap.
 Zunächst werden unter Nutzung von \term{strokes} und Attributen durchgehende Linienzüge für die Gesamtlänge der getrennten Richtungsfahrbahnen erzeugt, die dann durch Graphenanalyse ihrer jeweiligen Enden einander zugeordnet werden können.
 Anschließend kann durch Skelettierung die Mittellinie der zugeordneten Linienzüge berechnet und im letzten Schritt noch Korrekturen an deren Enden vorgenommen werden. \cf[3–10]{Tho05}
 
-Diese Schritte liefern in vielen Fällen ein gutes Ergebnis, was Thom der Attributierung der Ausgangsdaten zuschreibt.
+Diese Schritte liefern in vielen Fällen ein gutes Ergebnis, was \citeauthor{Tho05} der Attributierung der Ausgangsdaten zuschreibt.
 Entscheidend ist insbesondere das „one~way“–Attribut sowie die Klassifikation nach Bauart der Straße (einbahnig, zweibahnig, Verkehrsinsel, Kreisverkehr etc.). \cf[14]{Tho05}
 
 
@@ -767,7 +764,6 @@ Entscheidend ist insbesondere das „one~way“–Attribut sowie die Klassifikat
 
 % MB93: Graphentheorie in der Generalisierung allgemein
 % - durch Prüfung der Einbahn-Richtung erkennen, ob insgesamt ein verbundener Graph vorliegt (zweimal Einbahn => einmal Zweibahn)
-%\cf{MB93}
 
 Frühe Entwicklungen der automatisierten Generalisierung versuchten oft, unter Vernachlässigung der Topologie des Ergebnisses den Fokus des Kartographen auf der Visualisierung nachzuahmen. \cf[1871]{TR95}
 Ansätze der Graphentheorie können jedoch nicht nur wie zuvor beschrieben andere Methoden unterstützen, sondern auch direkt zur Generalisierung eingesetzt werden.
@@ -776,7 +772,7 @@ Ansätze der Graphentheorie können jedoch nicht nur wie zuvor beschrieben ander
 % - erwähnt für Strokes Problem dort, wo Richtungsfahrbahnen beginnen, mitsamt theoretischer Lösung [3.2]
 % - evtl. können Parallelen in einem Netzwerk durch Musteranalyse erkannt werden (typischerweise sehr lang und schmal); jedoch vmtl. Probleme an Kreuzungen etc.
 
-Heinzle et~al. zeigen Methoden, um typische Muster in Straßennetzen zu erkennen und daraus Informationen abzuleiten. 
+\Citeauthor{HAS05} zeigen Methoden, um typische Muster in Straßennetzen zu erkennen und daraus Informationen abzuleiten. 
 Es liegt auf der Hand, dass parallele Fahrbahnen einer zweibahnigen Straße ein typisches Muster sein können, jedoch werden diese nur beiläufig erwähnt. \cf[3.2.]{HAS05}
 
 % JC04: connectivity graph für urban street network
@@ -785,7 +781,7 @@ Es liegt auf der Hand, dass parallele Fahrbahnen einer zweibahnigen Straße ein 
 % - Ergebnis ist ein nach natürlich Kriterien modellgeneralisiertes Netz, denn Straßen mit besserer Verbindung werden häufiger benutzt und sind somit wichtiger
 % - Parallelen im Straßennetz zeichnen sich durch Redundanz und Symmetrie aus (oft gegeneinander gerichtete Einbahnstraßen) und sind damit höchstens! in einem sehr unregelmäßigen Netz theoretisch! erkennbar; tatsächlich werden im Beispiel im Paper die Parallelen nicht generalisiert [168]
 
-Jiang und Claramunt verwenden Zentralitätsmaße, um die wesentliche Struktur eines Straßennetzes zu identifizeren und bei der Generalisierung zu erhalten.
+\Citeauthor{JC04} verwenden Zentralitätsmaße, um die wesentliche Struktur eines Straßennetzes zu identifizeren und bei der Generalisierung zu erhalten.
 Dieser Ansatz entspricht dem Prinzip, dass schlechter ans Netz angebundene Straßen weniger wichtig sind als jene, die gut angebunden sind („less connected streets are less important than those well connected from a structural point of view“ \citex[161]{JC04}). \cf{JC04}
 Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähnlich gut an den Rest des Netzes angebunden sind, weswegen dieses Kriterium für diese Arbeit nicht als nützlich erscheint.
 
@@ -794,10 +790,10 @@ Für parallele Kanten im Graph ist allerdings zu erwarten, dass sie jeweils ähn
 % - evtl. werden durch Zusammenfassen der Kreuzung von Parallelen jene zu Duplikaten und können so erkannt und zusammengefasst werden; Nachteil: klappt wirklich nicht ohne Kreuzungen (diese Methode wird anscheinend nicht explizit erwähnt)
 
 Probleme an Kreuzungen wurden bereits von mehreren Autoren genannt.
-Mackaness und Mackechnie demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen. \cf{MM99}
+\Citeauthor{MM99} demonstrieren eine Methode, um Straßenkreuzungen durch eine Kombination von räumlicher und graphentheoretischer Analyse zu identifizieren und zu vereinfachen. \cf{MM99}
 
 Der Gedanke, dass etwa im Falle einer zweibahnigen innerstädtischen Straße durch Generalisierung komplexer Kreuzungen auf einen einzelnen Punkt die vormals nur geometrisch parallelen Kanten zu zwei topologisch parallelen Kanten (Mehrfachkanten) in einem ungerichteten Graphen des Straßennetzes werden, welche dann leicht zusammenzufassen sind, liegt im Kontext dieser Arbeit nahe (Abbildung~\ref{fig:graph-edges-parallel} verdeutlicht dies anhand von als parallel geltenden Brücken).
-Die Arbeit von Mackaness und Mackechnie berücksichtigt diesen Aspekt allerdings nicht.
+Die Arbeit von \citeauthor{MM99} berücksichtigt diesen Aspekt allerdings nicht.
 
 \onefigure{ht}{
 	\includegraphicsmaybe[width=11.4cm]{../chapter2/graph-edges-parallel_51}

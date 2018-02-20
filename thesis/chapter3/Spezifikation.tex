@@ -39,7 +39,7 @@ Lagepläne im Eisenbahnwesen zeigen sie zusätzlich zu den Gleisachsen, in \osm\
 
 Auch für zweibahnige Straßen, welche in \osm\ als zwei parallele Linienzüge modelliert sind, wird im Gegensatz zum deutschen amtlichen Vermessungswesen in \osm\ keine Mittellinie als Achse der Straße erfasst (siehe Abschnitt~\ref{ch:osm-intro}).
 Die sich daraus für \osm\ ergebenden Probleme wurden bereits in Abschnitten~\ref{dual-highway-case-1} und~\ref{dual-highway-case-2} beschrieben.
-Konkrete Beispiele für solche Straßen sind Autobahnen, aber auch zweibahnige innerstädtische oder Überlandstraßen.
+Konkrete Beispiele für solche Straßen sind Autobahnen, aber auch zweibahnige innerstädtische Straßen oder Überlandstraßen.
 
 
 
@@ -53,9 +53,8 @@ Im Straßenraum zählen dazu:
 	\item straßenbegleitende Fuß- und Radwege,
 	\item Nebenfahrbahnen \term{(frontage roads)} für Anliegerverkehr, von dem die Hauptfahrbahn freigehalten werden soll,
 	% Beispiele: Autobahnen, Kaiserstraße
-	\item langgezogene Rampen an teilplanfreien Anschlussstellen insbesondere der Bauformen Diamant und \term{SPUI}%
-		\footnote{\term{single-point urban interchange} (Diamant mit nur einer Kreuzung) \cf{wp:SPUI}}%
-		,
+	\item langgezogene Rampen an teilplanfreien Anschlussstellen insbesondere der Bauformen Diamant und \term{SPUI},%
+		\footnote{\term{single-point urban interchange} (Diamant mit nur einer Kreuzung) \cf{wp:SPUI}}
 	\item Verteilerfahrbahnen an Doppelanschlussstellen und Autobahnkreuzen,
 	% https://de.wikipedia.org/wiki/Autobahnkreuz#Bauteile
 	% https://de.wikipedia.org/wiki/Doppelanschlussstelle
@@ -83,7 +82,7 @@ In \osm-Karten ist eine solche Generalisierung bisher noch nicht üblich.
 % Streit, ob Unsichtbares überhaupt in OSM rein soll
 
 \onefigure{ht}{
-	\includegraphicsmaybe[width=13cm]{../chapter3/administrative-borders_51}
+	\includegraphicsmaybe[scale=.8]{../chapter3/administrative-borders_51}
 	\caption
 		[Generalisierung des Grenzverlaufs entlang physischer Objekte {[\copyright]}]
 		{Generalisierung des Grenzverlaufs entlang physischer Objekte \citex[83, entsättigt und verkleinert][\copyright]{sgk02}}
@@ -111,10 +110,12 @@ Insgesamt erscheinen Grenzen jedoch im Kontext dieser Arbeit als ein eher schwie
 \label{ground-plan-linear-objects-case-desc}
 
 Mit zunehmendem Grad der Detaillierung in \osm\ wird versucht, eigentlich linienhafte Objekte als grundrisstreue Fläche zu erfassen.
-Für Flüsse ist dies bereits üblich, \cf[72]{RT09} für Straßen und Rollbahnen unter Diskussion.
+Für Flüsse ist dies bereits üblich, \cf[72]{RT09} für Straßen und Rollbahnen in Diskussion.
 % http://wiki.openstreetmap.org/w/index.php?title=Key:area&oldid=865108#Highway.2Fpavement_areas
 % http://wiki.openstreetmap.org/w/index.php?title=Tag:aeroway%3Drunway&oldid=1218356#How_to_Map
 Dadurch entstehen sehr lange und schmale Flächen, deren Ränder größtenteils parallel zueinander sind.
+Bei der Darstellung in kleinem Maßstab wäre dann ein Qualitätsumschlag in eine Linearsignatur angebracht.
+
 Wenigstens bei Flüssen ist es allerdings etabliert, zusätzlich zur Fläche auch eine Mittellinie in \osm\ zu erfassen.
 Daher stellen diese Fälle in der Praxis kein Problem dar und sind für diese Arbeit nicht weiter interessant.
 
@@ -126,7 +127,7 @@ Daher stellen diese Fälle in der Praxis kein Problem dar und sind für diese Ar
 Ein Sonderfall der in Abschnitt~\ref{ground-plan-linear-objects-case-desc} beschriebenen langen und schmalen Flächen sind Waldschneisen.
 Im Zuge der immer detaillierteren Erfassung nicht nur des Wegenetzes, sondern auch der Vegetation kommt es vor, dass zusätzlich zu einem durch den Wald führenden Weg auch die sich durch den Weg ergebende Schneise im Wald erfasst wird, indem die Waldfläche in \osm\ in zwei Flächen links und rechts des Wegs aufgeteilt wird (Abbildung~\ref{fig:vegetation-swath-z16}).
 
-Einerseits ermöglicht dies eine präzisere Modellierung der Wirklichkeit, indem die womöglich die Breite des Wegs übersteigende Breite der Schneise modelliert werden kann.
+Einerseits ermöglicht dies eine präzisere Abbildung der Wirklichkeit, indem die Breite der Schneise -- welche womöglich die Breite des Wegs übersteigt -- modelliert werden kann.
 Andererseits werden große Wälder ohnehin gerne in mehrere kleinere Flächen aufgeteilt, um das Arbeiten mit den Geodaten zu vereinfachen.
 Schneisen bieten sich dabei als natürliche Stelle zum Aufteilen an.
 
@@ -167,9 +168,8 @@ So gibt es Anhaltspunkte für eine Korrelation zwischen Datenqualität und dem U
 Dies ist auch anschaulich klar, denn leicht sichtbare Fehler fallen schneller auf und werden somit auch schneller korrigiert als andere Fehler.
 Die Standard-Visualisierung der Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} berücksichtigt deshalb viele Details des Straßennetzes.
 % Cartography Guide of OpenStreetMap Carto Style: "It's an important feedback mechanism for mappers to validate their edits and helps to prevent unfavorable fragmentation of tag use." <https://github.com/gravitystorm/openstreetmap-carto/blob/master/CARTOGRAPHY.md>
-Unter anderem werden Name und Nummer von Straßen dargestellt, nicht jedoch beispielsweise von Eisenbahnstrecken%
-\footnote{Die Darstellung von Namen für Eisenbahnstrecken wurde 2017 eingeführt.}%
-.
+Unter anderem werden Name und Nummer von Straßen dargestellt, nicht jedoch beispielsweise von Eisenbahnstrecken.%
+\footnote{Die Darstellung von Namen für Eisenbahnstrecken wurde 2017 eingeführt.}
 % Highways: Tags für viele Details existieren und werden genutzt. Mehr als für Railways? Vergleich evtl. durch TagInfo möglich, entweder mit historischen Daten (Geofabrik?) oder aber mit aktuellen plus qualitative Überlegung (wann entstand openrailwaymap?)
 % TODO: ist der logische Fluss hier ausreichend explizit?
 
@@ -184,7 +184,7 @@ Aus diesen Gründen wird von den zuvor in Abschnitt~\ref{ch:case-comparison} bes
 Solche Straßen sind nahezu allgegenwärtig und die mit deren Darstellung verbundenen Probleme verbreitet.
 
 Die in Abschnitt~\ref{ch:different-traffic-types-case-desc} beschriebenen Fälle paralleler Wege für unterschiedliche Verkehrsarten bieten sich aufgrund ihrer Komplexität nicht an, solange nicht der einfachere Fall von Richtungsfahrbahnen zufriedenstellend gelöst ist.
-Es ist jedoch denkbar, dass eine Lösung für bauliche getrennte Richtungsfahrbahnen auch auf einige solcher Fälle übertragbar ist.
+Es ist jedoch denkbar, dass eine Lösung für baulich getrennte Richtungsfahrbahnen auch auf einige solcher Fälle übertragbar ist.
 Auch auf mehrgleisige Eisenbahnstrecken könnte das Ergebnis dieser Arbeit übertragbar sein.
 
 % alte Formulierungsbausteine (evtl. Alternative):
