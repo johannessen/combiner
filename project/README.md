@@ -40,3 +40,16 @@ To operate on the included test dataset:
 
 	cd project
 	./run-combiner.sh
+
+
+Copying
+-------
+
+© 2018 Arne Johannessen
+
+This software and its parts are available for reuse under
+the terms of the **3-clause BSD** licence. See [LICENSE](
+https://github.com/johannessen/combiner/blob/master/project/LICENSE
+) for details.
+
+![](https://licensebuttons.net/i/l/by/transparent/00/00/00/76x22.png)

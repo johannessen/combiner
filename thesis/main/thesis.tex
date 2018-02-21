@@ -1,11 +1,12 @@
+% UTF-8
 
 \documentclass{../thesis}
 
 \titlehead{\centering Hochschule Karlsruhe -- Technik und Wirtschaft}
 \subject{Diplomarbeit -- Arbeitsentwurf}
 
-\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap}
-\subtitle{für konkrete Spezialfälle}
+\title{Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap}
+\subtitle{für konkrete Spezialfälle}
 
 \author{Arne Johannessen}
 \publishers{betreut durch\\ Prof.\,Dr.\,rer.\,nat.\,Detlef Günther-Diringer\\ und\\ Dipl.-Wi.-Ing.\,Frederik Ramm}
@@ -14,79 +15,14 @@
 \hypersetup{%
 	pdfsubject={Diplomarbeit},
 	pdfauthor={Arne Johannessen},
-	pdftitle={Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap für konkrete Spezialfälle},
+	pdftitle={Algorithmen zur automatisierten Generalisierung durch Zusammenfassung von Linienzügen in OpenStreetMap für konkrete Spezialfälle},
 	pdfkeywords={Generalisierung, OpenStreetMap},
 	pdflang={de},
 %	pdfborder={0 0 0},
 	pdfcreator={LaTeX 2e},
 }
 
-
-\usepackage[type={CC},modifier={by-nd},version={4.0}]{doclicense}
-\newcommand{\makelicensepage}{
-\clearpage\thispagestyle{empty}\vspace*{\stretch{1}}
-{\small
-
-\noindent\copyright\ 2018 Arne~Johannessen, Detlef~Günther-Diringer, Frederik~Ramm
-% https://de.wikipedia.org/wiki/Akademischer_Grad#Nennungspflicht_akademischer_Grade
-%\noindent\begin{tabular}{@{}l@{}l@{}}
-%\copyright\ 2018~ & Arne~Johannessen, Prof.\,Dr.\,rer.\,nat.\,Detlef~Günther-Diringer, \\
-%& Dipl.-Wi.-Ing.\,Frederik~Ramm
-%\end{tabular}
-\vspace{3ex}
-
-{\noindent
-	\begin{minipage}{10em}
-		\doclicenseImage%
-	\end{minipage}
-	\hspace{1em}
-	\begin{minipage}{\linewidth-.5em-11em}
-		Dieses Werk darf weitergegeben werden unter den Bedingungen der Lizenz „Creative Commons Namensnennung -- Keine Bearbeitungen 4.0 International“ (CC-BY-ND). \cf{license:cc-by-nd-4.0}
-	\end{minipage}
-}
-\vspace{2ex}
-
-\noindent Bestimmte Teile dieses Werks dürfen alternativ auch nach den
-Bedingungen folgender anderer Lizenzen weiterverwendet werden:
-
-\begin{description}[labelwidth=3.5em,leftmargin=4em,itemsep=1.5ex]
-
-\item[\ccbysa]
-Der gesamte \textbf{Text} oder Auszüge davon sowie alle \textbf{Abbildungen}
-dürfen nach den freizügigeren Bedingungen der Lizenz „Creative Commons
-Namensnennung -- Weitergabe unter gleichen Bedingungen 4.0 International“
-(CC-BY-SA) \cf{license:cc-by-sa-4.0} bearbeitet und weitergegeben werden.
-Davon \textbf{ausgenommen} sind diejenigen Abbildungen, welche in der
-Bildunterschrift und im Abbildungsverzeichnis mit dem Symbol „\copyright“
-gekennzeichnet sind. Bei letzteren handelt es sich um nach \S~51~UrhG
-zulässige Großzitate aus geschützten Werken.
-% Weil diese Abbildungen nicht unter CC-BY-SA weiterverwendet werden können,
-% steht dieses Dokument in seiner Gesamtheit als PDF sowie in gedruckter
-% Fassung unter CC-BY-ND. Dies beschränkt nicht die Wiederverwendbarkeit von
-% denjenigen Teilen, die unter CC-BY-SA stehen.
-% http://resikom.adw-goettingen.gwdg.de/Henschen.pdf
-
-\item[\ccAttribution\kern0.1em\ccShareAlike~\footnotesize\textsf{ODbL}]
-Dieses Werk enthält \textbf{Geodaten} aus OpenStreetMap, die hier unter den
-Bedingungen der Open Database License (ODbL) \cf{license:odbl} verfügbar
-gemacht werden. \copyright~OpenStreetMap-Mitwirkende.
-% "Contains information from DATABASE NAME, which is made available here under the Open Database License (ODbL)."
-
-\item[\ccAttribution~\footnotesize\textsf{BSD}]
-Der \textbf{Quelltext} der im Rahmen dieser Arbeit entwickelten Software
-mitsamt seiner Dokumentation darf unter den Bedingungen einer
-3-Klausel-BSD-Lizenz („modifizierte“ BSD-Lizenz) verändert und weitergegeben
-werden.
-
-\end{description}
-
-\noindent Alle weiterverwendbaren Bestandteile sind öffentlich zugänglich über GitHub:\\
-\url{https://github.com/johannessen/combiner}
-
-
-}\clearpage
-}
-
+\input{../main/licensepage}
 
 
 \begin{document}
@@ -95,20 +31,14 @@ werden.
 \renewcommand{\BibTeXenabled}{1}
 
 \maketitle
-
 \makelicensepage
-
 \makededicationpage{\small (bleibt frei)}
 
 \subfile{../main/AufgabeVorbemerkung}
 
-
 \tableofcontents
-
 \listoffigures
-
 \listoftables
-
 
 \subfile{../chapter1/Einleitung}
 \subfile{../chapter2/Analyse}
@@ -118,7 +48,6 @@ werden.
 \subfile{../chapter6/Ergebniskritik}
 \subfile{../chapter7/Schlussfolgerung}
 \subfile{../chapter8/Zusammenfassung}
-
 
 \appendix
 \addtocontents{toc}{\bigskip\medskip\textbf{Anhang}\par}
