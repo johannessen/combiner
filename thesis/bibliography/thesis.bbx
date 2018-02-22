@@ -2,6 +2,9 @@
 \RequireBibliographyStyle{alphabetic}
 
 
+% increase vertical spacing
+\setlength\bibitemsep{0.5\baselineskip}
+
 % the label used for citing
 \ExecuteBibliographyOptions{maxalphanames=4,minalphanames=3}
 \renewcommand*{\labelalphaothers}{\textsuperscript{+}}
@@ -9,20 +12,69 @@
 % full list of author names in the bib list
 \ExecuteBibliographyOptions{maxbibnames=99}
 
+% no conjunction in author list
+\DefineBibliographyExtras{german}{%
+  \renewcommand*{\finalnamedelim}{\addcomma\addspace}%
+}
+
 % set the title of the work italic
 \DeclareFieldFormat*{title}{\textit{#1}}
-% (clears "all type-specifc formats")
-%\DeclareFieldFormat[thesis]{title}{\textit{#1}}
+% (* version clears "all type-specifc formats" -- seems to work fine)
 
 % set the title of journals etc. upright
-%\DeclareFieldFormat*{journaltitle}{\textbf{#1}}
+\DeclareFieldFormat*{journaltitle}{„\textrm{#1}“}
+\DeclareFieldFormat*{booktitle}{„\textrm{#1}“}
+
+% sensible journal numbering
+\DeclareFieldFormat[article]{volume}{Jg.~#1}
+\DeclareFieldFormat[article]{number}{Nr.~#1}
+\newbibmacro*{volume+number+eid}{%
+  \printfield{volume}%
+  \setunit*{\addcomma\space}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}}
 
 % no document ID numbers
 \ExecuteBibliographyOptions{isbn=false,doi=false}
 
+% TODO: enable IDs in special cases (e. g., no URL/call number)
+% \textsc{isbn}
+
+% URLs: force line break before
+\renewbibmacro*{url}{\setunit{\newunitpunct\par\nobreak}\printfield{url}}
+
 % enable breaks inside URLs after any char
-\setcounter{biburllcpenalty}{1}
-\setcounter{biburlucpenalty}{1}
-\setcounter{biburllcpenalty}{1}
+\renewcommand*{\biburlsetup}{%
+\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
+}
+
+% no funny urldate abbreviations
+\ExecuteBibliographyOptions{dateabbrev=false}
+\DeclareFieldFormat{urldate}{%
+  \mkbibparens{abgerufen am \thefield{urlday}.\addspace%
+  \mkbibmonth{\thefield{urlmonth}}\addspace%
+  \thefield{urlyear}}}
+
+% no full stop after URL
+% BUG: removes end . from articles and proceedings without URL
+\renewcommand{\finentrypunct}{}
+
+% include library call number
+% BUG: if there is a URL *and* a call number (which is rare), an extra . appears after the URL
+\renewbibmacro*{addendum+pubstate}{%
+  \iffieldundef{library}{}{%
+    .\par\nobreak\newunit\newblock
+    \mkbibacro{Signatur}\addcolon\space\printfield{library}}%
+  \printfield{addendum}%
+  \newunit\newblock
+  \printfield{pubstate}%
+}
 
 \endinput
