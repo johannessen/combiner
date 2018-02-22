@@ -19,7 +19,7 @@
 
 % front matter
 \RequirePackage{hyperxmp}
-\RequirePackage{ccicons}
+\RequirePackage{adjustbox}
 \newcommand{\makededicationpage}[1]{\clearpage\thispagestyle{empty}\vspace*{\stretch{1}}{\centering #1 \par}\vspace{\stretch{3}}\clearpage}
 \RequirePackage{pdfpages}
 
@@ -226,7 +226,6 @@
 % https://tex.stackexchange.com/questions/7032/good-way-to-make-textcircled-numbers
 \RequirePackage{tikz}
 \RequirePackage{pifont}
-%\RequirePackage[minimum]{adjustbox}
 \definecolor{figuremark}{rgb}{1,.1,0}
 \NewDocumentCommand{\figuremark}{o m}{%
 \IfNoValueF{#1}{\hspace{-1.7mm}\tikz[baseline=(current bounding box.center)]{\fill[#1] (0,0) circle (1.7mm);}\hspace{-1.7mm}}%

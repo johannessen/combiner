@@ -1,7 +1,17 @@
 % UTF-8
 % provide a \makelicensepage macro to be used in the front matter
 
+\usepackage{ccicons}
 \usepackage[type={CC},modifier={by-nd},version={4.0}]{doclicense}
+
+% a macro that stacks text and works inside a description list item definition
+\NewDocumentCommand{\licensestack}{O{3.5em}mm}{%
+	\adjustbox{set depth=0pt}{%
+	\makebox[#1][l]{#2}\adjustbox{raise=-1.2em,lap=-#1}{%
+	\footnotesize\textsf{#3}%
+}}}
+
+
 \newcommand{\makelicensepage}{
 \clearpage\thispagestyle{empty}\vspace*{\stretch{1}}
 {\small
@@ -20,6 +30,7 @@
 	\end{minipage}
 	\hspace{1em}
 	\begin{minipage}{\linewidth-.5em-11em}
+		\justify
 		Dieses Werk darf weitergegeben werden unter den Bedingungen der Lizenz „Creative Commons Namensnennung -- Keine Bearbeitungen 4.0 International“ (CC-BY-ND). \cf{license:cc-by-nd-4.0}
 	\end{minipage}
 }
@@ -30,9 +41,7 @@ Bedingungen folgender anderer Lizenzen weiterverwendet werden:
 
 \begin{description}[labelwidth=3.5em,leftmargin=4em,itemsep=1.5ex]
 
-% https://tex.stackexchange.com/questions/35110/how-to-stack-boxes-like-a-vertical-version-of-mbox
-
-\item[\ccbysa]
+\item[\licensestack{\ccbysa}{BY-SA}]
 Der gesamte \textbf{Text} oder Auszüge davon sowie alle \textbf{Abbildungen}
 dürfen nach den freizügigeren Bedingungen der Lizenz „Creative Commons
 Namensnennung -- Weitergabe unter gleichen Bedingungen 4.0 International“
@@ -47,13 +56,13 @@ zulässige Großzitate aus geschützten Werken.
 % denjenigen Teilen, die unter CC-BY-SA stehen.
 % http://resikom.adw-goettingen.gwdg.de/Henschen.pdf
 
-\item[\ccAttribution\kern0.1em\ccShareAlike~\footnotesize\textsf{ODbL}]
+\item[\licensestack{\ccAttribution\kern0.1em\ccShareAlike}{ODbL}]
 Dieses Werk enthält \textbf{Geodaten} aus OpenStreetMap, die hier unter den
 Bedingungen der Open Database License (ODbL) \cf{license:odbl} verfügbar
-gemacht werden. \copyright~OpenStreetMap-Mitwirkende.
+gemacht werden. \copyright~Open\-Street\-Map-Mit\-wir\-ken\-de.
 % "Contains information from DATABASE NAME, which is made available here under the Open Database License (ODbL)."
 
-\item[\ccAttribution~\footnotesize\textsf{BSD}]
+\item[\licensestack{\ccAttribution}{BSD}]
 Der \textbf{Quelltext} der im Rahmen dieser Arbeit entwickelten Software
 mitsamt seiner Dokumentation darf unter den Bedingungen einer
 3-Klausel-BSD-Lizenz („modifizierte“ BSD-Lizenz) verändert und weitergegeben
