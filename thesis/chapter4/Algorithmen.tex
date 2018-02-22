@@ -33,7 +33,7 @@
 
 % an dieser Stelle außerdem __Überleitung__: was kann man aus 2.5 für lehren/erkenntnisse ziehen? irgendwas anwendbares dabei? wenn ja, warum nicht?
 
-Aus der Menge der zuvor erwähnten bereits existierenden Ansätze hebt sich zunächst die Skelettierung heraus, indem es für sie bereits mehrere funktionale Implementierungen der Zusammenfassung gibt (Abschnitt~\ref{ch:skeleton}).
+Aus der Menge der zuvor erwähnten bereits existierenden Ansätze hebt sich zunächst die Skelettierung heraus, weil es für sie bereits mehrere funktionale Implementierungen der Zusammenfassung gibt (Abschnitt~\ref{ch:skeleton}).
 Diese haben jedoch laut der Autoren alle mit erheblichen Problemen in Kreuzungsbereichen zu kämpfen, die nur teilweise automatisiert gelöst werden können.
 Dieser Ansatz erscheint wenig vielversprechend.
 % weil?
@@ -51,7 +51,7 @@ Anschließend wäre die geometrische Zusammenfassung dieser Kanten möglicherwei
 
 % "perceptual grouping": nicht vielversprechend
 
-Der von Thom beschriebene Ansatz zur Generalisierung der OS~MasterMap klingt vielversprechend (Abschnitt~\ref{os-mastermap}).
+Der von \citeauthor{Tho05} beschriebene Ansatz zur Generalisierung der OS~MasterMap klingt vielversprechend (Abschnitt~\ref{os-mastermap}).
 Er kombiniert Ideen aus der visuellen Wahrnehmung \term{(strokes)} und der Graphenanalyse, um Richtungsfahrbahnen zusammenzufassen.
 Den Erfolg seiner Methode schreibt er jedoch unter anderem der gründlichen Klassifikation seiner Ausgangsdaten nach Bauart der Straße zu (einbahnig/zweibahnig usw.). \cf[14]{Tho05}
 Diese existiert in dieser Form nicht in OpenStreetMap, so dass seine Methode nicht direkt übertragbar erscheint.
@@ -60,7 +60,7 @@ Zwar kann für Autobahnen davon ausgegangen werden, dass sie zweibahnig ausgebau
 Seltene Ausnahmen wie etwa die Bundesautobahn~62 zwischen Landstuhl und Pirmasens sollten, wenn sie denn tatsächlich als \osmtag{highway}[motorway] eingetragen sind, das Attribut \osmtag{oneway}[no] tragen und sich so identifizieren lassen.
 Im übrigen Straßennetz sind solche Aussagen auf Basis der \osm-Daten jedoch nicht möglich.
 
-Es ist ohnehin fraglich, wie stark die von Thom eingesetzte Erkennung von \term{strokes} als möglichst \emph{lange} Linienzüge die Generalisierung im Kontext von \osm\ tatsächlich vereinfachen würde.
+Es ist ohnehin fraglich, wie stark die von \citeauthor{Tho05} eingesetzte Erkennung von \term{strokes} als möglichst \emph{lange} Linienzüge die Generalisierung im Kontext von \osm\ tatsächlich vereinfachen würde.
 Zwar sind die einzelnen \term{ways} in \osm\ wegen ihrer ungleichmäßigen Aufteilung oft nicht gut zur Weiterverarbeitung geeignet.
 Allerdings wären zur Prüfung auf Parallelität und zur Zusammenfassung auf eine gemeinsame Mittellinie auch möglichst \emph{kurze} Linienfragmente gut geeignet, sofern die Fragmentierung beider Parallelen gleichmäßig ist.
 

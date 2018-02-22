@@ -18,23 +18,26 @@ Kapitel
 
 3 ✅
 
-4 🅰 ⬅
+4.1 ✅  
+4.2 🅰 ⬅  
+4.3 🅰 ⬅  
+4.4 ✅
 
 5.1 ✅  
 5.2 ✅  
-5.3.1 🅰  
-5.3.2 🅰  
-5.3.3 🅰  
-5.3.4 🅰  
-5.3.5 🅰  
-5.3.6 ✏  
+5.3.1 ✅  
+5.3.2 ✅  
+5.3.3 ✅  
+5.3.4 ✅  
+5.3.5 ✅  
+5.3.6 ❌  
 5.4 ✅
 
 6 🅰
 
-7.1 ✏  
-7.2 🅰  
-7.3 ✏
+7.1 ✏ ⬅  
+7.2 🅰 ⬅  
+7.3 ✏ ⬅
 
 8 ✏
 
@@ -74,23 +77,14 @@ Bibliographie 🅰 ⬅
 Offene Punkte
 =============
 
-Ja, viele.
-
-Insbesondere:
-
-
 Kapitel 2
 ---------
 
-- 2.x auf Vorbemerkung abstimmen
 - 2.x zu [Sch09] auch Forum erwähnen? (Link im Kommentar)
-- 2.2 [ML12] durch [UD06] ersetzen
-- 2.3 evtl. Liste vertikal machen
 - 2.3.x evtl. Abb. für Oslo neu (1/3 kleinerer Maßstab)
 - 2.3.4 Abb. 14 neu (evtl. weniger hoch wg. Umbruch)
-- 2.3.5 Abb. 15 überdenken (evtl. doch besser das Original?)
 - 2.3.5 Abb. 17 besser rotieren
-- 2.3.6 relations/[Sch09]
+- 2.3.6 evtl. relations/[Sch09]
 - Seitenumbruch optimieren
 
 
@@ -98,46 +92,37 @@ Kapitel 3
 ---------
 
 - 3.1 Überschrift vs. Inhaltsverzeichnis
-- 3.1.1 evtl. Ref für Bahnachsen?
-- 3.1.4 Abb. neu scannen
-- 3.1.4 OSeaM implizit; evtl. neu?
 - 3.1.5 evtl. Ref für Diskussion? Fußnote für aktuellen Stand?
+
+
+Kapitel 4
+---------
+
+- 4.2 evtl. Abb. neu
+- 4.3 kohärenten Text schreiben – im Moment hängen die Algorithmen tlws. in der Luft ⬅
+- 4.3 zusätzliche Abb., um anhand eines gleich bleibenden Ausschnitts
+  das Prinzip Schritt für Schritt zu demonstrieren ⬅
+- 4.3.x ZUSAMMENFASSEN wieder in Langfassung zurückbauen ⬅
 
 
 Kapitel 5
 ---------
 
 - 5.1 Tempus sollte hier Präsens sein, oder etwa nicht? (Fußnote?)
-- 5.2 Komponentenbeschreibung und Abbildung
-- 5.3 Link zur Doku angeben
-- 5.3.6 ✏
-- 5.4 commit log, Notizen und alte Screenshots/Testdaten aufarbeiten
+- 5.2 evtl. Komponentenbeschreibung und Abbildung neu
 
 
-Blocker
-=======
+Kapitel 6
+---------
 
-🅰 alpha
---------
-
-Blocker für **alpha** sind insbesondere Abschnitte ohne Inhalte oder mit
-falschen Inhalten. *Keine* Blocker sind fehlende nicht essentielle Abbildungen.
-
-
-✅ beta
--------
-
-Blocker für **beta** ist insbesondere das Fehlen eines abschließenden Checks
-von Inhalten auf fachliche Korrektheit/Vollständigkeit und Lesbarkeit.
-Bestehende Probleme sind *keine* Blocker, wenn sie oben in der Liste offener
-Punkte aufgeführt sind. Suboptimaler Seitenumbruch ist *kein* Blocker für beta,
-insbesondere nicht dann, wenn sich der Umbruch aufgrund von Änderungen darüber
-ohnehin noch mal ändern wird; er muss dann auch nicht als offener Punkt
-gelistet werden.
-
-
-🎉 final
---------
-
-Blocker für **final** sind nicht abgeschlossenes Korrekturlesen sowie jegliche
-noch nicht behobenen Probleme.
+- fig:breitscheid-gen-styled – wie zentrieren und vernünftig umbrechen?
+- fig:iteration-good – fehlende Punkte darstellen (als nodes, indem das Ergebnis der ersten Gen. als SHP importiert wird) und splitPts wegnehmen (bringen hier nicht mehr viel; evtl. auch Matches wegnehmen? eher ja.)
+- fig:rail-kalk-out: neu
+- fig:rail-kalk-detail: neu
+- Legenden:
+	- fig:result-trivial-detail-rolshover (rechts +splitPts, -nodes)
+	- fig:koelnarena-gen-cleanup (+splitPts)
+	- fig:kanal-gen-cleanup (+splitPts - oder splitPts hier schon wegnehmen? eher nicht.)
+	- fig:iteration-good (unklar - erst Grafik neu)
+	- fig:rail-kalk-out (fehlt)
+	- fig:rail-kalk-detail (fehlt)

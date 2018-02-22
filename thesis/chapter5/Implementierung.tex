@@ -40,7 +40,7 @@ Bei der Entwicklung kamen zuletzt die folgenden Plattformen und Bibliotheken zum
 
 Ursprünglich wurden ältere Softwareversionen verwendet.
 Die nötigen Anpassungen an die hier genannten aktuellen Versionen waren gering, Kompatibilität mit den älteren Versionen ist jedoch gegenwärtig aufgrund von Änderungen in GeoTools nicht mehr vollständig gegeben.
-Der Code ist dabei noch immer konform zum Syntax von Java 6. \cf{GJSB05}
+Der Code ist dabei noch immer konform zur Syntax von Java 6. \cf{GJSB05}
 
 Der folgende Abschnitt erläutert einige Überlegungen, die bei der Auswahl der Bibliotheken relevant waren.
 
@@ -58,7 +58,7 @@ Zur Vereinfachung wird die Implementierung zunächst auf eine einzelne UTM-Zone 
 Weiterhin stellt sich die Frage nach der Benutzerschnittstelle der Software.
 Die gewählte Plattform Java bietet verschiedene Möglichkeiten, graphische Benutzeroberflächen (\term{graphical user interface,} GUI) zu gestalten.
 Denkbar wäre beispielsweise eine Integration in den weit verbreiteten \osm-Editor JOSM als \term{plug-in.}
-Das Entwickeln und Debuggen einer GUI-Anwendung neigt jedoch dazu, zeitaufwändig zu sein.
+Das Entwickeln und Debuggen einer GUI-Anwendung wäre jedoch zeitaufwändig.
 Ohnehin würde es ein modularer Aufbau der Anwendung erlauben, zu einem späteren Zeitpunkt eine optionale GUI zu ergänzen.
 Aus diesen Gründen soll im Rahmen dieser Arbeit auf eine GUI zugunsten einer einfachen textbasierten Kommandozeilen-Schnittstelle (\term{command-line interface,} CLI) verzichtet werden.
 Zum Parsen der CLI-Parameter bieten sich einfache Bibliotheken wie etwa args4j an.
@@ -107,13 +107,13 @@ In den folgenden Abschnitten wird näher auf die Implementierung der Liniengener
 % - übergeordnete Frage: warum _so_ und nicht anders?
 
 Aus Gründen der Übersichtlichkeit werden in den folgenden Abschnitten nur wesentliche Aspekte und wichtige Entscheidungen behandelt.
-Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwiesen, welche in englischer Sprache als Teil der Softwareentwicklung im Javadoc-Format angelegt wurde und sowohl im Java-Quellcode als auch im HTML-Format zugänglich ist.
+Für Detailfragen sei auf die Dokumentation der Programmierschnittstelle verwiesen, welche in englischer Sprache als Teil der Softwareentwicklung im Javadoc-Format angelegt wurde und sowohl im Java-Quellcode als auch im HTML-Format zugänglich ist (\url{http://arne.johannessen.de/thesis}).
 
 Anhang~\ref{appx:identifiers} löst Bezeichner aus Abschnitt~\ref{ch:algorithm-parts} zu Bezeichnern im Quellcode auf.
 
 
 
-\subsection{Grundlegendes Geometrie-Modell (GeoTools)}
+\subsection{Grundlegendes Geometrie-Modell von GeoTools}
 \label{ch:data-structures-geotools}
 
 Zur Umsetzung der in Abschnitt~\ref{ch:algorithm-parts} definierten geometrischen Algorithmen werden zunächst Strukturen zur Repräsentation der grundlegenden Datentypen benötigt.
@@ -127,7 +127,7 @@ Im Kontext dieses Projekts sind dies:
 \noindent
 Das \term{framework} GeoTools benutzt dazu die JTS Topology Suite, die wie zuvor beschrieben ohnehin wegen des R-Baums für \textproc{NaheSegmente} zum Einsatz kommen soll.
 JTS bietet mit der \code{Geometry}-Hierarchie Datenstrukturen nach ISO~19125\hbox{-}1 an, die grundsätzlich auch für die Implementierung der Algorithmen aus Abschnitt~\ref{ch:algorithm-parts} geeignet wären.
-% http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/geom/package-summary.html
+\cf{jts:geom}
 
 Die Algorithmen \textproc{Splitten} und \textproc{Analyse} ordnen den Segmenten allerdings zusätzliche Attribute zu ($wurzel$ bzw. $parallelLinks / parallelRechts$).
 Dies unterstützt JTS zwar in Form von \term{user data objects}.
@@ -139,18 +139,18 @@ Im Gegenteil passen die JTS-Datenstrukturen nicht gut auf die definierten Algori
 Diese beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Punkten, während JTS von längeren Linienzügen ausgeht.
 Die Algorithmen machen sich außerdem zunutze, dass sich Segmente direkt als Vektoren interpretieren lassen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
 Routinen zur Vektor-Mathematik bietet JTS zwar grundsätzlich an, jedoch sind wichtige Teile davon nicht spezifiziert.
-Beispielhaft sei die Klasse \code{jts.math.Vector2D} genannt, deren Methode \code{angle()} offenbar Winkel berechnet, jedoch in keiner Weise dokumentiert ist.
-% http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/math/Vector2D.html
+Beispielhaft sei die Klasse \code{jts.math.Vector2D} genannt, deren Methode \code{angle} offenbar Winkel berechnet, jedoch in keiner Weise dokumentiert ist.
+\cf{jts:mathVector2D}
 Die Definition der \textproc{Analyse} auf Parallelität verlangt jedoch einen bestimmten Wertebereich für Winkel von Vektoren.
-Obwohl sich die derzeitige Implementierung von \code{angle()} leicht anhand des Quellcodes von JTS ermitteln ließe, ist die Methode nicht zuverlässig verwendbar, weil ohne Dokumentation bereits unklar bleibt, ob die derzeitige Implementierung überhaupt korrekt ist.
+Obwohl sich die derzeitige Implementierung von \code{angle} leicht anhand des Quellcodes von JTS ermitteln ließe, ist die Methode nicht zuverlässig verwendbar, weil ohne Dokumentation bereits unklar bleibt, ob die derzeitige Implementierung überhaupt korrekt ist.
 
 Hinzu kommt, dass auch die von JTS angebotenen Operationen zur Manipulation geometrischer Daten -- abgesehen vom räumlichen Index -- hier wenig hilfreich sind.
 Ein direktes Verwenden der bereitgestellten JTS-Datenstrukturen erscheint folglich insgesamt betrachtet nicht sinnvoll zu sein.
 Stattdessen wurde ein eigenes Datenmodell entwickelt, das im Folgenden beschrieben wird.
 
-JTS bietet die Möglichkeit, das \term{framework} zusammen mit eigenen Datenstrukturen zu benutzten, wenn diese bestimmte Schnittstellen anbieten.
+JTS bietet die Möglichkeit, das \term{framework} zusammen mit eigenen Datenstrukturen zu benutzen, wenn diese bestimmte Schnittstellen anbieten.
+\cf[11]{jts:devguide}
 % z. B. CoordinateSequence
-% wie in Nr. 8 im "JTS Topology Suite Developer’s Guide" 1.4 beschrieben
 Dies käme hier durchaus in Betracht, damit die eigenen Datenstrukturen zukünftig von Dritten unmittelbar mit JTS genutzt werden können.
 Beispielsweise könnten so zusammengefasste Linienzüge als Ergebnisse der hier entwickelten Software direkt mit JTS einer Formvereinfachung unterzogen werden.
 Weil dies jedoch nicht Bestandteil dieser Arbeit ist und ein Implementieren jener Schnittstellen keinen direkten Nutzen hat, wurde darauf zunächst verzichtet.
@@ -158,12 +158,13 @@ Es ließe sich für eine zukünftige Version leicht ergänzen.
 
 
 
-\subsection{Grundlegendes Geometrie-Modell (eigene Entwicklung)}
+\subsection{Eigenes grundlegendes Geometrie-Modell}
 \label{ch:data-structures-new}
 
-Ein zusammengesetztes Diagramm des entwickelten Datenmodells ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
+Es war also nötig, auf dieser Basis ein neues Geometriemodell zu entwickeln.
+Ein zusammengesetztes Diagramm des Ergebnisses ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
 Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
-Die Segmente sind wie in Abschnitt~\ref{ch:split-algorithm} beschrieben zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch nahezu trivial.
+Die Segmente sind -- wie in Abschnitt~\ref{ch:split-algorithm} beschrieben -- zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch einfach.
 
 %   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
 
@@ -196,13 +197,13 @@ Zu den Gemeinsamkeiten beider Arten von \code{Node}s gehören in erster Linie de
 
 In gleicher Weise fasst \code{AbstractSegment} Gemeinsamkeiten solcher Segmente, die direkt aus den Eingangsdaten stammen (\code{SourceSegment}), und solcher Segmente, die erst durch \textproc{Splitten} eines anderen Segments entstehen (\code{Fragment}), zusammen.
 In Abschnitt~\ref{ch:algorithm-parts} wurden solche Segmente zur Vereinfachung einander gleichgestellt.
-Für derartige Fälle schlagen Gamma et~al. den Einsatz des Kompositum-Entwurfsmusters vor:
+Für derartige Fälle schlagen \citeauthor{GHJV95} den Einsatz des Kompositum-Entwurfsmusters vor:
 „Use the Composite pattern when [...] you want clients to be able to ignore the difference between compositions of objects and individual objects. Clients will treat all objects in the composite structure uniformly.“ \citex[164]{GHJV95}
 Im Kompositum-Muster werden Objekte zu Baumstrukturen aus individuellen Objekten (Blättern) und Komposita von Objekten zusammengefügt.
 
 Im Kontext des Kompositum-Musters ist jedoch die Besonderheit zu berücksichtigen, dass hier einige Blätter aus den Eingangsdaten stammen (\code{SourceSegment}s), andere nicht (\code{Fragment}s).
 Gleiches gilt auch für Komposita, so dass sich in einer nur auf Vererbung bestehenden Klassenstruktur sofort eine Wucherung aus größtenteils redundanten Klassen ergäbe.
-Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster \term{(Bridge pattern)} einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
+Für solche Fälle schlagen \citeauthor{GHJV95} vor, das Brücken-Muster \term{(Bridge pattern)} einzusetzen, mit dem die Redundanz durch Delegation vermieden werden kann. \cf[153]{GHJV95}
 
 \onefigure{ht}{
 	\includegraphics[scale=.8]{../chapter5/composite-bridge}
@@ -213,15 +214,15 @@ Für solche Fälle schlagen Gamma et~al. vor, das Brücken-Muster \term{(Bridge 
 }
 
 Eine Kombination aus Kompositum und Brücke wäre zwar möglich, würde jedoch zu einer recht unübersichtlichen Struktur führen.
-Gamma et~al. betonen, dass Delegation unweigerlich Komplexität mit sich bringt und nur dann sinnvoll ist, wenn andere Vorteile überwiegen („Delegation is a good design choice only when it simplifies more than it complicates.“ \citex[21]{GHJV95}).
+\Citeauthor{GHJV95} betonen, dass Delegation unweigerlich Komplexität mit sich bringt und nur dann sinnvoll ist, wenn andere Vorteile überwiegen („Delegation is a good design choice only when it simplifies more than it complicates.“ \citex[21]{GHJV95}).
 Dies wäre hier offensichtlich nicht der Fall (Abbildung~\ref{fig:impl-composite-bridge}).
-Ihre Empfehlung, Delegation möglichst nur in Form von standardisierten Mustern zu verwenden, [\cfibid] scheint hier auch wegen einer weiteren Besonderheit nicht anwendbar zu sein:
 
+Ihre Empfehlung, Delegation möglichst nur in Form von standardisierten Mustern zu verwenden, [\cfibid] scheint hier auch wegen einer weiteren Besonderheit nicht anwendbar zu sein:
 Alle Objekte im \code{AbstractSegment}-Kompositum sind veränderbar (\term{mutable}), damit bei der Umwandlung von Blättern (die jeweils ein Segment repräsentieren) in Komposita (die zwei oder mehr Segmente repräsentieren) beim \textproc{Splitten} keine großen Kosten entstehen.
 Bloch betont die erheblichen Vorteile von \term{immutability} (\emph{nicht} veränderbarer Objekte), weist aber auch darauf hin, dass bestimmte komplexe Operationen dann sehr teuer werden können („The performance problem is magnified if you perform a multistep operation that generates a new object at every step, eventually discarding all objects except the final result.“ \citex[67]{Blo01}).
 Im vorliegenden Kompositum würde \term{immutability} gerade erfordern, dass bei jedem \textproc{Splitten} der Baum neu aufgebaut wird.
 
-Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier gar nicht angebracht; vielmehr bietet es sich \emph{in Anlehnung an} standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
+Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier gar nicht angebracht; vielmehr bietet es sich in Anlehnung an standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
 
 \onefigure{ht}{
 	\includegraphics[scale=.8]{../chapter5/composite-actual}
@@ -239,14 +240,11 @@ Jedes solche Fragment „weiß“ darüber hinaus, aus welchem Segment es abgetr
 % Dies entspricht zwar dem Composite-Leaf–Modell des Composite-Patterns, aber weil diese Unterscheidung orthogonal zur Unterscheidung in SourceSegment/Fragment ist, 
 %   ]]
 
-% TODO:
-% soll tatsächliches Objektmodell für Fragmente gezeigt werden oder verwirrt das nur?
-% wenn, dann jedenfalls besser nicht vollständig, sondern vereinfacht
-
 Die Unterschiede zwischen \code{SourceSegment} und \code{Fragment} sind zunächst klein.
 Die in Abschnitt~\ref{ch:split-algorithm} gegebene Definition von \textproc{NaheSegmente} wurde über den schon erwähnten gepackten R-Baum in JTS implementiert.
 Dessen Implementierung hat den Nachteil, dass der so erzeugte R-Baum nach dem Packen nicht mehr verändert werden darf.
-% [JTS docs com.vividsolutions.jts.index.strtree.STRtree] (( im Gegensatz zu der Beschreibung in [RSV02 256]! ))
+\cf{jts:indexSTRtree}
+% (im Gegensatz zu der Beschreibung in [RSV02 256]!)
 Weil hier ohnehin \code{SourceSegment} als eigene Klasse existiert, bietet es sich an, die \textproc{NaheSegmente}-Logik nur in \code{SourceSegment} zu implementieren statt in der Superklasse \code{AbstractSegment}.
 Das Packen des R-Baums braucht dann nur genau einmal nach dem \textproc{Segmentieren} durchgeführt zu werden.
 Danach werden die \code{SourceSegment}s nicht mehr verändert.
@@ -270,15 +268,15 @@ Wie in Abschnitt~\ref{ch:algorithm-parts} definiert sind dies Attribute des Wurz
 
 Obwohl nach der Auswahl eines bestimmten Spezialfalls der Liniengeneralisierung in Abschnitt~\ref{ch:case-selection} andere Fälle nicht weiter berücksichtigt wurden, ist eine auch andere Anwendungsfälle zulassende Flexibilität doch Teil der angestrebten Praxistauglichkeit der zu entwickelnden Software.
 Angesichts der Arbeitsweise der Algorithmen ist es naheliegend, dass sich dies insbesondere in der Analyse auf Parallelität niederschlagen sollte.
-Die Definition der \textproc{Analyse} beschränkt sich auf geometrische Aspekte; für die konkrete Evaluierung zweiter Segmente spielen im Wesentlichen die Definitionen für \textproc{Parallel}ität und \textproc{Distanz} eine Rolle.
+Die Definition der \textproc{Analyse} beschränkt sich auf geometrische Aspekte; für die konkrete Evaluierung zweiter Segmente spielen im Wesentlichen die Definitionen für \textproc{Parallel} und \textproc{Distanz} eine Rolle.
 Es wäre daher von Vorteil, wenn diese beiden Definitionen in der Software leicht austauschbar wären.
 
 Dieses Verhalten scheint auf den ersten Blick auf die Beschreibung des Schablonenmethoden"=Entwurfsmusters \term{(Template Method pattern)} zu passen, womit einzelne Schritte verändert werden können, ohne die gesamte Struktur eines Algorithmus zu verändern.
-Tatsächlich beschränkt sich dieses Muster jedoch darauf, diese einzelnen Schritte von Unterklassen implementieren zu lassen, was auch in der einleitenden Beschreibung von Gamma et~al. schon deutlich wird:
+Tatsächlich beschränkt sich dieses Muster jedoch darauf, diese einzelnen Schritte von Unterklassen implementieren zu lassen, was auch in der einleitenden Beschreibung von \citeauthor{GHJV95} schon deutlich wird:
 „Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithm's structure.“ \citex[325]{GHJV95}
 Eine Anwendung an dieser Stelle würde also gerade unter Berücksichtigung der oben beschriebenen Komposition von Segmenten in \code{SourceSegment}s und \code{Fragment}s zu einer Wucherung von weiteren Unterklassen führen und wäre daher ungeeignet.
 
-Stattdessen empfehlen Gamma et~al. das Besucher-Muster \term{(Visitor pattern)} einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. \cf[333, 344]{GHJV95}
+Stattdessen empfehlen \citeauthor{GHJV95} das Besucher-Muster \term{(Visitor pattern)} einerseits gerade für solche Kompositionen, andererseits gerade dann, wenn wie hier die eigentlichen Datenstrukturen stabil sind, aber doch Flexibilität zur Definition neuer Operationen bieten sollen. \cf[333, 344]{GHJV95}
 Dabei erlauben die Objekte der bereits etablierten Datentypen, ihnen einen sog. \term{visitor} als ein unabhängiges Objekt mit definierter Schnittstelle zu übergeben, welches die jeweiligen Operationen implementiert. \cf[331--335]{GHJV95}
 
 In der vorliegenden Software akzeptieren die Segmente den Besuch eines Objekts, das die Schnittstelle \code{Analyser} implementiert.
@@ -335,34 +333,33 @@ Um die spätere Weiterverarbeitung des Generalisierungsergebnisses zu erleichter
 
 Entsprechend gibt es zwei unterschiedliche Arten von Linienzügen in den Ergebnisdaten.
 Dies wird auch vom Datenmodell so abgebildet (Abbildung~\ref{fig:impl-generalisation-model}).
-Die Klassen \code{GeneralisedSection} und \code{ConcatenatedSection} enthalten jeweils im Konstruktor Code, dem die Angabe eines geeigneten Startpunkts genügt, um einen Linienzug für das Ergebnis zu bilden.
+Die Klassen \code{GeneralisedSection} und \code{ConcatenatedSection} enthalten jeweils im Konstruktor Code, der allein anhand der Angabe eines geeigneten Startpunkts einen Linienzug für das Ergebnis bildet.
 Die bearbeiteten Segmente werden dabei entsprechend markiert, um doppelte Bearbeitungen zu vermeiden.
 
 Die Klasse \code{GeneralisedSection} enthält den Algorithmus zum \textproc{Zusammenfassen}.
 \code{ConcatenatedSection} ist ähnlich aufgebaut, aber wesentlich einfacher, da Punktezuordnungen keine Rolle spielen, sondern nur die jeweils anschließenden Segmente zu berücksichtigen sind.
 Beide Klassen sind vom Typ \code{ResultLine}, um dem Client des \term{Combiners} einen einheitlichen Typ für die Ergebnisdaten liefern zu können.
 
-Die Klasse \code{GeneralisedLines} ist eine einfache Façade für die Generalisierung, um deren Einsatz zu erleichtern.
-% TODO: bessere Beschreibung + GHJV95
+Die Klasse \code{GeneralisedLines} ist eine einfache Fassade für die Generalisierung, um deren Einsatz zu erleichtern.
+\cf[186]{GHJV95}
 
 
 
-\subsection{Integration und ggf. Datenfluss/Interaktionswege \emph{[ausstehend]}}
+% Given unlimited time, I might continue working on this for a long time … but I think what has already been written is enough detail for the intended audience, especially considering that the API documentation is also available.
 
-\begin{itemize}
-\item Integration der beschriebenen Klassen zu einem funktionierenden System
-\item \code{Combiner} = Façade
-\item ggf. Datenfluss/Interaktionswege
-% (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
-\end{itemize}
+%\subsection{Integration und ggf. Datenfluss/Interaktionswege \emph{[ausstehend]}}
+%
+%\begin{itemize}
+%\item Integration der beschriebenen Klassen zu einem funktionierenden System
+%\item \code{Combiner} = Façade
+%\item ggf. Datenfluss/Interaktionswege
+%% (weichen im imperativen Code teils deutlich von funktional formulierten Algorithmen ab)
+%\end{itemize}
 
 
 
 \section{Schwierigkeiten bei der Umsetzung}
 \label{ch:impl-difficulties}
-
-% Wichtig: die Implementierung sollte nur dann nennenswert vom Alg. abweichen, wenn es einen Grund dafür gibt. Der muss dann auch benannt werden.
-% Imperfektionen am Alg. sind aber kein Grund, ihn vor Abgabe noch zu verbessern! <= Zeitmangel
 
 Im Laufe der Implementierung ergaben sich nicht vorhergesehene Probleme und Erkenntnisse.
 In den folgenden Abschnitten werden diese kurz erläutert.
@@ -387,7 +384,7 @@ Weiterhin war das Aufbauen eigener Datenstrukturen für die Arbeit mit Segmenten
 Erwartungsgemäß war dabei jedoch das Java Collections Framework äußerst hilfreich.
 
 Ebenfalls als hilfreich stellte sich die Idee heraus, nicht nur im Algorithmus (Abschnitt~\ref{ch:split-algorithm}), sondern auch in der Typenhierarchie Segmente als Vektoren zu behandeln.
-Die Implementierung des \term{Combiners} setzt dies um, indem über Interface-Vererbung alle Segmente auch Vektoren sind (siehe Anhang~\ref{appx:fullpage-model}, Abbildung~\ref{fig:appx-class-structure}).
+Die Implementierung des \term{Combiners} setzt dies um, indem über Interface-Vererbung alle Segmente auch Vektoren sind (siehe Abbildung~\ref{fig:impl-class-structure-splitting}).
 Es ist denkbar, dass eine Sprache mit Operatorüberladung wie Perl dies noch eleganter hätte lösen können.
 
 
@@ -406,12 +403,12 @@ Diesem Problem wurde begegnet, indem ein Adapter (\term{object adapter} \cf[139-
 
 Die Nutzung des \term{frameworks} GeoTools zur Ein- und Ausgabe von Geodaten war unerwartet problematisch.
 Zwar bietet GeoTools umfangreiche Unterstützung für verschiedene Datenformate, jedoch sind die entsprechenden GeoTools-Klassen umständlich zu benutzen, ihr Interface ist nicht stabil und sie arbeiten sehr langsam.
-Eine Lösung hierfür zu entwickeln, war mit erheblichem Zeitaufwand verbunden.
+Es ist gelungen -- wenn auch mit erheblichem Zeitaufwand --, eine Lösung hierfür zu entwickeln.
 
 Um die Datenausgabe auf eine akzeptable Geschwindigkeit zu beschleunigen, werden diese nun im GeoJSON-Format ausgegeben (implementiert als reine Textausgabe, was sehr billig ist).
 Das GeoJSON wird anschließend mit GDAL in ein Shapefile konvertiert.
 Insgesamt ist diese Lösung um ein Vielfaches schneller als die von GeoTools zur Verfügung gestellte Shapefile-Ausgabe.%
-\footnote{In der später in 2013 erschienenen Version 10.0 von GeoTools ist die Shapefile-Unterstützung neu implementiert. \cf{Deo13} Dem ersten Anschein nach löst dies die beschriebenen Probleme nicht.}
+\footnote{In der später erschienenen Version 10.0 von GeoTools ist die Shapefile-Unterstützung neu implementiert. \cf{Deo13} Dem ersten Anschein nach löst dies die beschriebenen Probleme nicht.}
 % http://web.archive.org/web/20130926213903/http://docs.codehaus.org/display/GEOTOOLS/Migrate+shapefile+to+shapefile-ng
 
 Außer dem eigentlichen Generalisierungsergebnis kann der \term{Combiner} auch zahlreiche zusätzliche Geodatensätze ausgeben, die das Verständnis von der Arbeitsweise des Algorithmus bei Anwendung auf \term{real world}--Daten verbessern und auch bei der Fehlersuche hilfreich sind.
@@ -420,7 +417,7 @@ Sie können mit dem Schalter \texttt{--debug} kontrolliert werden.
 
 
 
-\subsection{Sonstiges: Flexibilität und Effizienz}
+\subsection{Flexibilität und Effizienz}
 \label{ch:impl-special-case}
 
 Die Definition des Spezialfalls, auf den die Arbeit beschränkt werden soll, in einem eigenen Paket \code{highway} vom Rest des Combiners zu trennen und sie damit leicht austauschbar zu machen, war grundsätzlich eine gute Idee.
