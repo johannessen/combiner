@@ -12,7 +12,7 @@
 
 %Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
-Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig bearbeitet wird.
+Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig weiter bearbeitet wird.
 Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern dagegen, dass immer mit Geodaten vom selben Stand gearbeitet wird.
 
 In diesem Kapitel wird nach und nach anhand von Einzelbeispielen die Funktion der mit dieser Arbeit entwickelten Software (dem \term{Combiner}) besprochen.
@@ -238,17 +238,17 @@ Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren funkti
 Zwar führt es zu einem gelungenen Ergebnis bei \textfiguremark{1}.
 Bei \textfiguremark{2} und \textfiguremark{3} wird hingegen aufgrund der spezifischen Kreuzungsgeometrie kein „geeigneter“ Punkt auf einer der generalisierten Linien gefunden.
 % genauer gesagt: es werden die falschen Punkte gefunden
-Die dortigen Lücken in der Topologie bleibt somit bestehen.
+Die dortigen Lücken in der Topologie bleiben somit bestehen.
 Ähnliche Probleme existieren an vielen weiteren innerstädtischen Kreuzungen.
 
 Zwar ließe sich argumentieren, dass in vielen dieser Fälle die Attribute der \osm-Daten fehlerhaft sind.
 Beispielsweise sollte in Abbildung~\ref{fig:kanal-gen-cleanup} die \textfiguremark{1} und \textfiguremark{3} verbindende Abbiegefahrbahn eigentlich als solche klassifiziert werden (\osmtag{highway}[primary\_link] statt \term{primary}), wodurch vermieden würde, dass sie bei \textfiguremark{3} als parallel zur Hauptfahrbahn erkannt wird. \cf{osm:HighwayLink}
 
 Allerdings ist gerade dieser Fehler im NRW-Testdatensatz stark verbreitet.
-So sind in der Kölner Innenstadt (bis einschließlich der Ringe) von insgesamt 79
+So sind in der Kölner Innenstadt (bis einschließlich der Ringe) von insgesamt 79~%
 % Ringe(außen) + Ringe(mittig) + Ringe(innen) + West + Nord-Süd-Fahrt + Ost:
 % 6+13+15+11+26+8
-Abbiegefahrbahnen ganze 26
+erfassten Abbiegefahrbahnen ganze 26~%
 % 2+3+6+5+9+1
 nicht als solche klassifiziert.
 Es ist auch fraglich, ob hier mit fortschreitender Bearbeitung der \osm-Datenbank Verbesserungen zu erwarten sind, denn Abbiegefahrbahnen und Hauptfahrbahnen werden auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} mit nahezu identischer Linearsignatur gezeichnet, so dass eine falsche Klassifizierung beim Betrachten nicht auffällt.
@@ -269,14 +269,14 @@ Auch der in Abschnitt~\ref{ch:relocateGeneralisedNodes} besprochene Ansatz zur B
 	\label{fig:roundabout-gen-cleanup}
 }
 
-Zwar wäre es möglich, die meisten Kreisverkehre über \osm-\term{tags} zu erkennen und von der Generalisierung ausschließen (was aber aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt wurde).
+Zwar wäre es möglich, die meisten Kreisverkehre über \osm-\term{tags} zu erkennen und von der Generalisierung auszuschließen (was aber aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt wurde).
 % prinzipiell trivial in shouldEvaluate möglich, jedoch erfordert dies, dass die Kreisverkehr-tags vorliegen
 Eine Generalisierung der Kreisverkehre -- zum~Beispiel durch Qualitätsumschlag der linearen Kreisfahrbahn in einen einzelnen Kreuzungspunkt im Zentrum -- könnte jedoch überaus nützlich sein, etwa bei der Herstellung einer Straßenkarte im mittleren Maßstabsbereich.
 
 \newpage
 Auffallend ist, dass alle diskutierten Probleme an Kreuzungen auftreten.
 Auf freier Strecke funktioniert der \term{Combiner} weitgehend problemlos.
-Gäbe es eine zuverlässige Methode, automatisiert Kreuzungen zu erkennen, ließe sich möglicherweise leicht Praxistauglichkeit erzielen.
+Gäbe es eine zuverlässige Methode, automatisiert Kreuzungen zu erkennen, ließe sich wahrscheinlich leicht Praxistauglichkeit erzielen.
 
 Anhang~\ref{appx:junction-examples} zeigt weitere Beispiele von Kreuzungssituationen, mit denen der \term{Combiner} nicht gut zurechtkommt.
 
@@ -327,8 +327,7 @@ Der Zeitbedarf wächst hier überproportional.
 Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{ch:impl-flexibility-efficiency} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
 
 Auch dies ist ein deutlicher Hinweis auf die oben diskutierte Notwendigkeit einer Kreuzungserkennung.
-
-% durch Spectre/Meltdown keine großen Einbußen zu erwarten, weil die Berechnung hauptsächlich im RAM stattfindet und somit der Kernel keine große Rolle spielt
+% weil es eben um Abbiegefahrbahnen ging, welche durch Kreuzungserkennung wegfallen würden
 
 
 
@@ -337,7 +336,7 @@ Auch dies ist ein deutlicher Hinweis auf die oben diskutierte Notwendigkeit eine
 
 Der nach Abschnitt~\ref{ch:case-selection} zu untersuchende Spezialfall von \emph{Richtungs}fahrbahnen impliziert, dass die entwickelten Algorithmen genau zwei entgegengerichtete Fahrbahnen derselben Straße zusammenzufassen sollen.
 Ebenda wurde jedoch bereits angedeutet, dass sie möglicherweise auch auf andere Spezialfälle anwendbar sein könnten.
-Abschließend soll deshalb an zwei Beispielen betrachtet werden, wie sich die im \term{Combiner} implementierten Algorithmen verhalten, wenn die Eingangsdaten nicht entsprechend dem Spezialfall aufgebaut sind, für den die Algorithmen entwickelt wurde.
+Abschließend soll deshalb an zwei Beispielen betrachtet werden, wie sich die im \term{Combiner} implementierten Algorithmen verhalten, wenn die Eingangsdaten nicht entsprechend dem Spezialfall aufgebaut sind, für den die Algorithmen entwickelt wurden.
 
 
 
@@ -360,17 +359,17 @@ Abbildung~\ref{fig:iteration-good} demonstriert, dass diese Strategie gelingen k
 		\end{overpic}
 	}
 	% 1:6500 Google Mercator rotated -24°, bbox 778845 6630050 779300 6630310
-	\caption{Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallele (links erste, rechts zweite Generalisierung; A\,3 bei Leverkusen)}
+	\caption{Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallelen (links erste, rechts zweite Generalisierung; A\,3 bei Leverkusen)}
 	\label{fig:iteration-good}
 }
 
 Wie zu sehen ist, wird in diesem Beispiel die zwischen $2$ und $3$ variierende Zahl von Parallelen in zwei Schritten korrekt auf einen einzelnen Linienzug zusammengefasst.
 Dieser liegt allerdings nicht mehr mittig im Verlauf der Straßenachse, sondern ist jeweils seitlich in Richtung der dritten Parallele verschoben.
-Eine praxistaugliche Lösung müsste wie in Abschnitt~\ref{ch:generalisation-algorithm} schon angedeutet den Graphen aus Punktzuordnungen und Segmenten in seiner gesamten Breite in nur \emph{einem} Schritt beurteilen, um anhand von Attributen die tatsächliche Straßenachse ermitteln zu können.
+Eine praxistaugliche Lösung müsste -- wie in Abschnitt~\ref{ch:generalisation-algorithm} schon angedeutet -- den Graphen aus Punktzuordnungen und Segmenten in seiner gesamten Breite in nur \emph{einem} Schritt beurteilen, um anhand von Attributen die tatsächliche Straßenachse ermitteln zu können.
 Attribute können vom \term{Combiner} bei wiederholter Ausführung gegenwärtig nicht sinnvoll berücksichtigt werden.
 
 Nicht unerwähnt bleiben darf, dass sich das Unvermögen des in Abschnitt~\ref{ch:relocateGeneralisedNodes} vorgestellten Ansatzes zur Beseitigung von Topologielücken, in allen Situationen einen „geeigneten“ Punkt für den Lückenschluss zu finden, bei wiederholter Ausführung besonders stark negativ auf das Ergebnis auswirkt.
-Wie Abbildung~\ref{fig:iteration-gaps} zeigt, kommt es vor, dass das Generalisierungsergebnis nach mehreren Wiederholungen mit zahllosen Lücken durchsetzt ist.
+Wie Abbildung~\ref{fig:iteration-gaps} zeigt, kommt es vor, dass das Generalisierungsergebnis nach mehreren Wiederholungen mit zahlreichen Lücken durchsetzt ist.
 Dieses Bild zeigt sich sehr verbreitet, womit das Ergebnis ungeeignet zur Weiterverarbeitung ist.
 
 \onefigure{h}{

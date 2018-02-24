@@ -37,7 +37,7 @@ Kapitel
 
 7.1 ✅  
 7.2 ✅  
-7.3 🅰
+7.3 ✅
 
 8 ✏ ⬅
 
@@ -131,4 +131,4 @@ Kapitel 6
 Kapitel 7
 ---------
 
-- fig:junction-buffer: true scale latitude is 0, should be 51 or so
+./.

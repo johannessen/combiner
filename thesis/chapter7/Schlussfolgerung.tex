@@ -6,17 +6,15 @@
 \begin{document}
 
 
-\chapter{Schlussfolgerung und Ausblick}
+\chapter{Schlussfolgerungen und Ausblick}
 
 \section{Praktische Anwendbarkeit}
 
 Es konnte durch die Implementierung in Software gezeigt werden, dass die Erkennung paralleler Linienzüge auf der Basis eines geometrischen Vergleichs möglichst kurzer Fragmente prinzipiell funktioniert.
 Mit hierfür entwickelten Algorithmen können auch viele schwierige Situationen des in Abschnitt~\ref{ch:case-comparison} ausgewählten Spezialfalls der „baulich getrennten Richtungsfahrbahnen im Straßenraum“ zufriedenstellend gelöst werden.
 
-Im Vergleich zu den praxistauglicheren der in Abschnitt~\ref{ch:existing-approaches} diskutierten existierenden Ansätze sind keine offensichtlichen grundsätzlichen Vor- oder Nachteile der mit der vorliegenden Arbeit entwickelten Methode zu erkennen.
-Jedoch kann deren Implementierung im \term{Combiner} noch nicht als abgeschlossen gelten (siehe hierzu Abschnitt~\ref{ch:improvements-software} weiter unten).
-
-Bei der Anwendung auf komplexe Straßennetze zeigt sich jedoch, dass erhebliche Probleme im Kreuzungsbereich, wie sie bereits in Abschnitt~\ref{ch:existing-approaches} von anderen Ansätzen ähnlich berichtet wurden, auch bei den in dieser Arbeit vorgestellten Algorithmen auftreten (siehe Abschnitt~\ref{ch:result-junctions}).
+Im Vergleich zu den in Abschnitt~\ref{ch:existing-approaches} diskutierten Ansätzen sind keine offensichtlichen grundsätzlichen Nachteile der mit der vorliegenden Arbeit entwickelten Methode zu erkennen.
+Bei der Anwendung auf komplexe Straßennetze zeigt sich jedoch, dass erhebliche Probleme im Kreuzungsbereich, wie sie bereits von anderen Ansätzen ähnlich berichtet wurden, auch bei den in dieser Arbeit vorgestellten Algorithmen auftreten (siehe Abschnitt~\ref{ch:result-junctions}).
 Aus Zeitgründen konnten praxistaugliche Lösungen hierfür nicht mehr als Teil dieser Arbeit entwickelt werden.
 
 Die praktische Anwendbarkeit der entwickelten Algorithmen ist deshalb beschränkt.
@@ -52,7 +50,7 @@ Diese geringfügige Verbesserung konnte lediglich aus Zeitgründen nicht mehr al
 Attribute werden bei der \textproc{Analyse} nach Abschnitt~\ref{ch:analyse-algorithm} nur als hartes Ausschlusskriterium verwendet.
 Abschnitt~\ref{ch:result-tags} erläutert, dass diese Methode nicht zufriedenstellend funktioniert.
 
-Als Alternative scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
+Als Alternative bietet es sich an, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
 Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
 
 Diese Idee erscheint vielversprechend, konnte jedoch aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
@@ -68,7 +66,7 @@ Diese Idee erscheint vielversprechend, konnte jedoch aus Zeitgründen nicht mehr
 Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren zur Schließung von Topologielücken arbeitet in vielen Fällen nicht zufriedenstellend.
 Die implementierte Strategie ist es, immer die nahesten Stützpunkte des generalisierten Linienzugs (also die Mitte der kürzesten verknüpften Punktezuordnung) als „geeignet“ zu betrachten.
 Wie sich zeigte, sind dies jedoch in vielen Fällen eben gerade nicht die „geeigneten“ Punkte.
-Eine verbesserte Suche nach einem „geeigneten“ Punkt zur Verschiebung der Endpunkte wäre vermutlich \emph{relativ} einfach möglich.
+Eine verbesserte Suche nach einem „geeigneten“ Punkt zur Verschiebung der Endpunkte wäre vermutlich relativ einfach möglich.
 
 Nötig wäre eigentlich eine Analyse des Graphen des Straßennetzes, um anhand der \emph{vorher} existierenden Verknüpfungen im Netz \emph{hinterher} die bei der Generalisierung entstandenen Lücken wirklich sinnvoll schließen zu können.
 %Die bereits in Abschnitt~\ref{ch:graph-based} diskutierten auf Graphenanalysen basierenden Ansätze
@@ -91,18 +89,21 @@ Unterschreitet die Fläche der Masche eine bestimmte Mindestgröße, so handelt 
 % Graphenanalyse (s.~u.)
 
 \onefigure{htb}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter7/junction-buffer}
+	\includegraphics[scale=.9883]{../chapter7/junction-buffer}
 	% 1:180000 Google Mercator, bbox 768720 6606550 781320 6613750, 0.2mm stroke
-	% at a scale of 1:180000, a buffer at 100m distance can be simulated by a stroke width of 1.11mm
+	% true scale at equator => scale at this latitude is approx. 1:113650
+	% => scale image down ever so slightly to achieve a "nice" natural scale
+	% at a scale of 1:113650, a buffer at 126m distance can be simulated by a stroke width of 1.11mm
+	% printf "768720 6610150\n781320 6610150" | cs2cs +init=epsg:3857 +to +proj=merc +lat_ts=50.94 +units=m +datum=WGS84 -
 	\caption
 		[Pufferung kurzer Linienzüge im Generalisierungsergebnis]
-		{Pufferung kurzer Linienzüge (rot) im Generalisierungsergebnis (Köln $\ThousandsScale{180}$)}
+		{Pufferung kurzer Linienzüge (rot) im Generalisierungsergebnis (Köln $\ThousandsScale{115}$)}
 	\label{fig:junction-buffer}
 }
 
 Einfacher wäre möglicherweise, sich zunutze zu machen, dass der \term{Combiner} die Segmente im Generalisierungsergebnis immer zu möglichst langen Linienzügen verkettet.
 Es liegt nahe, dass dort, wo sehr kurze Linienzüge übrig bleiben, wahrscheinlich eine Kreuzung liegt.
-Abbildung~\ref{fig:junction-buffer} zeigt beispielhaft einen Puffer mit $\unit[100]{m}$ Distanz von allen Ergebnis"=Linienzügen, deren Länge höchstens $\unit[80]{m}$ beträgt.
+Abbildung~\ref{fig:junction-buffer} zeigt beispielhaft einen Puffer mit $\unit[125]{m}$ Distanz von allen Ergebnis"=Linienzügen, deren Länge höchstens $\unit[80]{m}$ beträgt.
 Wie zu sehen ist, decken die Puffer tatsächlich viele komplexe Kreuzungen ab.
 Eventuell würde es nach der Vereinigung der Pufferflächen bereits genügen, anstelle einer Skelettierung (siehe Abschnitt~\ref{ch:skeleton}) alle Linienzüge, welche den Puffer schneiden, in dessen Schwerpunkt zusammenzuführen.
 Zu prüfen wäre jedoch, ob eine verbesserte Auswertung von Attributen (siehe Abschnitt~\ref{ch:improvements-stats}) diesen Ansatz erschwert, indem die Linienzüge häufiger bei Attributwechseln aufgeteilt werden und damit kürzer werden.
@@ -171,7 +172,7 @@ Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anha
 In Abschnitt~\ref{ch:impl-flexibility-efficiency} wurde bereits erwähnt, dass die Effizienz des \term{Combiners} Raum für Verbesserungen bietet, insbesondere im Hinblick auf den Speicheraufwand.
 Die Laufzeitmessungen in Abschnitt~\ref{ch:result-railways} legen nahe, dass dieser unnötig hoch ist.
 Obwohl bereits Änderungen an Parametern dies verbessern können, erscheint eine generelle Verbesserung des Designs sinnvoll.
-Beispielsweise könnte die auf Basis von Objekten implementierte Vektor-Mathematik relativ leicht durch statische Methoden ersetzt werden.
+Beispielsweise könnte die auf Basis von Objekten implementierte Vektor-Mathematik relativ leicht durch statische Methoden ersetzt werden, die ohne zusätzlichen Speicher auskommen.
 
 Auch der Speicheraufwand im Java Collections Framework hat Optimierungspotenzial.
 Gegenwärtig werden vom \term{Combiner} zur Implementierung vieler Mengen Datenstrukturen vom Typ \code{LinkedList} genutzt.
@@ -271,7 +272,9 @@ Auf die Möglichkeit der Übertragung dieses Ansatzes auf ein Straßennetz gehen
 
 \Citeauthor{Mat17} setzte für den gleichen Problemfall der Bahnachsenermittlung eine neue Funktion%
 \footnote{Die Funktion \code{ST\_ApproximateMedialAxis} wurde in PostGIS-Version 2.2.0 hinzugefügt (in 2015).}
-in der Geodatenbank PostGIS ein, die anhand eines \term{straight skeleton} ein Polygon auf dessen Mittellinie reduziert (siehe Abschnitt~\ref{ch:skeleton}).
+% https://postgis.net/docs/manual-2.2/ST_ApproximateMedialAxis.html
+% http://postgis.net/2015/10/07/postgis-2.2.0/
+in der Geodatenbank PostGIS ein, die anhand eines \term{straight skeleton} ein Polygon auf dessen Mittellinien reduziert (siehe Abschnitt~\ref{ch:skeleton}).
 Diese Funktion wendet \citeauthor{Mat17} nur auf Haupt- und Streckengleise an (vgl.~\ref{ch:result-railways}).
 Auch sie führt zu Problemen unter anderem im Kreuzungsbereich.
 Angesichts der von \citeauthor{Mat17} hierfür gewählten Lösungen erscheint dem Verfasser eine direkte Übertragbarkeit dieses Ansatzes auf den Straßenraum wenig wahrscheinlich. \cf{Mat17}
@@ -286,17 +289,6 @@ Mit einer zuverlässigen Kreuzungserkennung wird die eigentliche Zusammenfassung
 Im Wesentlichen ginge es dann um Optimierung der Kosten des Verfahrens und um geschickte Ausnutzung der vorhandenen Attribute. \cf[14]{Tho05}
 
 
-%
-%
-%\begin{itemize}
-%\item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]
-%\item Auch der Ansatz von [KP98] kann nicht mehr grundsätzlich ausgeschlossen werden (vgl. 2.5.3 und Effizienz)
-%\item \citex{CTGV14}
-%\item \citex{Mat17}
-%\item auch diese Ansätze beschreiben Probleme mit (Gleis-)Kreuzungen und sind nur für konkrete Spezialfälle vorgesehen; eine praxistaugliche Kreuzungserkennung wäre in Anbetracht der Ergebnisse der vorliegenden Arbeit und der neueren Ansätze eindeutig der nächste sinnvolle Schritt; das Ziel einer Lösung für den allgemeinen Fall scheint derzeit nicht lösbar zu sein
-%\end{itemize}
-%nach Kreunzungs-Lösung: lösbares Problem, verschiedene Ansätze, im Wesentlichen eine Frage der Optimierung und der geschickten Ausnutzung der vorhandenen Attribute, vgl. Thom
-%
 
 % single-chapter commands
 %\onlyinsubfile{\listoffigures}
