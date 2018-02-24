@@ -8,124 +8,106 @@
 
 \chapter{Schlussfolgerung und Ausblick}
 
-\section{Praktische Anwendbarkeit \emph{[ausstehend]}}
+\section{Praktische Anwendbarkeit}
 
 Es konnte durch die Implementierung in Software gezeigt werden, dass die Erkennung paralleler Linienzüge auf der Basis eines geometrischen Vergleichs möglichst kurzer Fragmente prinzipiell funktioniert.
-Mit den im Rahmen hierfür entwickelten Algorithmen können auch viele schwierige Situationen des in Abschnitt~\ref{3.1} ausgewählten Spezialfalls der „Richtungsfahrbahnen ...“ zufriedenstellend gelöst werden.
+Mit hierfür entwickelten Algorithmen können auch viele schwierige Situationen des in Abschnitt~\ref{ch:case-comparison} ausgewählten Spezialfalls der „baulich getrennten Richtungsfahrbahnen im Straßenraum“ zufriedenstellend gelöst werden.
 
-Bei der Anwendung auf komplexe Straßennetze zeigt sich jedoch, dass erhebliche Probleme im Kreuzungsbereich, wie sie bereits in Abschnitt~\ref{2.5} von anderen Ansätzen ähnlich berichtet wurden, auch bei den in dieser Arbeit vorgestellten Algorithmen auftreten (siehe Abschnitt~\ref{6.3}).
+Im Vergleich zu den praxistauglicheren der in Abschnitt~\ref{ch:existing-approaches} diskutierten existierenden Ansätze sind keine offensichtlichen grundsätzlichen Vor- oder Nachteile der mit der vorliegenden Arbeit entwickelten Methode zu erkennen.
+Jedoch kann deren Implementierung im \term{Combiner} noch nicht als abgeschlossen gelten (siehe hierzu Abschnitt~\ref{ch:improvements-software} weiter unten).
+
+Bei der Anwendung auf komplexe Straßennetze zeigt sich jedoch, dass erhebliche Probleme im Kreuzungsbereich, wie sie bereits in Abschnitt~\ref{ch:existing-approaches} von anderen Ansätzen ähnlich berichtet wurden, auch bei den in dieser Arbeit vorgestellten Algorithmen auftreten (siehe Abschnitt~\ref{ch:result-junctions}).
 Aus Zeitgründen konnten praxistaugliche Lösungen hierfür nicht mehr als Teil dieser Arbeit entwickelt werden.
 
-Die praktische Anwendbarkeit der entwickelten Algorithmen ist deshalb eingeschränkt auf Situationen mit nur wenigen oder einfachen Kreuzungen.
+Die praktische Anwendbarkeit der entwickelten Algorithmen ist deshalb beschränkt.
+Abschnitt~\ref{ch:improvements} diskutiert Wege, um das mögliche Einsatzgebiet zu erweitern.
 
-Im Vergleich zu den in Abschnitt~\ref{2.5} diskutierten existierenden Ansätzen zeigt sich ...
-% - vgl. Schluss von 4.1: Idee der möglichst kurzen Linienstücke funktioniert grundsätzlich (jedoch: Effizienz fraglich)
-% - ansatz geometrie funktioniert wohl im prinzip mehr oder weniger und ist neben den existierenden ansätzen nicht von der hand zu weisen, obwohl er aus zeitgründen noch nicht praxistauglich ist
-
-...
-
-
-
-\begin{itemize}
-	\item abschließende qualitative Gesamtbeurteilung der Arbeit auf Basis der Ergebnisuntersuchung in Bezug auf:
-	\begin{itemize}
-		\item Praxistauglichkeit
-		\item Übertragbarkeit auf andere als die spezifizierten Spezialfälle
-		\item Übertragbarkeit auf andere, ähnlich gelagerte, aber nicht identische Fragestellungen (z. B. Generalisierung durch Verdrängen)
-		\item evtl. in Relation zu existierenden Lösungsansätzen (-> Analyse)
-		\item Ungelöste Problemfälle(?)
-	\end{itemize}
-\end{itemize}
-% - ansatz geometrie funktioniert wohl im prinzip mehr oder weniger und ist neben den existierenden ansätzen nicht von der hand zu weisen, obwohl er aus zeitgründen noch nicht praxistauglich ist
+Ferner darf hinterfragt werden, ob die Vorgabe der Aufgabenstellung hinsichtlich der Praxistauglichkeit der zu entwickelnden Algorithmen in Anbetracht der zeitlichen Begrenzung angemessen war.
+Zwar ist Praxistauglichkeit immer anzustreben; wie schnell sie sich tatsächlich erreichen lässt, kann jedoch von Umständen abhängen, die nicht vollumfänglich vorherzusehen sind.
+Auch ist zu bedenken, dass \citeauthor{LM96} den Umfang ihrer Arbeit, welcher eine vergleichbare Problemstellung zugrunde liegt, auf etwa sieben Personenmonate schätzen (siehe Abschnitt~\ref{ch:skeleton}). \cf{LM96}
+Angesichts der im Rahmen der vorliegenden Arbeit aufgetretenen technischen Probleme ist nicht zu erwarten, dass der Aufwand für die Entwicklung einer praxistauglichen Lösung wesentlich geringer wäre.
 
 
 
-\section{Möglichkeiten zur Weiterentwicklung \emph{[Entwurf]}}
+\section{Möglichkeiten zur Weiterentwicklung}
+\label{ch:improvements}
 
 
 
 \subsection{Berücksichtigung unterschiedlicher Straßentypen}
 % vgl. 6.1
 
-\begin{itemize}
+Wie schon in Abschnitt~\ref{ch:result-trivial} erläutert, unterscheiden sich die optimalen Werte für die in Abschnitt~\ref{ch:analyse-algorithm} zur Definition von \textproc{Parallel} benutzten baulichen Kriterien für Abstand und Winkel der Richtungsfahrbahnen je nach Straßentyp.
+Es wäre deshalb sinnvoll, diese Kriterien je nach Klassifikation der Straßen in der \osm-Datenbank entsprechend zu variieren.
+Die Fehlerrate in der Erkennung würde dadurch sinken.
 
-\item
-Wie schon in Abschnitt~\ref{ch:result-trivial} erläutert, unterscheiden sich die in in Abschnitt~\ref{ch:analyse-algorithm} für die Definition von \textproc{Parallel} benutzten baulichen Kriterien für Abstand und Winkel der Richtungsfahrbahnen je nach Straßentyp.
-Es wäre deshalb sinnvoll, diese Kriterien je nach Klassifikation der Straßen in der \osm-Datenbank entsprechend zu variieren. Die Fehlerrate in der Erkennung würde so geringfügig sinken.
-
-\item
-Diese kleine Verbesserung konnte lediglich aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
-
-\end{itemize}
+Diese geringfügige Verbesserung konnte lediglich aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
 
 
 
 \subsection{Statistische Auswertung}
+\label{ch:improvements-stats}
 % vgl. 6.2
 
-\begin{itemize}
+Attribute werden bei der \textproc{Analyse} nach Abschnitt~\ref{ch:analyse-algorithm} nur als hartes Ausschlusskriterium verwendet.
+Abschnitt~\ref{ch:result-tags} erläutert, dass diese Methode nicht zufriedenstellend funktioniert.
 
-\item
-Abschnitt~\ref{ch:result-tags} erläutert, dass die gewählte Art und Weise der „absoluten“ Berücksichtigung von Attributen nicht zufriedenstellend funktioniert.
+Als Alternative scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
+Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attribuiert sind, ein korrektes Ergebnis verhindern.
 
-\item
-Statt eines harten Ausschlusskriteriums wie in Abschnitt~\ref{ch:analyse-algorithm} definiert scheint es sich anbieten, aus der Geometrie und den Attributen eine \emph{Wahrscheinlichkeit} abzuleiten, mit der die verglichenen Segmente insgesamt parallel sind, und als einziges \emph{hartes} Kriterium einen Schwellenwert für diese Wahrscheinlichkeit vorzusehen.
-
-\item
-Es könnten dann auch leicht weitere Attribute wie Straßenname oder die vertikale Ebene in angemessenem Umfang berücksichtigt werden, ohne dass einzelne Aspekte, die falsch attributiert sind, ein korrektes Ergebnis verhindern.
-
-\item
 Diese Idee erscheint vielversprechend, konnte jedoch aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt werden.
-
-\end{itemize}
 
 % idee für zukunft: zusätzliches PARALLEL-kriterium "entgegengerichtet", bedarf aber evtl. eines tag-parsens und ggf. umdrehen bei oneway=-1
 
 
 
 \subsection{Kreuzungserkennung}
+\label{ch:improvements-junction-detection}
 % vgl. 6.3
 
-\begin{itemize}
+Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren zur Schließung von Topologielücken arbeitet in vielen Fällen nicht zufriedenstellend.
+Die implementierte Strategie ist es, immer die nahesten Stützpunkte des generalisierten Linienzugs (also die Mitte der kürzesten verknüpften Punktezuordnung) als „geeignet“ zu betrachten.
+Wie sich zeigte, sind dies jedoch in vielen Fällen eben gerade nicht die „geeigneten“ Punkte.
+Eine verbesserte Suche nach einem „geeigneten“ Punkt zur Verschiebung der Endpunkte wäre vermutlich \emph{relativ} einfach möglich.
 
-\item
-Das in Abschnitt~\ref{ch:relocateGeneralisedNodes} beschriebene Verfahren zur Schließung von Topologielücken arbeitet in vielen Fällen nicht zufriedenstellend. Eine verbesserte Suche nach einem „geeigneten“ Punkt wäre vermutlich \emph{relativ} einfach möglich.
-
-\item
-Die derzeitige Strategie ist es, immer die nahesten Stützpunkte des generalisierten Linienzugs (also die kürzesten verknüpften Punktezuordnungen) als „geeignet“ zu betrachten.
-Dies sind jedoch in vielen Fällen eben gerade nicht die „geeigneten“ Punkte.
-
-\item
 Nötig wäre eigentlich eine Analyse des Graphen des Straßennetzes, um anhand der \emph{vorher} existierenden Verknüpfungen im Netz \emph{hinterher} die bei der Generalisierung entstandenen Lücken wirklich sinnvoll schließen zu können.
 %Die bereits in Abschnitt~\ref{ch:graph-based} diskutierten auf Graphenanalysen basierenden Ansätze
 
-\item
-Bereits eine deutliche Verbesserung für manche Situationen wäre zu erwarten, wenn verhindert würde, dass bei der Schließung von Topologielücken mehrere Punkte auf dieselbe Position verschoben werden.
-Wird dieser Fall erkannt, so könnte der zweite Punkt beispielsweise auf die zweitkürzeste verknüpfte Punktezuordnung verschoben werden.
-Dies löst jedoch nicht alle denkbaren Probleme.
+%Bereits eine deutliche Verbesserung für manche Situationen wäre zu erwarten, wenn verhindert würde, dass bei der Schließung von Topologielücken mehrere Punkte auf dieselbe Position verschoben werden.
+%Wird dieser Fall erkannt, so könnte der zweite Punkt beispielsweise auf die zweitkürzeste verknüpfte Punktezuordnung verschoben werden.
+%Dies löst jedoch nicht alle denkbaren Probleme.
+% und erzeugt evtl. neue, denn manchmal wäre genau dies doch sogar das korrekte Vorgehen
 % (löst nicht die schrecklichen "Haken", die sich manchmal bilden)
 
-\item
-Dass Kreuzungen nicht automatisiert als solche erkannt werden, hat sich als das größte Problem der entwickelten Algorithmen herausgestellt (Abschnitt~\ref{ch:missing-junction-detection}).
+Dass Kreuzungen nicht automatisiert als solche erkannt werden, hat sich als das größte Problem des entwickelten Verfahrens herausgestellt (Abschnitt~\ref{ch:missing-junction-detection}).
 Diesen Mangel teilt der vom Verfasser gewählte Ansatz mit vielen der in Abschnitt~\ref{ch:existing-approaches} besprochenen älteren Ansätze.
 
-\item
 Die Implementierung einer praxistauglichen Kreuzungserkennung wäre demnach die Voraussetzung für eine gelungene automatisierte Zusammenfassung paralleler Linienzüge.
 Sie scheint die vielversprechendste Möglichkeit zur Weiterentwicklung zu sein.
 
-\item
 Um Kreuzungen zu erkennen, sind unterschiedliche Ansätze denkbar.
-Beispielsweise lassen sich wahrscheinlich Kreuzungen erkennen durch eine graphentheoretische Analyse des Straßennetzes auf kürzestmögliche Zyklen mit anschließender geometrischer Auswertung:
-Unterschreitet die Fläche des Zyklus eine bestimmte Mindestgröße, so handelt es sich bei dessen Knoten möglicherweise um Bestandteile einer einzigen Straßenkreuzung, die auf einen einzelnen Punkt zusammengefasst werden können.
-% https://de.wikipedia.org/wiki/Zyklus_(Graphentheorie)
-% "Masche"?
+Beispielsweise lassen sich Kreuzungen wahrscheinlich durch eine graphentheoretische Analyse des Straßennetzes auf kleinste Maschen mit anschließender geometrischer Auswertung erkennen:
+Unterschreitet die Fläche der Masche eine bestimmte Mindestgröße, so handelt es sich bei deren Knoten möglicherweise um Bestandteile einer einzigen Straßenkreuzung, die auf einen einzelnen Punkt zusammengefasst werden können.
 % Graphenanalyse (s.~u.)
 
-\item Länge (Screenshot mit roten Puffern)
+\onefigure{htb}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter7/junction-buffer}
+	% 1:180000 Google Mercator, bbox 768720 6606550 781320 6613750, 0.2mm stroke
+	% at a scale of 1:180000, a buffer at 100m distance can be simulated by a stroke width of 1.11mm
+	\caption
+		[Pufferung kurzer Linienzüge im Generalisierungsergebnis]
+		{Pufferung kurzer Linienzüge (rot) im Generalisierungsergebnis (Köln $\ThousandsScale{180}$)}
+	\label{fig:junction-buffer}
+}
 
-\item {[MM99]} (2.5.5)
+Einfacher wäre möglicherweise, sich zunutze zu machen, dass der \term{Combiner} die Segmente im Generalisierungsergebnis immer zu möglichst langen Linienzügen verkettet.
+Es liegt nahe, dass dort, wo sehr kurze Linienzüge übrig bleiben, wahrscheinlich eine Kreuzung liegt.
+Abbildung~\ref{fig:junction-buffer} zeigt beispielhaft einen Puffer mit $\unit[100]{m}$ Distanz von allen Ergebnis"=Linienzügen, deren Länge höchstens $\unit[80]{m}$ beträgt.
+Wie zu sehen ist, decken die Puffer tatsächlich viele komplexe Kreuzungen ab.
+Eventuell würde es nach der Vereinigung der Pufferflächen bereits genügen, anstelle einer Skelettierung (siehe Abschnitt~\ref{ch:skeleton}) alle Linienzüge, welche den Puffer schneiden, in dessen Schwerpunkt zusammenzuführen.
+Zu prüfen wäre jedoch, ob eine verbesserte Auswertung von Attributen (siehe Abschnitt~\ref{ch:improvements-stats}) diesen Ansatz erschwert, indem die Linienzüge häufiger bei Attributwechseln aufgeteilt werden und damit kürzer werden.
 
-\end{itemize}
+Schließlich sei daran erinnert, dass sich \citeauthor{MM99} bereits mit dem Thema der Kreuzungserkennung im Kontext der automatisierten Generalisierung von Straßennetzen auseinandergesetzt haben (siehe Abschnitt~\ref{ch:graph-based}). \cf{MM99}
 
 
 
@@ -133,18 +115,13 @@ Unterschreitet die Fläche des Zyklus eine bestimmte Mindestgröße, so handelt 
 % statt nur der gewählte Spezialfall
 % vgl. 6.5
 
-\begin{itemize}
-
-\item
 Um die Anwendung auf andere Spezialfälle als die in Abschnitt~\ref{ch:case-selection} ausgewählten Richtungsfahrbahnen zu ermöglichen, wäre eine Verallgemeinerung der entwickelten Algorithmen und ihrer Implementierung im \term{Combiner} nötig.
 
-\item
-Abschnitt~\ref{ch:result-other-cases} beschreibt zwei konkrete Beispiele für Spezialfälle, auf welche die Ergebnisse dieser Arbeit wahrscheinlich übertragbar sind.
+Abschnitt~\ref{ch:result-other-cases} beschreibt zwei konkrete Beispiele für Spezialfälle, auf welche die Ergebnisse dieser Arbeit wahrscheinlich prinzipiell übertragbar sind.
 Um Praxistauglichkeit für diese Fälle zu erzielen, müsste der \term{Combiner} es erlauben, die auf den Spezialfall der Richtungsfahrbahnen zugeschnittenen Module zur Laufzeit durch entsprechende andere Module zu ersetzen.
-Diese Möglichkeit wurde bei der Implementierung ausdrücklich vorgesehen (Abschnitt~\ref{ch:impl-analyser}), ist jedoch noch nicht voll nutzbar, da dies im Rahmen dieser Arbeit nicht erforderlich war (Abschnitt~\ref{ch:impl-special-case}).
-Außerdem wäre eine Lösung zur Kreuzungserkennung erforderlich, möglicherweise wiederum auf den jeweiligen Spezialfall zugeschnitten.
+Diese Möglichkeit wurde bei der Implementierung ausdrücklich vorgesehen (Abschnitt~\ref{ch:impl-analyser}), ist jedoch noch nicht voll nutzbar, da dies im Rahmen dieser Arbeit nicht erforderlich war (Abschnitt~\ref{ch:impl-flexibility-efficiency}).
+Außerdem wäre eine Lösung zur Kreuzungserkennung erforderlich (Abschnitt~\ref{ch:improvements-junction-detection}), möglicherweise wiederum auf den jeweiligen Spezialfall zugeschnitten.
 
-\item
 Es ist jedoch nicht anzunehmen, dass die Anwendung der entwickelten Algorithmen in allen in Abschnitt~\ref{ch:case-comparison} aufgeführten Spezialfällen erfolgreich wäre.
 Die Definition des \textproc{Fußpunkt}s in Abschnitt~\ref{ch:split-algorithm} bringt mit sich, dass gegenüberliegende Segmente nur genau dann überhaupt auf Parallelität analysiert werden, wenn sie sich wenigstens teilweise überlappen.
 % TODO: stimmt dies überhaupt?
@@ -152,20 +129,19 @@ Bei anthropogenen Parallelen wie gerade den für diese Arbeit zu betrachtenden R
 Segmente von Linienzügen, die natürlich Gewachsenes darstellen, können hingegen -- bei präziser Erfassung, wie sie von \osm\ im Grundsatz angestrebt wird -- derart windschief zueinander liegen, dass eine Überlappung gegenüberliegender Segmente nicht mehr durchgehend gegeben ist.
 Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialfälle wie die in Abschnitt~\ref{vegetation-case-desc} besprochenen Vegetationsgrenzen ist deshalb wahrscheinlich unmöglich.
 
-\end{itemize}
-
 % die ANALYSE-Kriterien müssten auch jeweils optimiert werden; für Richtungsfahrbahnen scheinen sie zu funktionieren, könnten aber evtl. noch optimiert werden
 % Zick-Zack-Problem?
 
 
 
 \subsection{Softwarequalität}
+\label{ch:improvements-software}
 
 In der Aufgabenstellung war nicht die Entwicklung einer \emph{Softwarelösung,} sondern die Entwicklung von \emph{Algorithmen} gefordert.
 Die Implementierung in Software musste erfolgen, um die Praxistauglichkeit der Algorithmen beurteilen zu können (vgl.~\ref{ch:algorithm-overview}), jedoch stand dabei die Qualität der Software selbst nicht im Vordergrund.
 
 In den Abschnitten~\ref{ch:impl-architecture} und~\ref{ch:impl-difficulties} waren bereits Entscheidungen diskutiert worden, die zugunsten einer schnelleren Implementierung qualitative Nachteile mit sich brachten.
-Eine Weiterentwicklung der folgenden Aspekte kann die Verwendbarkeit des \term{Combiners} durch den Endnutzer verbessern und wäre deshalb wünschenswert:
+Eine Weiterentwicklung der folgenden Aspekte kann die Verwendbarkeit des \term{Combiners} durch den Endnutzer verbessern und wäre deshalb wünschenswert.
 %
 \begin{itemize}
 
@@ -179,7 +155,7 @@ Für kleinere Bereiche wäre auch die Möglichkeit einer direkten Abfrage der \o
 \item
 Die Datenausgabe ist ebenfalls verbesserungsfähig.
 Sie sollte in einem Format erfolgen, das die Weiterverwendung innerhalb von \osm\ einfacher macht als die derzeitige Ausgabe als Shapefile.
-Das Verketten aller Segmente (vgl. Abschnitt~\ref{ch:impl-generalisation}) sollte besser eine optionale Operation sein, da sie je nach der vorgesehenen Weiterverarbeitung womöglich nicht benötigt wird.
+Das Verketten aller Segmente (vgl. Abschnitt~\ref{ch:impl-generalisation}) sollte womöglich eine optionale Operation sein, da sie nicht für jede denkbare Weiterverarbeitung benötigt wird.
 Durch das Verketten ist es zudem schwierig, \term{tags} aus den Eingangsdaten beizubehalten, da sich \term{tags} im Verlauf einer Straße oft ändern.
 Deshalb sind bisher nur wenige Attribute überhaupt im Ergebnis enthalten.
 
@@ -190,62 +166,49 @@ Um Geodaten aus anderen Regionen der Welt verarbeiten zu können, muss der \term
 Die jeweils am besten passende UTM-Zone ließe sich jedoch auch automatisch anhand der Eingangsdaten ermitteln.
 % in io.ShapeReader
 
-\item Effizienz / Parallelisierbarkeit
+\item
 % vgl. 6.4 + 5.4.3
+In Abschnitt~\ref{ch:impl-flexibility-efficiency} wurde bereits erwähnt, dass die Effizienz des \term{Combiners} Raum für Verbesserungen bietet, insbesondere im Hinblick auf den Speicheraufwand.
+Die Laufzeitmessungen in Abschnitt~\ref{ch:result-railways} legen nahe, dass dieser unnötig hoch ist.
+Obwohl bereits Änderungen an Parametern dies verbessern können, erscheint eine generelle Verbesserung des Designs sinnvoll.
+Beispielsweise könnte die auf Basis von Objekten implementierte Vektor-Mathematik relativ leicht durch statische Methoden ersetzt werden.
 
-\begin{itemize}[nosep]
-\item
-Abschnitt~\ref{ch:impl-special-case} benennt Optimierungspotenzial.
-Ein Vereinfachen des Designs wäre anzustreben.
-\item
-Abschnitt~\ref{ch:result-railways} zeigt, dass insbesondere der Speicheraufwand unnötig hoch ist. Obwohl bereits Änderungen an Parametern dies verbessern können, erscheint eine generelle Verbessrung sinnvoll. Beispielsweise könnte die Vektor-Logik relativ leicht durch statische Methoden ersetzt werden.
-\item
-Teile der Algorithmen eignen sich für nebenläufige Ausführung.
+Auch der Speicheraufwand im Java Collections Framework hat Optimierungspotenzial.
+Gegenwärtig werden vom \term{Combiner} zur Implementierung vieler Mengen Datenstrukturen vom Typ \code{LinkedList} genutzt.
+Diese bedürfen intern für jedes Element eines zusätzlichen Containerobjekts (\code{LinkedList.Entry}).
+Möglicherweise ließe sich der Speicheraufwand durch einen Wechsel auf \code{ArrayList} verringern, geschickt gewählte Anfangskapazitäten vorausgesetzt.
+
+Teile der Algorithmen eignen sich ferner für nebenläufige Ausführung.
 Mit entsprechenden Anpassungen könnte die Leistungsfähigkeit moderner Hardware besser ausgenutzt werden.
 % https://de.wikipedia.org/wiki/Nebenl%C3%A4ufigkeit
-\end{itemize}
 
 \item
 Die Bedienung über die Kommandozeile (CLI) ist zwar ausreichend für das Testen der Algorithmen durch den Entwickler, ist jedoch für den Endnutzer unnötig anspruchsvoll.
 \cf[363]{CR03}
 Eine graphische Benutzeroberfläche (GUI) würde die Einstiegshürde erheblich senken.
-Mit einer Integration in JOSM als \term{plug-in} (vgl. Abschnitt~\ref{ch:impl-architecture}) würden sich gleichzeitig die zuvor beschriebenen Probleme beim Einlesen der Ausgangsdaten lösen lassen, da JOSM alle angesprochenen Formate bereits unterstützt.
+Mit einer Integration in JOSM als \term{plug-in} (Abschnitt~\ref{ch:impl-architecture}) würden sich gleichzeitig die zuvor beschriebenen Probleme beim Einlesen der Ausgangsdaten lösen lassen, da JOSM alle angesprochenen Formate bereits unterstützt.
 
 \end{itemize}
 
 Des Weiteren ist gegenwärtig die Wiederverwendbarkeit des \term{Combiners} und seiner Bestandteile für Entwickler nicht optimal.
-Verbesserungen hieran können sich indirekt auch auf den Endnutzer auswirken, indem sie die Entwicklung von Software mit weniger Fehlern fördern:
+Verbesserungen an den folgenden Punkten können sich indirekt auch auf den Endnutzer auswirken, indem sie die Entwicklung von Software mit weniger Fehlern fördern und die Weiterentwicklung vereinfachen.
 %
 \begin{itemize}
 
-% LinkedList / ArrayList
-
-\item Test Coverage
-\begin{itemize}[nosep]
 \item
-praktisch null
-\end{itemize}
+Es besteht gegenwärtig keine nennenswerte Testabdeckung \term{(test coverage).}
 
-\item Debugging Output
-\begin{itemize}[nosep]
 \item
-vielerorts im Quellcode für Debugging-Output Kapselung verletzt etc.
-\item
-insb. \texttt{Dataset}  (s. „Big Renaming \#4“)
-\item
-evtl. common sink/listener
-\end{itemize}
+Vielerorts wird im \term{Combiner} das objektorientierte Prinzip der Kapselung nicht beachtet, um in Debugging-Ausgaben leichter lesbaren Code zu erzielen.
+Während dies in bestimmten Umständen sinnvoll sein kann, ist es für öffentliche Klassen zu vermeiden. \cf[98]{Blo01}
+%insb. \texttt{Dataset}  (s. „Big Renaming \#4“)
+%evtl. common sink/listener
 
-\item API-Schnittstellen für JTS/GeoTools
-\begin{itemize}[nosep]
-\item würde die Verwendung in anderen Projekten erleichtern
-\item Abschnitt~\ref{ch:data-structures-geotools}
-\end{itemize}
+\item
+Wie in Abschnitt~\ref{ch:data-structures-geotools} erwähnt, könnte ein Implementieren der Programmierschnittstelle (\term{application programming interface,} API) für JTS und GeoTools die Verwendung von Bestandteilen des \term{Combiners} in anderen Projekten erleichtern.
 
-\item API-Dokumentation
-\begin{itemize}[nosep]
-\item noch Lückenhaft
-\end{itemize}
+\item
+Die Dokumentation der API des \term{Combiners} ist noch unvollständig.
 
 \end{itemize}
 
@@ -268,34 +231,26 @@ evtl. common sink/listener
 \subsection{OSM Inspector}
 % vgl. insb. 6.2
 
-\begin{itemize}
-
-\item
 Der \term{OSM~Inspector} ist ein von der Geofabrik entwickeltes Web-Werkzeug, das Beitragenden helfen kann, bestimmte Fehler in der \osm-Datenbank zu entdecken.
 \cf[142]{RT09}
 Auch einige Attribute von Linienzügen im \osm-Straßennetz können damit überprüft werden:
 „Highways [...] are one of the most important features in OSM.
-This view helps finding problems on highways such as missing names, unusal highway types or wrong oneway tags.“
+This [OSM Inspector view] helps finding problems on highways such as missing names, unusal highway types or wrong oneway tags.“
 \citex{osm:InspectorHighways}
 
-\item
 Bisher kann der \term{OSM~Inspector} für Straßen immer nur einen einzelnen \term{way} prüfen.
 Zusammenhänge zwischen mehreren \term{ways}, die Teil derselben Straße sind, können nicht erkannt werden.
 Der in Abschnitt~\ref{ch:result-tags} beschriebene Fehler widersprüchlicher Attribute zweier Richtungsfahrbahnen bleibt deshalb im \term{OSM~Inspector} unentdeckt.
 
-\item
 Es ist denkbar, dass die Integration einer geometrischen Prüfung auf Parallelität -- wie sie die in dieser Arbeit entwickelten Algorithmen bieten -- in den \term{OSM~Inspector} sinnvoll sein könnte.
 Es besteht die Chance, dass viele der angesprochenen Fälle fehlerhafter \term{tags} so durch die \osm-Community beseitigt werden können.
 Dies würde die Datenqualität in \osm\ insgesamt erhöhen und damit die automatisierte Weiterverarbeitung nicht nur mit dem \term{Combiner} vereinfachen.
 
-\item
-Allerdings ist der \term{Combiner} zur Integration in den \term{OSM~Inspector} gegenwärtig nicht gut geeignet.
+Allerdings ist der \term{Combiner} gegenwärtig nicht auf die Integration in den \term{OSM~Inspector} ausgelegt.
 % obige Korrektheit-Probleme, Performance (weltweit?), Java cs. C++ etc.
-Es ist auch fraglich, ob die mit einer Integration verbundenen Kosten den potenziellen Nutzen rechtfertigen.
+Es ist auch fraglich, ob die mit einer Integration verbundenen betriebswirtschaftlichen Kosten den potenziellen Nutzen rechtfertigen.
 % weitere Tools erwähnen?
 % https://wiki.openstreetmap.org/wiki/Quality_assurance#Error_detection_tools
-
-\end{itemize}
 
 
 
@@ -305,11 +260,10 @@ Es ist auch fraglich, ob die mit einer Integration verbundenen Kosten den potenz
 \begin{itemize}
 \item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]
 \item Auch der Ansatz von [KP98] kann nicht mehr grundsätzlich ausgeschlossen werden (vgl. 2.5.3 und Effizienz)
-\item {[CTGV14]}
-\item {[Mat17]}
+\item \citex{CTGV14}
+\item \citex{Mat17}
+\item auch diese Ansätze beschreiben Probleme mit (Gleis-)Kreuzungen und sind nur für konkrete Spezialfälle vorgesehen; eine praxistaugliche Kreuzungserkennung wäre in Anbetracht der Ergebnisse der vorliegenden Arbeit und der neueren Ansätze eindeutig der nächste sinnvolle Schritt; das Ziel einer Lösung für den allgemeinen Fall scheint derzeit nicht lösbar zu sein
 \end{itemize}
-
-% Arbeit aus dem alten Standpunkt schreiben! Neuere Forschung etc. hier (und evtl. in Einleitung Kontext erklären) -DGD
 
 
 

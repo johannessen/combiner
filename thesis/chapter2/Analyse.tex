@@ -663,7 +663,7 @@ Inzwischen wird die von \citeauthor{LM96} für diesen Zweck beschriebene Thiesse
 Hierbei werden ausgehend von einer sehr detaillierten Straßenfläche zunächst deren Kanten verdichtet auf mehrere Knoten pro Meter, bevor ausgehend von diesen Knoten mittels Delaunay-Triangulierung ein Voronoi-Diagramm berechnet wird, dessen Kanten die Skelettlinien der Straßenfläche sind.
 Auch hier ergeben sich allerdings erhebliche Probleme an allen Kreuzungen, die trotz Einbeziehung von Metadaten nur teilweise automatisch gefiltert werden.
 Solche Fälle können immerhin automatisch erkannt und dann manuell beseitigt werden.
-Der Aufwand für die Implementierung wird mit sieben Mann-Monaten beschrieben. \cf{LM96}
+Der Aufwand für die Implementierung wird mit sieben Personenmonaten beschrieben. \cf{LM96}
 
 Um aus den \osm-\term{ways} Flächen zu erhalten, mit denen das Anwenden der Thiessen-Polygon-Methode erst möglich wird, puffert Skeletron zuvor die \osm-\term{ways} wie in Abschnitt~\ref{ch:buffer} beschrieben. \cf{ME11}
 
@@ -752,7 +752,7 @@ Auf die Eigenschaft der Parallelität gehen sie nicht ein. \cf{CM05}
 Zunächst werden unter Nutzung von \term{strokes} und Attributen durchgehende Linienzüge für die Gesamtlänge der getrennten Richtungsfahrbahnen erzeugt, die dann durch Graphenanalyse ihrer jeweiligen Enden einander zugeordnet werden können.
 Anschließend kann durch Skelettierung die Mittellinie der zugeordneten Linienzüge berechnet und im letzten Schritt noch Korrekturen an deren Enden vorgenommen werden. \cf[3–10]{Tho05}
 
-Diese Schritte liefern in vielen Fällen ein gutes Ergebnis, was \citeauthor{Tho05} der Attributierung der Ausgangsdaten zuschreibt.
+Diese Schritte liefern in vielen Fällen ein gutes Ergebnis, was \citeauthor{Tho05} der Attribuierung der Ausgangsdaten zuschreibt.
 Entscheidend ist insbesondere das „one~way“–Attribut sowie die Klassifikation nach Bauart der Straße (einbahnig, zweibahnig, Verkehrsinsel, Kreisverkehr etc.). \cf[14]{Tho05}
 
 

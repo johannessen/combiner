@@ -49,6 +49,7 @@
 \NewDocumentCommand{\abs}{o}{|\!\;\!|\IfValueT{#1}{#1\abs}}
 \newcommand{\set}[1]{\{#1\}}
 \newcommand{\TheEmptySet}{\varnothing}
+\newcommand{\ThousandsScale}[1]{1\nobreak:\nobreak #1 \,000}
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management

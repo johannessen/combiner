@@ -115,7 +115,7 @@ Sonstige Straßen besitzen wesentlich engere Kurvenradien und haben dabei verein
 Um Praxistauglichkeit zu erreichen, müsste die Definition von \textproc{Parallel} folglich vom Straßentyp abhängen.
 Dies wurde aus Zeitgründen nicht mehr als Teil dieser Arbeit umgesetzt.
 
-Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attributierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
+Der NRW-Testdatensatz enthält als \osmtag{highway}[motorway] attribuierte Linienzüge mit einer Gesamtlänge von $\unit[4515]{km}$.
 % roads-motorway.shp
 Der \term{Combiner} erkennt $\unit[4461]{km}$ davon als parallel; das ausgegebene Ergebnis besteht auf $\unit[97,6]{\%}$ Länge aus zusammengefassten Linienzügen.
 Nachdem alle nordrhein-westfälischen Autobahnen zweibahnig ausgebaut sind, wäre bei naiver Betrachtung eine Erkennungsrate von $\unit[100]{\%}$ zu erwarten gewesen.
@@ -323,7 +323,7 @@ mit & 73408 & 12,8\,s & 1,4 & 5,9 & 1,85 & 11 & 1,42 \\
 Wird neben der Segmentanzahl in den Eingangsdaten auch deren Detaillierungsgrad geändert, ergibt sich jedoch ein anderes Bild.
 Tabelle~\ref{tab:profiling-links} zeigt das Verhalten des \term{Combiners} beim Hinzufügen von Abbiege- und Verbindungsfahrbahnen \term{(links)}.
 Der Zeitbedarf wächst hier überproportional.
-Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{ch:impl-special-case} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
+Dem deutlich gestiegenen Verhältnis $|S'|\nobreak:\nobreak|S|$ zufolge könnte dies an dem bereits in Abschnitt~\ref{ch:impl-flexibility-efficiency} angedeuteten hohen Speicheraufwand der gewählten Implementierung liegen.
 
 Auch dies ist ein deutlicher Hinweis auf die oben diskutierte Notwendigkeit einer Kreuzungserkennung.
 

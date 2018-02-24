@@ -13,9 +13,10 @@
 \ExecuteBibliographyOptions{maxbibnames=99}
 
 % no conjunction in author list
-\DefineBibliographyExtras{german}{%
-  \renewcommand*{\finalnamedelim}{\addcomma\addspace}%
-}
+% BUG: this definition would also apply to citations, not just the bibliography
+%\DefineBibliographyExtras{german}{%
+%  \renewcommand*{\finalnamedelim}{\addcomma\addspace}%
+%}
 
 % set the title of the work italic
 \DeclareFieldFormat*{title}{\textit{#1}}
@@ -45,15 +46,19 @@
 \renewbibmacro*{url}{\setunit{\newunitpunct\par\nobreak}\printfield{url}}
 
 % enable breaks inside URLs after any char
-\renewcommand*{\biburlsetup}{%
-\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
-  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
-  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
-  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
-  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
-  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
-  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
-}
+\setcounter{biburllcpenalty}{1}
+\setcounter{biburlucpenalty}{1}
+\setcounter{biburllcpenalty}{1}
+% BUG: the new version below causes extra space before \citeauthor (WTF?)
+%\renewcommand*{\biburlsetup}{%
+%\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
+%  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+%  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+%  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
+%  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
+%  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
+%  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
+%}
 
 % no funny urldate abbreviations
 \ExecuteBibliographyOptions{dateabbrev=false}

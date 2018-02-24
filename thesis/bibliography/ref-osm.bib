@@ -12,6 +12,17 @@ url = {https://github.com/gravitystorm/openstreetmap-carto/blob/fe4f8d48757cf85b
 addendum = {Fassung vom 21.~Oktober 2015}
 }
 
+@inproceedings{CTGV14,
+author = {Czioska, Paul and Thiemann, Frank and Giese, Robin and Vogt, Hermann},
+title = {{Ableitung eines routingfähigen Bahnnetzes aus nutzergenerierten Gleisdaten (OpenStreetMap) durch Generalisierung}},
+publisher = {Deutsche Gesellschaft für Photogrammetrie, Fernerkundung und Geoinformation},
+booktitle = {DGPF Tagungsband 23},
+location = {Hamburg},
+year = {2014},
+abstract = {Karten spielen eine wichtige Rolle bei der Informationskommunikation im Rahmen des öffentlichen Verkehrs, etwa als Liniennetzplan, auf dem die aktuelle Position des Verkehrsmittels dargestellt wird. Um solche Karten zu erstellen, ist es sinnvoll, die vorhandenen Gleisdaten zu einer repräsentativen Graphstruktur zu aggregieren. In dieser Arbeit wird dazu ein Algorithmus vorgestellt, der einen Liniendatensatz im zweidimensionalen Raum nach topologischen Eigenschaften zusammenfasst und als Ergebnis einen routingfähigen, ungerichteten Graphen mit Geokoordinaten erzeugt. Parallel verlaufende Linien werden in einer repräsentativen Geometrie gebündelt, die zugrunde liegende Topologie wird beibehalten. Der Implementierungsansatz nutzt hierzu Techniken aus dem Bereich der Skelettierung von Polygonen.},
+url = {https://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/czioska_dgpf2014.pdf}
+}
+
 @online{Fox12,
 title = {{Advice \& clarification of the railway tracks=* tag required}},
 author = {F, Dave},
@@ -34,6 +45,18 @@ Aktuelle Entwicklungen streben die Anwendung interoperabler Systeme im Kontext k
 Mapnik stellt, nicht zuletzt durch dessen offengelegten Quelltext („Open Source``), optimale Voraussetzungen für jene Implementierungen zur Verfügung. Zur Verarbeitung von OSM-Daten verwendet Mapnik die freie Geodatenbank PostGIS, welche ebenfalls Funktionalitäten zur Analyse und Verarbeitung räumlicher Daten liefert. In diesem Kontext wird zusätzlich untersucht, inwiefern PostGIS-Funktionen Potential zur Anwendung kartographischer Generalisierung aufweisen.},
 file = {{[Kla11] Integration von Generalisierungsfunktionalität für die automatischen Ableitung verschiedener Levels of Detail von OpenstreetMap Webkarten.pdf:application/pdf}},
 uri = {\url{papers2://publication/uuid/E68E697C-036C-463A-A95D-9EE33E1BD0B0}}
+}
+
+@unpublished{Mat17,
+author = {Matheisen, Alexander},
+title = {{Zusammenführung und Vereinheitlichung von Eisenbahn"=Streckennetzdaten}},
+howpublished = {Vortrag auf der FOSSGIS-Konferenz},
+location = {Universität Passau},
+date = {2017-03-24},
+abstract = {Verschiedene Bahngesellschaften bieten mittlerweile im Rahmen von Open-Data-Initiativen Datensätze zu ihren Streckennetzen an. Daneben stellt auch OpenStreetMap entsprechende Daten bereit, vorangetrieben durch das Projekt der OpenRailwayMap. Doch alle diese Datensätze liegen in unterschiedlichen Formaten und Datenmodellen vor und bilden jeweils nur begrenzte Gebiete ab. Dies erschwert die weitere Arbeit mit diesen Daten und erfordert eine vorherige Zusammenführung und Vereinheitlichung der Datensätze.
+Im konkreten Fall wurde für die Schweizerische Bundesbahn (SBB) eine Anwendung entwickelt, mit der auf Monitoren in Zügen der aktuelle Standort auf einer Hintergrundkarte visualisiert wird. Neben der eigentlichen Software war auch die Erstellung entsprechendes Kartenmaterial Teil des Projekts. Aufgrund des grenzüberschreitenden Einsatzes der Triebwagen wurde die Anforderung gestellt, dass die Hintergrundkarte die Schweiz und ihre Nachbarländern abzudecken hat. Die als Grundlage für die zu erstellende Streckenkarte dienenden Daten stellten dabei eine besondere Herausforderung dar.
+Zum einen war eine geeignete Datenquelle zu finden, da nur die Deutsche Bahn und das Schweizer Bundesamt für Verkehr im Rahmen von Open-Data-Initiativen Daten der jeweiligen Streckennetze anbieten. Für die Abdeckung der anderen Länder musste daher auf die Daten von OpenStreetMap zurückgegriffen werden. Zum anderen stellten aber auch die Datensätze selbst eine Herausforderung dar. Neben den noch vergleichsweise einfach konvertierbaren Datenformaten unterscheiden sich die Datensätze insbesondere in ihren Datenmodellen und Detaillierungsgraden. So beschreiben die Daten der Eisenbahnunternehmen lediglich Strecken, während die OpenStreetMap-Daten gleisgenau sind. Zur Zusammenführung der Datensätze wurde unter anderem ein Verfahren entwickelt, mit dem die gleisgenauen OpenStreetMap-Daten in eine Streckentopologie überführt werden können, indem zusammengehörige Gleise zu Strecken zusammengefasst und mit den Betriebsstellen zu einer Knoten-Kanten-Topologie überführt werden. Die Qualität der bei diesem Verfahren erzeugten Daten hängt jedoch von der Datenqualität der OpenStreetMap-Daten ab, insbesondere der Vollständigkeit bestimmter Zusatzinformationen.},
+url = {https://frab.fossgis-konferenz.de/de/2017/public/events/5237}
 }
 
 @online{Nei15,
