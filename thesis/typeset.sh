@@ -4,7 +4,8 @@
 #  typeset.sh    # builds main thesis.pdf file
 #  typeset.sh 2  # builds PDF of chapter 2 only
 #  typeset.sh a  # builds PDF of appendices only
-
+#  (export THOROUGH=0;typeset.sh)  # extra quick run
+#  (export THOROUGH=2;export CLEAN=2;typeset.sh)  # extra thorough run
 
 
 # determine file to typeset
@@ -25,10 +26,24 @@ elif [ -n "$1" ] && [ "$1" = "A" -o "$1" = "a" ]
 then
 	SUBDIR="appendices"
 	FILENAME="Anhang"
+elif [ -n "$1" ] && [ "$1" = "B" -o "$1" = "b" ]
+then
+	SUBDIR="bibliography"
+	FILENAME="Literaturverzeichnis"
+fi
+
+
+# prefs
+CLEAN="${CLEAN:=1}"  # 0 nothing, 1 only files (default), 2 files and Biber cache
+THOROUGH="${THOROUGH:=1}"  # 0 never, 1 only for main file and bib (default), 2 always
+if [ -n "$THOROUGH" ] && [ "$THOROUGH" = 2 -o "$THOROUGH" = 1 -a "$SUBDIR" = "main" -o "$THOROUGH" = 1 -a "$SUBDIR" = "bibliography" ]
+then
+	SLOW=1
 fi
 
 
 echo "Typesetting $THESISDIR/$SUBDIR/$FILENAME"
+echo "(clean=$CLEAN, thorough=$SLOW)"
 
 
 # double-check that the file exists
@@ -40,12 +55,10 @@ then
 fi
 
 
-# clean biblatex cache (if desired)
-CLEAN=1
 function cleancache {
 	(( "$CLEAN" )) || return
 	echo "Cleanup:"
-#	rm -fR `biber --cache`
+	(( "$CLEAN" == 2 )) && ( echo "Biber cache" ; rm -fR `biber --cache` )
 	rm -vf "$FILENAME.aux"
 	rm -vf "$FILENAME.bbl"
 	rm -vf "$FILENAME.bcf"
@@ -55,20 +68,24 @@ function cleancache {
 	rm -vf "$FILENAME.run.xml"
 	rm -vf "$FILENAME.toc"
 }
-#cleancache
+
 
 # typeset TeX file
-xelatex --file-line-error "$FILENAME.tex"
-biber "$FILENAME"
-mv "$FILENAME.blg" "$FILENAME.biber.log"
-xelatex --file-line-error "$FILENAME.tex"
-biber "$FILENAME"  # cross-references
-cat "$FILENAME.blg" >> "$FILENAME.biber.log" && rm -f "$FILENAME.blg"
-#xelatex --file-line-error "$FILENAME.tex"
+#(( "$SLOW" )) && cleancache
+if (( "$SLOW" ))
+then
+	cleancache
+	xelatex --file-line-error "$FILENAME.tex"
+	biber "$FILENAME"
+	mv "$FILENAME.blg" "$FILENAME.biber.log"
+	xelatex --file-line-error "$FILENAME.tex"
+	biber "$FILENAME"  # cross-references
+	cat "$FILENAME.blg" >> "$FILENAME.biber.log" && rm -f "$FILENAME.blg"
+#	xelatex --file-line-error "$FILENAME.tex"
+	# the extra xelatex run might be superfluous
+fi
 xelatex --file-line-error "$FILENAME.tex" | tee "$FILENAME.stdout.log"
 cleancache
-
-# the 4th xelatex run might be superfluous
 
 
 # show license status
