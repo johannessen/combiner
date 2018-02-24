@@ -254,18 +254,49 @@ Es ist auch fraglich, ob die mit einer Integration verbundenen betriebswirtschaf
 
 
 
-\section[Andere Ansätze und neuere Forschung]{Andere Ansätze und neuere Forschung \emph{[ausstehend]}}
+\section{Andere Ansätze und neuere Forschung}
 \label{ch:recent-research}
 
-\begin{itemize}
-\item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]
-\item Auch der Ansatz von [KP98] kann nicht mehr grundsätzlich ausgeschlossen werden (vgl. 2.5.3 und Effizienz)
-\item \citex{CTGV14}
-\item \citex{Mat17}
-\item auch diese Ansätze beschreiben Probleme mit (Gleis-)Kreuzungen und sind nur für konkrete Spezialfälle vorgesehen; eine praxistaugliche Kreuzungserkennung wäre in Anbetracht der Ergebnisse der vorliegenden Arbeit und der neueren Ansätze eindeutig der nächste sinnvolle Schritt; das Ziel einer Lösung für den allgemeinen Fall scheint derzeit nicht lösbar zu sein
-\end{itemize}
+Neben den in Abschnitt~\ref{ch:existing-approaches} besprochenen Ansätzen und der mit dieser Arbeit entwickelten Methode des geometrischen Vergleichs möglichst kurzer Fragmente kommen für das Erkennen und Zusammenfassen paralleler Linienzüge noch weitere Ansätze in Frage.
+
+So wäre denkbar, durch Graphenanalyse Maschen im Straßennetz zu ermitteln und zu prüfen, ob die von ihnen umschlossene Fläche eine solch schmale und lange Form hat, dass es sich um die Fläche zwischen zwei parallelen Linienzügen handeln könnte.
+
+Auch kann der in Abschnitt~\ref{ch:conflict-detection} erwähnte Ansatz von \citeauthor{KP98} nicht mehr grundsätzlich ausgeschlossen werden.
+Es ist nicht offensichtlich, dass die mit ihm verbundenen Kosten höher wären als die Kosten der mit der vorliegenden Arbeit entwickelten Methode (siehe Abschnitt~\ref{ch:efficiency}).
+
+Ein neuerer Ansatz wurde von \citeauthor{CTGV14} für Eisenbahnstrecken entwickelt.
+Er ähnelt vom Ablauf her der in Abschnitt~\ref{ch:skeleton} beschriebenen Thiessen-Polygon-Methode, jedoch werden die Knoten weniger stark verdichtet und es wird direkt mit dem Ergebnis der Delaunay-Triangulierung weitergearbeitet, anstatt Polygone daraus zu erzeugen.
+Der Vergleich zwischen dem entstandenen Dreiecksnetz und den Eingangsdaten ermöglicht es in den meisten Fällen, Gleiskreuzungen und Weichenverbindungen korrekt zu erkennen und zusammenzufassen.
+Auf die Möglichkeit der Übertragung dieses Ansatzes auf ein Straßennetz gehen \citeauthor{CTGV14} nicht ein. \cf{CTGV14}
+
+\Citeauthor{Mat17} setzte für den gleichen Problemfall der Bahnachsenermittlung eine neue Funktion%
+\footnote{Die Funktion \code{ST\_ApproximateMedialAxis} wurde in PostGIS-Version 2.2.0 hinzugefügt (in 2015).}
+in der Geodatenbank PostGIS ein, die anhand eines \term{straight skeleton} ein Polygon auf dessen Mittellinie reduziert (siehe Abschnitt~\ref{ch:skeleton}).
+Diese Funktion wendet \citeauthor{Mat17} nur auf Haupt- und Streckengleise an (vgl.~\ref{ch:result-railways}).
+Auch sie führt zu Problemen unter anderem im Kreuzungsbereich.
+Angesichts der von \citeauthor{Mat17} hierfür gewählten Lösungen erscheint dem Verfasser eine direkte Übertragbarkeit dieses Ansatzes auf den Straßenraum wenig wahrscheinlich. \cf{Mat17}
+
+Nachdem auch diese neueren Ansätze Probleme mit Kreuzungen beschreiben und nur für konkrete Spezialfälle vorgesehen sind, scheint in Anbetracht der Ergebnisse der vorliegenden Arbeit eine automatisierte Kreuzungserkennung
+%und -zusammenfassung
+ein sinnvoller nächster Schritt zur Lösung der automatisierten Zusammenfassung von Linienzügen zu sein (siehe Abschnitt~\ref{ch:improvements-junction-detection}).
+Ob sich der von \citeauthor{CTGV14} für Eisenbahnen hierzu beschriebene Ansatz verallgemeinern ließe, wäre zu prüfen.
+
+Eine offensichtliche Lösung mit allgemeiner Anwendbarkeit für das Problem der Zusammenfassung zeichnet sich derzeit nicht ab.
+Mit einer zuverlässigen Kreuzungserkennung wird die eigentliche Zusammenfassung jedoch wahrscheinlich zu einem leicht lösbaren Problem, für das aus verschiedenen Ansätzen derjenige ausgewählt werden kann, der am besten auf den jeweils vorliegenden Problemfall passt.
+Im Wesentlichen ginge es dann um Optimierung der Kosten des Verfahrens und um geschickte Ausnutzung der vorhandenen Attribute. \cf[14]{Tho05}
 
 
+%
+%
+%\begin{itemize}
+%\item weitere Idee: Graphenanalyse: kleinste Ringe finden und prüfen, ob der umschlossene Raum eine ausreichend schmale und lange Form hat, um als parallel gelten zu können [ähnlich Tho05]
+%\item Auch der Ansatz von [KP98] kann nicht mehr grundsätzlich ausgeschlossen werden (vgl. 2.5.3 und Effizienz)
+%\item \citex{CTGV14}
+%\item \citex{Mat17}
+%\item auch diese Ansätze beschreiben Probleme mit (Gleis-)Kreuzungen und sind nur für konkrete Spezialfälle vorgesehen; eine praxistaugliche Kreuzungserkennung wäre in Anbetracht der Ergebnisse der vorliegenden Arbeit und der neueren Ansätze eindeutig der nächste sinnvolle Schritt; das Ziel einer Lösung für den allgemeinen Fall scheint derzeit nicht lösbar zu sein
+%\end{itemize}
+%nach Kreunzungs-Lösung: lösbares Problem, verschiedene Ansätze, im Wesentlichen eine Frage der Optimierung und der geschickten Ausnutzung der vorhandenen Attribute, vgl. Thom
+%
 
 % single-chapter commands
 %\onlyinsubfile{\listoffigures}

@@ -609,7 +609,7 @@ Daher erscheint dieser Ansatz isoliert betrachtet für die dieser Arbeit zugrund
 % - "In geometry, a straight skeleton is a method of representing a polygon by a topological skeleton." (<- Wikipedia)
 
 Eine Möglichkeit, Flächen auf innere Linien zu reduzieren, bietet die Skelettierung.
-Für das Straight Skeleton werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt (Abbildung~\ref{fig:skeleton}).
+Für das \term{straight skeleton} werden Polygone so lange sukzessive geometrisch verkleinert, bis nur noch ein aus geraden Linien zusammengesetztes topologisches Skelett übrig bleibt (Abbildung~\ref{fig:skeleton}).
 Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 
 \onefigure{bt}{
@@ -628,7 +628,7 @@ Hierfür existieren unterschiedliche Algorithmen. \cf{wp:StraightSkeleton}
 % - schlägt angeblich fehl an komplizierteren Stellen
 % - ermittelt eine Relation zwischen ALK ATKIS
 
-\Citeauthor{HS04} nutzen ein Straight Skeleton, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten.
+\Citeauthor{HS04} nutzen ein \term{straight skeleton}, um aus Flächen in der Automatisierten Liegenschaftskarte (ALK) Linien zur Nutzung in einer Multiple Representation Database (MRDB) abzuleiten.
 Der Algorithmus von \citeauthor{EE99} \citex{EE99} musste für die ALK-Daten angepasst und erweitert werden, um das resultierende Straßennetz auf die gewünschten Mittellinien der Flächen zu reduzieren.
 Dennoch kommt es zu teils erheblichen Problemen an Kreuzungen, die nicht in allen Fällen gelöst werden können. \cf[4–6]{HS04}
 
@@ -648,7 +648,7 @@ Hierzu benutzt Migurski die Software Skeletron. \citetext{\citealp{ME11}, cf. \c
 % <https://github.com/migurski/Skeletron>
 % - jetzt LM96, davor HS04 (?) "straight skeleton", was nicht so toll war
 
-Skeletron benutzte ursprünglich ein Straight Skeleton nach dem erwähnten Ansatz von \citeauthor{HS04}, was aber letztlich nicht besonders gut funktioniert hat („ultimately didn't work very well“ \citex[Readme]{ME11}).
+Skeletron benutzte ursprünglich ein \term{straight skeleton} nach dem erwähnten Ansatz von \citeauthor{HS04}, was aber letztlich nicht besonders gut funktioniert hat („ultimately didn't work very well“ \citex[Readme]{ME11}).
 Inzwischen wird die von \citeauthor{LM96} für diesen Zweck beschriebene Thiessen-Polygon-Methode eingesetzt.
 
 % LM96: Straßen_flächen_ -> Einzellinie
