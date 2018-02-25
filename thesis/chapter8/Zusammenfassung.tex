@@ -6,19 +6,46 @@
 \begin{document}
 
 
-\chapter{Zusammenfassung \emph{[ausstehend]}}
+\chapter{Zusammenfassung}
 
-\begin{itemize}
-	\item kurze und prägnante Zusammenfassung der Arbeit (aller Teile und als Ganzes)
-	\begin{itemize}
-		\item Präzision ist wünschenswert, Detailreichtum jedoch unnötig
-		\item ggf. Querverweise in die einzelnen Kapitel
-	\end{itemize}
-\end{itemize}
+Das Projekt OpenStreetMap (OSM) hat das Ziel der Erstellung einer freien Geodatenbank auf Basis von \term{volunteered geographic information} (VGI).
+Die weitere Verarbeitung und Visualisierung von \osm-Daten läuft in aller Regel voll automatisiert ab.
+Sie wird erschwert durch den teilweise sehr hohen Detailreichtum, die daraus folgende Fragmentierung von Linienzügen sowie unvollständige Verknüpfungen zusammenhängender Geodaten wie etwa parallelen Richtungsfahrbahnen über Relationen im Datenmodell.
+
+Eine kartographische Generalisierung von \osm-Daten findet bisher nur in geringstem Umfang statt.
+Dies fällt unter anderem bei parallelen Richtungsfahrbahnen auf, deren Straßenachse in \osm\ nicht erfasst ist und bisher auch nicht in zufriedenstellender Weise automatisiert abgeleitet werden kann.
+%Hier kommt es verbreitet zu unbefriedigenden Darstellungen wie etwa dem Unterschreiten kartographischer Mindestgrößen sowie Fehlern wie etwa dem Überkreuzen der beiden Richtungsfahrbahnen bei Formvereinfachung.
+Ansätze zur automatisierten Zusammenfassung von Linienzügen existieren, sind jedoch auf \osm-Daten nicht gut anwendbar.
+Insbesondere können sie Kreuzungssituationen oft nicht ohne besondere Attribute lösen.
+
+Diese Arbeit stellt eine Methode zur Erkennung paralleler Linienzüge auf der Basis eines geometrischen Vergleichs kurzer Fragmente vor.
+Linienzüge aus \osm\ werden so lange unterteilt, bis sich Stützpunkte auf Parallelen derart einander gegenüberliegen, dass eine Prüfung auf Parallelität leicht möglich ist.
+Die anschließende Zusammenfassung der erkannten Parallelen ist dann einfach zu lösen.
+Der Rechenaufwand der entwickelten Algorithmen wächst linear mit der Anzahl der Stützpunkte ($\mathcal{O}(n)$).
+% eigentlich linear zur Anzahl der Segmente, aber deren Zahl ist proportional zur Anzahl der Stützpunkte, so dass dies keinen Unterschied macht
+
+Zum Nachweis ihrer Funktionsfähigkeit und zum Test mit \term{real world}--Daten aus \osm\ erfolgte ihre ausführbare Implementierung.
+Aufgrund einiger technischer Schwierigkeiten war dies aufwändiger als erwartet.
+% was den Fokus ein Stück weit weg von der Kartographie hin zur Informatik verschob
+Die mit Java entwickelte Software („Combiner“) hat erhebliches Optimierungspotenzial.
+
+Wie sich zeigt, führt die mit dieser Arbeit entwickelte Methode in vielen Fällen zu einem guten Generalisierungsergebnis.
+Jedoch leidet auch diese Methode an erheblichen Problemen in Kreuzungssituationen.
+Aus Zeitgründen war es nicht möglich, eine praxistaugliche Lösung für diese Probleme zu finden.
+
+% Attribute könnten hier noch erwähnt werden ... sie waren zwar bisher kein großer Teil der Arbeit, müssten es aber werden, wenn Praxistauglichkeit erreicht werden soll
+
+Auch für andere, parallel entwickelte Methoden neueren Datums wird von ähnlichen Problemen in Kreuzungssituationen berichtet.
+Eine offensichtliche Lösung mit allgemeiner Anwendbarkeit für das Problem der Zusammenfassung paralleler Linienzüge zeichnet sich derzeit nicht ab.
+Es ist jedoch anzunehmen, dass eine zuverlässige automatisierte Kreuzungserkennung die Zusammenfassung zu einem leicht lösbaren Problem machen würde.
+Diese Arbeit benennt dazu mehrere unterschiedliche mögliche Ansätze.
+
 
 
 \chapter*{Summary}
 \addcontentsline{toc}{chapter}{Summary}
+
+...
 
 
 
