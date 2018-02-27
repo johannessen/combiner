@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="198.43px" height="113.39px" viewBox="0 0 198.43 113.39" style="enable-background:new 0 0 198.43 113.39;"
+	 xml:space="preserve">
+<symbol  id="Node" viewBox="-2.553 -2.551 5.105 5.103">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.985,0c0-1.095-0.889-1.984-1.985-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984
+			S1.985,1.095,1.985,0z"/>
+		<path d="M0,1.984c1.097,0,1.985-0.89,1.985-1.984S1.097-1.984,0-1.984S-1.985-1.095-1.985,0S-1.097,1.984,0,1.984 M0,2.551
+			c-1.407,0-2.553-1.145-2.553-2.551S-1.407-2.551,0-2.551S2.553-1.407,2.553,0S1.407,2.551,0,2.551L0,2.551z"/>
+	</g>
+	<g>
+		<path d="M0.992,0c0-0.548-0.444-0.992-0.992-0.992S-0.992-0.548-0.992,0S-0.548,0.992,0,0.992S0.992,0.548,0.992,0z"/>
+	</g>
+</symbol>
+<symbol  id="Punkt" viewBox="-2.268 -2.269 4.536 4.537">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.701,0c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0c0,0.939,0.762,1.701,1.701,1.701
+			S1.701,0.939,1.701,0z"/>
+		<path d="M0,1.701c0.939,0,1.701-0.762,1.701-1.701c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0
+			C-1.701,0.939-0.939,1.701,0,1.701 M0,2.269c-1.25,0-2.268-1.018-2.268-2.269S-1.25-2.269,0-2.269S2.268-1.251,2.268,0
+			S1.25,2.269,0,2.269L0,2.269z"/>
+	</g>
+</symbol>
+<g id="Canvas">
+	<rect style="fill:#EBEBEB;stroke:#FFFFFF;stroke-width:0.8504;stroke-miterlimit:10;" width="198.425" height="113.386"/>
+</g>
+<g id="Layer_1">
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="157.89" y1="17.008" x2="186.498" y2="45.54"/>
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="158.062" y1="17.062" x2="150.85" y2="56.589"/>
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="157.75" y1="17" x2="119.503" y2="66.305"/>
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="28.319" y1="57.658" x2="85.515" y2="76.839"/>
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="28.319" y1="57.658" x2="13.562" y2="99.312"/>
+	
+		<line style="fill:none;stroke:#FF7F00;stroke-width:1.7008;stroke-linejoin:round;" x1="13.323" y1="62.362" x2="13.323" y2="99.213"/>
+	
+		<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="13.324" y1="99.213" x2="186.498" y2="45.54"/>
+	
+		<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="13.324" y1="62.362" x2="157.89" y2="17.008"/>
+	
+		<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="13.323" y1="80.787" x2="57.006" y2="67.248"/>
+	<g>
+		<g>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="57.006" y1="67.248" x2="58.36" y2="66.828"/>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;stroke-dasharray:2.7586,2.7586;" x1="60.995" y1="66.012" x2="128.186" y2="45.187"/>
+			
+				<line style="fill:none;stroke:#2277CC;stroke-width:1.1339;stroke-linejoin:round;" x1="129.503" y1="44.779" x2="130.856" y2="44.359"/>
+			<g>
+				<path style="fill:#2277CC;" d="M134.125,43.346c-1.361,1.047-2.967,2.612-3.83,4.01l0.133-2.864l-1.729-2.286
+					C130.201,42.871,132.41,43.253,134.125,43.346z"/>
+			</g>
+		</g>
+	</g>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 13.3242 99.2129)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 186.498 45.54)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 13.3242 62.3623)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_1_" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 157.8896 17.0078)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 150.8496 56.5889)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 85.5151 76.8389)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 119.5029 66.3047)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Node"  width="5.105" height="5.103" x="-2.553" y="-2.551" transform="matrix(1 0 0 -1 28.3193 57.6577)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Punkt"  width="4.536" height="4.537" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 20.9409 78.4854)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Punkt"  width="4.536" height="4.537" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 13.3228 80.7871)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Punkt"  width="4.536" height="4.537" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 56.9175 67.248)" style="overflow:visible;"/>
+	
+		<use xlink:href="#Punkt"  width="4.536" height="4.537" x="-2.268" y="-2.269" transform="matrix(1 0 0 -1 138.3535 42.0356)" style="overflow:visible;"/>
+	<g>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 18.8789 57.9229)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</text>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 18.8789 57.9229)" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t</text>
+	</g>
+	<g>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 90.332 35.5264)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t&apos;</text>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 90.332 35.5264)" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">t&apos;</text>
+	</g>
+	<g>
+		
+			<text transform="matrix(0.9481 0.318 -0.318 0.9481 49.188 61.6152)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">Z</text>
+		
+			<text transform="matrix(0.9481 0.318 -0.318 0.9481 49.188 61.6152)" style="fill:#FF7F00; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">Z</text>
+	</g>
+	<g>
+		
+			<text transform="matrix(0.6162 -0.7876 0.7876 0.6162 138.8223 36.7007)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">Z&apos;</text>
+		
+			<text transform="matrix(0.6162 -0.7876 0.7876 0.6162 138.8223 36.7007)" style="fill:#FF7F00; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">Z&apos;</text>
+	</g>
+	<g>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 49.7988 95.6943)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s</text>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 49.7988 95.6943)" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s</text>
+	</g>
+	<g>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 103.375 79.1426)" style="fill:none;stroke:#FFFFFF;stroke-width:0.5669;stroke-linecap:round;stroke-linejoin:round; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s&apos;</text>
+		
+			<text transform="matrix(0.9542 -0.2992 0.2992 0.9542 103.375 79.1426)" style="fill:#2277CC; font-family:'CisalpinLTStd-BoldItalic'; font-size:8;">s&apos;</text>
+	</g>
+</g>
+</svg>

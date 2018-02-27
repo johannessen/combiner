@@ -27,27 +27,33 @@
 \hline
 $\alpha,\beta,\gamma,...$ & Griechische Kleinbuchstaben bezeichnen reelle Größen mit oder ohne Dimension wie Winkel, Längen oder Verhältniszahlen. \\
 \hline
-$a,b,c,...$ & Lateinische Kleinbuchstaben bezeichnen in aller Regel Vektoren. \newline Lediglich solche reelle Größen, für die ein lateinischer Buchstabe im jeweiligen Kontext fest etabliert ist, werden mit lateinischen Buchstaben bezeichnet. \\
+$a,b,c,...$ & Lateinische Kleinbuchstaben bezeichnen in aller Regel Vektoren und Segmente. Lediglich solche reelle Größen, für die ein lateinischer Buchstabe im jeweiligen Kontext fest etabliert ist, werden mit lateinischen Buchstaben bezeichnet. \\
 \hline
 $A,B,C,...$ & Lateinische Großbuchstaben bezeichnen Mengen. \\
 \hline
+$\mathcal{A},\mathcal{B},\mathcal{C},...$ & Kalligraphische Buchstaben bezeichnen Mengen von Mengen. \\
 \hline
-\multicolumn{2}{|l|}{\textbf{Arithmetik}} \\
 \hline
-$\abs[\alpha]$ & absoluter Betrag der Zahl $\alpha$ \\
+\multicolumn{2}{|l|}{\textbf{Arithmetik und Trigonometrie}} \\
 \hline
-$\abs[a]$ & geometrische Länge des Vektors $a$ \\
+$\abs[\alpha]$ & absoluter Betrag der Zahl $\alpha$ \\  % Betragsnorm
+\hline
+$\abs[a]$ & geometrische Länge des Vektors $a$ \\  % euklidische Norm
 \hline
 $\sphericalangle(a,b)$ & gerichteter rechtsdrehender Winkel von $a$ zu $b$ im Intervall $(-\pi,\pi)$ \\
 \hline
 \hline
 \multicolumn{2}{|l|}{\textbf{Logische Aussagen}} \\
 \hline
+$\neg$ & nicht \hfill $\neg\,\text{ja} = \text{nein}$ \\
+\hline
 $\wedge$ & und \\
 \hline
-$\forall\, M$ & für alle Elemente der Menge $M$ \\
+$\forall\, M$ & für alle Elemente der Menge $M$ \hfill Allquantor \\
 \hline
-$\exists\ a$ & es existiert ein $a$ \\
+$\exists\ a$ & es existiert ein Wert für $a$ \hfill Existenzquantor \\
+\hline
+$\nexists\ a$ & es existiert \emph{kein} Wert für $a$ \\
 \hline
 $:$ & so dass gilt \\
 \hline
@@ -56,44 +62,59 @@ $:$ & so dass gilt \\
 \hline
 \multicolumn{2}{|p{13cm}|}{Mengen sind ungeordnet und können kein Element mehrfach enthalten.} \\
 \hline
-$\set{a,b}$ & Menge bestehend aus den Elementen $a$ und $b$ \\
+$\Set{x \SetCond y}$ & Menge aller $x$, für die Bedingung $y$ gilt \\
+\hline
+$\Set{a,b}$ & Menge bestehend aus den Elementen $a$ und $b$ \\
 \hline
 $\TheEmptySet$ & leere Menge \\
 \hline
-$\abs M \abs$ & Anzahl der Elemente der Menge \\
+$|M|$ & Anzahl der Elemente der Menge $M$ \\  % Kardinalität
 \hline
-$\cup$ & Vereinigung \hfill $\set{a,b} \cup \set{b,c} = \set{a,b,c}$ \\
+$\cup$ & Vereinigung \hfill $\Set{a,b} \cup \Set{b,c} = \Set{a,b,c}$ \\
 \hline
-$\cap$ & Schnittmenge \hfill $\set{a,b} \cap \set{b,c} = \set{b}$ \\
+$\cap$ & Verschneidung \hfill $\Set{a,b} \cap \Set{b,c} = \Set{b}$ \\  % Schnittmenge
 \hline
-$\setminus$ & Restmenge (gelesen „ohne“) \hfill $\set{a,b} \setminus \set{b,c} = \set{a}$ \\
+$\setminus$ & Restmenge (gelesen „ohne“) \hfill $\Set{a,b} \setminus \Set{b,c} = \Set{a}$ \\
 \hline
-$\in$ & Element in Menge \hfill $a \in \set{a,b}$ \\
+$\in$ & Element in Menge \hfill $a \in \Set{a,b}$ \\
 \hline
-$\subset$ & Teilmenge \hfill $\set{a} \subset \set{a,b}$ \\
+$\subset$ & Teilmenge \hfill $\Set{a} \subset \Set{a,b}$ \\
+\hline
+\newpage
+\hline
+\multicolumn{2}{|l|}{\textbf{Definitionen}} \\
+\hline
+$a \eqdef b$ & es sei $a$ gleich $b$ \\
+\hline
+$\rightarrow$ & Definition einer Relation (Assoziation) der genannten Datentypen \\  % mathematisch eigentlich eine aus geordneten Paaren bestehende Klasse
+%\hline
+%{\small$\eqdefrel$} & Definition des Anfangswerts einer Relation \\
+\hline
+\myAlgMethodSymbol & Definition eines Algorithmus \\  % identisch mit (d. h. der Name des Algorithmus ist vom Standpunkt des Aufrufers aus austauschbar mit den einzelnen Arbeitsschritten)
 \hline
 \hline
 \multicolumn{2}{|l|}{\textbf{Algorithmen}} \\
 \hline
 $\textproc{Name}$ & Kurzbezeichnung eines Algorithmus durch dessen Namen \\
 \hline
-$\equiv$ & identisch mit \newline (es folgt die Definition des linksseitigen Bezeichners, z.~B. durch eine Abfolge von Arbeitsschritten) \\
-\hline
 $\triangleright$ & Kommentar \\
 \hline
-$\gets$ & Zuweisung \\
+$\hookrightarrow$ & Fortsetzung der vorgehenden Zeile \\
+\hline
+$\gets$ & Wertzuweisung \\
+\hline
+$\Nil$ & fehlender Wert (Nullwert) \\  % null pointer / void
 \hline
 \algorithmicforall & wiederhole die folgenden eingerückten Schritte nacheinander einmal für jedes Element der angegebenen Menge \\
 \hline
-\algorithmicwhile & wiederhole die folgenden eingerückten Schritte nacheinander solange, wie die angegebene Bedingung wahr ist \\
+\algorithmicuntil & wiederhole die eingerückten Schritte nacheinander solange, bis die angegebene Bedingung wahr ist \\
 \hline
 \algorithmicif & führe die folgenden eingerückten Schritte nur aus genau dann, wenn die angegebene Bedingung wahr ist \\
 \hline
 \textbf{Ergebnis} & Ergebnis des Algorithmus (Rückgabewert) \\
 \hline
-$\rightarrow$ & Definition einer Relation (Assoziation) der genannten Datentypen \\
 \hline
-{\small$\eqdef$} & Definition des Anfangswerts einer Relation \\
+\multicolumn{2}{|l|}{\textbf{Landau-Notation}} \\
 \hline
 $\mathcal{O}(f)$ & Menge aller Algorithmen, deren Rechenaufwand nicht wesentlich schneller als $f$ wächst \\
 \hline
@@ -104,7 +125,7 @@ $\hbox{o}(f)$ & Menge aller Algorithmen, deren Rechenaufwand wesentlich langsame
 \hline
 px & Pixel \newline die kleinste rechteckige Fläche in gerasterter Darstellung, z.~B. auf dem Bildschirm (für \osm\ in der Regel quadratisch); \newline als Längeneinheit: die Länge einer Pixelreihe von 1\,px Breite \\
 \hline
-boolean & wahr oder falsch (bezogen auf logische Aussagen) \\
+boolean & ja oder nein (bezogen auf die Wahrheit logischer Aussagen) \\
 \hline
 \end{longtable}
 }
@@ -125,7 +146,7 @@ boolean & wahr oder falsch (bezogen auf logische Aussagen) \\
 \hline
 \textproc{Ende} & \texttt{Segment.end} \\
 \hline
-\textproc{Segmentierung} & \texttt{Highway.segmentation} \\
+\textproc{Segmente} & \texttt{Highway.segmentation} \\
 \hline
 \textproc{Splitten} & \texttt{SplitQueueIterator} \\
 % SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
@@ -144,9 +165,13 @@ boolean & wahr oder falsch (bezogen auf logische Aussagen) \\
 \hline
 \textproc{Distanz} & \texttt{MyAnalyser.distance} \\
 \hline
+\textproc{Mittelpunkt} &  \\
+\hline
 \textproc{NodesZuordnen} & \texttt{NodeGraph.createGraph} \\
 \hline
 \textproc{Zusammenfassen} & \texttt{GeneralisedLines.traverse} \\
+\hline
+\textproc{Fortsetzung} &  \\
 \hline
 \textproc{Generalisierung} & \texttt{Combiner.run} \\
 \hline
@@ -209,8 +234,11 @@ TBD
 \label{appx:junction-examples}
 % zu 6
 
-TBD\\
-\\
+TBD
+
+~
+
+\noindent
 (weitere Beispiele des Scheiterns an unterschiedlichen Kreuzungen; auch zeigen, wie \term{\_links} das Topologielückenproblem hierbei nicht lösen, sondern vergrößern)
 
 

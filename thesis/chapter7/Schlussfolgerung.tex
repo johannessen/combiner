@@ -124,13 +124,11 @@ Diese Möglichkeit wurde bei der Implementierung ausdrücklich vorgesehen (Absch
 Außerdem wäre eine Lösung zur Kreuzungserkennung erforderlich (Abschnitt~\ref{ch:improvements-junction-detection}), möglicherweise wiederum auf den jeweiligen Spezialfall zugeschnitten.
 
 Es ist jedoch nicht anzunehmen, dass die Anwendung der entwickelten Algorithmen in allen in Abschnitt~\ref{ch:case-comparison} aufgeführten Spezialfällen erfolgreich wäre.
-Die Definition des \textproc{Fußpunkt}s in Abschnitt~\ref{ch:split-algorithm} bringt mit sich, dass gegenüberliegende Segmente nur genau dann überhaupt auf Parallelität analysiert werden, wenn sie sich wenigstens teilweise überlappen.
-% TODO: stimmt dies überhaupt?
+Die Definition für \textproc{Parallel} in Abschnitt~\ref{ch:analyse-algorithm} bringt mit sich, dass gegenüberliegende Segmente nur genau dann analysiert werden, wenn sie sich wenigstens teilweise überlappen.
 Bei anthropogenen Parallelen wie gerade den für diese Arbeit zu betrachtenden Richtungsfahrbahnen ist dies normalerweise der Fall.
 Segmente von Linienzügen, die natürlich Gewachsenes darstellen, können hingegen -- bei präziser Erfassung, wie sie von \osm\ im Grundsatz angestrebt wird -- derart windschief zueinander liegen, dass eine Überlappung gegenüberliegender Segmente nicht mehr durchgehend gegeben ist.
 Eine Übertragung des in dieser Arbeit entwickelten Ansatzes auf solche Spezialfälle wie die in Abschnitt~\ref{vegetation-case-desc} besprochenen Vegetationsgrenzen ist deshalb wahrscheinlich unmöglich.
 
-% die ANALYSE-Kriterien müssten auch jeweils optimiert werden; für Richtungsfahrbahnen scheinen sie zu funktionieren, könnten aber evtl. noch optimiert werden
 % Zick-Zack-Problem?
 
 

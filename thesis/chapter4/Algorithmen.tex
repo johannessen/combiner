@@ -13,30 +13,11 @@
 % Erst über Generalisierung nachgedacht, da sie das schwierigerer Problem zu sein schien (in der Erwartung, die Identifikation ließe sich evtl. "nebenbei" lösen).
 % Die Generalisierung ist auf den allerersten Blick ein einfaches geometrisches Problem, das keiner ausgefeilten Algorithmen a la 2.5 bedarf. Erst mal probiert, ob es sich so lösen lässt. Später festgestellt (-> Implementierung?), dass es in der Tat nicht so schrecklich schwierig war, jedoch die Entscheidung, was zusammengehört und was nicht, im Allgemeinen Fall schwieriger als erwartet war (ein Problem, das allerdings wohl auch für die Lösungen aus 2.5 bestanden hätte, womöglich gar in verstärktem Ausmaß).
 
-% damals sehr früh (noch vor Anmeldung) den Algorithmus in groben Zügen aufgestellt und implementiert
-% Vorgehen war im Prinzip, das Problem graphisch/geometrisch anzugehen und auf Papier zu lösen, dann in Code zu übertragen
-% anschließend nur noch (sehr umfangreiche) Verbessserungen vorgenommen, insbesondere zur Flexibilisierung (individuellere Analyse, unterschiedliche Testdaten, Spezialfälle)
-% zeitaufwändig: Alg. implementieren; insb.: Probleme im Workflow lösen (z. B. I/O), OOP, die Details des Alg. so hinbekommen, dass er halbwegs "rund" läuft, Probleme wie bei Kreuzungen
-% habe versucht, ein wenig Test-Driven Development zu lernen, was mir schwer fiel, weil ich ständig die Struktur änderte
-% erst versucht, rein geometrisch zu arbeiten, dann festgestellt (mit Jochen), dass bei Autobahnen etc Tags idR passen und die Sache erleichtern
-
-% an dieser Stelle außerdem big picture: wie hängen die folgenden teile zusammen?
-% -> lt. Themenblatt soll das Analyseergebnis auch separat von der Generalisierung zu verwenden sein!
-% d.h. die Main-Klasse / Fassade sollte gar nicht hier beschrieben werden, das ist ein Implementierungsdetail (unter Kap. 5 zu beschrieben, wozu aber Kap. 5 wohl etwas umorganisiert werden müsste)
-% anstatt des Analyser-Outputs ist tatsächlich bisher der NodeGraph das Analyseergebnis, jedoch noch unvollständig (man bräuchte noch eine Art Metrik, dass z. B. ab 80% parallelen Segmenten zwei Ways als parallel gelten; evtl. auch einen Append-Schritt, denn zur (verlangten) Identifikation paralleler Linienzüge müssten diese erst mal aus den Ways erzeugt werden, falls die Ways nicht ausreichen)
-
-% im CLI sieht's im Moment in etwa so aus:
-% 1. create Dataset (als InputDataset-Instanz, via ShapeReader)
-% 2. Combiner.run
-% 3. output
-% also eigentlich nichts, was algorithmisch einer besonderen Beschreibung bedarf
-
 % an dieser Stelle außerdem __Überleitung__: was kann man aus 2.5 für lehren/erkenntnisse ziehen? irgendwas anwendbares dabei? wenn ja, warum nicht?
 
 Aus der Menge der zuvor erwähnten bereits existierenden Ansätze hebt sich zunächst die Skelettierung heraus, weil es für sie bereits mehrere funktionale Implementierungen der Zusammenfassung gibt (Abschnitt~\ref{ch:skeleton}).
 Diese haben jedoch laut der Autoren alle mit erheblichen Problemen in Kreuzungsbereichen zu kämpfen, die nur teilweise automatisiert gelöst werden können.
 Dieser Ansatz erscheint wenig vielversprechend.
-% weil?
 
 Letzteres gilt auch für den in Abschnitt~\ref{ch:conflict-detection} diskutierten Ansatz zur Konflikterkennung.
 Zwar wäre eine Kombination mit anderen Ansätzen denkbar.
@@ -94,7 +75,6 @@ Um zwei gegenüberliegende \term{nodes} einander zuordnen zu können, müssen zu
 Auch hierbei ist die erwähnte ungleichmäßige Fragmentierung in bestimmten Fällen problematisch.
 Beispielsweise müssten die einzelnen \term{ways} in Abbildung~\ref{fig:motorway-fragments}, aus denen die beiden dargestellten Parallelen bestehen, zunächst zu einem längeren Linienzug verknüpft werden, um einen Vergleich zu ermöglichen.
 Dies entspräche dem in Abschnitt~\ref{os-mastermap} beschriebenen Ansatz von Thom, der damit zufriedenstellende Resultate erzielte, dabei jedoch die hohe Qualität seiner Ausgangsdaten betonte, welche bei wie für \osm\ von Freiwilligen erfassten Geodaten nicht vorausgesetzt werden kann.
-% lässt sich diese aussage belegen?
 
 Um diese Problematik zu umgehen, verwendet das in dieser Arbeit vorgestellte Verfahren möglichst \emph{kurze} Liniensegmente anstelle möglichst \emph{langer} Linienzüge.
 Die Verbindung zweier benachbarter \term{nodes} in einem \term{way} als kürzestmögliche lineare Einheit in den \osm-Ausgangsdaten (früher als \term{segment} bezeichnet \cf[57]{RT09}) ist allerdings für einen Vergleich nicht viel besser geeignet als der vollständige \term{way}%
@@ -122,14 +102,8 @@ Der zuvor beschriebene Lösungsansatz lässt sich vereinfacht als Sequenz von vi
 	\item Parallelen zusammenfassen
 \end{enumerate}
 %
-% Datenflussdiagramm
-%
 Die folgenden Abschnitte beschreiben jede dieser Operationen im Detail.
 Verwendete mathematische Symbole werden in Anhang~\ref{appx:mathsymbols} erklärt.
-
-% Zur Vereinfachung Vorbedingungen der Eingabedaten: ...
-
-% Definitionen: Ways haben Nodes; Segmente haben exakt zwei Nodes, welche mit folgender "Funktion zu erhalten sind; ...
 
 
 
@@ -137,7 +111,7 @@ Verwendete mathematische Symbole werden in Anhang~\ref{appx:mathsymbols} erklär
 \label{ch:split-algorithm}
 
 In \osm-Daten sind seit Oktober~2007 Segmente (Verbindungen von exakt zwei \term{nodes}) nicht mehr als eigene Objekte enthalten \cf[57]{RT09}.
-Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher zunächst durch \textproc{Segmentierung} die Menge aller Segmente ermittelt (Abbildung~\ref{fig:segments-in-way}).
+Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher zunächst die Menge aller \textproc{Segmente} ermittelt (Abbildung~\ref{fig:segments-in-way}).
 
 \onefigure{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/segments-in-way}
@@ -151,31 +125,22 @@ Anhand der aus der Datenquelle eingelesenen Menge aller \term{ways} wird daher z
 }
 
 Um Verbindungen zwischen zwei \term{nodes} deterministisch beschreiben zu können, werden diese hier als Kanten in einem gerichteten Graphen betrachtet.
-Die beiden \term{nodes} werden als \textproc{Start} und \textproc{Ende} bezeichnet.
+Die beiden \term{nodes} werden im Folgenden als \textproc{Start} und \textproc{Ende} bezeichnet; es gilt:
 % evtl. besser \textproc{Ziel}, um Oberbegriff "Endpunkt" freizuhalten
+\[
+\Set{\textproc{Start}(s), \textproc{Ende}(s)} = \textproc{Nodes}(s)\ \forall\ s
+\]
 
 Geometrisch betrachtet entsprechen \term{nodes} Punkten, die durch vom Koordinatenursprung ausgehende Vektoren in der euklidischen Ebene definiert sind.
 Segmente als gerichtete Verbindungen zweier solcher Punkte lassen sich dann ebenfalls als Vektoren auffassen und als geordnetes Paar notieren.
 
-So könnten beispielsweise die Punkte $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch zum Vektor $b - a$ kongruent wäre (Abbildung~\ref{fig:vector-geometry}).
+So könnten beispielsweise die Ortsvektoren $a$ und $b$ das Segment $(a,b)$ definieren, welches geometrisch zum freien Vektor $b - a$ kongruent wäre (Abbildung~\ref{fig:vector-geometry}).
 
 \begin{algorithmhere}{Segmentierung}
 \label{alg:Segmentierung}
 \begin{algorithmic}
-\Function{Segmentierung}{$W$}\Comment{Menge aller \term{ways} $W$}
-	\State $S \gets \varnothing$
-	\ForAll{$w \textbf{ mit } w \in W $}
-%		\State $N \gets$ alle \term{nodes} von $w$
-%		\ForAll{$i \textbf{ mit } i \in \mathbb{N} : 0 < i < |N| $}\Comment{alle \term{nodes} außer dem ersten}
-%			\State $n \gets$ \term{node} $i$ aus $N$
-%			\State \textbf{füge} neues Segment ... \textbf{zu} $S$ \textbf{hinzu}
-%		\ForAll{$n$ \textbf{mit} $n \in N \wedge \exists$ $m : m$ ist Vorgänger von $n$}
-		\ForAll{$n$ \textbf{mit} $n \in w.nodes \wedge \exists\ m : m$ ist Vorgänger von $n$ in $w$}
-%			\State \textbf{füge} neues Segment $(m, n)$ \textbf{zu} $S$ \textbf{hinzu}
-			\State $S \gets S \cup \{(m,n)\}$\Comment{neues Segment $(m, n)$ zu $S$ hinzufügen}
-		\EndFor
-	\EndFor
-	\State \textbf{Ergebnis} $S$
+\Function{Segmente}{$W$}\Comment{Menge aller \term{ways} $W$}
+	\State \textbf{Ergebnis} sei die Menge aller Segmente $(n, n')$ für Paare von Punkten jedes Linienzugs $w \in W$ derart, dass $n$ Vorgänger von $n'$ im Verlauf von $w$ ist.
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
@@ -196,20 +161,19 @@ Alle erzeugten Fragmente werden wieder zur Menge der Segmente hinzugefügt und s
 \begin{algorithmhere}{Splitten}
 \label{alg:Splitten}
 \begin{algorithmic}
-% evtl. besser: "Assoziation" / "Relation"
-\State $\textbf{Variable } wurzel : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } wurzel(s) \eqdef s\;\forall\ s$
+\State $\textbf{Relation}\ \relation{wurzel} : \textrm{Segment} \rightarrow \textrm{Segment}$
+\State $\textbf{Anfangswert}\ \relation{wurzel}[s] \eqdefrel s\;\forall\ s$
 \Function{Splitten}{$S$}\Comment{Menge aller Segmente $S$}
 	\State $S' \gets S$
 	\ForAll{$s \textbf{ mit } s \in S'$}
-		\ForAll{$n \textbf{ mit } n \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
+		\ForAll{$n \textbf{ mit } n \in \Set{\textproc{Start}(s), \textproc{Ende}(s)} $}
 			\State $T \gets \textproc{NaheSegmente}(s, S')$
 			\ForAll{$t \textbf{ mit } t \in T \wedge \exists\ f : f = \textproc{Fußpunkt}(n, t)$}
 				\State $t_1 \gets (\textproc{Start}(t), f)$
 				\State $t_2 \gets (f, \textproc{Ende}(t))$
-				\State $S' \gets \{t_1, t_2\} \cup S' \setminus \{t\}$\Comment{$t$ ersetzen durch Fragmente $t_1$ und $t_2$}
-				\State $wurzel(t_1) \gets wurzel(t)$
-				\State $wurzel(t_2) \gets wurzel(t)$
+				\State $S' \gets \Set{t_1, t_2} \cup S' \setminus \Set{t}$\Comment{$t$ ersetzen durch Fragmente $t_1$ und $t_2$}
+				\State $\relation{wurzel}[t_1] \gets \relation{wurzel}[t]$
+				\State $\relation{wurzel}[t_2] \gets \relation{wurzel}[t]$
 			\EndFor
 		\EndFor
 	\EndFor
@@ -224,15 +188,11 @@ Segmente, die zu weit entfernt und somit nicht \textproc{NaheSegmente} sind, kö
 Zur Entscheidung, welche Segmente als „nah“ gelten und damit für Parallelität in Frage kommen, wird für jedes Segment eine \textproc{Hülle} gebildet, welche etwas größer als das jeweilige Segment ist, so dass sich die Hüllen von nahe beieinander liegenden Segmenten überschneiden.
 % TODO: Grafik und/oder Literaturverweis
 
-%2. Regionalisierung
-%- ∀ Segmente : Liste der "nahen" anderen Segmente
-%→ Spatial Index / Array (sortiert)
-
 \begin{algorithmhere}{nahe Segmente}
 \label{alg:NaheSegmente}
 \begin{algorithmic}
 \Function{NaheSegmente}{$s, S$}\Comment{Menge aller Segmente $S$}
-	\State \textbf{Ergebnis} $\{t : t \in S \wedge \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \TheEmptySet\}$
+	\State \textbf{Ergebnis} $\Set{t \in S \SetCond \textproc{Hülle}(s) \cap \textproc{Hülle}(t) \neq \Nil}$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
@@ -274,24 +234,6 @@ Für geometrische Operationen in der euklidischen Ebene bieten sich jedoch nur w
 \end{algorithmhere}
 % implementiert in SourceSegment.envelope()
 
-%3. Orientierungs-Ausschluss
-%- ∀ Segmente : Liste der "nahen und geometrisch parallelen" Segmente
-
-%...
-
-%4. Splitten ("re-entrant") in Fragmente
-%Liste B aller `Segment` als Basis (initial: alle `SourceSegment`)
-%- _∀ B : P₁, P₂_
-%    - _∀ P_ als p
-%        - _∀ `splitTargets()`_ : (_target noch nicht gesplittet_ -> next;)
-%            - Fußpunkt PF für p auf target suchen
-%            - falls nicht außerhalb target (✐) / falls ≠ target.P₁, target.P₂: *Split* target bei PF
-%                - neue Fragmente f₁, f₂ mit P₁–PF und PF–P₂ erzeugen
-%                - beide f₁, f₂ an Controller melden (für Basis-Iterator: hinten anhängen an Liste zu splittender Segmente)
-%                - Basis und target als gesplittet / "fertig" markieren
-%                - … mehr an Controller melden…?
-%(`splitTargets()`: Liste der "nahen" anderen Segmente)
-
 \noindent
 Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\ref{fig:footpoint}).
 
@@ -299,7 +241,6 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \label{alg:Fusspunkt}
 \begin{algorithmic}
 \Function{Fußpunkt}{$n,t$}
-%	\State Es sei $l \bot t$ und $n \in l$. Dann sei $f \coloneq l \cap t$ bei $min(||f-t_1||, ||f-t_2||) > \varepsilon$ $\wedge$ $max(||f-t_1||, ||f-t_2||) < ||t||$, wobei $\varepsilon$ die festzulegende Mindestlänge eines Fragments sei.
 	\State \textbf{Ergebnis} sei der Lotfußpunkt~$f$ des Punkts~$n$ auf der Geraden~$t$. Liegt~$f$ nicht zwischen den Punkten $\textproc{Start}(t)$ und $\textproc{Ende}(t)$ oder liegt~$f$ näher an $\textproc{Start}(t)$ oder $\textproc{Ende}(t)$ als die festzulegende Mindestlänge~$\mu$ eines Fragments, dann gibt es kein Ergebnis.
 % Der zweite Satz ist ein wesentliches, aber nicht unbedingt offensichtliches Detail, deshalb sollte auch das an sich einfache Konzept "Lotfußpunkt" formal beschrieben werden.
 \EndFunction
@@ -307,12 +248,16 @@ Das Aufteilen in Fragmente erfolgt jeweils am \textproc{Fußpunkt}~(Abbildung~\r
 \end{algorithmhere}
 % implementiert in AbstractSegment.findPerpendicularFoot()
 
-\onefigure{H}{
-	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoint}
-	\caption{Bestimmung des Punkts, an dem ein Segment aufzuteilen ist}
+\onedoublefigure{H}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoints1}%
+}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/footpoints2}%
+}{
+	\caption
+		[Bestimmung der Punkte, an denen Segmente aufzuteilen sind]
+		{Bestimmung der Punkte, an denen Segmente aufzuteilen sind (links vor, rechts nach dem \textproc{Splitten})}
 	\label{fig:footpoint}
 }
-% TODO: Abbildung verbessern: Segment s sollte enthalten sein + einheitliches Design
 
 
 
@@ -331,50 +276,42 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 	\label{fig:left-side}
 }
 
-%5. Analyse der Fragmente
-%∀ Fragmente:
-%- Ähnlichkeitsmaß zu allen anderen in Frage kommenden Fragmenten bestimmen (⇐ `closeParallels`), sortieren
-%- aussortieren über `Analyser`
-%- ∀ verbleibenden anderen Fragmente: best match(es) L+R finden, falls vorhanden (teilen 2 Segmente einen Node, ist es kein Match! (sonst klappt die L/R-Punktfindung nicht richtig)
-%- best match(es) für _Segmente_ eintragen in eine Liste (und zwar reziprok) (→ eigentlich unnötig??) (∀ Segmente: ∃ 2 Listen "paralleler" Segmente) L+R (|||)
-
 \begin{algorithmhere}{Analyse}
 \label{alg:Analyse}
 \begin{algorithmic}
-% evtl. besser: "Assoziation" / "Relation"
-\State $\textbf{Variable } parallelLinks : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelLinks(s) \eqdef \TheEmptySet\ \forall\ s$
-\State $\textbf{Variable } parallelRechts : Segment \rightarrow Segment$
-\State $\textbf{Anfangswert } parallelRechts(s) \eqdef \TheEmptySet\ \forall\ s$
+\State $\textbf{Relation}\ \relation{parallelLinks} : \textrm{Segment} \rightarrow \textrm{Segment}$
+\State $\textbf{Anfangswert}\ \relation{parallelLinks}[s] \eqdefrel \Nil\ \forall\ s$
+\State $\textbf{Relation}\ \relation{parallelRechts} : \textrm{Segment} \rightarrow \textrm{Segment}$
+\State $\textbf{Anfangswert}\ \relation{parallelRechts}[s] \eqdefrel \Nil\ \forall\ s$
 \Function{Analyse}{$S$}\Comment{Menge aller \emph{unterteilten} Segmente $S$}
 	\ForAll{$s \textbf{ mit } s \in S$}
 %		\State $T \gets \{t : wurzel(t) \in \textproc{NaheSegmente}(wurzel(s), S)\} \wedge \textproc{Parallel}(s, t)$  % exakt wie implementiert, aber eigentlich in dieser Form hier nicht nötig
-		\State $T \gets \{t : t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)\}$  % vereinfachend
+		\State $T \gets \Set{t \SetCond t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)}$  % vereinfachend
 		\State $v_{Start} \gets \textproc{Start}(t) - \textproc{Start}(s)$
 		\State $v_{Ende} \gets \textproc{Ende}(t) - \textproc{Start}(s)$
-		\State $L \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0\}$
-		\State $R \gets \{t : t \in T \wedge \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0\}$
+		\State $L \gets \Set{t \in T \SetCond \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0}$
+		\State $R \gets \Set{t \in T \SetCond \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0}$
 		\State\Comment{Mengen $L, R$ aller nahen Parallelen links- bzw. rechtsseitig}
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
 		\ForAll{$l \textbf{ mit } l \in L$}
 			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')\; \forall\ l' \in L$}
-				\State $parallelLinks(wurzel(s)) \gets l$
+				\State $\relation{parallelLinks}[\relation{wurzel}[s]] \gets l$
 			\EndIf
 		\EndFor
 		\ForAll{$r \textbf{ mit } r \in R$}
 			\If{$0 < \textproc{Distanz}(s, r) \leqslant \textproc{Distanz}(s, r')\; \forall\ r' \in R$}
-				\State $parallelRechts(wurzel(s)) \gets r$
+				\State $\relation{parallelRechts}[\relation{wurzel}[s]] \gets r$
 			\EndIf
 		\EndFor
 	\EndFor
-	\State \textbf{Ergebnis} $parallelLinks, parallelRechts$
+	\State \textbf{Ergebnis} $\relation{parallelLinks}, \relation{parallelRechts}$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
 % implementiert in AbstractSegment.analyse()
 
 % Die hier gewählte Definition findet für jede Seite jedes Segments höchstens ein PARALLELes Segment. Alternative wäre auch eine Definition möglich, die *jedes* PARALLELe Segment findet, weil beim NODESZUORDNEN durch die Mengeneigenschaften die Richtung der Zuordnung keine Rolle spielt und Duplikate ignoriert werden. Die Frage ist im Kern, was leichter zu verstehen ist ("parallelLinks" wäre dann eine Relation auf eine Menge von Segmenten, dafür entfiele die Prüfung ∀l' / ∀r').
-% TODO: Welche Variante auch immer gewählt wird: Auf die Wahlfreiheit sollte irgendwo in 4.3 hingewiesen werden. Insbesondere falls die Implementierung von der Definition abweicht, sollte auch hierauf hingewiesen werden, z.B. in 5.4, einschließlich eines Hinweises, dass dies experimentell überprüft wurde (CorrelationGraph-realParallels-reciprocity-check).
+% Welche Variante auch immer gewählt wird: Auf die Wahlfreiheit sollte irgendwo in 4.3 hingewiesen werden (derzeit hier weiter unten, als Fußnote). Dies wurde auch experimentell überprüft (CorrelationGraph-realParallels-reciprocity-check).
 
 % reicht es evtl. aus festzulegen: 2 Segmente parallel gdw. mind. je ein Fragment parallel ist? dann wäre es danach nur noch eine frage, das "beste" zu finden
 % oder evtl. statt "<- l" einfach "<- wurzel(l)" und dann das als Menge ausführen? Das könnte der tatsächlichen Implementierung am ehesten entsprechen, ist aber evtl. unnötig kompliziert.
@@ -388,9 +325,9 @@ Dabei kommen nur solche Segmente für die Kennzeichnung in Frage, die im Kontext
 	\State Die Segmente $s_1$ und $s_2$ seien parallel genau dann, wenn sie:
 	\begin{itemize}[nosep,leftmargin=3.5em]
 		% [SourceSegment.closeParallels]
-		\item ähnlich ausgerichtet sind (z.~B. $\alpha = \abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
+		\item ähnlich ausgerichtet sind (z.~B. $\alpha \eqdef \abs\sphericalangle (s_1, s_2)\abs < 15\degree$),
 		% [MyAnalyser.shouldEvaluate]
-		\item nahe beieinander liegen (z.~B. $\eta = \textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
+		\item nahe beieinander liegen (z.~B. $\eta \eqdef \textproc{Distanz}(s_1, s_2) < \unit[40]{m}$),
 		\item nicht so sehr zueinander versetzt sind, dass sie mehr hintereinander als nebeneinander liegen,  % "ignore collinear fragments"; sollte durch die geschickte Fragmentierung normal nicht vorkommen
 		\item sich nicht überkreuzen,  % (sollte bereits durch \textproc{Analyse} ausgeschlossen sein)
 		\item Teile von \term{ways} mit dem gleichen Wert für \osmtag{highway}[*] sind und
@@ -410,11 +347,13 @@ Dass die miteinander verglichenen Segmente nahe beieinander liegen, wird in der 
 Welche Segmente als „nah“ gelten, ist jedoch von der Definition der \textproc{Hülle} abhängig, für die Überlegungen zur Effizienz eine Rolle spielen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
 % daher in PARALLEL noch mal eine Abstands-Bedingung
 
-% doppelt beschrieben -- was ist besser?
-
-Aus der Menge aller als \textproc{Parallel} geltenden Segmente auf einer Seite wird das am nächsten gelegene als Parallele ausgewählt.
+Aus der Menge aller als \textproc{Parallel} geltenden Segmente auf einer Seite wird das am nächsten gelegene als Parallele ausgewählt.%
+\footnote{%
+Die Zieldatentypen der Relationen $\relation{parallelLinks}$ und $\relation{parallelRechts}$ können wahlweise auch \emph{Mengen} von Segmenten sein, um \emph{alle} als parallel erkannten Segmente zu sammeln.
+Die so entstehenden Duplikate würden später automatisch wieder entfallen.
+}
 Auf welche Weise dazu die Distanz zwischen zwei Segmenten bestimmt wird, kann vom speziellen Anwendungsfall abhängen und soll hier nur beispielhaft angegeben werden.
-So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abstand ihrer Mittelpunkte.
+So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abstand ihrer Mittelpunkte. \nopagebreak[3]
 
 % tatsächlich implementiert: Summe der Abstände der jeweils nächsten Nodes (siehe MyAnalyser.evaluate)
 % alternativ denkbar: _kleinster_ Abstand zweier Nodes
@@ -422,45 +361,32 @@ So ist eine mögliche Metrik für die \textproc{Distanz} zweier Segmente der Abs
 \begin{algorithmhere}{Beispielhafte Bestimmung der Distanz zweier Segmente}
 \label{alg:Distanz}
 \begin{algorithmic}
-\Function{Distanz}{$s_1, s_2$}
-%	\State \textbf{Ergebnis} $||\textproc{Mittelpunkt}(s_1) - \textproc{Mittelpunkt}(s_2)||$
-	\State \textbf{Ergebnis} $\abs\textproc{Start}(s_1) - \textproc{Start}(s_2) + \textproc{Ende}(s_1) - \textproc{Ende}(s_2)\abs \cdot \frac{1}{2}$
+\Function{Distanz}{$s_1, s_2$} $\abs[\textproc{Mittelpunkt}(s_1) - \textproc{Mittelpunkt}(s_2)]$%
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
 % implementiert in MyAnalyser.evaluate()
 
-%\begin{algorithm}[H]
-%\caption{Mittelpunkt}\label{alg:Mittelpunkt}
-%\begin{algorithmic}
-%\Function{Mittelpunkt}{$s$}
-%	\State \textbf{Ergebnis} $\frac{\textproc{Start}(s) + \textproc{Ende}(s)}{2}$
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
+\noindent Für den \textproc{Mittelpunkt} eines Segments gilt dabei mit einfacher Vektorgeometrie: \nopagebreak[3]
+
+\begin{algorithmhere}{Mittelpunkt eines Segments (oder einer Punktezuordnung) bestimmen}
+\label{alg:Mittelpunkt}
+\begin{algorithmic}
+\Function{Mittelpunkt}{$a$}
+	\State Es seien $n_1$ und $n_2$ die beiden Punkte, die $a$ definieren; dann gelte:
+	\State \textbf{Ergebnis} $(n_1 + n_2) \cdot \frac{1}{2}$
+\EndFunction
+\end{algorithmic}
+\end{algorithmhere}
+% spezifiziert in NodePair.midPoint()
 
 
 
 \subsection{Punktezuordnung}
 \label{ch:node-match-algorithm}
 
-%7. Punktzuordnungen erzeugen (Vorstufe Generalisierung)
-%
-%- ∀ Segmente "S" : S hat Parallele und S noch nicht "fertig 7"
-%    - ∀ Punkte (Start/End "T₁"), ∀ Seiten von S (L/R) "A"
-%        - ∀ Parallelen von S "P" auf Seite A
-%            - nahegelehensten Punkt finden "T₂"
-%            - falls nichts gefunden (= keine Parallele auf dieser Seite), näcshtes A
-%            - neue Punktzuordung: T₁ ↔︎ T₂
-%    - S markieren als "fertig 7"
-%
-%_defer:_
-%- ∀ Parallelen von S: Rekursion
-%- alle Segmente/Zuordnungen für je ein ursprüngliches Segment als Teil eines "Blocks" markieren (könnte später evtl. Auffinden eines Anfangs zur Generalisierung erleichtern)
-
 Das Zusammenfassen einander paralleler Segmente soll durch Zusammenfassen ihrer Start- und Endpunkte erfolgen.
 Hierzu müssen zunächst die \term{nodes} der zusammenzufassenden Segmente einander zugeordnet werden.
-% (wegen der Weiterschaltung...)
 Dies geschieht auf Basis der durch die \textproc{Analyse} ermittelten Kennzeichnungen der Segmente als parallel.
 
 Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig den jeweils am nächsten gelegenen \term{node} der als parallel gekennzeichneten Segmente (Abbildung~\ref{fig:node-matches}).
@@ -469,27 +395,22 @@ Der Algorithmus \textproc{NodesZuordnen} sucht für jeden \term{node} beidseitig
 \label{alg:Zuordnen}
 \begin{algorithmic}
 \Function{NodesZuordnen}{$S$}
-	\State $C \gets \TheEmptySet$
+	\State $\mathcal{Z} \gets \TheEmptySet$
 	\ForAll{$s \textbf{ mit } s \in S$}
-		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}$}
-			\ForAll{$n_1 \textbf{ mit } n_1 \in \{\textproc{Start}(s), \textproc{Ende}(s)\} $}
+		\ForAll{$t \textbf{ mit } t \in \Set{\relation{parallelLinks}[s], \relation{parallelRechts}[s]}$}
+			\ForAll{$n_1 \textbf{ mit } n_1 \in \Set{\textproc{Start}(s), \textproc{Ende}(s)} $}
 				\State $n_2 \gets \begin{cases}\textproc{Start}(t) & \text{für } \abs n_1 - \textproc{Start}(t)\abs < \abs n_1 - \textproc{Ende}(t)\abs\\\textproc{Ende}(t) & \text{sonst}\end{cases}$
-%				\State $C \gets \{(n_1, n_2)\} \cup C \setminus \{(n_2, n_1)\}$\Comment{entgegengesetzte Kanten ausschließen}
-				\State $C \gets C \cup \{\{n_1, n_2\}\}$
+				\State $\mathcal{Z} \gets \mathcal{Z} \cup \Set{\Set{n_1, n_2}}$
 			\EndFor
 		\EndFor
 	\EndFor
-	\State \textbf{Ergebnis} $C$
+	\State \textbf{Ergebnis} $\mathcal{Z}$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
 % implementiert in NodeGraph.createGraph()
 
-%Die Zuordnungen werden hier als gerichtete Kante $(n_1, n_2)$ beschrieben, obwohl die Orientierung keine Rolle spielt.
-%Dies vereinfacht die weitere Verarbeitung.
-%Allerdings müssen entgegengesetzte Kanten $(n_1, n_2)$ ausgeschlossen werden, um doppelte \term{nodes} im Generalisierungsergebnis zu vermeiden.
-
-Weil die Orientierung der Zuordnungen keine Rolle spielt, wird hier mit $\{n_1, n_2\}$ ein \emph{ungeordnetes} Paar beschrieben.
+Weil die Orientierung der Zuordnungen keine Rolle spielt, wird hier mit $\Set{n_1, n_2}$ ein \emph{ungeordnetes} Paar beschrieben.
 Dies vermeidet Duplikate.
 % Ergebnis: Abb. 29 general-approach
 
@@ -504,125 +425,89 @@ Dies vermeidet Duplikate.
 \subsection{Parallelen zusammenfassen}
 \label{ch:generalisation-algorithm}
 
-%8. Generalisierung
-%
-%"trivialer Fall":
-%1. zufällig Segment S wählen, Edge E (ES, ET) (Bedingung: Zähler E < 2)
-%2. Richtung D zufällig wählen (-> S); {F,R}
-%    1. gegenüberliegendes Segment T (für Start): dasjenige der beiden (<- trivialer Fall) Segment von ET, welches -- so gedreht, dass der Start-Node == ES ist -- in die gleiche Richtung zeigt wie S
-%3. ∀ D :
-%    1. wiederhole, solange ∃ E
-%4. M-Punkt setzen
-%    5. Segmente A,B von E in Richtung D: nächste Nodes N {X,Y} finden (falls ∄: N:= aktueller Node
-%    6. ∀ N:
-%        7. Edge F von N zurück zu E? (X->ET, Y->ES)
-%           ∃: F ist nächstes E; Zähler E + 1, Zähler F + 1
-%           ∄: continue 6, sonst: Edge F(X,Y)
-%              ∃: F ist nächstes E
-%      E=F <=> ∄: Zähler E + 1, continue 3
-
 Anhand der Punktezuordnungen können die parallelen Segmente nun zusammengefasst werden.
 Hierzu wird ein zufällig ausgewähltes Segment als Beginn eines Linienzugs betrachtet.
-Während diesem Linienzug von Segment zu Segment gefolgt wird, können anhand der Punktzuordnungen leicht die Stützpunkte der Mittellinie zwischen den Parallelen als Generalisierungsergebnis bestimmt werden.
+Während diesem Linienzug von Segment zu Segment gefolgt wird, können leicht die Mittelpunkte der Punktezuordnungen als Stützpunkte der Mittellinie zwischen den Parallelen verwendet werden (Abbildung~\ref{fig:collapsing-continuation}).
 
 \begin{algorithmhere}{Zusammenfassen}
 \label{alg:Zusammenfassen}
 \begin{algorithmic}
-% evtl. besser: "Assoziation" / "Relation"
-% TODO: "zusammengefasst" etc. aus math mode raus (wg. kerning!) (\mathit{} and \mathrm{} ???)
-\State $\textbf{Variable } zusammengefasst : Segment \rightarrow boolean$
-\State $\textbf{Anfangswert } zusammengefasst(s) \eqdef$ nein $\forall\ s$
-\Function{Zusammenfassen}{$S, C$}\Comment{Segmente $S$, Punktezuordnungen $C$}
-	\State generalisierter Graph $\mathcal{G} \gets$ leer
-	\ForAll{Segmente $s$, die noch nicht als zusammengefasst markiert sind}
-		\ForAll{Zuordnungen $c$, die mit dem Start-Node $n$ von $s$ verknüpft sind}
-			\State zusammengefasster Linienzug $L \gets$ leer
-			\State $t \gets$ mit dem jeweils anderem Node von $c$ verknüpftes Segment,\\\qquad\qquad\qquad\quad$\hookrightarrow$ welches von $n$ aus gesehen in die gleiche Richtung zeigt wie $s$
-			\While{es eine nächste Zuordnung $c'$ in dieser Richtung gibt,\\\qquad\qquad\qquad\qquad$\hookrightarrow$ die $s$ und $t$ ebenfalls einander zuordnet}
-				\State $m \gets$ Mittelpunkt von $c$
-				\State $m' \gets$ Mittelpunkt von $c'$
-				\State füge Segment $(m, m')$ zu $L$ hinzu
-				\State $s' \gets$ Segment, das $s$ nach $c'$ fortführt
-				\If{$s \neq s'$}
-					\State markiere $s$ als zusammengefasst
-					\State $s \gets s'$
+\State $\textbf{Relation}\ \relation{zusammengefasst} : \textrm{Segment} \rightarrow \textrm{boolean}$
+\State $\textbf{Anfangswert}\ \relation{zusammengefasst}[s] \eqdefrel$ nein $\forall\ s$
+\Function{Zusammenfassen}{$S, \mathcal{Z}$}\Comment{Segmente $S$, Punktezuordnungen $\mathcal{Z}$}
+	\State $E \gets \TheEmptySet$\Comment{Generalisierungsergebnis $E$}
+	\ForAll{$s \textbf{ mit } s \in S \wedge \neg\, \relation{zusammengefasst}[s]$}
+		\ForAll{$Z \textbf{ mit } Z \in \mathcal{Z} \wedge \textproc{Start}(s) \in Z$}
+			\State $t \gets$ mit dem jeweils anderem \term{node} von $Z$ verknüpftes Segment, \\\qquad\qquad\qquad\quad$\hookrightarrow$ welches auf der gleichen Seite von $Z$ liegt wie $s$
+			\Repeat
+				\Comment{versuchen, die nächste Punktzuordnung $Z'$ zu finden}
+				\State $s' \gets \textproc{Fortsetzung}(s,Z,S)$
+				\State $t' \gets \textproc{Fortsetzung}(t,Z,S)$
+				\State $Z_1' \gets \Set{\textproc{Nodes}(s') \cap Z, \textproc{Nodes}(t') \setminus Z}$
+				\State $Z_2' \gets \Set{\textproc{Nodes}(t') \cap Z, \textproc{Nodes}(s') \setminus Z}$
+				\State $Z_3' \gets Z_1' \cup Z_2' \setminus Z $
+				\If{$\exists\ Z' : \Set{Z'} = \Set{Z_1', Z_2', Z_3'} \cap \mathcal{Z}$}
+					\Comment{Mittellinie bilden}
+					\State $E \gets E \cup \Set{(\textproc{Mittelpunkt}(Z), \textproc{Mittelpunkt}(Z'))}$
+					\State $\relation{zusammengefasst}[s] \gets$ ja
+					\State $\relation{zusammengefasst}[t] \gets$ ja
+					\State $s \gets s'$, $t \gets t'$, $Z \gets Z'$ \Comment{weiterschalten}
 				\EndIf
-				\State $t' \gets$ Segment, das $t$ nach $c'$ fortführt
-				\If{$t \neq t'$}
-					\State markiere $t$ als zusammengefasst
-					\State $t \gets t'$
-				\EndIf
-				\State $c \gets c'$
-			\EndWhile
-			\State füge $L$ zu $\mathcal{G}$ hinzu
+			\Until{$\nexists\ Z'$}
 		\EndFor
 	\EndFor
-	\State füge alle nicht zusammengefassten Segmente zu $\mathcal{G}$ hinzu
-	\State \textbf{Ergebnis} $\mathcal{G}$
+	\State \textbf{Ergebnis} $E \cup \Set{u \in S \SetCond \neg\, \relation{zusammengefasst}[u]}$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
 
-Der Algorithmus zum \textproc{Zusammenfassen} arbeitet gierig, indem er versucht, einen möglichst langen Linienzug zu bilden.
-Der Übersichtlichkeit halber berücksichtigt die hier angegebene Beschreibung jedoch nur jeweils eine Richtung vom Beginn ausgehend.
-Dass bei zufällig gewähltem Beginn der zusammengefasste Linienzug meist auch in die jeweils andere Richtung verlängert werden kann, ist offensichtlich und trivial und kann leicht bei der Implementierung berücksichtigt werden.
+\onefigure{htb}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/collapsing-continuation}
+	\caption{Bilden der Mittellinie als Generalisierungsergebnis auf Basis der Punktezuordnungen}
+	\label{fig:collapsing-continuation}
+}
 
-Ebenso berücksichtigt die Beschreibung weder Kreuzungen noch den Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge.
+Dabei lässt sich dasjenige Segment, welches jeweils als \textproc{Fortsetzung} eines Linienzugs verwendet wird, wie folgt ermitteln: \nopagebreak
 
-Auch der Fall von mehr als zwei Parallelen bleibt unberücksichtigt.
+\begin{algorithmhere}{Fortsetzung}
+\label{alg:Fortsetzung}
+\begin{algorithmic}
+\Function{Fortsetzung}{$s, Z, S$}\Comment{Segment $s$, Punktezuordnung $Z$}
+	\State $S' \gets \Set{s' \in S \SetCond s' \neq s \wedge \textproc{Nodes}(s) \cap Z \subset \textproc{Nodes}(s')}$
+	\State \textbf{Ergebnis} $\begin{cases}s' \in S' & \text{für } |S'| = 1\\\Nil & \text{sonst}\end{cases}$\Comment{nur eindeutige Fortsetzungen}
+\EndFunction
+\end{algorithmic}
+\end{algorithmhere}
+
+Zur Fortführung der Mittellinie werden jeweils drei mögliche Paare von Punkten betrachtet ($Z_1'$, $Z_2'$ und $Z_3'$ in Abbildung~\ref{fig:collapsing-nextmatch}). Nur dann, wenn genau eines von ihnen gleichzeitig einer nach der \textproc{Analyse} identifizierten Punktezuordnung entspricht, wird diese zur Fortführung der Mittellinie verwendet.
+
+\onefigure{htb}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter4/collapsing-nextmatch}
+	\caption
+		[Auffinden der nächsten Punktezuordnung zur Fortführung der Mittellinie]
+		{Auffinden der nächsten Punktezuordnung zur Fortführung der Mittellinie (im~Beispiel~$Z_3'$)}
+	\label{fig:collapsing-nextmatch}
+}
+
+Die obenstehende Definition des Algorithmus zum \textproc{Zusammenfassen} ist insofern vereinfacht, als dass sie nicht zur Bildung eines durchgehenden Linienzugs führt, sondern lediglich alle Segmente der Mittellinie sammelt.
+Dies kann unschwer bei der Implementierung in Software entsprechend berücksichtigt und angepasst werden.
+
+Ebenso berücksichtigt die Definition weder Kreuzungen noch den Übergang eines einzelnen Linienzugs in zwei parallele Linienzüge.
+In diesen Fällen wird die Generalisierung unterbrochen.
+
+Auch der Fall von mehr als zwei Parallelen bleibt der Verständlichkeit der Definition zuliebe unberücksichtigt.
 Dies muss bei der Implementierung bedacht werden, da der Begriff „als zusammengefasst markiert“ sonst nicht eindeutig ist.
 Der hier beschriebene Algorithmus fasst $n$ parallele Linienzüge zu $n-1$ parallelen Linienzügen zusammen, die jeweils mittig zwischen zwei Parallelen in den Ausgangsdaten liegen.
 Eine Erweiterung zur Zusammenfassung einer beliebigen Anzahl von Parallelen auf genau einen Linienzug ist über die Punktezuordnungen möglich, was jedoch in dieser Arbeit nicht weiter betrachtet wird.
 
 % Weiterschaltung ist notwendig, weil ansonsten Endpunkte der generalisierten Linie nicht unbedingt aneinander anstoßen (durch Bildung von "Dreiecken" im Zuordnungsgraphen überlappen sich die Mittellinien u. U.)
 
-% TODO: Grafik wäre hier keine schlechte Ergänzung
-
-
-% Versuche mit Formelsatz
-%\begin{algorithm}[H]
-%\caption{Zusammenfassen}\label{alg:Zusammenfassen}
-%%$\textbf{Variable } zusammengefasst : Segment \rightarrow bool$
-%%\\$\textbf{Anfangswert } zusammengefasst(a) \stackrel{\text{\tiny def}}{=} nein$ $\forall$ $a$
-%% \neg$ $zusammengefasst(s)
-%\begin{algorithmic}
-%\Function{Zusammenfassen}{$S, C$}
-%	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}
-%		\ForAll{$e \textbf{ mit } e \in C, e =: (e_1, e_2) \wedge (e_1 = n_1 \vee e_2 = n_1)$}
-%			\State $T \gets \{t : t \in S, t =: (n_3, n_4) \wedge |\{e_1, e_2, n_3, n_4\}| < 4\}$
-%			% T <- alle Segmente von ET
-%			\ForAll{$t \textbf{ mit } t \in T, t =: (n_3, n_4)$}
-%				
-%				\State $ $ % hierhin jetzt die "cases" für die Drehung/Unterscheidung, damit bei 2.->1. das richtige ES/ET kommt
-%			% ^--- "in die gleiche Richtung zeigt wie S" - wie ist das gemeint?
-%				
-%				
-%			\EndFor
-%		\EndFor
-%	\EndFor
-%	
-%	
-%%	\State $C \gets \TheEmptySet$
-%%	\ForAll{$s \textbf{ mit } s \in S, s =: (n_1, n_2)$}% \wedge \neg$ $fertig7(t)$}
-%%		\ForAll{$t \textbf{ mit } t \in \{parallelLinks(s), parallelRechts(s)\}, t =: (n_3, n_4)$}
-%%			\ForAll{$e_1 \textbf{ mit } e_1 \in \{n_1, n_2\} $}
-%%				\State $e_2 \gets \begin{cases}n_3 & \text{für } ||e_1 - n_3|| \textless ||e_1 - n_4||\\n_4 & \text{sonst}\end{cases}$
-%%				\State $C \gets C \cup (e_1, e_2)$\Comment{$e_2$ ist der $e_1$ am nächsten gelegene \term{node} von $t$}
-%%			\EndFor
-%%		\EndFor
-%%%		\State $fertig7(s) \gets ja$
-%%	\EndFor
-%%	\State \textbf{Ergebnis} $C$
-%\EndFunction
-%\end{algorithmic}
-%\end{algorithm}
-
 
 
 \section{Gesamtüberblick}
 \label{ch:algorithm-overview}
 
-Setzt man die beschriebenen Algorithmen wie vorgesehen zusammen, so ergibt sich:
+Setzt man die beschriebenen Algorithmen wie vorgesehen zusammen, so ergibt sich: \nopagebreak
 
 \begin{algorithmhere}{Generalisierung}
 \label{alg:Generalisierung}
@@ -631,9 +516,9 @@ Setzt man die beschriebenen Algorithmen wie vorgesehen zusammen, so ergibt sich:
 	\State $S \gets \textproc{Segmente}(W)$
 	\State $S' \gets \textproc{Splitten}(S)$\Comment{Abschnitt~\ref{ch:split-algorithm}}
 	\State $\textproc{Analyse}(S')$\Comment{Abschnitt~\ref{ch:analyse-algorithm}}
-	\State $C \gets \textproc{NodesZuordnen}(S)$\Comment{Abschnitt~\ref{ch:node-match-algorithm}}
-	\State $\mathcal{G} \gets \textproc{Zusammenfassen}(S, C)$\Comment{Abschnitt~\ref{ch:generalisation-algorithm}}
-	\State \textbf{Ergebnis} $\mathcal{G}$
+	\State $\mathcal{Z} \gets \textproc{NodesZuordnen}(S)$\Comment{Abschnitt~\ref{ch:node-match-algorithm}}
+	\State $E \gets \textproc{Zusammenfassen}(S, \mathcal{Z})$\Comment{Abschnitt~\ref{ch:generalisation-algorithm}}
+	\State \textbf{Ergebnis} $E$
 \EndFunction
 \end{algorithmic}
 \end{algorithmhere}
@@ -661,11 +546,10 @@ Da ländliche Gebiete insgesamt in der Fläche überwiegen, kann angenommen werd
 
 Diese Überlegung bestätigt sich anhand der Betrachtung einer einfachen Autobahn mit zwei Richtungsfahrbahnen:
 Hierbei liegen in den Eingangsdaten oftmals Stützpunkte einander gegenüber.
-% TODO: Verweis auf Abbildung in 4.2
 In diesen Fällen werden meist keine \textproc{Fußpunkt}e auf der Gegenfahrbahn gefunden, weil deren Definition eine Mindestlänge~$\mu$ für geteilte Segmente fordert.
 Demnach wäre hier $2 \cdot |S|$ als obere Schranke für $|S'|$ im durchschnittlichen Fall zutreffend.
 
-Es seien nun $n = |S|$ die Anzahl der Segmente in den Eingangsdaten, $\nu$ die durchschnittliche Anzahl der jeweils „nahen“ Segmente und $\psi$ die durchschnittliche Anzahl der Punktezuordnungen je Punkt.
+Es seien nun $n \eqdef |S|$ die Anzahl der Segmente in den Eingangsdaten, $\nu$ die durchschnittliche Anzahl der jeweils „nahen“ Segmente und $\psi$ die durchschnittliche Anzahl der Punktezuordnungen je Punkt.
 Für die Abschätzung des gesamten Rechenaufwands ergibt sich mit Zählung der geschachtelten Iterationen: \cf{wp:Landau}
 \begin{align*}
 \textproc{Splitten} &\in \mathcal{O}(2 n \cdot 2 \cdot \nu) = \mathcal{O}(n \cdot \nu)
@@ -708,84 +592,15 @@ Abhängig von den Eingabedaten ist anzunehmen, dass je nach Reihenfolge der Iter
 Es ist jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben.
 % - deterministisch: nein; erstens abhängig von Input denkbar, dass je nach Reihenfolge der Iteration das Splitten und damit die Analyse unterschiedliche Ergebnisse liefert; zweitens Länge der generalisierten Linienzüge zufallsabhängig (da "rückwärts" nicht spezifiziert); jedoch nicht zu erwarten, dass diese Varianzen großen Einfluss auf das Ergebnis haben
 
-% TODO: Analyse-Ergebnis beschreiben
-
 Auf eine formale Festlegung der Kriterien für die Korrektheit der Generalisierung wurde verzichtet.
 % "korrekt": nicht definiert, also nicht nachweisbar; Nachweis würde auch den Rahmen sprengen
 Um nachzuweisen, dass die entwickelten Algorithmen funktionieren, wurden diese stattdessen ausführbar in Software implementiert.
 Dies beschreibt Kapitel~\ref{ch:impl}.
 Im Anschluss daran werden in Kapitel~\ref{ch:result} das Generalisierungsergebnis und die Praxistauglichkeit der Algorithmen für unterschiedliche Fälle diskutiert.
-% vgl. 7.2.5
 
-
-
-%\section{alte Einteilung}
-%
-%\subsection{Identifikation parallel verlaufender Linien-Fragmente}
-%
-%Ansatz: Dieser Algorithmus eignet sich insgesamt weniger gut zur Identifikation als zur Generalisierung.
-%Die Identifikation erfolgt, indem festgestellt wird, ob eine Generalisierung notwendig ist oder nicht; falls sie notwendig ist, kann sie dann aber auch bereits recht billig durchgeführt werden.
-%Andererseits ist fraglich, welchen "praxistauglichen" Einsatz eine reine Identifikation ohne anschließende Generalisierung hätte.
-%
-%Konzept (abstrakt):
-%
-%1. nur Segmente betrachten (gerade Linienabschnitte, definiert durch zwei Punkte)
-%
-%2. alle nahe beieinander liegenden Segmente auf Parallelität untersuchen
-%
-%Die Segmente sind jedoch unterschiedlich lang und liegen teilweise etwas „verstreut“ im Raum, was die Untersuchung erschwert.
-%Deshalb werden die Segmente zunächst fragmentiert, indem benachbarte Segmente „geschickt“ weiter in kürzere Segmente unterteilt werden, so dass parallele Segmente immer ähnlich lang sind und einander gegenüberstehen.
-%
-%Im Detail:
-%
-%1. geometrische Indizierung (R-Tree) der Eingabedaten, um Suche nach nahen Segments zu ermöglichen [regionalise]
-%
-%2. $\forall$ Segments: AbstractSegment.splitCloseParallels, um gut vergleichbare Stücke zu erhalten (reentrant/rekursiv, d. h. neu erzeugte Fragmente werden bis zu einer Mindestgröße immer weiter aufgeteilt) [split]
-%
-%3. $\forall$ Segments: $\forall$ nahe Parallelen (laut Index): [analyse]
-%
-%3.1 Vorprüfung (boolean)
-%
-%3.2 Hauptprüfung (double)
-%
-%3.3 best matches (links/rechts getrennt) speichern (keine Nachprüfung => falls das best match nicht passt, wird es trotzdem genommen, sofern nicht schon die vorprüfung die sache abgebrochen hat)
-%% offen: "realParallels"-Konzept
-%% geprüft werden die Fragmente, gespeichert werden die Segmente
-%
-%% graphisch erklären, was genau passiert
-%
-%
-%\subsection{Generalisierung durch Zusammenfassung}
-%
-%Konzept (in den allgemeinsten Begriffen):
-%
-%1. Endpunkte der parallelen Segmente einander zuordnen
-%
-%2. Der gesamte Graph wird "durchgehangelt", indem von einem NodeMatch ausgehend immer entlang der Segmente das nächste NodeMatch gefunden wird; diese Matches werden dann durch neu erzeugte Mittelpunkte miteinander verbunden.
-%
-%
-%
-%% (Der NodeGraph ist ein Graph, in dem NodeMatches einander gegenüberliegende Knoten von parallelen Segmenten verbinden.)
-%
-%% new GeneralisedLines
-%% - beliebigen NodeMatch auswählen und von ihr ausgehend den angrenzenden Segmenten erst in die eine, dann die andere Richtung folgen, bis das Folgen nicht mehr eindeutig möglich ist (z. B. wegen einer Abzweigung)
-%% - dabei Mittelpunkte der NodeMatches jeweils einer neuen GeneralisedSection hinzufügen
-%% - Segmente, die nicht zusammengefasst wurden (weil keine Parallelen existieren), werden in Sections umgewandelt und ebenfalls den GeneralisedLines hinzugefügt, um einen homogenen Ergebnisdatensatz zu erhalten
-%
-%...
-%
-%
-%\subsection{Verknüpfung von Linienfragmenten zu einem einzigen kontinuierlichen Linienzug}
-%
-%...
 
 
 % single-chapter commands
-\onlyinsubfile{\listoffigures}
+%\onlyinsubfile{\listoffigures}
 %\onlyinsubfile{\subfile{../bibliography/Literaturverzeichnis}}
 \end{document}
-
-
-
-% TODO: Mengen besser schreiben:
-% https://de.wikipedia.org/wiki/Menge_(Mathematik)#Extensionalit.C3.A4t

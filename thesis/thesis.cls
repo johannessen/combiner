@@ -44,11 +44,17 @@
 \RequirePackage{gensymb}
 
 % own symbols
-\newcommand{\eqdef}{\overset{\mathrm{def}}{=\joinrel=}}
-%\newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
+\NewDocumentCommand{\relation}{mo}{\mathit{#1}\IfNoValueF{#2}{\:\!(#2)}}
+%\newcommand{\eqdefrel}{\overset{\mathrm{def}}{=\joinrel=}}
+%\newcommand{\eqdefrel}{\stackrel{\text{\tiny def}}{=}}
+%\newcommand{\eqdefrel}{=_\mathrm{def}}
+\newcommand{\eqdefrel}{\gets}
+\newcommand{\eqdef}{\coloneqq}
 \NewDocumentCommand{\abs}{o}{|\!\;\!|\IfValueT{#1}{#1\abs}}
-\newcommand{\set}[1]{\{#1\}}
-\newcommand{\TheEmptySet}{\varnothing}
+\newcommand{\Set}[1]{\{#1\}}
+\newcommand{\SetCond}{\,|\,}
+\newcommand{\TheEmptySet}{\Set{}}
+\newcommand{\Nil}{\varnothing}
 \newcommand{\ThousandsScale}[1]{1\nobreak:\nobreak #1 \,000}
 
 % --------------
@@ -106,7 +112,7 @@
 \hbadness=1414
 \setlength{\emergencystretch}{1.5em}
 \hfuzz=.3pt
-\hyphenation{mul-ti-step}
+\hyphenation{mul-ti-step Punk-te-zu-ord-nung Punk-te-zu-ord-nung-en}
 % http://www.tex.ac.uk/FAQ-overfull.html
 
 % use 'normal' (serif) font for all headers and captions
@@ -117,9 +123,6 @@
 \clubpenalty=10000 
 \widowpenalty=10000
 \displaywidowpenalty=10000
-
-% an eyecatcher is used to introduce key terms in lieu of fine-grained sectioning
-\newcommand{\eyecatcher}{\textbf}
 
 % a foreign-language or jargon term is italicised to highlight it
 \newcommand{\term}{\textit}
@@ -251,7 +254,7 @@
 \renewcommand{\listalgorithmname}{Algorithmenverzeichnis}
 \RequirePackage[noend]{algpseudocode}
 % replace english words with symbols, mimicking Sar06
-%\def\myAlgMethodSymbol{ $\eqdef$}
+%\def\myAlgMethodSymbol{ $\eqdefrel$}
 \def\myAlgMethodSymbol{ $\equiv$}
 \algdef{SE}[PROCEDURE]{Procedure}{EndProcedure}%
    [2]{\textproc{#1}\ifthenelse{\equal{#2}{}}{}{(#2)}\myAlgMethodSymbol}%
@@ -264,6 +267,8 @@
 \algrenewcommand{\algorithmicforall}{\textbf{für alle}}
 \algrenewcommand{\algorithmicwhile}{\textbf{solange}}
 \algrenewcommand{\algorithmicdo}{}
+\algrenewcommand{\algorithmicrepeat}{\textbf{wiederhole}}
+\algrenewcommand{\algorithmicuntil}{\textbf{bis}}
 \algrenewcommand{\algorithmicif}{\textbf{falls}}
 \algrenewcommand{\algorithmicthen}{}
 % own pseudo-code commands
