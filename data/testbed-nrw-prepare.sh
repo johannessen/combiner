@@ -8,7 +8,7 @@ BBOX_PATH_DEFAULT="../bounding-boxes"
 
 
 # This script should preferably be called from the data/ directory as working
-# directory, because other scripts (like project/run-testbed.sh) expect their
+# directory, because other scripts (like software/run-testbed.sh) expect their
 # input data in ../data/testbed (from their perspective). Also, the bounding
 # box default path expects this working directory.
 

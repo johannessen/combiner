@@ -20,11 +20,11 @@
 /data/koeln-regbez-180101.osm.pbf
 /data/chapter6-*
 
-/project/build
-/project/lib/args4j-*
-/project/lib/geotools-*
-/project/lib/testng-*
-/project/nohup.out
+/software/build
+/software/lib/args4j-*
+/software/lib/geotools-*
+/software/lib/testng-*
+/software/nohup.out
 
 # TeX intermediate files
 /thesis/*/*.aux

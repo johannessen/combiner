@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Combiner Test Suite" verbose="1" >
+  <test name="all" >
+    <packages>
+       <package name="de.thaw" />
+       <package name="de.thaw.comb.util" />
+       <package name="de.thaw.comb" />
+       <package name="de.thaw.comb.io" />
+       <package name="de.thaw.comb.cli" />
+       <package name="de.thaw.comb.highway" />
+    </packages>
+  </test>
+</suite>

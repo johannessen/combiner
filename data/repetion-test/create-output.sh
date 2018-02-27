@@ -9,8 +9,8 @@ run-combiner () {
 	OUT="$3"
 	LINES_OUT="$4"
 	ITERATIONS="$2"
-	java -cp ../../project/build/classes:../../project/lib/geotools-9.0/* -ea:de.thaw... -Xms256m -Xmx2048m \
-		de.thaw.thesis.comb.cli.CombinerMain \
+	java -cp ../../software/build/classes:../../software/lib/geotools-9.0/* -ea:de.thaw... -Xms256m -Xmx2048m \
+		de.thaw.comb.cli.CombinerMain \
 		"$IN" "$OUT" "" "$LINES_OUT" "" "$ITERATIONS"
 	
 }
