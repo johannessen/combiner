@@ -144,6 +144,7 @@
 
 % shortcut for frequently-used abbreviation (for use where using the abbreviation in the final text might be appropriate)
 \newcommand{\osm}{Open\-Street\-Map}
+\newcommand{\TheJavaPackage}{}  % should be {de.thaw.comb.}, but that's too wide for the appendix table
 
 % Hinweis auf fehlende Referenz
 %\newcommand{\noref}[1]{[#1\ifthenelse{\isempty{#1}}{}{ }\?] }
@@ -210,6 +211,7 @@
 	\end{table}
 }
 \RequirePackage{longtable}
+\RequirePackage{multirow}
 
 % graphics
 \RequirePackage{graphicx}

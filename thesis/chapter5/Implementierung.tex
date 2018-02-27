@@ -397,7 +397,7 @@ Auch die Ausgabe erfolgt zunächst als Shapefile, damit das Generalisierungsergb
 
 Die Shapefiles der Geofabrik enthalten aus technischen Gründen veränderte Attribute anstelle der Original-\osm-\term{tags}.
 Diesem Problem wurde begegnet, indem ein Adapter (\term{object adapter} \cf[139--141]{GHJV95}) die aus den Shapefiles gelesenen Attribute wieder zurück in das \osm-Format wandelt, ohne dass dies für den \term{Combiner} sichtbar wird.
-% Adapter pattern: io.ShapeTagsAdapter
+% Adapter pattern: io.ShapeGeofabrikAdapter
 
 Die Nutzung des \term{frameworks} GeoTools zur Ein- und Ausgabe von Geodaten war unerwartet problematisch.
 Zwar bietet GeoTools umfangreiche Unterstützung für verschiedene Datenformate, jedoch sind die entsprechenden GeoTools-Klassen umständlich zu benutzen, ihr Interface ist nicht stabil und sie arbeiten sehr langsam.

@@ -138,50 +138,54 @@ boolean & ja oder nein (bezogen auf die Wahrheit logischer Aussagen) \\
 
 \onetable{H}{
 
-\begin{tabular}{|p{3.3cm}|p{10.5cm}|}
+\begin{tabular}{|ll|ll|}
 \hline
-\textbf{in Abschnitt~\ref{ch:algorithm-parts}} & \textbf{Entsprechung im Quelltext} \\
+%\multicolumn{2}{|l|}{\textbf{Abschnitt}} & \multicolumn{2}{|l|}{\textbf{Bezeichner im Quelltext}} \\
+%\makebox[\widthof{0.0.0}]{$\downarrow$} & \textbf{Bezeichner} & \textbf{Klasse / Interface} & \textbf{Methode} \\
+\textbf{In} & \textbf{Bezeichner} & \textbf{Klasse / Interface} & \textbf{Methode} \\
 \hline
-\textproc{Start} & Interface \texttt{Segment}, Methode \texttt{start} \\
+\ref{ch:split-algorithm} & \textproc{Ende} & \code{\TheJavaPackage Segment} & \code{end} \\
 \hline
-\textproc{Ende} & \texttt{Segment.end} \\
+\ref{ch:split-algorithm} & \textproc{Fußpunkt} & \code{\TheJavaPackage AbstractSegment} & \code{findPerpendicularFoot} \\
 \hline
-\textproc{Segmente} & \texttt{Highway.segmentation} \\
+\ref{ch:split-algorithm} & \textproc{Hülle} & \code{\TheJavaPackage SourceSegment} & \code{envelope} \\
 \hline
-\textproc{Splitten} & \texttt{SplitQueueIterator} \\
-% SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung (warum? - in splitTargets/closeParallels)
-\hline
-\textproc{NaheSegmente} & \texttt{Combiner.regionaliseSegments} \\
+\ref{ch:split-algorithm} & \textproc{NaheSegmente} & \code{\TheJavaPackage Combiner} & \code{regionaliseSegments} \\
 % NAHESEGMENTE: Combiner.regionaliseSegments (arbeitet auf SourceSegments, also auf S statt S' und wurzel(s) statt s, weil so die Schnittmengenprüfung nicht wiederholt ausgeführt werden muss und damit ein Spatial Index erleichtert/ermöglicht wird)
 \hline
-\textproc{Hülle} & \texttt{SourceSegment.envelope} \\
+\ref{ch:split-algorithm} & \textproc{Nodes} & \code{\TheJavaPackage NodePair} & \code{other} \\
+% NODES: es gibt keine exakte Entsprechung, aber NodePair#other() erfüllt letztlich denselben Zweck, zu dem NODES definiert wurde
 \hline
-\textproc{Fußpunkt} & \texttt{AbstractSegment.findPerpendicularFoot} \\
+\ref{ch:split-algorithm} & \textproc{Segmente} & \code{\TheJavaPackage highway.Highway} & \code{segmentation} \\
 \hline
-\textproc{Analyse} & \texttt{AbstractSegment.analyse} \\
+\ref{ch:split-algorithm} & \textproc{Splitten} & \code{\TheJavaPackage Combiner} & \code{splitSegments} \\
+% SPLITTEN: SplitQueueIterator=S' (in Combiner.splitSegments), AbstractLine.splitCloseParallels()=für alle n/t, T enthält schon eine Parallitätsprüfung
 \hline
-\textproc{Parallel} & \texttt{SourceSegment.closeParallels} \\
+\ref{ch:split-algorithm} & \textproc{Start} & \code{\TheJavaPackage Segment} & \code{start} \\
+\hline
+\ref{ch:analyse-algorithm} & \textproc{Analyse} & \code{\TheJavaPackage AbstractSegment} & \code{analyse} \\
+\hline
+\ref{ch:analyse-algorithm} & \textproc{Distanz} & \code{\TheJavaPackage highway.HighwayAnalyser} & \code{distance} \\
+\hline
+\ref{ch:analyse-algorithm} & \textproc{Mittelpunkt} & \code{\TheJavaPackage NodePair} & \code{midPoint} \\
+\hline
+\multirow{ 2}{*}{\ref{ch:analyse-algorithm}} & \multirow{ 2}{*}{\textproc{Parallel}} & \code{\TheJavaPackage highway.HighwayAnalyser} & \code{shouldEvaluate} \\
 % PARALLEL: SourceSegment.closeParallels / MyAnalyser
+ &  & \code{\TheJavaPackage SourceSegment} & \code{closeParallels} \\
 \hline
-\textproc{Distanz} & \texttt{MyAnalyser.distance} \\
+\ref{ch:node-match-algorithm} & \textproc{NodesZuordnen} & \code{\TheJavaPackage NodeGraph} & \code{createGraph} \\
 \hline
-\textproc{Mittelpunkt} &  \\
+\ref{ch:generalisation-algorithm} & \textproc{Fortsetzung} & \code{\TheJavaPackage GeneralisedSection} & \code{traverseGraph} \\
 \hline
-\textproc{NodesZuordnen} & \texttt{NodeGraph.createGraph} \\
+\ref{ch:generalisation-algorithm} & \textproc{Zusammenfassen} & \code{\TheJavaPackage GeneralisedLines} & \code{traverse} \\
 \hline
-\textproc{Zusammenfassen} & \texttt{GeneralisedLines.traverse} \\
-\hline
-\textproc{Fortsetzung} &  \\
-\hline
-\textproc{Generalisierung} & \texttt{Combiner.run} \\
+\ref{ch:algorithm-overview} & \textproc{Generalisierung} & \code{\TheJavaPackage Combiner} & \code{run} \\
 \hline
 \end{tabular}
 
 \caption{Aufschlüsselung der Bezeichner in dieser Arbeit zu denen im Quelltext}
 \label{tab:identifiers}
 }
-
-% TODO: Variablen innerhalb von ANALYSE und ZUSAMMENFASSEN ebenfalls aufschlüsseln?
 
 Der Quelltext der entwickelten Software ist zusammen mit der zugehörigen API"=Dokumentation zugänglich unter:\\
 \url{http://arne.johannessen.de/thesis}
