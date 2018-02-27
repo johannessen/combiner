@@ -289,12 +289,12 @@ Die Unterscheidung der Seiten links und rechts kann durch Bestimmung der Winkel 
 		\State $T \gets \Set{t \SetCond t \in \textproc{NaheSegmente}(s, S) \wedge \textproc{Parallel}(s, t)}$  % vereinfachend
 		\State $v_{Start} \gets \textproc{Start}(t) - \textproc{Start}(s)$
 		\State $v_{Ende} \gets \textproc{Ende}(t) - \textproc{Start}(s)$
-		\State $L \gets \Set{t \in T \SetCond \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0}$
+		\State $\mathtowidth[R]{L} \gets \Set{t \in T \SetCond \sphericalangle (s, v_{Start}) < 0 \wedge \sphericalangle (s, v_{Ende}) < 0}$
 		\State $R \gets \Set{t \in T \SetCond \sphericalangle (s, v_{Start}) > 0 \wedge \sphericalangle (s, v_{Ende}) > 0}$
 		\State\Comment{Mengen $L, R$ aller nahen Parallelen links- bzw. rechtsseitig}
 		\State\Comment{Winkel seien definiert im Intervall $(-\pi,\pi)$ und im Uhrzeigersinn}
-		\ForAll{$l \textbf{ mit } l \in L$}
-			\If{$0 < \textproc{Distanz}(s, l) \leqslant \textproc{Distanz}(s, l')\; \forall\ l' \in L$}
+		\ForAll{$\mathtowidth[r]{l} \textbf{ mit } \mathtowidth[r]{l} \in L$}
+			\If{$0 < \textproc{Distanz}(s, \mathtowidth[r]{l}) \leqslant \textproc{Distanz}(s, \mathtowidth[r']{l'})\; \forall\ \mathtowidth[r']{l'} \in L$}
 				\State $\relation{parallelLinks}[\relation{wurzel}[s]] \gets l$
 			\EndIf
 		\EndFor
@@ -442,15 +442,15 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können leicht di
 			\Repeat
 				\Comment{versuchen, die nächste Punktzuordnung $Z'$ zu finden}
 				\State $s' \gets \textproc{Fortsetzung}(s,Z,S)$
-				\State $t' \gets \textproc{Fortsetzung}(t,Z,S)$
-				\State $Z_1' \gets \Set{\textproc{Nodes}(s') \cap Z, \textproc{Nodes}(t') \setminus Z}$
-				\State $Z_2' \gets \Set{\textproc{Nodes}(t') \cap Z, \textproc{Nodes}(s') \setminus Z}$
+				\State $\mathtowidth[s']{t'} \gets \textproc{Fortsetzung}(\mathtowidth[s]{t},Z,S)$
+				\State $Z_1' \gets \Set{\textproc{Nodes}(s') \cap Z, \textproc{Nodes}(\mathtowidth[s']{t'}) \setminus Z}$
+				\State $Z_2' \gets \Set{\textproc{Nodes}(\mathtowidth[s']{t'}) \cap Z, \textproc{Nodes}(s') \setminus Z}$
 				\State $Z_3' \gets Z_1' \cup Z_2' \setminus Z $
 				\If{$\exists\ Z' : \Set{Z'} = \Set{Z_1', Z_2', Z_3'} \cap \mathcal{Z}$}
 					\Comment{Mittellinie bilden}
 					\State $E \gets E \cup \Set{(\textproc{Mittelpunkt}(Z), \textproc{Mittelpunkt}(Z'))}$
 					\State $\relation{zusammengefasst}[s] \gets$ ja
-					\State $\relation{zusammengefasst}[t] \gets$ ja
+					\State $\relation{zusammengefasst}[\mathtowidth[s]{t}] \gets$ ja
 					\State $s \gets s'$, $t \gets t'$, $Z \gets Z'$ \Comment{weiterschalten}
 				\EndIf
 			\Until{$\nexists\ Z'$}
@@ -463,7 +463,7 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können leicht di
 
 \onefigure{htb}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/collapsing-continuation}
-	\caption{Bilden der Mittellinie als Generalisierungsergebnis auf Basis der Punktezuordnungen}
+	\caption{Bilden der Mittellinie als Generalisierungsergebnis auf Basis der Punkte\-zuordnungen}
 	\label{fig:collapsing-continuation}
 }
 

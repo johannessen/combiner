@@ -56,6 +56,7 @@
 \newcommand{\TheEmptySet}{\Set{}}
 \newcommand{\Nil}{\varnothing}
 \newcommand{\ThousandsScale}[1]{1\nobreak:\nobreak #1 \,000}
+\NewDocumentCommand{\mathtowidth}{O{}O{c}m}{\makebox[\widthof{$#1$}][#2]{$#3$}}
 
 % --------------
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management
@@ -112,7 +113,7 @@
 \hbadness=1414
 \setlength{\emergencystretch}{1.5em}
 \hfuzz=.3pt
-\hyphenation{mul-ti-step Punk-te-zu-ord-nung Punk-te-zu-ord-nung-en}
+\hyphenation{mul-ti-step}
 % http://www.tex.ac.uk/FAQ-overfull.html
 
 % use 'normal' (serif) font for all headers and captions
