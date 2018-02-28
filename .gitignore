@@ -19,6 +19,7 @@
 /data/testbed-out/*.prj
 /data/koeln-regbez-180101.osm.pbf
 /data/chapter6-*
+/thesis/chapter6/*/out*.geojson
 
 /software/build
 /software/lib/args4j-*

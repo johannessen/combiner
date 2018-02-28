@@ -12,22 +12,31 @@ then
 fi
 
 
+DIR=`pwd`
+cd `dirname "$0"`
+
 ant build
 
 
-IN=../data/testbed-nrw/koeln-classfied-nolinks.shp
-#IN=../data/testbed-nrw/koeln-main-nolinks.shp
-#IN=../data/testbed-nrw/koeln-motorway.shp
-#IN=../data/testbed-nrw/koeln-SE-main.shp
-#IN=../data/testbed-nrw/koeln-SE-motorway.shp
-#IN=../data/testbed-nrw/koeln-junkersdorf-main.shp
-#IN=../data/shape-test/simple3.shp
-#IN=../data/chapter6-rail/koeln-main.shp
-#IN=../data/chapter6-profiling/koeln-rbz-primary-link.shp
-#IN=../data/testbed-nrw/roads-motorway.shp
+IN_DEFAULT=../data/testbed-nrw/koeln-classfied-nolinks.shp
+#IN_DEFAULT=../data/testbed-nrw/koeln-main-nolinks.shp
+#IN_DEFAULT=../data/testbed-nrw/koeln-motorway.shp
+#IN_DEFAULT=../data/testbed-nrw/koeln-SE-main.shp
+#IN_DEFAULT=../data/testbed-nrw/koeln-SE-motorway.shp
+#IN_DEFAULT=../data/testbed-nrw/koeln-junkersdorf-main.shp
+#IN_DEFAULT=../data/shape-test/simple3.shp
+#IN_DEFAULT=../data/chapter6-rail/koeln-main.shp
+#IN_DEFAULT=../data/chapter6-profiling/koeln-rbz-primary-link.shp
+#IN_DEFAULT=../data/testbed-nrw/roads-motorway.shp
 
-#IN=../data/quads/de_1x2-mtp/baden-wuerttemberg/n48.5-e9.shp
-#IN=../data/quads/de_1x2-classified/baden-wuerttemberg/n48.5-e9.shp
+#IN_DEFAULT=../data/quads/de_1x2-mtp/baden-wuerttemberg/n48.5-e9.shp
+#IN_DEFAULT=../data/quads/de_1x2-classified/baden-wuerttemberg/n48.5-e9.shp
+
+IN="${IN:=$IN_DEFAULT}"
+if [ ! -f "$IN" -a -f "$DIR/$IN" ]
+then
+	IN="$DIR/$IN"
+fi
 
 OUT=../data/combiner/out.json
 if [ -n "$DEBUG_OUT" ]

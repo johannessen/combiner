@@ -22,7 +22,7 @@ Kapitel
 
 5 ✅
 
-6 🅰 ⬅
+6 ✅
 
 7 ✅
 
@@ -95,19 +95,3 @@ Kapitel 5
 
 - 5.1 Tempus sollte hier Präsens sein, oder etwa nicht? (Fußnote?)
 - 5.2 evtl. Komponentenbeschreibung und Abbildung neu
-
-
-Kapitel 6
----------
-
-- fig:breitscheid-gen-styled – wie zentrieren und vernünftig umbrechen?
-- fig:iteration-good – fehlende Punkte darstellen (als nodes, indem das Ergebnis der ersten Gen. als SHP importiert wird) und splitPts wegnehmen (bringen hier nicht mehr viel; evtl. auch Matches wegnehmen? eher ja.)
-- fig:rail-kalk-out: neu
-- fig:rail-kalk-detail: neu
-- Legenden:
-	- fig:result-trivial-detail-rolshover (rechts +splitPts, -nodes)
-	- fig:koelnarena-gen-cleanup (+splitPts)
-	- fig:kanal-gen-cleanup (+splitPts - oder splitPts hier schon wegnehmen? eher nicht.)
-	- fig:iteration-good (unklar - erst Grafik neu)
-	- fig:rail-kalk-out (fehlt)
-	- fig:rail-kalk-detail (fehlt)

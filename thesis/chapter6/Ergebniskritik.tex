@@ -8,9 +8,6 @@
 
 \chapter{Ergebnisdiskussion}
 \label{ch:result}
-% alles NUR im "Anwendungskontext", d.h. in Bezug auf die Ausgabe-Geodaten, nicht die Softwarequalität (das war in 5.4!)
-
-%Die in Kap. 4 und 5 entwickelte Software ist das Ergebnis dieser Arbeit. Hier diskutiert werden soll die Arbeitsweise dieser Software und die Qualität der von ihr ausgegebenen Geodaten in Bezug auf die Aufgabenstellung.
 
 Bei der Evaluierung der Software ist zu bedenken, dass die \osm-Datenbank ständig weiter bearbeitet wird.
 Konsistente Ergebnisse für ein bestimmtes Gebiet erfordern dagegen, dass immer mit Geodaten vom selben Stand gearbeitet wird.
@@ -28,23 +25,24 @@ Anhänge~\ref{appx:fullpage-examples-1} und~\ref{appx:fullpage-examples-2} zeige
 
 Bei Anwendung des \term{Combiners} auf Geodaten aus der \osm-Datenbank zeigt sich, dass die implementierten Algorithmen grundsätzlich funktionieren.
 
-\onefigure{p}{
-	\twofigures{H}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
-			\put(122,84){\figuremark{1}}
-			\put(58,60){\figuremark{2}}
-			\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
-		\end{overpic}
-	}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
-			\put(122,84){\figuremark{1}}
-			\put(58,60){\figuremark{2}}
-			\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
-		\end{overpic}
-	}
+\onedoublefigure{p}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-in}
+		\put(122,84){\figuremark{1}}
+		\put(58,60){\figuremark{2}}
+		\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
+	\end{overpic}
+}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-out}
+		\put(122,84){\figuremark{1}}
+		\put(58,60){\figuremark{2}}
+		\put(23,39){\rotatebox{50}{\figureframe{.1167}}}
+	\end{overpic}
+}{
 	% trivial = testbed-nrw/koeln-classfied-nolinks.shp
 	% 1:30000 Google Mercator, bbox 778765 6607045 780865 6608245, 0.2mm stroke
-	\caption{Ergebnis des \term{Combiners} im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn L\,124)}
+	\caption
+		[Ergebnis des \term{Combiners} im einfachen Fall]
+		{Ergebnis des \term{Combiners} im einfachen Fall (links Eingangsdaten, rechts Generalisierungsergebnis; Köln-Gremberg mit Autobahn)}
 	\label{fig:result-trivial}
 }
 
@@ -54,13 +52,14 @@ Anstelle der beiden Richtungsfahrbahnen der Autobahn gibt es nun nur noch einen 
 Die Nähe zu nachgeordneten Straßen und deren planfreie Kreuzung mit der Autobahn (bei Markierung~\textfiguremark{1}) stört die Generalisierung nicht.
 Auch eine Strecke paralleler Fahrbahnen im nachgeordneten Netz wurde trotz eines scharfen Knicks erfolgreich als parallel erkannt und zusammengefasst (Markierung~\textfiguremark{2}).
 
-\onefigure{p}{
-	\twofigures{H}{
-		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-styled}
-	}{
-		\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-rules}
-	}
-	\caption{Visualisierung des Generalisierungsergebnisses (links Kartendarstellung, rechts Screenshot der Zeichenregeln in QGIS)}
+\onedoublefigure{p}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-styled}
+}{
+	\includegraphics[width=\ScaleIfNeeded]{../chapter6/result-trivial-rules}
+}{
+	\caption
+		[Visualisierung des Generalisierungsergebnisses]
+		{Visualisierung des Generalisierungsergebnisses (links Kartendarstellung, rechts Screenshot der Zeichenregeln in QGIS)}
 	\label{fig:result-trivial-styled}
 }
 
@@ -70,24 +69,25 @@ Zusätzlich gibt der \term{Combiner} einzelne \term{tags} der \osm-Quelldaten mi
 Anhand dieser Attribute können leicht Regeln mit jeweils passenden Linearsignaturen definiert werden.
 
 % writeNodeMatches
-\onefigure{p}{
-	\twofigures{H}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover}
-			\put(129,0){\includegraphics{../chapter6/legend-nodematch}}
-			\put(53,7){\figuremark{1}}
-			\put(81,85){\figuremark{2}}
-			\put(184,83){\figuremark{3}}
-		\end{overpic}
-	}{
-		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover-gen}
-			\put(129,0){\includegraphics{../chapter6/legend-nodematch-gen}}
-			\put(53,7){\figuremark{1}}
-			\put(81,85){\figuremark{2}}
-			\put(184,83){\figuremark{3}}
-		\end{overpic}
-	}
+\onedoublefigure{p}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover}
+		\put(129,0){\includegraphics{../chapter6/legend-nodematch}}
+		\put(53,7){\figuremark{1}}
+		\put(81,85){\figuremark{2}}
+		\put(184,83){\figuremark{3}}
+	\end{overpic}
+}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/result-trivial-detail-rolshover-gen}
+		\put(127,0){\includegraphics{../chapter6/legend-nodematch-gen-only}}
+		\put(53,7){\figuremark{1}}
+		\put(81,85){\figuremark{2}}
+		\put(184,83){\figuremark{3}}
+	\end{overpic}
+}{
 	% 1:3500 Google Mercator rotated 50°, bbox 779025 6607525 779270 6607665
-	\caption{Detaildarstellung Generalisierung mit Punktezuordnungen (links Eingangsdaten, rechts Generalisierungsergebnis; \textfiguremark{2}~in Abbildung~\ref{fig:result-trivial})}
+	\caption
+		[Detaildarstellung Generalisierung mit Punktezuordnungen]
+		{Detaildarstellung Generalisierung mit Punktezuordnungen (links Eingangsdaten, rechts Generalisierungsergebnis; \textfiguremark{2}~in Abbildung~\ref{fig:result-trivial})}
 	\label{fig:result-trivial-detail-rolshover}
 }
 
@@ -170,7 +170,7 @@ An \term{nodes}, die sowohl beim Zusammenfassen entfallene Linien als auch ander
 Sie werden von nicht generalisierten Linien weiterbenutzt, die generalisierten Linien hingegen verwenden die neu erzeugten Punkte, so dass an den Übergängen topologische Lücken im Straßennetz entstehen.
 Der \term{Combiner} versucht dem zu begegnen, indem die \term{nodes} an den Enden \emph{nicht} generalisierter Linienzüge auf diese Situation hin geprüft und nötigenfalls durch geeignete Punkte auf der generalisierten Mittellinie ersetzt werden.
 
-\onefigure{h}{
+\onefigure{ht}{
 	\twofigures{H}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/koelnarena-gen}
 			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
@@ -185,7 +185,9 @@ Der \term{Combiner} versucht dem zu begegnen, indem die \term{nodes} an den Ende
 		\end{overpic}
 	}
 	% 1:5500 Google Mercator, bbox 777275 6610050 777660 6610270
-	\caption{Detaildarstellung der Beseitigung von Topologielücken (links vorher, rechts nachher; L\,111 in Köln-Deutz)}
+	\caption
+		[Detaildarstellung der Beseitigung von Topologielücken]
+		{Detaildarstellung der Beseitigung von Topologielücken (links vorher, rechts nachher; L\,111 in Köln-Deutz)}
 	\label{fig:koelnarena-gen-cleanup}
 }
 
@@ -208,12 +210,14 @@ Sie sind deshalb bereits in den Eingangsdaten für die Zusammenfassung durch Obj
 
 Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebenserfahrung; aus der Topologie der generalisierten Geodaten geht es indes nicht hervor.
 
-\onefigure{h}{
+\onefigure[12cm]{ht}{
 	\begin{overpic}[width=7cm]{../chapter6/breitscheid-bg}
 		\put(0,0){\scalebox{1}[1.0008]{\includegraphics[width=7cm]{../chapter6/breitscheid-gen-styled}}}
 	\end{overpic}
 	% 1:50000 Google Mercator, bbox 761000 6682100 764500 6684100
-	\caption{Fehlende Verbindungsrampen im Generalisierungsergebnis ~~~~~~~~~~~~~~~~~~~~~~~~~\cf[entsättigt][Hintergrund ]{map:osm-carto}}
+	\caption
+		[Fehlende Verbindungsrampen im Generalisierungsergebnis]
+		{Fehlende Verbindungsrampen im Generalisierungsergebnis \cf[entsättigt][Hintergrund ]{map:osm-carto}}
 	\label{fig:breitscheid-gen-styled}
 }
 
@@ -230,7 +234,9 @@ Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebens
 		\put(107,33){\figuremark{3}}
 	\end{overpic}
 	% 1:3500 Google Mercator rotated 10°, bbox 771595 6612098 771840 6612238
-	\caption{Verbleibende Topologielücken (Innere Kanalstraße, Köln)}
+	\caption
+		[Verbleibende Topologielücken]
+		{Verbleibende Topologielücken (Innere Kanalstraße, Köln)}
 	\label{fig:kanal-gen-cleanup}
 }
 
@@ -260,12 +266,14 @@ Abbildung~\ref{fig:roundabout-gen-cleanup} zeigt, wie alle im Kreis einander geg
 Mit dieser Masse widersprüchlicher Punktezuordnungen kann der Algorithmus zur Zusammenfassung keine brauchbaren Ergebnisse mehr liefern.
 Auch der in Abschnitt~\ref{ch:relocateGeneralisedNodes} besprochene Ansatz zur Beseitigung von Lücken in der Topologie läuft ins Leere.
 
-\onefigure{h}{
+\onefigure{ht}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/roundabout-gen-cleanup}
 		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
 	\end{overpic}
 	% 1:2000 Google Mercator, bbox 785968 6600972 786108 6601052
-	\caption{Verhalten am Kreisverkehr (Friedrichstraße, Köln-Porz)}
+	\caption
+		[Verhalten am Kreisverkehr]
+		{Verhalten am Kreisverkehr (Friedrichstraße, Köln-Porz)}
 	\label{fig:roundabout-gen-cleanup}
 }
 
@@ -289,8 +297,9 @@ Die Implementierung der vorgestellten Algorithmen im \term{Combiner} hat bei Anw
 Tabelle~\ref{tab:profiling-segments} stellt die gemessenen Ausführungszeiten $t$ am Beispiel von Fernstraßen (bis einschließlich \osmtag{highway}[primary], ohne \term{links}) in der Umgebung von Köln dar.
 % wall clock ("processing time")
 Angefangen mit einer Gruppe von Stadtteilen bis hin zum Bundesland Nordrhein-Westfalen wurden steigende Flächengrößen berechnet bei ansonsten gleichen Bedingungen.
+% für steigende Flächengrößen gerechnet
 
-\onetable{h}{
+\onetable{ht}{
 	\begin{tabular}{lrrlcccrc}
 &&&& \multicolumn{2}{@{}c@{}}{Wachstumsfaktor} &&& \\
 Gebiet & \multicolumn{1}{c}{Fläche} & \multicolumn{1}{c}{$|S|$} & \multicolumn{1}{c}{$t$} & für $|S|$ & für $t$ & $\frac{|S'|}{|S|}$ & \multicolumn{1}{c}{$\nu$} & $\psi$ \\
@@ -341,25 +350,28 @@ Abschließend soll deshalb an zwei Beispielen betrachtet werden, wie sich die im
 
 
 \subsection{Fahrbahnen für unterschiedliche Arten von Verkehr}
-%\label{ch:result-iterated-execution}
+
+% export IN=../data/testbed-nrw/koeln-motorway-links.shp; ./run-combiner.sh --debug --tags 0 --iterations 2
 
 Verteilerfahrbahnen und langgezogene Rampen für abbiegenden Verkehr sind verbreitete, schon in Abschnitt~\ref{ch:different-traffic-types-case-desc} genannte Beispiele für parallele Fahrbahnen für unterschiedliche Verkehrsarten.
 
 Nachdem der \term{Combiner} dazu vorgesehen ist, $n$~parallele Linienzüge zu $n-1$~Linienzügen zu generalisieren (mit $n=2$ im Normalfall), liegt es nahe, die Algorithmen zur Generalisierung einfach $n-1$~Mal nacheinander anzuwenden, so dass im besten Fall auch bei beliebig vielen Parallelen am Ende nur noch ein einziger Linienzug übrig bleibt.
 Abbildung~\ref{fig:iteration-good} demonstriert, dass diese Strategie gelingen könnte.
 
-\onefigure{h}{
+\onefigure{ht}{
 	\twofigures{H}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/opladen-gen-1}
-			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen-only}}
 		\end{overpic}
 	}{
 		\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/opladen-gen-2}
-			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+			\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen-only}}
 		\end{overpic}
 	}
 	% 1:6500 Google Mercator rotated -24°, bbox 778845 6630050 779300 6630310
-	\caption{Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallelen (links erste, rechts zweite Generalisierung; A\,3 bei Leverkusen)}
+	\caption
+		[Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallelen]
+		{Detaildarstellung der wiederholten Ausführung für mehr als zwei Parallelen (links erste, rechts zweite Generalisierung; A\,3 bei Leverkusen)}
 	\label{fig:iteration-good}
 }
 
@@ -372,9 +384,12 @@ Nicht unerwähnt bleiben darf, dass sich das Unvermögen des in Abschnitt~\ref{c
 Wie Abbildung~\ref{fig:iteration-gaps} zeigt, kommt es vor, dass das Generalisierungsergebnis nach mehreren Wiederholungen mit zahlreichen Lücken durchsetzt ist.
 Dieses Bild zeigt sich sehr verbreitet, womit das Ergebnis ungeeignet zur Weiterverarbeitung ist.
 
-\onefigure{h}{
+\onefigure[11.5cm]{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter6/leverkusen-out}
-	\caption{Überreste eines Kleeblatts nach zwei Generalisierungen (Autobahnkreuz Leverkusen)}
+	% 1:30000 Google Mercator, bbox 779150 6628160 781250 6629360
+	\caption
+		[Überreste eines Kleeblatts nach zwei Generalisierungen]
+		{Überreste eines Kleeblatts nach zwei Generalisierungen (Autobahnkreuz Leverkusen)}
 	\label{fig:iteration-gaps}
 }
 
@@ -393,22 +408,35 @@ Beschränkt man sich auf Haupt- und Streckengleise (\osmtag{railway}[rail], \osm
 Abbildung~\ref{fig:rail-kalk-out} zeigt das Ergebnis der Anwendung auf die südliche Einfahrt zum Güterbahnhof Köln-Kalk (\textfiguremark{1}).
 Während die Reisezug-Gleise \textfiguremark{2}--\textfiguremark{3} und auch die drei Zulaufstrecken \textfiguremark{4}, \textfiguremark{5} und \textfiguremark{6} korrekt generalisiert wurden, funktioniert die Zuordnung im Weichenbereich bei \textfiguremark{7} nicht richtig, weil sich hier Gleise mit unterschiedlichen Streckennummern kreuzen.
 
-Dem für ein Straßennetz entwickelten Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} gelingt es aufgrund der spitzen Winkel nicht, „geeignete“ Punkte zur Beseitigung der Lücken zu finden, wodurch ein gelungenes Ergebnis verhindert wird (Abbildung~\ref{fig:rail-kalk-detail}).
+Dem für ein Straßennetz entwickelten Verfahren zur Beseitigung von Topologielücken aus Abschnitt~\ref{ch:relocateGeneralisedNodes} gelingt es auch aufgrund der spitzen Winkel oft nicht, „geeignete“ Punkte zur Beseitigung der Lücken zu finden, wodurch ein gelungenes Ergebnis verhindert wird (Abbildung~\ref{fig:rail-kalk-detail}).
 
-\onefigure{h}{
+\onefigure{ht}{
 	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-out}
-%		\put(0,0){\includegraphics{../chapter6/legend-rail-out}}
+		\put(0,81){\includegraphics{../chapter6/legend-rail-out}}
+		% printf "779900 6608400\n781650 6609400" | cs2cs +init=epsg:3857 +to +proj=merc +lat_ts=50.93 +units=m +datum=WGS84 -  # => display scale approx. 1:15780
+		\put(118,54){\rotatebox{84}{\figureframe{.204}[.0792]}}
+		\put(130,108){\figuremark{1}}
+		\put(25,68){\figuremark{2}}
+		\put(153,5){\figuremark{3}}
+		\put(41,18){\figuremark{4}}
+		\put(114,5){\figuremark{5}}
+		\put(145,35){\figuremark{6}}
+		\put(136,66){\figuremark{7}}
 	\end{overpic}
-	% TODO: QGIS-export, ~10° rotiert
+	% export IN=../data/chapter6-rail/koeln-main.shp; ./run-combiner.sh --debug --tags 2
+	% 1:25000 Google Mercator rotated -16°, bbox 779900 6608400 781650 6609400
 	\caption{Generalisierungsergebnis bei Anwendung des \term{Combiners} auf Bahnstrecken}
 	\label{fig:rail-kalk-out}
 }
-\onefigure{h}{
-	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-detail}
-%		\put(0,0){\includegraphics{../chapter6/legend-nodematch-gen}}
+\onefigure[11cm]{ht}{
+	\begin{overpic}[width=\ScaleIfNeeded]{../chapter6/rail-kalk-detail/transformed}
+		\put(184,0){\includegraphics{../chapter6/legend-nodematch-gen}}
 	\end{overpic}
-	% TODO: QGIS-export, ~60° rotiert
-	\caption{Detaildarstellung Generalisierung im Weichenbereich (\textfiguremark{7}~in Abbildung~\ref{fig:rail-kalk-out})}
+	% rail-kalk-detail/transform.pl  # Affintransformation: Dehnung auf 200% quer zur Achse 16°
+	% 1:2500 UTM32 rotated 60°, bbox 360479 5643905 360704 5644005
+	\caption
+		[Detaildarstellung Generalisierung im Weichenbereich]
+		{Detaildarstellung Generalisierung im Weichenbereich (\textfiguremark{7}~in Abbildung~\ref{fig:rail-kalk-out}, gedehnt)}
 	\label{fig:rail-kalk-detail}
 }
 
@@ -424,7 +452,7 @@ die Annahme $|S'| \approx 2 \cdot |S|$ aus Abschnitt~\ref{ch:algorithm-overview}
 
 Tabelle~\ref{tab:profiling-railways} zeigt, dass sich der Zeitbedarf durch bessere Anpassung der Definition von \textproc{Parallel} aus Abschnitt~\ref{ch:analyse-algorithm} auf die Bedingungen im Eisenbahnnetz zumindest geringfügig verbessern lässt.
 
-\onetable{h}{
+\onetable{ht}{
 	\begin{tabular}{lrcrlcccrc}
 & \multicolumn{2}{@{}c@{}}{\textproc{Parallel}} &&& \multicolumn{2}{@{}c@{}}{Wachstumsfaktor} &&& \\
 Spezialfall & \multicolumn{1}{c}{$\alpha$} & $\eta$ & \multicolumn{1}{c}{$|S|$} & \multicolumn{1}{c}{$t$} & für $|S|$ & für $t$ & $\frac{|S'|}{|S|}$ & \multicolumn{1}{c}{$\nu$} & $\psi$ \\
@@ -448,17 +476,3 @@ Bahngleise &  8\degree & 15\,m & 11607 & 2,5\,s  & 1,3 & \hphantom{1}3,2 & 2,14 
 \onlyinsubfile{\listoftables}
 %\onlyinsubfile{\subfile{../bibliography/Literaturverzeichnis}}
 \end{document}
-
-
-% TODO:
-% fig:breitscheid-gen-styled - wie zentrieren und vernünftig umbrechen?
-% fig:iteration-good - fehlende Punkte darstellen (als nodes, indem das Ergebnis der ersten Gen. als SHP importiert wird) und splitPts wegnehmen (bringen hier nicht mehr viel; evtl. auch Matches wegnehmen? eher ja.)
-% fig:rail-kalk-out: neu
-% fig:rail-kalk-detail: neu
-% Legenden:
-% - fig:result-trivial-detail-rolshover (rechts +splitPts, -nodes)
-% - fig:koelnarena-gen-cleanup (+splitPts)
-% - fig:kanal-gen-cleanup (+splitPts - oder splitPts hier schon wegnehmen? eher nicht.)
-% - fig:iteration-good (unklar - erst Grafik neu)
-% - fig:rail-kalk-out (fehlt)
-% - fig:rail-kalk-detail (fehlt)

@@ -196,13 +196,18 @@
 	\end{figure}
 }
 \newcommand{\twofigures}[3]{\onedoublefigure{#1}{#2}{#3}{}}
-\newcommand{\onefigure}[2]{
-	\begin{figure}[#1]
-		\centering
+\NewDocumentCommand{\onefigure}{omm}{
+\begin{figure}[#2]\centering
+	\IfNoValueT{#1}{
 		\capstart
-		#2
-	\end{figure}
-}
+		#3
+	}\IfNoValueF{#1}{
+		\begin{minipage}{#1}\centering
+			\capstart
+			#3
+		\end{minipage}
+	}
+\end{figure}}
 \newcommand{\onetable}[2]{
 	\begin{table}[#1]
 		\centering
@@ -241,12 +246,10 @@
 \newcommand{\textfiguremark}[1]{\ding{\number\numexpr#1+171\relax}}
 %\newcommand{\textfiguremark}[1]{#1}
 \newcommand{\figurestandardsize}{\rule{7cm}{0cm}\rule[-.5ex]{0cm}{4cm}}
-% usage: \figureframe{.2}
-\newcommand{\figureframe}[1]{\linethickness{.2mm}\color{figuremark}\frame{\scalebox{#1}{\figurestandardsize}}}
-%% usage: \figureframe{.2} or \figureframe{.2}[.3] (for scaling not in proportion)
-%\NewDocumentCommand{\figureframe}{ m O{} }{\linethickness{.2mm}\color{figuremark}\frame{%
-%\ifthenelse{\isempty{#2}}{\scalebox{#1}{\figurestandardsize}}{\scalebox{#1}[#2]{\figurestandardsize}}%
-%}}
+% usage: \figureframe{.2} or \figureframe{.2}[.3] (for scaling not in proportion)
+\NewDocumentCommand{\figureframe}{ m O{} }{\linethickness{.2mm}\color{figuremark}\frame{%
+\ifthenelse{\isempty{#2}}{\scalebox{#1}{\figurestandardsize}}{\scalebox{#1}[#2]{\figurestandardsize}}%
+}}
 
 % algorithms
 \RequirePackage[plain]{algorithm}

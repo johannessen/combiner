@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="70.866px" height="36.851px" viewBox="0 0 70.866 36.851" style="enable-background:new 0 0 70.866 36.851;"
+	 xml:space="preserve">
+<symbol  id="Punkt" viewBox="-2.268 -2.269 4.536 4.537">
+	<g>
+		<path style="fill:#FFFFFF;" d="M1.701,0c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0c0,0.939,0.762,1.701,1.701,1.701
+			S1.701,0.939,1.701,0z"/>
+		<path d="M0,1.701c0.939,0,1.701-0.762,1.701-1.701c0-0.938-0.762-1.701-1.701-1.701S-1.701-0.938-1.701,0
+			C-1.701,0.939-0.939,1.701,0,1.701 M0,2.269c-1.25,0-2.268-1.018-2.268-2.269S-1.25-2.269,0-2.269S2.268-1.251,2.268,0
+			S1.25,2.269,0,2.269L0,2.269z"/>
+	</g>
+</symbol>
+<rect style="fill:#EBEBEB;" width="70.866" height="36.851"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(0.8436 0 0 -0.8433 7.917 5.7725)" style="overflow:visible;"/>
+<line style="fill:none;stroke:#FF7F00;stroke-width:1.4173;stroke-linejoin:round;" x1="2.835" y1="22.89" x2="13" y2="22.89"/>
+<line style="fill:none;stroke:#2277CC;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="14.49" x2="13" y2="14.49"/>
+<text transform="matrix(1 0 0 1 15.498 7.8872)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnispunkt</tspan><tspan x="0" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnissegment</tspan><tspan x="0" y="16.8" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Punktezuordnung</tspan><tspan x="0" y="25.2" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">entfallene Daten</tspan></text>
+<line style="fill:none;stroke:#B0B0B0;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="31.271" x2="13" y2="31.271"/>
+<g>
+	<circle style="fill:#FFFFFF;" cx="10.209" cy="31.271" r="0.957"/>
+	<path style="fill:#B0B0B0;" d="M10.209,30.313c0.528,0,0.957,0.429,0.957,0.957c0,0.527-0.429,0.957-0.957,0.957
+		s-0.957-0.43-0.957-0.957C9.252,30.742,9.681,30.313,10.209,30.313 M10.209,29.995c-0.704,0-1.276,0.572-1.276,1.276
+		s0.572,1.276,1.276,1.276s1.276-0.572,1.276-1.276S10.913,29.995,10.209,29.995L10.209,29.995z"/>
+</g>
+<g>
+	<g>
+		<circle style="fill:#FFFFFF;" cx="6.236" cy="31.271" r="1.323"/>
+		<path style="fill:#B0B0B0;" d="M6.236,29.948c0.73,0,1.323,0.593,1.323,1.322s-0.592,1.322-1.323,1.322S4.914,32,4.914,31.271
+			S5.506,29.948,6.236,29.948 M6.236,29.57c-0.938,0-1.701,0.763-1.701,1.7s0.763,1.7,1.701,1.7s1.701-0.763,1.701-1.7
+			S7.174,29.57,6.236,29.57L6.236,29.57z"/>
+	</g>
+	<g>
+		<circle style="fill:#B0B0B0;" cx="6.236" cy="31.271" r="0.661"/>
+	</g>
+</g>
+</svg>

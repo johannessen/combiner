@@ -2,7 +2,7 @@
 <!-- Generator: Adobe Illustrator 16.0.4, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="68.882px" height="45.354px" viewBox="0 0 68.882 45.354" style="enable-background:new 0 0 68.882 45.354;"
+	 width="70.866px" height="45.354px" viewBox="0 0 70.866 45.354" style="enable-background:new 0 0 70.866 45.354;"
 	 xml:space="preserve">
 <symbol  id="Node" viewBox="-2.553 -2.551 5.105 5.103">
 	<g>
@@ -24,18 +24,18 @@
 			S1.25,2.269,0,2.269L0,2.269z"/>
 	</g>
 </symbol>
-<rect style="fill:#EBEBEB;" width="68.882" height="45.354"/>
-<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(0.8436 0 0 -0.8433 6.2349 14.2764)" style="overflow:visible;"/>
-<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_3_" x="-2.553" y="-2.551" transform="matrix(0.8883 0 0 -0.8889 6.2349 5.6704)" style="overflow:visible;"/>
-<line style="fill:none;stroke:#FF7F00;stroke-width:1.4173;stroke-linejoin:round;" x1="2.835" y1="31.394" x2="9.638" y2="31.394"/>
-<line style="fill:none;stroke:#2277CC;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="22.994" x2="9.636" y2="22.994"/>
-<text transform="matrix(1 0 0 1 12.8477 7.9873)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">OSM-</tspan><tspan x="18.256" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:7;">node</tspan><tspan x="0" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnispunkt</tspan><tspan x="0" y="16.8" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnissegment</tspan><tspan x="0" y="25.2" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Punktezuordnung</tspan><tspan x="0" y="33.6" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Eingangsdaten</tspan></text>
-<line style="fill:none;stroke:#B0B0B0;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="39.774" x2="9.637" y2="39.774"/>
-<g style="display:none;">
-	<circle style="display:inline;fill:#FFFFFF;" cx="9.925" cy="39.774" r="0.957"/>
-	<path style="display:inline;fill:#B0B0B0;" d="M9.925,38.817c0.528,0,0.957,0.429,0.957,0.957c0,0.527-0.429,0.957-0.957,0.957
-		s-0.957-0.43-0.957-0.957C8.968,39.246,9.397,38.817,9.925,38.817 M9.925,38.499c-0.704,0-1.276,0.572-1.276,1.276
-		s0.572,1.276,1.276,1.276s1.276-0.572,1.276-1.276S10.629,38.499,9.925,38.499L9.925,38.499z"/>
+<rect style="fill:#EBEBEB;" width="70.866" height="45.354"/>
+<use xlink:href="#Punkt"  width="4.536" height="4.537" id="XMLID_4_" x="-2.268" y="-2.269" transform="matrix(0.8436 0 0 -0.8433 7.917 14.2764)" style="overflow:visible;"/>
+<use xlink:href="#Node"  width="5.105" height="5.103" id="XMLID_3_" x="-2.553" y="-2.551" transform="matrix(0.8883 0 0 -0.8889 7.917 5.6704)" style="overflow:visible;"/>
+<line style="fill:none;stroke:#FF7F00;stroke-width:1.4173;stroke-linejoin:round;" x1="2.835" y1="31.394" x2="13" y2="31.394"/>
+<line style="fill:none;stroke:#2277CC;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="22.994" x2="13" y2="22.994"/>
+<text transform="matrix(1 0 0 1 15.498 7.9873)"><tspan x="0" y="0" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">OSM-</tspan><tspan x="18.256" y="0" style="font-family:'CisalpinLTStd-Italic'; font-size:7;">node</tspan><tspan x="0" y="8.4" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnispunkt</tspan><tspan x="0" y="16.8" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Ergebnissegment</tspan><tspan x="0" y="25.2" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">Punktezuordnung</tspan><tspan x="0" y="33.6" style="font-family:'CisalpinLTStd-Regular'; font-size:7;">entfallene Daten</tspan></text>
+<line style="fill:none;stroke:#B0B0B0;stroke-width:0.8504;stroke-linejoin:round;" x1="2.833" y1="39.774" x2="13" y2="39.774"/>
+<g>
+	<circle style="fill:#FFFFFF;" cx="10.209" cy="39.774" r="0.957"/>
+	<path style="fill:#B0B0B0;" d="M10.209,38.817c0.528,0,0.957,0.429,0.957,0.957c0,0.527-0.429,0.957-0.957,0.957
+		s-0.957-0.43-0.957-0.957C9.252,39.246,9.681,38.817,10.209,38.817 M10.209,38.499c-0.704,0-1.276,0.572-1.276,1.276
+		s0.572,1.276,1.276,1.276s1.276-0.572,1.276-1.276S10.913,38.499,10.209,38.499L10.209,38.499z"/>
 </g>
 <g>
 	<g>
