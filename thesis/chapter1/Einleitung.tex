@@ -5,20 +5,84 @@
 \begin{document}
 
 
-\chapter{Einleitung \emph{[ausstehend]}}
+\chapter{Einleitung}
 
-\begin{itemize}
-	\item erste, grobe Einführung ins Thema
-	\item knapper Abriss des Kontextes der Fragestellung in Grundzügen (vgl. Themenblatt)
-	\item was macht die Fragestellung interessant? (Motivation -- evtl. schon einzelne Anwendungsfälle umreißen)
-	\item Gesamtüberblick der Arbeit einschließlich ihrer Ergebnisse, roter Faden als Orientierung für den Leser
-	\item Eindruck an den Leser: warum soll er diese Arbeit weiterlesen oder welche Kapitel kann er überspringen
-\end{itemize}
+%\section{Motivation und Zielsetzung}
+%\subsection{Motivation}
 
-% auch Kontext _meiner_ Arbeit erklären -> Kooperation mit Geofabrik etc. -DGD
-% Im weiteren Text der Arbeit können (und in gewissem Sinne _sollten_) Passagen aus dem Themenblatt 1:1 auftauchen, um den Bezug herzustellen. -DGD
+Interaktive Kartendienste wie Google~Maps haben dazu beigetragen, Geoinformationen allgegenwärtig zu machen.
+Jeder Mensch kann mit ihrer Hilfe im World~Wide~Web in Sekundenschnelle hochpräzise Karten von beinahe jedem Ort der Erde einsehen.
+
+Die Qualität der kartographischen Darstellung leidet dabei jedoch in vielen Fällen.
+% "good enough maps"? -> KN in AWA
+% vgl. Tanja Pfeffer, https://lists.openstreetmap.org/pipermail/talk-de/2017-July/114166.html
+So ist es unmöglich, die Masse an Informationen einer für solche Kartendienste genutzten weltweiten Geodatenbank manuell kartographisch zu generalisieren.
+% "nicht praktisch möglich"?
+% "G. is and will always be a subjective activity. It is difficult to set up fixed rules, although experiments to do so …" [KO03, 78]
+%Die freie Wahl des Maßstabsbereichs in interaktiven Karten würde zudem erfordern, dass die Generalisierung mehrfach für unterschiedliche Zielmaßstäbe durchgeführt wird.
+
+Dies gilt um so mehr für das Projekt OpenStreetMap~(OSM), das seine Geodaten vornehmlich aus Beiträgen Freiwilliger bezieht.
+Vielen von ihnen fehlt eine kartographische Ausbildung.
+Auch deshalb muss eine Generalisierung nach kartographischen Kriterien für \osm-Webkarten mit weltweiter Abdeckung automatisiert ablaufen.
 
 
 
-% single-chapter commands
+%\subsection{Zielsetzung}
+
+Bislang findet eine Generalisierung von Linienzügen in \osm-Karten nur in geringstem Umfang statt.
+Ansätze für automatisierte Verfahren existieren zwar bereits, sie erfordern jedoch meist eine manuelle Nachbearbeitung und sind damit für \osm\ ungeeignet.
+
+Ziel der vorliegenden Arbeit ist die Entwicklung von Algorithmen zur Generalisierung durch Zusammenfassung paralleler \osm-Linienzüge (etwa zwei Richtungsfahrbahnen einer Autobahn) auf eine gemeinsame Mittellinie.
+Diese Vereinfachung der Geodaten soll die Qualität der kartographischen Darstellung verbessern und die eventuelle Weiterverarbeitung erleichtern.
+% "soll dazu beitragen"?
+
+
+
+
+%\section{Aufbau und Herangehensweise}
+%\subsection{Vorgehensweise}
+%\medskip
+
+Die Richtungsfahrbahnen einer Autobahn sind nur eines von vielen Beispielen für parallele Linienzüge in der \osm-Datenbank.
+Die Vielfalt der möglichen Situationen verbietet es, im Zeitrahmen einer Diplomarbeit eine Lösung mit allgemeiner Anwendbarkeit anzustreben.
+
+Eine praxistaugliche Lösung für wenigstens eine solche Situation könnte jedoch bereits unmittelbare Verbesserungen bringen.
+% der Darstellung und Weiterverarbeitung
+Diese Arbeit beschränkt sich daher auf die Untersuchung eines einzelnen, noch festzulegenden Spezialfalls.
+Dessen Lösung ließe sich dann möglicherweise auf andere Situationen übertragen.
+
+Die zu entwickelnden Algorithmen sollen zum Nachweis ihrer Funktionsfähigkeit ausführbar implementiert werden.
+Diese Implementierung könnte zugleich ein möglicher Ansatzpunkt für einen eventuellen späteren praktischen Einsatz des Verfahrens sein.
+%, etwa zur Verbesserung der Darstellung von Webkarten.
+Um dies nicht zu erschweren, soll die so entstehende Software unter einer freizügigen Open-Source-Lizenz verfügbar sein.
+
+Maschinell ausführbare Beschreibungen sind notwendigerweise präzise bis ins letzte Detail, weswegen Software-Quelltext oft nicht leicht zu lesen ist.
+Deshalb sollen die entwickelten Algorithmen in dieser Arbeit dem leichteren Verständnis zuliebe abstrakt beschrieben werden.
+Weil dadurch implementierungsspezifische Details entfallen können, wird gleichzeitig die Weiterverwendung der entwickelten Ideen unabhängig von der Software ermöglicht.
+
+Der Verzicht auf Detailgenauigkeit darf an dieser Stelle nicht mit Unbestimmtheit verwechselt werden:
+„Being abstract is something profoundly different from being vague: by abstraction [...] one creates a new semantic level on which one can again be absolutely precise.“ \citex[1]{Dijk78}
+
+
+
+%\subsection{Aufbau}
+
+%Diese Arbeit ist wie folgt aufgebaut:
+In dieser Arbeit umreißt Kapitel~\ref{ch:analysis} das Projekt \osm\ und gibt zahlreiche Kartenbeispiele dazu.
+Diese vermitteln einen Eindruck davon, wie Liniengeneralisierung bisher angewandt wird und wo ihr Fehlen das Kartenbild verschlechtert.
+Anschließend werden existierende Verfahren zur automatisierten Zusammenfassung von Linienzügen betrachtet und bewertet.
+
+%Den Spezialfall, anhand dessen das Problem im Weiteren untersucht werden soll, legt Kapitel~\ref{ch:case} fest.
+Kapitel~\ref{ch:case} legt den Spezialfall fest, anhand dessen das Problem im Weiteren untersucht werden soll.
+Neben einer illustrierten Erläuterung des Funktionsprinzips enthält Kapitel~\ref{ch:algorithm} die formale und abstrakte Beschreibung der entwickelten Algorithmen;
+Anhang~\ref{appx:mathsymbols} erklärt die dabei verwendeten Zeichen und Abkürzungen.
+Kapitel~\ref{ch:impl} erläutert wesentliche Entscheidungen in Bezug auf die Implementierung in Software und beschreibt unerwartete Erkenntnisse.
+
+Anschließend diskutiert Kapitel~\ref{ch:result} die Tauglichkeit der entwickelten Methode anhand einiger Beispiele.
+Dabei wird auch die Anwendbarkeit auf andere als den zuvor festgelegten Spezialfall untersucht.
+Schließlich gibt Kapitel~\ref{ch:conclusion} eine Gesamtbeurteilung über das Ergebnis dieser Arbeit ab und diskutiert, welche Ansätze zur Weiterentwicklung am lohnensten erscheinen.
+Kapitel~\ref{ch:summary} fasst Kontext, Vorgehen und Ergebnisse der Arbeit kurz zusammen.
+
+
+
 \end{document}

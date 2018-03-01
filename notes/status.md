@@ -12,13 +12,13 @@ Projektstatus
 Kapitel
 -------
 
-1 ✏
+1 🅰 ⬅
 
 2 ✅
 
 3 🎉
 
-4 ✅
+4 ✅ ⬅
 
 5 ✅
 
@@ -88,6 +88,7 @@ Kapitel 4
 
 - paar issues hier und da; siehe Kommentare
 - 4.3 kohärenten Text schreiben – im Moment hängen die Algorithmen tlws. in der Luft
+- 4.4 kürzen ⬅
 
 
 Kapitel 5
