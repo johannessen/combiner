@@ -19,7 +19,7 @@ Kapitel
 5 🎉 ⬅  
 6 🎉  
 7 🎉  
-8 🅰 ⬅
+8 🎉
 
 
 Anhänge
@@ -88,12 +88,6 @@ Kapitel 5
 ---------
 
 - 5.2 evtl. Komponentenbeschreibung und Abbildung neu
-
-
-Kapitel 8
----------
-
-- Englisch ⬅⬅⬅
 
 
 Anhänge

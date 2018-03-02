@@ -29,7 +29,7 @@ import java.util.Set;
  * The Combiner's main class / Façade. Implements the main top-level
  * generalisation algorithm. After properly initialising the
  * <code>Dataset</code> and the parallelism <code>Analyser</code>, call
- * <code>run()</code> to run the generalisation by combination.
+ * <code>run()</code> to run the generalisation by merging / collapsing.
  */
 public final class Combiner {
 	
