@@ -30,13 +30,17 @@ elif [ -n "$1" ] && [ "$1" = "B" -o "$1" = "b" ]
 then
 	SUBDIR="bibliography"
 	FILENAME="Literaturverzeichnis"
+elif [ -n "$1" ] && [ "$1" = "C" -o "$1" = "c" ]
+then
+	SUBDIR="main"
+	FILENAME="Corrigenda"
 fi
 
 
 # prefs
 CLEAN="${CLEAN:=1}"  # 0 nothing, 1 only files (default), 2 files and Biber cache
 THOROUGH="${THOROUGH:=1}"  # 0 never, 1 only for main file and bib (default), 2 always
-if [ -n "$THOROUGH" ] && [ "$THOROUGH" = 2 -o "$THOROUGH" = 1 -a "$SUBDIR" = "main" -o "$THOROUGH" = 1 -a "$SUBDIR" = "bibliography" ]
+if [ -n "$THOROUGH" ] && [ "$THOROUGH" = 2 -o "$THOROUGH" = 1 -a "$FILENAME" = "thesis" -o "$THOROUGH" = 1 -a "$FILENAME" = "Literaturverzeichnis" ]
 then
 	SLOW=1
 fi

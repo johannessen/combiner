@@ -1,0 +1,44 @@
+% UTF-8
+
+\documentclass[a5paper,draft,headings=small,DIV=16]{scrreprt}
+\XeTeXinputnormalization=1
+\usepackage[ngerman]{babel}
+\selectlanguage{ngerman}
+\setkomafont{sectioning}{\normalfont\bfseries}
+\newcommand{\errataentrysep}{\vspace{1ex}}
+\newcommand{\errataparsep}{\vspace{1ex}}
+\newcommand{\BibLaTex}{\textsc{Bib}\LaTeX}
+\newcommand{\reasonmincrossrefs}{
+Eine falsche Einstellung für \texttt{\small mincrossrefs} in \BibLaTex\
+führte zum Erscheinen dieses Eintrags im Verzeichnis, obwohl er im Text
+nicht direkt verwendet wurde.}
+
+
+\begin{document}
+
+
+\chapter*{Corrigenda}
+\thispagestyle{empty}
+\begin{tabular}{@{}lp{10cm}@{}}
+
+
+Seite~85: &  \\
+\textbf{Streiche} & Eintrag [ica05] im Literaturverzeichnis. \errataparsep
+
+\reasonmincrossrefs
+\errataentrysep\\
+
+
+Seite~89: &  \\
+\textbf{Streiche} & Eintrag [RKE06] im Literaturverzeichnis. \errataparsep
+
+\reasonmincrossrefs
+\errataentrysep\\
+
+
+\end{tabular}
+
+\vspace{1em}
+\noindent Marienheide, 2.~März 2018
+
+\end{document}
