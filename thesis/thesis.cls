@@ -5,6 +5,7 @@
 	version=3.24,  % request that Koma typeset this document just like the Koma version it was written with would have
 	a4paper,
 	draft,  % mark overflowing line boxes
+	listof=nochaptergap,
 	listof=totoc,
 	bibliography=totoc,  % include bibliography in TOC
 	headings=normal,  % chapter heading font size (default is 'big', 'small' is also available)
@@ -55,7 +56,7 @@
 \newcommand{\SetCond}{\,|\,}
 \newcommand{\TheEmptySet}{\Set{}}
 \newcommand{\Nil}{\varnothing}
-\newcommand{\ThousandsScale}[1]{1\nobreak:\nobreak #1 \,000}
+\NewDocumentCommand{\ThousandsScale}{O{\,000}m}{1\,:\,#2#1}
 \NewDocumentCommand{\mathtowidth}{O{}O{c}m}{\makebox[\widthof{$#1$}][#2]{$#3$}}
 
 % --------------
@@ -221,7 +222,7 @@
 % graphics
 \RequirePackage{graphicx}
 % scale images that don't fit, but leave others (see l2picfaq 3.3.3)
-\makeatletter
+%\makeatletter
 \def\ScaleIfNeeded{%
   \ifdim\Gin@nat@width>\linewidth
 \linewidth
@@ -229,7 +230,7 @@
 \Gin@nat@width
 \fi
 }
-\makeatother
+%\makeatother
 % fall back to placeholder if the image file is missing
 \NewDocumentCommand{\IfImageExists}{mmm}{\IfFileExists{#1}{#2}{\IfFileExists{#1.png}{#2}{\IfFileExists{#1.pdf}{#2}{#3}}}}
 \NewDocumentCommand{\includegraphicsmaybe}{O{width=\ScaleIfNeeded} m}{\IfImageExists{#2}{\includegraphics[#1]{#2}}{\includegraphics{../image-missing}}}

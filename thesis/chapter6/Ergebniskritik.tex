@@ -141,7 +141,7 @@ Die in Abschnitt~\ref{ch:analyse-algorithm} beschriebenen Algorithmen berücksic
 % in der Annahme, dass diese normalerweise stimmt
 Im NRW-Testdatensatz erkennt der \term{Combiner} $\unit[54]{km}$ der Autobahn-Fahrbahnen nicht als parallel; wird die Straßennummer nicht berücksichtigt, sinkt diese Länge auf $\unit[31]{km}$.
 
-An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahn die Straßennummer als Attribut.
+An mehreren der dann neu erkannten Stellen trägt nur eine der beiden Richtungsfahrbahnen die Straßennummer als Attribut.
 In Abschnitt~\ref{ch:case-selection} wurde dargelegt, dass im Straßennetz grundsätzlich eine vergleichsweise hohe Datenqualität zu erwarten gewesen wäre, weil Fehler darin in der Standard-Karte auf \href{https://www.openstreetmap.org/}{\nolinkurl{osm.org}} störend sichtbar sind und deswegen zügig von \osm-Beitragenden behoben werden.
 Die nur für \emph{eine} Richtungsfahrbahn fehlende Straßennummer fällt jedoch dem Beitragenden nicht unbedingt auf, solange die Straßennummer der \emph{anderen} Richtungsfahrbahn korrekt angezeigt wird.
 
@@ -151,7 +151,7 @@ So ist auf mehreren Abschnitten bei Dülmen die eine Fahrbahn \osmtag{ref}[A\,43
 Da in diesen Fällen die Geometrie der Fahrbahnen offensichtlich parallel ist, muss hinterfragt werden, welche Bedeutung den Attributen beigemessen werden sollte.
 Der \term{Combiner} berücksichtigt derzeit entgegen der ursprünglichen Definition standardmäßig nicht mehr die Straßennummer.
 %Auch dies könnte jedoch zu Problemen führen, weil damit zwei Fahrbahnen gleicher Klassifizierung, die nur zufällig parallel sind, jedoch zu unterschiedlichen Straßen gehören, fälschlich als Richtungsfahrbahnen derselben Straße erkannt werden könnten.
-Dieses Verhalten kann mit dem Schalter \texttt{--tags} kontrolliert werden.
+Dies kann mit dem Schalter \texttt{--tags} kontrolliert werden.
 
 
 
@@ -205,8 +205,8 @@ Wie die folgenden Abschnitte zeigen werden, ist dies oft nicht der Fall.
 
 Mit diesem Verfahren können überdies in der gegenwärtigen Implementierung nur solche Topologielücken beseitigt werden, die erst beim Zusammenfassen von Parallelen entstanden sind.
 Besonders auffallend ist diese Einschränkung bei Verbindungsrampen an planfreien Kreuzungen.
-Sie sind keine Richtungsfahrbahnen und werden deshalb wie in Abschnitt~\ref{ch:case-selection} festgelegt in dieser Arbeit nicht betrachtet.
-Sie sind deshalb bereits in den Eingangsdaten für die Zusammenfassung durch Objektauswahl entfallen und damit auch nicht im Generalisierungsergebnis enthalten (Abbildung~\ref{fig:breitscheid-gen-styled}).
+Sie sind keine Richtungsfahrbahnen und werden deshalb -- wie in Abschnitt~\ref{ch:case-selection} festgelegt -- in dieser Arbeit nicht betrachtet.
+Sie sind bereits in den Eingangsdaten für die Zusammenfassung durch Objektauswahl entfallen und damit auch nicht im Generalisierungsergebnis enthalten (Abbildung~\ref{fig:breitscheid-gen-styled}).
 
 Dass einander kreuzende Autobahnen miteinander verknüpft sind, lehrt die Lebenserfahrung; aus der Topologie der generalisierten Geodaten geht es indes nicht hervor.
 

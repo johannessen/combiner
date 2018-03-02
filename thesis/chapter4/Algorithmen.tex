@@ -6,6 +6,7 @@
 \begin{document}
 
 
+\addtocontents{lof}{\protect\pagebreak}
 \chapter{Algorithmen zur Generalisierung}
 \label{ch:algorithm}
 
@@ -28,7 +29,7 @@ Konflikte zwischen zwei Linien über große Teile ihrer Länge hinweg wären ein
 Dies löst jedoch nicht das Problem der Zusammenfassung beider Linien (vgl. Abschnitte~\ref{ch:buffer} und~\ref{ch:skeleton}).
 
 Interessanter erscheint der bereits in Abschnitt~\ref{ch:graph-based} erwähnte Gedanke, dass Straßen mit parallelen Richtungsfahrbahnen oft komplex modellierte Kreuzungen haben.
-Können diese zu jeweils einzelnen Knoten generalisiert werden, dann sind die parallelen Richtungsfahrbahnen im Graphen des Straßennetzes zwei gegenläufige gerichtete Kanten.
+Können diese zu jeweils einzelnen Knoten generalisiert werden, dann sind die parallelen Richtungsfahrbahnen im Graphen des Straßennetzes zwei gegenläufig gerichtete Kanten.
 Anschließend wäre die geometrische Zusammenfassung dieser Kanten möglicherweise einfach.
 
 % "perceptual grouping": nicht vielversprechend
@@ -68,7 +69,9 @@ Aufgrund der nicht immer gleichen Anzahl und Verteilung der \term{nodes} kommt e
 	\label{fig:general-approach}
 }{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/motorway-fragments}
-	\caption{ungleichmäßige Fragmentierung paralleler Linienzüge (Beispiel)}
+	\caption
+		[ungleichmäßige Fragmentierung paralleler Linienzüge]
+		{ungleichmäßige Fragmentierung paralleler Linienzüge (Beispiel)}
 	\label{fig:motorway-fragments}
 }
 
@@ -585,7 +588,7 @@ Eine solche Situation ist allerdings in \term{real world}--Daten für ein Straß
 Sie könnte nur dann überhaupt auftreten, wenn der Höchstabstand $\eta$ für \textproc{NaheSegmente} zu groß gewählt wurde (vgl. Abschnitt~\ref{ch:split-algorithm}).
 
 Selbst in diesem schlechtesten Fall terminieren die Algorithmen.
-Für das \textproc{Splitten} wurde dies soeben begründet; für alle anderen imperativ beschriebenen Algorithmen ist es trivial zu erkennen, da sie nur über endliche unveränderliche Mengen iterieren.
+Für das \textproc{Splitten} wurde dies soeben begründet; für alle anderen imperativ beschriebenen Algorithmen ist es trivial zu erkennen, da diese nur über endliche unveränderliche Mengen iterieren.
 % - terminierend: ja, weil alle Schleifen auf abschließenden Mengen arbeiten, mit Ausnahme des Splittens, wobei aber durch die minimale Fragmentlänge µ eine klare Abbruchbedingung gegeben ist
 
 Die Algorithmen arbeiten jedoch nicht deterministisch:

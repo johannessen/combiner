@@ -111,6 +111,8 @@ Zu prüfen wäre jedoch, ob eine verbesserte Auswertung von Attributen (siehe Ab
 
 Schließlich sei daran erinnert, dass sich \citeauthor{MM99} bereits mit dem Thema der Kreuzungserkennung im Kontext der automatisierten Generalisierung von Straßennetzen auseinandergesetzt haben (siehe Abschnitt~\ref{ch:graph-based}). \cf{MM99}
 
+% evtl. an auch eigene Idee aus 2.5.5 erinnern
+
 
 
 \subsection{Allgemeine Anwendbarkeit}
@@ -177,6 +179,8 @@ Auch der Speicheraufwand im Java Collections Framework hat Optimierungspotenzial
 Gegenwärtig werden vom \term{Combiner} zur Implementierung vieler Mengen Datenstrukturen vom Typ \code{LinkedList} genutzt.
 Diese bedürfen intern für jedes Element eines zusätzlichen Containerobjekts (\code{LinkedList.Entry}).
 Möglicherweise ließe sich der Speicheraufwand durch einen Wechsel auf \code{ArrayList} verringern, geschickt gewählte Anfangskapazitäten vorausgesetzt.
+
+%Möglicherweise wäre ein GC-Profiling lohnend.
 
 Teile der Algorithmen eignen sich ferner für nebenläufige Ausführung.
 Mit entsprechenden Anpassungen könnte die Leistungsfähigkeit moderner Hardware besser ausgenutzt werden.

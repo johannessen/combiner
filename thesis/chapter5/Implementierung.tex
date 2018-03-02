@@ -13,7 +13,7 @@
 \label{ch:impl-env}
 
 Zur Umsetzung der entwickelten Algorithmen in Software wurde die Plattform Java verwendet.
-Die Wahl von Java erfolgte neben der Vertrautheit des Verfassers mit dem zugehörigen \term{framework} aufgrund zu erwartender Effizienzvorteile von kompiliertem Code gegenüber Skriptsprachen wie Perl.
+Die Wahl von Java erfolgte neben der Vertrautheit des Verfassers mit dem zugehörigen \term{framework} auch aufgrund zu erwartender Effizienzvorteile von kompiliertem Code gegenüber Skriptsprachen wie etwa Perl.
 % einer Empfehlung der Geofabrik folgend
 
 Java als imperative Sprache erlaubt es nicht, Algorithmen mit dem gleichen Grad an Abstraktion zu beschreiben wie zuvor in Kapitel~\ref{ch:algorithm-parts} geschehen.
@@ -24,7 +24,7 @@ Bei der Implementierung in Java sollten hingegen sorgfältig solche Datenstruktu
 Das Ergebnis wird in Abschnitt~\ref{ch:data-structures} beschrieben.
 
 Während der Entwicklung wurde versucht, so viel existierenden Code in Form von \term{frameworks} und anderen Programmbibliotheken wiederzuverwenden wie möglich.
-Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-io} geschildert wird.
+Diese Bestrebung verursachte Probleme, wie auch später in Abschnitt~\ref{ch:impl-io} dargelegt wird.
 Bei der Entwicklung kamen zuletzt die folgenden Plattformen und Bibliotheken zum Einsatz:
 
 \begin{itemize}[nosep]
@@ -138,7 +138,7 @@ Dies ist jedoch nicht der Fall.
 Im Gegenteil passen die JTS-Datenstrukturen nicht gut auf die definierten Algorithmen:
 Diese beschränken sich zu einem großen Teil auf Segmente aus exakt zwei Punkten, während JTS von längeren Linienzügen ausgeht.
 Die Algorithmen machen sich außerdem zunutze, dass sich Segmente direkt als Vektoren interpretieren lassen (vergleiche Abschnitt~\ref{ch:split-algorithm}).
-Routinen zur Vektor-Mathematik bietet JTS zwar grundsätzlich an, jedoch sind wichtige Teile davon nicht spezifiziert.
+Routinen zur Vektor-Mathematik bietet JTS zwar grundsätzlich an, aber wichtige Teile davon sind nicht spezifiziert.
 Beispielhaft sei die Klasse \code{jts.math.Vector2D} genannt, deren Methode \code{angle} offenbar Winkel berechnet, jedoch in keiner Weise dokumentiert ist.
 \cf{jts:mathVector2D}
 Die Definition der \textproc{Analyse} auf Parallelität verlangt jedoch einen bestimmten Wertebereich für Winkel von Vektoren.
@@ -161,7 +161,7 @@ Es ließe sich für eine zukünftige Version leicht ergänzen.
 \subsection{Eigenes grundlegendes Geometrie-Modell}
 \label{ch:data-structures-new}
 
-Es war also nötig, auf dieser Basis ein neues Geometriemodell zu entwickeln.
+Es erwies sich also als notwendig, auf dieser Basis ein neues Geometriemodell zu entwickeln.
 Ein zusammengesetztes Diagramm des Ergebnisses ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
 Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
 Die Segmente sind -- wie in Abschnitt~\ref{ch:split-algorithm} beschrieben -- zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch einfach.
@@ -209,7 +209,7 @@ Für solche Fälle schlagen \citeauthor{GHJV95} vor, das Brücken-Muster \term{(
 	\includegraphics[scale=.8]{../chapter5/composite-bridge}
 	\caption
 		[Strukturdiagramm der Kombination aus \term{Composite} und \term{Bridge pattern}]
-		{Strukturdiagramm der Kombination aus \term{Composite pattern} und \term{Bridge pattern} \cf[153, 164]{GHJV95}}
+		{Strukturdiagramm einer Kombination aus \term{Composite pattern} und \term{Bridge pattern} \cf[153, 164]{GHJV95}}
 	\label{fig:impl-composite-bridge}
 }
 
@@ -222,7 +222,7 @@ Alle Objekte im \code{AbstractSegment}-Kompositum sind veränderbar (\term{mutab
 Bloch betont die erheblichen Vorteile von \term{immutability} (\emph{nicht} veränderbarer Objekte), weist aber auch darauf hin, dass bestimmte komplexe Operationen dann sehr teuer werden können („The performance problem is magnified if you perform a multistep operation that generates a new object at every step, eventually discarding all objects except the final result.“ \citex[67]{Blo01}).
 Im vorliegenden Kompositum würde \term{immutability} gerade erfordern, dass bei jedem \textproc{Splitten} der Baum neu aufgebaut wird.
 
-Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier gar nicht angebracht; vielmehr bietet es sich in Anlehnung an standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
+Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier nicht angebracht; vielmehr bietet es sich in Anlehnung an standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
 
 \onefigure{ht}{
 	\includegraphics[scale=.8]{../chapter5/composite-actual}
@@ -307,7 +307,7 @@ Erneut vereinfachen die Eigenschaften der mathematischen Menge, hier der Menge a
 Weil \code{NodeMatch}-Objekte wie beschrieben die Mengeneigenschaften implementieren, können sie leicht direkt im Java Collections Framework verwendet werden, hier als \code{Set<NodeMatch>} (Menge von \code{NodeMatch}-Objekten).
 Da der Datentyp \code{NodeMatch} gleichzeitig die Schnittstelle \code{Set<Node>} implementiert, hat die Menge aller Zuordnungen implizit den Typ \code{Set<Set<Node>>}, ist also eine Menge \emph{von Mengen} von \term{nodes}, was genau der formalen Anforderung in Abschnitt~\ref{ch:node-match-algorithm} entspricht.
 
-Punktezuordnungen und Segmente ergeben gemeinsamen einen gemischten Graphen des zu generalisierenden Netzes.
+Punktezuordnungen und Segmente ergeben gemeinsam einen gemischten Graphen des zu generalisierenden Netzes.
 Als parallel erkannte Segmente sind über deren \term{nodes} derart einander zugeordnet, dass sich eine gemeinsame Mittellinie als Verknüpfung der Mittelpunkte derjenigen Kanten im Graphen, welche die Punktezuordnungen darstellen, leicht finden lässt.
 Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über die einzelnen Punkte die mit ihnen verknüpften Segmente ermittelbar sind.
 
