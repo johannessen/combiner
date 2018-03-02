@@ -5,8 +5,8 @@
 	 width="304px" height="139px" viewBox="0 0 304 139" style="enable-background:new 0 0 304 139;" xml:space="preserve">
 <g id="Layer_2">
 	<g>
-		<path d="M201.139,70.434v38.215H4.415V92.101h151.251h0.851V91.25l0-20.816H201.139 M201.989,69.583h-46.322l0,21.667H3.564
-			v18.249h198.425V69.583L201.989,69.583z"/>
+		<path d="M156.518,70.352l44.621,0.08v38.217H4.415V92.101h151.251h0.851V91.25L156.518,70.352 M155.667,69.5l0,21.75H3.564v18.249
+			h198.425V69.583L155.667,69.5L155.667,69.5z"/>
 	</g>
 	<g>
 		<path style="fill:#0088FF;" d="M201.139,117.184v17.215H4.415v-17.215H201.139 M201.989,116.333H3.564v18.916h198.425V116.333
@@ -16,23 +16,23 @@
 		<path d="M201.139,21.724v39.407h-44.623l-0.048-21.025l-0.002-0.849h-0.849l-151.202,0V21.724H201.139 M201.989,20.873H3.564
 			v19.235l152.053,0l0.05,21.874h46.322V20.873L201.989,20.873z"/>
 	</g>
-	<text transform="matrix(1 0 0 1 65.6479 128.4824)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">Java Virtual Machine</text>
-	<text transform="matrix(1 0 0 1 84.7651 9.082)" style="font-family:'Helvetica'; font-size:8;">Anwender</text>
+	<text transform="matrix(1 0 0 1 66.6494 128.4824)" style="fill:#0088FF; font-family:'CisalpinLTStd-Regular'; font-size:8;">Java Virtual Machine</text>
+	<text transform="matrix(1 0 0 1 85.1089 9.082)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Anwender</text>
 	<g>
 		<path style="fill:#0088FF;" d="M50.435,70.102v17.215H4.415V70.102H50.435 M51.286,69.251H3.564v18.916h47.721V69.251
 			L51.286,69.251z"/>
 	</g>
 	<g>
-		<path d="M151.632,70.102v17.215h-46.021V70.102H151.632 M152.483,69.251h-47.722v18.916h47.722V69.251L152.483,69.251z"/>
+		<path d="M152.472,70.102v17.215h-46.021V70.102H152.472 M153.322,69.251h-47.722v18.916h47.722V69.251L153.322,69.251z"/>
 	</g>
 	<g>
-		<path d="M101.238,70.102v17.215h-46.02V70.102H101.238 M102.089,69.251H54.368v18.916h47.721V69.251L102.089,69.251z"/>
+		<path d="M101.926,70.102v17.215H55.218V70.102H101.926 M102.777,69.251H54.368v18.916h48.409V69.251L102.777,69.251z"/>
 	</g>
-	<text transform="matrix(1 0 0 1 85.437 102.7324)" style="font-family:'Helvetica'; font-size:8;">Combiner</text>
-	<text transform="matrix(1 0 0 1 58.9761 33.4492)" style="font-family:'Helvetica'; font-size:8;">Command Line Interface</text>
-	<text transform="matrix(1 0 0 1 73.0806 81.0664)" style="font-family:'Helvetica'; font-size:8;">util</text>
-	<text transform="matrix(1 0 0 1 113.9131 81.0664)" style="font-family:'Helvetica'; font-size:8;">highway</text>
-	<text transform="matrix(1 0 0 1 10.1699 81.0664)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">GeoTools</text>
+	<text transform="matrix(1 0 0 1 86.041 102.7324)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Combiner</text>
+	<text transform="matrix(1 0 0 1 60.7256 33.4492)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Command Line Interface</text>
+	<text transform="matrix(1 0 0 1 72.4658 81.0664)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">util</text>
+	<text transform="matrix(1 0 0 1 113.9131 81.0664)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">highway</text>
+	<text transform="matrix(1 0 0 1 11.3682 81.0664)" style="fill:#0088FF; font-family:'CisalpinLTStd-Regular'; font-size:8;">GeoTools</text>
 	<g>
 		<path d="M75.805,43.791v17.215H4.415V43.791H75.805 M76.656,42.94H3.564v18.916h73.091V42.94L76.656,42.94z"/>
 	</g>
@@ -40,10 +40,10 @@
 		<path style="fill:#0088FF;" d="M152.472,43.845v17.331H80.415V43.845H152.472 M153.322,42.994H79.564v19.032h73.758V42.994
 			L153.322,42.994z"/>
 	</g>
-	<text transform="matrix(1 0 0 1 105.8823 54.9863)" style="fill:#0088FF; font-family:'Helvetica'; font-size:8;">args4j</text>
-	<text transform="matrix(1 0 0 1 15.8721 55.0361)" style="font-family:'Helvetica'; font-size:8;">Input / Output</text>
-	<text transform="matrix(1 0 0 1 222.667 128.333)" style="fill:#0088FF; font-family:'Helvetica-Oblique'; font-size:8;">Systemumgebung</text>
-	<text transform="matrix(1 0 0 1 222.667 87.8994)"><tspan x="0" y="0" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Implementierung der</tspan><tspan x="0" y="9.6" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Liniengeneralisierung</tspan></text>
-	<text transform="matrix(1 0 0 1 222.667 39.9004)"><tspan x="0" y="0" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">Ein- und Ausgang</tspan><tspan x="0" y="9.6" style="fill:#221E1F; font-family:'Helvetica-Oblique'; font-size:8;">von Geodaten</tspan></text>
+	<text transform="matrix(1 0 0 1 106.2051 54.9863)" style="fill:#0088FF; font-family:'CisalpinLTStd-Regular'; font-size:8;">args4j</text>
+	<text transform="matrix(1 0 0 1 15.1147 55.0361)" style="font-family:'CisalpinLTStd-Regular'; font-size:8;">Input / Output</text>
+	<text transform="matrix(1 0 0 1 222.667 128.333)" style="fill:#0088FF; font-family:'CisalpinLTStd-Italic'; font-size:8;">Systemumgebung</text>
+	<text transform="matrix(1 0 0 1 222.667 87.8994)"><tspan x="0" y="0" style="fill:#221E1F; font-family:'CisalpinLTStd-Italic'; font-size:8;">Implementierung der</tspan><tspan x="0" y="9.6" style="fill:#221E1F; font-family:'CisalpinLTStd-Italic'; font-size:8;">Liniengeneralisierung</tspan></text>
+	<text transform="matrix(1 0 0 1 222.667 39.9004)"><tspan x="0" y="0" style="fill:#221E1F; font-family:'CisalpinLTStd-Italic'; font-size:8;">Ein- und Ausgang</tspan><tspan x="0" y="9.6" style="fill:#221E1F; font-family:'CisalpinLTStd-Italic'; font-size:8;">von Geodaten</tspan></text>
 </g>
 </svg>

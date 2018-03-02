@@ -143,7 +143,7 @@ So könnten beispielsweise die Ortsvektoren $a$ und $b$ das Segment $(a,b)$ defi
 \begin{algorithmhere}{Segmentierung}
 \label{alg:Segmentierung}
 \begin{algorithmic}
-\Function{Segmente}{$W$}\Comment{Menge aller \term{ways} $W$}
+\Function{Segmente}{$W$}
 	\State \textbf{Ergebnis} sei die Menge aller Segmente $(n, n')$ für Paare von Punkten jedes Linienzugs $w \in W$ derart, dass $n$ Vorgänger von $n'$ im Verlauf von $w$ ist.
 \EndFunction
 \end{algorithmic}
@@ -465,7 +465,7 @@ Während diesem Linienzug von Segment zu Segment gefolgt wird, können leicht di
 \end{algorithmic}
 \end{algorithmhere}
 
-\onefigure{htb}{
+\onefigure[10.5cm]{htb}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/collapsing-continuation}
 	\caption{Bilden der Mittellinie als Generalisierungsergebnis auf Basis der Punkte\-zuordnungen}
 	\label{fig:collapsing-continuation}
@@ -485,7 +485,7 @@ Dabei lässt sich dasjenige Segment, welches jeweils als \textproc{Fortsetzung} 
 
 Zur Fortführung der Mittellinie werden jeweils drei mögliche Paare von Punkten betrachtet ($Z_1'$, $Z_2'$ und $Z_3'$ in Abbildung~\ref{fig:collapsing-nextmatch}). Nur dann, wenn genau eines von ihnen gleichzeitig einer nach der \textproc{Analyse} identifizierten Punktezuordnung entspricht, wird diese zur Fortführung der Mittellinie verwendet.
 
-\onefigure{htb}{
+\onefigure[10.5cm]{htb}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter4/collapsing-nextmatch}
 	\caption
 		[Auffinden der nächsten Punktezuordnung zur Fortführung der Mittellinie]

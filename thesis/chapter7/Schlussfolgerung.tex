@@ -89,7 +89,7 @@ Beispielsweise lassen sich Kreuzungen wahrscheinlich durch eine graphentheoretis
 Unterschreitet die Fläche der Masche eine bestimmte Mindestgröße, so handelt es sich bei deren Knoten möglicherweise um Bestandteile einer einzigen Straßenkreuzung, die auf einen einzelnen Punkt zusammengefasst werden können.
 % Graphenanalyse (s.~u.)
 
-\onefigure{htb}{
+\onefigure[11.1cm]{htb}{
 	\includegraphics[scale=.9883]{../chapter7/junction-buffer}
 	% 1:180000 Google Mercator, bbox 768720 6606550 781320 6613750, 0.2mm stroke
 	% true scale at equator => scale at this latitude is approx. 1:113650
@@ -98,7 +98,7 @@ Unterschreitet die Fläche der Masche eine bestimmte Mindestgröße, so handelt 
 	% printf "768720 6610150\n781320 6610150" | cs2cs +init=epsg:3857 +to +proj=merc +lat_ts=50.94 +units=m +datum=WGS84 -
 	\caption
 		[Pufferung kurzer Linienzüge im Generalisierungsergebnis]
-		{Pufferung kurzer Linienzüge (rot) im Generalisierungsergebnis (Köln $\ThousandsScale{115}$)}
+		{Pufferung kurzer Linienzüge (rot) im Generalisierungsergebnis (Köln \ThousandsScale{115})}
 	\label{fig:junction-buffer}
 }
 

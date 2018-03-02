@@ -81,7 +81,7 @@ Die Geofabrik stellt aktuelle OSM-Auszüge öffentlich als Shapefile bereit.
 Alternativ lassen sich Shapefiles leicht mit gängiger Software wie etwa GDAL aus anderen Formaten erzeugen.
 GDAL ermöglicht dabei auch den Zuschnitt auf ein abgegrenztes Untersuchungsgebiet, was sich für Testzwecke anbietet.
 
-\onefigure{ht}{
+\onefigure[12cm]{ht}{
 	\includegraphics[width=\ScaleIfNeeded]{../chapter5/system-concept}
 	\caption
 		[Komponenten der entwickelten Software]
@@ -224,7 +224,7 @@ Im vorliegenden Kompositum würde \term{immutability} gerade erfordern, dass bei
 
 Unterschiedliche Klassen für Blätter und Komposita sind deshalb hier nicht angebracht; vielmehr bietet es sich in Anlehnung an standardisierte Muster an, dass eine gemeinsame Klasse mit einem Attribut \term{children} sich entweder wie ein Blatt oder wie ein Kompositum verhält, je nachdem, ob es \term{children} in Form von Fragmenten gibt oder nicht.
 
-\onefigure{ht}{
+\onefigure[13.5cm]{ht}{
 	\includegraphics[scale=.8]{../chapter5/composite-actual}
 	\caption{Diagramm der anstelle des \term{Composite pattern} gewählten vereinfachten Klassenstruktur für die beim \textproc{Splitten} entstehenden Fragmente}
 	\label{fig:impl-class-structure-composite}
