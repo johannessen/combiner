@@ -4,47 +4,47 @@
 %% (primarily used in chapter 2)
 
 
-@online{All15,
-author = {{Allan (Hrsg.)}, Andy},
+@software{All15,
+editor = {Allan, Andy},
 title = {{openstreetmap-carto: roads.mss}},
-year = {2015},
-url = {https://github.com/gravitystorm/openstreetmap-carto/blob/fe4f8d48757cf85bb692129b5d9755ba5cadbbee/roads.mss},
-addendum = {Fassung vom 21.~Oktober 2015}
+howpublished = {Software-Quelltext},
+date = {2015-10-21T22:51:36},
+url = {https://github.com/gravitystorm/openstreetmap-carto/blob/fe4f8d48757cf85bb692129b5d9755ba5cadbbee/roads.mss}
 }
 
 @inproceedings{CTGV14,
 author = {Czioska, Paul and Thiemann, Frank and Giese, Robin and Vogt, Hermann},
 title = {{Ableitung eines routingfähigen Bahnnetzes aus nutzergenerierten Gleisdaten (OpenStreetMap) durch Generalisierung}},
-publisher = {Deutsche Gesellschaft für Photogrammetrie, Fernerkundung und Geoinformation},
+hiddeneventtitle = {Gemeinsame Tagung 2014 der DGfK, der DGPF, der GfGI und des GiN},
+organization = {Deutsche Gesellschaft für Photogrammetrie, Fernerkundung und Geoinformation},
 booktitle = {DGPF Tagungsband 23},
-location = {Hamburg},
+hiddenvenue = {Hamburg},
 year = {2014},
 abstract = {Karten spielen eine wichtige Rolle bei der Informationskommunikation im Rahmen des öffentlichen Verkehrs, etwa als Liniennetzplan, auf dem die aktuelle Position des Verkehrsmittels dargestellt wird. Um solche Karten zu erstellen, ist es sinnvoll, die vorhandenen Gleisdaten zu einer repräsentativen Graphstruktur zu aggregieren. In dieser Arbeit wird dazu ein Algorithmus vorgestellt, der einen Liniendatensatz im zweidimensionalen Raum nach topologischen Eigenschaften zusammenfasst und als Ergebnis einen routingfähigen, ungerichteten Graphen mit Geokoordinaten erzeugt. Parallel verlaufende Linien werden in einer repräsentativen Geometrie gebündelt, die zugrunde liegende Topologie wird beibehalten. Der Implementierungsansatz nutzt hierzu Techniken aus dem Bereich der Skelettierung von Polygonen.},
-url = {https://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/czioska_dgpf2014.pdf}
+url = {http://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/czioska_dgpf2014.pdf}
 }
 
-@online{Fox12,
+@letter{Fox12,
 title = {{Advice \& clarification of the railway tracks=* tag required}},
 author = {F, Dave},
-year = {2012},
-note = {Beitrag zur OpenStreetMap-Mailingliste „Tagging“, 7.~August 2012, 22:56~Uhr},
+sortyear = {2012},
+shorthand = {F12},
+note = {Beitrag zur OpenStreetMap-Mailingliste „Tagging“, 7.~August 2012 22:56},
 url = {https://lists.openstreetmap.org/pipermail/tagging/2012-August/011066.html}
 }
 
-@phdthesis{Kla11,
+@thesis{Kla11,
 author = {Klammer, Ralf},
 title = {{Integration von Generalisierungsfunktionalität für die automatischen Ableitung verschiedener Levels of Detail von OpenstreetMap Webkarten}},
-school = {Technische Universität Dresden},
+type = {Diplomarbeit},
+institution = {Technische Universität Dresden},
 year = {2011},
-address = {Dresden},
-publisher = {Technische Universität Dresden},
-language = {German},
-abstract = {OpenStreetMap (OSM) konnte sich seit der Gründung 2004 sehr schnell etablieren und stellt mittlerweile eine konkrete Alternative gegenüber vergleichbaren kommerziellen Anwendungen dar. Dieser Erfolg ist eindeutig auf das revolutionäre Grundkonzept des Projektes zurückzuführen. Weltweit werden räumliche Daten durch Mitglieder erhoben und dem Projekt OSM zur Verfügung gestellt. Über die zugrunde liegenden Lizenzbestimmungen wird sichergestellt, dass OSM-Daten frei verfügbar und kostenfrei weiter verwendbar sind. Vor allem die Vorstellung der Unabhängigkeit von proprietären Daten hat zu starker, weiterhin zunehmender globaler Beteiligung geführt. Resultierend daraus errei- chen die verfügbaren Daten inzwischen hohe Dichte sowie Genauigkeit.
+pagetotal = {117},
+abstract = {OpenStreetMap (OSM) konnte sich seit der Gründung 2004 sehr schnell etablieren und stellt mittlerweile eine konkrete Alternative gegenüber vergleichbaren kommerziellen Anwendungen dar. Dieser Erfolg ist eindeutig auf das revolutionäre Grundkonzept des Projektes zurückzuführen. Weltweit werden räumliche Daten durch Mitglieder erhoben und dem Projekt OSM zur Verfügung gestellt. Über die zugrunde liegenden Lizenzbestimmungen wird sichergestellt, dass OSM-Daten frei verfügbar und kostenfrei weiter verwendbar sind. Vor allem die Vorstellung der Unabhängigkeit von proprietären Daten hat zu starker, weiterhin zunehmender globaler Beteiligung geführt. Resultierend daraus erreichen die verfügbaren Daten inzwischen hohe Dichte sowie Genauigkeit.
 Visualisierungen in Form von interaktiven, frei skalierbaren Weltkarten, welche über die vollständig automatisierten Softwarelösungen Mapnik und Osmarender erstellt werden, sind am weitesten verbreitet. Infolgedessen müssen kartographische Grundsätze und Regeln formalisiert und implementiert werden. Insbesondere in Bezug auf kartographische Generalisierung treten teils erhebliche Mängel in den entsprechenden Umsetzungen auf. Dies bildet den Ausgangspunkt der Untersuchung. Ausgehend von einer Ist-Analyse werden vorhandene Defizite identifiziert und anschließend Möglichkeiten zur Integration von Generalisierungsfunktionalitäten untersucht.
 Aktuelle Entwicklungen streben die Anwendung interoperabler Systeme im Kontext kar- tographischer Generalisierung an, mit dem Ziel Generalisierungsfunktionalitäten über das Internet bereitzustellen. Grundlage hierfür bilden die vom Open Geospatial Consortium (OGC) spezifizierten Web Processing Services (WPS). Sie ermöglichen die Analyse und Verarbeitung räumlicher Daten. In diesem Zusammenhang werden Web Generalization Services (WebGen-WPS) auf mögliche Integration in die Softwarelösungen untersucht und bilden somit einen zentralen Untersuchungsgegenstand der vorliegenden Arbeit.
 Mapnik stellt, nicht zuletzt durch dessen offengelegten Quelltext („Open Source``), optimale Voraussetzungen für jene Implementierungen zur Verfügung. Zur Verarbeitung von OSM-Daten verwendet Mapnik die freie Geodatenbank PostGIS, welche ebenfalls Funktionalitäten zur Analyse und Verarbeitung räumlicher Daten liefert. In diesem Kontext wird zusätzlich untersucht, inwiefern PostGIS-Funktionen Potential zur Anwendung kartographischer Generalisierung aufweisen.},
-file = {{[Kla11] Integration von Generalisierungsfunktionalität für die automatischen Ableitung verschiedener Levels of Detail von OpenstreetMap Webkarten.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/E68E697C-036C-463A-A95D-9EE33E1BD0B0}}
+url = {http://nbn-resolving.de/urn:nbn:de:bsz:14-qucosa-69596}
 }
 
 @unpublished{Mat17,
@@ -59,29 +59,43 @@ Zum einen war eine geeignete Datenquelle zu finden, da nur die Deutsche Bahn und
 url = {https://frab.fossgis-konferenz.de/de/2017/public/events/5237}
 }
 
+@software{ME11,
+author = {Migurski, Michal and Erle, Schuyler},
+title = {{Skeletron}},
+howpublished = {Software},
+date = {2013-03-17},
+url = {https://github.com/migurski/Skeletron/tree/976b7029afa8e52fd723137781cb01234539a655}
+}
+
+@online{Mig12,
+author = {Migurski, Michal},
+note = {Webseite},
+date = {2012-03-29},
+url = {http://mike.teczno.com/img/terrain-stamen-post/}
+}
+
 @online{Nei15,
 author = {Neis, Pascal},
 title = {{OSMstats: Report for Nov, 07th 2015}},
-year = {2015},
-url = {https://osmstats.neis-one.org/?item=changesets&date=7-11-2015},
-addendum = {Fassung vom 24.~April 2017, 14:15~Uhr}
+note = {Webseite},
+shorthand = {Nei15},
+sortyear = {2015},
+url = {https://osmstats.neis-one.org/?item=changesets&date=7-11-2015}
 }
 
 @article{NZ12,
 author = {Neis, Pascal and Zipf, Alexander},
-title = {{Analyzing the Contributor Activity of a Volunteered Geographic Information Project --- The Case of OpenStreetMap}},
+title = {{Analyzing the Contributor Activity of a Volunteered Geographic Information Project -- The Case of OpenStreetMap}},
 journal = {ISPRS International Journal of Geo-Information},
 year = {2012},
 volume = {1},
 number = {2},
 pages = {146--165},
-month = jul,
+hiddenmonth = jul,
 doi = {10.3390/ijgi1020146},
 language = {English},
 abstract = {The OpenStreetMap (OSM) project, founded in 2004, has gathered an exceptional amount of interest in recent years and counts as one of the most impressive sources of Volunteered Geographic Information (VGI) on the Internet. In total, more than half a million members had registered for the project by the end of 2011. However, while this number of contributors seems impressive, questions remain about the individual contributions that have been made by the project members. This research article contains several studies regarding the contributions by the community of the project. The results show that only 38 percent (192,000) of the registered members carried out at least one edit in the OSM database and that only 5 percent (24,000) of all members actively contributed to the project in a more productive way. The majority of the members are located in Europe (72 percent) and each member has an activity area whose size may range from one soccer field up to more than 50 km2. In addition to several more analyses conducted for this article, predictions will be made about how this newly acquired knowledge can be used for future research.},
-url = {http://www.mdpi.com/2220-9964/1/2/146/},
-file = {{[NZ12] Analyzing the Contributor Activity of a Volunteered Geographic Information Project — The Case of OpenStreetMap.pdf:application/pdf}},
-uri = {\url{papers2://publication/doi/10.3390/ijgi1020146}}
+url = {http://www.mdpi.com/2220-9964/1/2/146/}
 }
 
 @article{NZZ12,
@@ -91,58 +105,65 @@ journal = {Future Internet},
 year = {2012},
 volume = {4},
 number = {4},
-pages = {1--21},
+pagetotal = {21},
 doi = {10.3390/fi4010001},
 language = {English},
 abstract = {In this paper, both the spectrum efficiency (SE) and the energy efficiency (EE) are investigated for an uplink massive multiple-input multiple-output (MIMO) system coexisting with an underlay device-to-device (D2D) system. The outage probability and the achievable rates of the cellular user equipments (CUEs) and the D2D link are derived in closed-form, respectively. Constrained by the SE of the D2D link and the CUEs, the EE of the massive MIMO system is maximized by jointly optimizing the transmit power of CUEs and the number of BS antennas. An algorithm with low complexity is proposed to solve the optimization problem. Performance results are provided to validate our derived closed-from results and verify the efficiency of our proposed scheme.},
-url = {http://www.mdpi.com/1999-5903/4/1/1/},
-file = {{[NZZ12] The Street Network Evolution of Crowdsourced Maps; OpenStreetMap in Germany 2007–2011.pdf:application/pdf}},
-uri = {\url{papers2://publication/doi/10.3390/fi4010001}}
+url = {http://www.mdpi.com/1999-5903/4/1/1/}
 }
 
 @inproceedings{OHSZ10,
 author = {Over, Martin and El Hachadi, Mohammed and Schilling, Arne and Zipf, Alexander},
 title = {{Automatisierte Generalisierungsverfahren von 3D-Stadt-und Landschaftsmodellen}},
 booktitle = {Angewandte Geoinformatik 2010},
-year = {2010},
-publisher = {VDE VERLAG GmbH},
-language = {German},
+booksubtitle = {Beiträge zum 22. AGIT-Symposium},
+shorthand = {OHSZ10},
+sortyear = {2010},
+hiddenvenue = {Salzburg},
+hiddenpublisher = {VDE VERLAG GmbH},
+pages = {999-1003},
 abstract = {Seit April 2009 steht mit dem OpenStreetMap-3D-Projekt (OSM-3D 2010) eine Geodateninfrastruktur zur Verfügung mit der die nutzergenerierten OpenStreetMap (OSM 2010) Geodaten Deutschlands interaktiv in 3D erkundet werden können. Seit Januar 2010 liegt ein erstes Update vor, bei dem nicht nur eine räumliche Erweiterung stattfand, mit der nun zahlreiche Städte Europas abgedeckt werden. Die Komponenten der 3D-Geodateninfrastruktur (GDI-3D 2010) basieren auf Standards oder Standardentwürfen des Open Geospatial Consortiums. Für die Kernkomponente der GDI-3D, den Web 3D Service (W3DS 2009) liegt seit Anfang 2010 ein neuer Diskussionsentwurf vor. Die bedeutendste Neuerung ist, dass neben einer 'GetScene' Abfrage welche eine 3D-Szene gemäß den Request Parametern des Nutzers liefert, eine 'GetTile' Anfrage eingeführt wurde. Durch diesen Anfragetyp hat der Nutzer die Möglichkeit auf quadratische Kacheln (Tiles) eines Landschaftmodells in unterschiedlichen Größen und Detailstufen zuzugreifen. Diese können dann in Abhängigkeit von der Distanz zur virtuellen Kamera vom Clienten visualisiert werden. Dieses Verfahren reduziert das Datenübertragungsvolumen und somit auch die Datenmenge, die vom Clienten gerendet werden muss. Dieser Beitrag beschäftigt sich mit der Automatisierung der Generalisierung der Detailstufen, welche einerseits durch eine Kantenkontraktion erreicht wurde und andererseits durch "klassische" GIS Generalisierungsmethoden (Aggregation, Kurvenvereinfachung, Filterung).},
-url = {http://www.vde-verlag.de/proceedings-en/537495131.html},
-file = {{[OHSZ10] Automatisierte Generalisierungsverfahren von 3D-Stadt-und Landschaftsmodellen.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/9B3EC0D6-449C-42BF-A7B6-7D740DBBFC25}}
+url = {https://www.geog.uni-heidelberg.de/md/chemgeo/geog/gis/over-etal.pdf}
 }
 
 @online{osm:HighwayLink,
+author = {{OpenStreetMap}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{Highway link}},
-organization = {OpenStreetMap Wiki},
+note = {Wiki-Artikel},
 shorthand = {osm12},
-url = {https://wiki.openstreetmap.org/w/index.php?title=Highway_link&oldid=824541},
-version = {vom 24.~Oktober 2012, 12:19~Uhr}
+date = {2012-10-24T12:19:00},
+url = {https://wiki.openstreetmap.org/w/index.php?title=Highway_link&oldid=824541}
 }
 
 @online{osm:InspectorHighways,
+author = {{OpenStreetMap}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{OSM Inspector/Views/Highways}},
-organization = {OpenStreetMap Wiki},
+note = {Wiki-Artikel},
 shorthand = {osm10},
-url = {https://wiki.openstreetmap.org/w/index.php?title=OSM_Inspector/Views/Highways&oldid=400792#Overview},
-version = {vom 5.~Januar 2010, 15:45~Uhr}
+date = {2010-01-05T15:45:00},
+url = {https://wiki.openstreetmap.org/w/index.php?title=OSM_Inspector/Views/Highways&oldid=400792#Overview}
 }
 
 @online{osm:ODbL,
+author = {{OpenStreetMap}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{DE:Open Database License}},
-organization = {OpenStreetMap Wiki},
+note = {Wiki-Artikel},
 shorthand = {osm12},
-url = {https://wiki.openstreetmap.org/w/index.php?title=DE:Open_Database_License&oldid=809285},
-version = {vom 15.~September 2012, 18:22~Uhr}
+date = {2012-09-15T18:22:00},
+url = {https://wiki.openstreetmap.org/w/index.php?title=DE:Open_Database_License&oldid=809285}
 }
 
 @online{osm:TileUsage,
+author = {{OpenStreetMap}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{Tile disk usage}},
-organization = {OpenStreetMap Wiki},
+note = {Wiki-Artikel},
 shorthand = {osm12},
-url = {https://wiki.openstreetmap.org/w/index.php?title=Tile_disk_usage&oldid=849586},
-version = {vom 31.~Dezember 2012, 07:46~Uhr}
+date = {2012-12-31T07:46:00},
+url = {https://wiki.openstreetmap.org/w/index.php?title=Tile_disk_usage&oldid=849586}
 }
 
 @article{PM17,
@@ -152,43 +173,40 @@ journal = {Future Internet},
 year = {2017},
 volume = {9},
 number = {4},
-pages = {70},
-month = oct,
-doi = {10.1080/13658816.2013.790548},
-language = {English},
+pagetotal = {17},
+hiddenmonth = oct,
+issn = {1999-5903},
+doi = {10.3390/fi9040070},
 abstract = {The OpenStreetMap (OSM) geographic data model has three principal object types: nodes (points), ways (polygons and polylines), and relations (logical grouping of all three object types to express real-world geographical relationships). While there has been very significant analysis of OSM over the past decade or so, very little research attention has been given to OSM relations. In this paper, we provide an exploratory overview of relations in OSM for four European cities. In this exploration, we undertake analysis of relations to assess their complexity, composition and flexibility within the OSM data model. We show that some of the patterns discovered by researchers related to OSM nodes and ways also exist in relations. We find some other interesting aspects of relations which we believe can act as a catalyst for a more sustained future research effort on relations in OSM. These aspects include: the potential influence of bulk imports of geographical data to OSM, tagging of relations, and contribution patterns of {\ldots}},
-url = {http://www.mdpi.com/1999-5903/9/4/70},
-file = {{[PM17] Exploring Data Model Relations in OpenStreetMap.pdf:application/pdf}},
-uri = {\url{papers2://publication/doi/10.1080/13658816.2013.790548}}
+url = {http://www.mdpi.com/1999-5903/9/4/70}
 }
 
 @book{RT09,
 author = {Ramm, Frederik and Topf, Jochen},
 title = {{OpenStreetMap}},
+subtitle = {Die freie Weltkarte nutzen und mitgestalten},
 publisher = {Lehmanns Media},
 year = {2009},
-series = {Die freie Weltkarte nutzen und mitgestalten},
-address = {Berlin},
+location = {Berlin},
 edition = {2},
-library = {2008~A~3267(2), Fachgruppe geod~1.4},
-uri = {\url{papers2://publication/uuid/B4F46C30-E613-419D-8C5F-51D57066121E}}
+abstract = {OpenStreetMap ist eine Karte der ganzen Welt, die jeder frei benutzen und erweitern kann. In einem offenen Community-Pozess erheben tausende von Mitstreitern auf der ganzen Welt Geodaten und sammeln sie in einer zentralen Datenbank. Dieses Buch gibt Ihnen einen umfassenden Überblick über Community, Datenmodell und verwendete Software. Es versetzt Sie in die Lage, diesen ständig wachsenden Bestand von Geodaten in eigenen Projekten zu verwenden. Das Buch beschreibt auch ausführlich, wie Geodaten für OpenStreetMap gesammelt und aufbereitet werden. Wollen Sie selbst dazu beitragen, die Karte zu verbessern, ist dieses Buch die ideale Grundlage.},
+hiddenurl = {http://www.openstreetmap.info/},
+library = {2008~A~3267(2), Fachgruppe geod~1.4}
 }
 
-@phdthesis{Sch09,
+@thesis{Sch09,
 author = {Schwarz, Sebastian},
 title = {{Öffentlicher Personennahverkehr in OpenStreetMap}},
-school = {Hochschule Karlsruhe},
+type = {Diplomarbeit},
+school = {Hochschule Karlsruhe -- Technik und Wirtschaft},
 year = {2009},
-address = {Karlsruhe},
-month = jul,
+hiddenmonth = jul,
 publisher = {Hochschule Karlsruhe},
-language = {German},
+pagetotal = {149},
 abstract = {Die vorliegende Diplomarbeit befasst sich mit der Modellierung von Geodaten, die einen Bezug zum öffent- lichen Personennahverkehr (ÖPNV) aufweisen, in OpenStreetMap (OSM), einem Online-Community- Projekt zur Erfassung und Bereitstellung frei nutzbarer Geodaten.
 Ziel ist es, die Community zu motivieren, ÖPNV-bezogene Daten einheitlicher und vollständiger zu erfassen sowie wirksamer zu gestalten als bisher. Dafür wird das bestehende Modellierungsschema der Daten auf der Grundlage einer Analyse der gegenwärtigen Situation angepasst und erweitert, wodurch eine größere Einfachheit, Nachvollziehbarkeit und Einheitlichkeit des Schemas erreicht wird sowie Möglichkeiten für eine zusammenhängende, detailreiche und differenzierende Gestaltung der Daten geschaffen werden. Um dem überarbeiteten Schema zu einer großen Akzeptanz innerhalb der Community zu verhelfen, wird dieses mit der Community diskutiert, um es anschließend weiteren Verbesserungen zu unterziehen. Hernach wird das Schema exemplarisch angewendet, wodurch seine Praxistauglichkeit erwiesen wird, und zum Vergleich mit der bisherigen Situation kartographisch visualisiert. Ferner wird ein bestehendes, Web-basiertes Software-Tool für die Darstellung und Qualitätssicherung von OSM-Daten um ÖPNV-Funktionalitäten erweitert, um es der Community zu ermöglichen, nach dem geänderten Schema modellierte Daten darstellen und Fehler oder Mängel in diesen erkennen zu können.
 Es zeigt sich, dass es in jedem Fall der Zusammenarbeit mit der Community bedarf, um ein überarbei- tetes Modellierungsschema für Daten eines bestimmten Themenbereichs in OSM zu etablieren. Insgesamt betrachtet gelingt die Schaffung der genannten Motivation, da das Modellierungsschema akzeptiert wird, sich in der Praxis bewährt und -- auch auf Grund der Bereitstellung des Software-Tools -- nach und nach an immer mehr Stellen angewendet wird.},
-url = {http://kahlfrost.de/diplom/},
-file = {{[Sch09] Öffentlicher Personennahverkehr in OpenStreetMap.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/302554C3-4918-4C9F-81A6-ECDB178337F9}}
+url = {https://kahlfrost.de/diplom/}
 }
 
 @article{Sch12,
@@ -198,9 +216,10 @@ journal = {Kartographische Nachrichten},
 year = {2012},
 number = {1},
 pages = {20--26},
-month = feb,
-abstract = {Dieser Artikel beschäftigt sich mit einem Vergleich der ATKIS-Basis-DLM-Daten mit den freien OpenStreetMap-Daten. Untersucht wurden die Qualitätsmerkmale Vollständigkeit und Positionsgenauigkeit anhand eines Ober-, Mittel-, und Grundzentrums in Niedersachsen. Die Ergebnisse zeigen, dass die OpenStreet-Map-Daten, vor allem in größeren Städten, eine gute Positionsgenauigkeit und teilweise höhere Vollständigkeit aufweisen als die ATKIS-Basis-DLM-Daten. Diese jedoch besitzen eine konstant hohe Datendichte und Genauigkeit und sind somit verlässlicher.},
-uri = {\url{papers2://publication/uuid/6B84F248-6C6D-4D46-B54C-FCE1BA29B19E}}
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
+hiddenmonth = feb,
+abstract = {Dieser Artikel beschäftigt sich mit einem Vergleich der ATKIS-Basis-DLM-Daten mit den freien OpenStreetMap-Daten. Untersucht wurden die Qualitätsmerkmale Vollständigkeit und Positionsgenauigkeit anhand eines Ober-, Mittel-, und Grundzentrums in Niedersachsen. Die Ergebnisse zeigen, dass die OpenStreet-Map-Daten, vor allem in größeren Städten, eine gute Positionsgenauigkeit und teilweise höhere Vollständigkeit aufweisen als die ATKIS-Basis-DLM-Daten. Diese jedoch besitzen eine konstant hohe Datendichte und Genauigkeit und sind somit verlässlicher.}
 }
 
 @article{SP11,
@@ -211,8 +230,9 @@ year = {2011},
 volume = {61},
 number = {3},
 pages = {115--120},
-month = jun,
-uri = {\url{papers2://publication/uuid/C0ECBAB0-2F6A-400E-BD7D-2BCD37061F99}}
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
+hiddenmonth = jun
 }
 
 @article{Top09,
@@ -222,7 +242,8 @@ journal = {Kartographische Nachrichten},
 year = {2009},
 volume = {59},
 number = {1},
-pages = {47},
-uri = {\url{papers2://publication/uuid/6DFAB93B-314A-44E8-AA9F-8C68611AF684}}
+pages = {47-49},
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
 }
 

@@ -20,47 +20,40 @@
 
 % set the title of the work italic
 \DeclareFieldFormat*{title}{\textit{#1}}
-% (* version clears "all type-specifc formats" -- seems to work fine)
+% (* version clears "all type-specific formats")
 
 % set the title of journals etc. upright
-\DeclareFieldFormat*{journaltitle}{„\textrm{#1}“}
-\DeclareFieldFormat*{booktitle}{„\textrm{#1}“}
+\DeclareFieldFormat*{journaltitle}{\textrm{#1}}
+\DeclareFieldFormat*{booktitle}{\textrm{#1}}
 
 % sensible journal numbering
 \DeclareFieldFormat[article]{volume}{Jg.~#1}
 \DeclareFieldFormat[article]{number}{Nr.~#1}
-\newbibmacro*{volume+number+eid}{%
+\renewbibmacro*{volume+number+eid}{%
   \printfield{volume}%
   \setunit*{\addcomma\space}%
   \printfield{number}%
   \setunit{\addcomma\space}%
   \printfield{eid}}
 
+% include optional time for online works with a precise timestamp (e. g., a specific wiki article version)
+\ExecuteBibliographyOptions{date=long,dateusetime=true}
+
 % no document ID numbers
 \ExecuteBibliographyOptions{isbn=false,doi=false}
 
-% TODO: enable IDs in special cases (e. g., no URL/call number)
-% \textsc{isbn}
-
 % URLs: force line break before
 \renewbibmacro*{url}{\setunit{\newunitpunct\par\nobreak}\printfield{url}}
+
+% fixed width of URL leader to give the fixed-width chars a chance to be horizontally aligned
+\DeclareFieldFormat{url}{\makebox[\widthof{\nolinkurl{12345}}][l]{\mkbibacro{URL}\addcolon\space}\url{#1}}
 
 % enable breaks inside URLs after any char
 \setcounter{biburllcpenalty}{1}
 \setcounter{biburlucpenalty}{1}
 \setcounter{biburllcpenalty}{1}
-% BUG: the new version below causes extra space before \citeauthor (WTF?)
-%\renewcommand*{\biburlsetup}{%
-%\expandafter\def\expandafter\UrlBreaks\expandafter{\UrlBreaks%  save the current one
-%  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
-%  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
-%  \do\u\do\v\do\w\do\x\do\y\do\z\do\A\do\B\do\C\do\D%
-%  \do\E\do\F\do\G\do\H\do\I\do\J\do\K\do\L\do\M\do\N%
-%  \do\O\do\P\do\Q\do\R\do\S\do\T\do\U\do\V\do\W\do\X%
-%  \do\Y\do\Z\do\0\do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9}
-%}
 
-% no funny urldate abbreviations
+% no funny date abbreviations
 \ExecuteBibliographyOptions{dateabbrev=false}
 \DeclareFieldFormat{urldate}{%
   \mkbibparens{abgerufen am \thefield{urlday}.\addspace%
@@ -68,18 +61,25 @@
   \thefield{urlyear}}}
 
 % no full stop after URL
-% BUG: removes end . from articles and proceedings without URL
+% BUG: removes end . from those page ranges (for articles and proceedings) that end the entry
+% WORKAROUND: add an addendum to the affected entries containing just a non-breaking space {~}
 \renewcommand{\finentrypunct}{}
 
 % include library call number
-% BUG: if there is a URL *and* a call number (which is rare), an extra . appears after the URL
+% BUG: if there is a URL *and* a call number (which currently does not occur), an extra . appears after the URL
 \renewbibmacro*{addendum+pubstate}{%
   \iffieldundef{library}{}{%
-    .\par\nobreak\newunit\newblock
+    \addperiod\par\nobreak\newunit\newblock
     \mkbibacro{Signatur}\addcolon\space\printfield{library}}%
   \printfield{addendum}%
   \newunit\newblock
   \printfield{pubstate}%
 }
+
+% explicitly define the 'misc' driver for handling special entry types
+\DeclareBibliographyAlias{legal}{misc}
+\DeclareBibliographyAlias{image}{misc}
+\DeclareBibliographyAlias{letter}{misc}
+\DeclareBibliographyAlias{software}{misc}
 
 \endinput

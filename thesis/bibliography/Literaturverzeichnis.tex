@@ -3,15 +3,19 @@
 \documentclass[../main/thesis.tex]{subfiles}
 \begin{document}
 
+% include works in bibliography that aren't cited anywhere in the document (for debugging)
+\onlyinsubfile{\nocite{*}}
 
-\nocite{*}  % include works in bibliography that aren't cited anywhere in the document (for debugging)
 
-
-\defbibnote{thesisBibIntro}{%
-Die Literaturangaben sind alphabetisch nach den Nachnamen der Autoren sortiert.
-Bei mehreren Autoren wird nach dem ersten Autor sortiert.\par%
-\quad
-Um ein eventuelles Nachschlagen zu erleichtern, sind die Referenzen wo immer möglich durch Angabe von Orten ergänzt, an denen eine Kopie des jeweiligen Werks am \today\ gegen 12~Uhr aufzufinden war. In der PDF-Ausgabe dieses Dokuments sind die URLs Hyperlinks. Die Signaturen beziehen sich auf die Bibliothek des Karlsruher Instituts für Technologie und deren Standort „Fachbibliothek HsKA“.
+\defbibnote{thesisBibIntro}{\justify%
+Die Literaturangaben sind alphabetisch nach dem Kürzel sortiert.
+Das Kürzel wird gebildet aus den ersten drei Buchstaben des Nachnamens des Autors, bei mehreren Autoren aus jeweils den Anfangsbuchstaben der Nachnamen, bei Körperschaften aus einer mnemonisch gewählten Folge von Kleinbuchstaben; jeweils ergänzt durch die letzten beiden Ziffern des Jahres der Veröffentlichung.
+\par
+Um ein eventuelles Nachschlagen zu erleichtern, sind die Referenzen wo immer möglich durch Angabe von Orten ergänzt, an denen eine Kopie des jeweiligen Werks am 1.~März 2018
+% gegen 22~Uhr
+aufzufinden war.
+In der PDF-Ausgabe dieses Dokuments sind die URLs Hyperlinks.
+Die Signaturen beziehen sich auf die Bibliothek des Karlsruher Instituts für Technologie und deren Standort „Fachbibliothek HsKA“.
 \bigskip}
 
 

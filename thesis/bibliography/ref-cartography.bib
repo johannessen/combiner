@@ -3,36 +3,39 @@
 %% (primarily used in chapter 2)
 
 
-@techreport{adv08a,
+@manual{adv08a,
 label = {adv},
+author = {{Arbeitsgemeinschaft der Vermessungsverwaltungen der Länder der Bundesrepublik Deutschland}},
+shortauthor = {{AdV}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{Dokumentation zur Modellierung der Geoinformation des amtlichen Vermessungswesens (GeoInfoDok)}},
+subtitle = {Erläuterungen zum ATKIS® Basis-DLM},
+version = {6.0},
 year = {2008},
-month = apr,
-publisher = {Arbeitsgemeinschaft der Vermessungsverwaltungen der Länder der Bundesrepublik Deutschland (AdV)},
-url = {http://www.geodatenzentrum.de/docpdf/Erlaeuterungen%20zum%20ATKIS%20Basis-DLM%206_0.pdf},
-uri = {\url{papers2://publication/uuid/961232C2-DC99-4B21-AF09-998163131D2F}}
+hiddenmonth = apr,
+pagetotal = {89},
+url = {https://www.geodatenzentrum.de/docpdf/Erlaeuterungen%20zum%20ATKIS%20Basis-DLM%206_0.pdf}
 }
 
-@book{BK01,
-author = {Bollmann, Jürgen and Koch, Wolf Günther},
-title = {{Lexikon der Kartographie und Geomatik: A--Z}},
+@reference{BK01,
+editor = {Bollmann, Jürgen and Koch, Wolf Günther},
+maintitle = {{Lexikon der Kartographie und Geomatik}},
+title = {{A bis Karti}},
+volume = {1},
+year = {2001},
 publisher = {Spektrum Akademischer Verlag},
-year = {2002},
-address = {Heidelberg},
-isbn = {3-8274-1137-8},
-library = {2013~CD~48, Fachgruppe geod~1},
-uri = {\url{papers2://publication/uuid/F204DBF3-36A1-4374-ACB5-6A174011BACB}}
+location = {Heidelberg},
+isbn = {3-8274-1055-X},
+pagetotal = {468},
+library = {2013~CD~48, Fachgruppe geod~1}
 }
 
 @inproceedings{CM05,
+crossref = {ica05},
 author = {Chaudhry, Omair and Mackaness, William A},
 title = {{Rural and Urban Road Network Generalisation: Deriving 1:250,000 from OS MasterMap}},
-booktitle = {Proceedings of the 22nd International Cartographic Conference},
-year = {2005},
 abstract = {Roads are essential component of topographic maps and spatial databases. The challenge in automated generalisation of road networks is to derive a connected network while maintaining the structure for the intended target scale and to achieve this with minimum user intervention. A lot of methods to select, displace and simplify roads have been presented; the focus here is on the generalisation of networks using visual perception techniques. This paper presents a framework based on visual perception that uses minimum attributes for generalisation of both `rural' and `urban' roads over large scale change. The system incorporated graph theoretic techniques to explicitly model the topology of the network as it was generalized. The model uses a fine scale map (1:1250 or 1:2500) as input and generates small scale (1:250,000) maps directly from it without creating intermediate small scale maps. The results compared favorably with paper maps (Ordnance Surveys Stratgie dataset (1:250,000)).},
-url = {http://hdl.handle.net/1842/1137},
-file = {{[CM05] Rural and Urban Road Network Generalisation; Deriving 1:250000 from OS MasterMap.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/C2F69A89-AEBD-442B-BD49-72EFE6974590}}
+url = {https://hdl.handle.net/1842/1137}
 }
 
 @article{EE99,
@@ -43,11 +46,10 @@ year = {1999},
 volume = {22},
 number = {4},
 pages = {569--592},
-month = dec,
+hiddenmonth = dec,
 doi = {10.1007/PL00009479},
 abstract = {The straight skeleton of a polygon is a variant of the medial axis introduced by Aichholzer et al., defined by a shrinking process in which each edge of the polygon moves inward at a fixed rate. We construct the straight skeleton of an n -gon with r reflex vertices in time O(n 1+$\varepsilon$ + n 8/11+$\varepsilon$ r 9/11+$\varepsilon$ ) , for any fixed $\varepsilon$ >0 , improving the previous best upper bound of O(nr log n) . Our algorithm simulates the sequence of collisions between edges and vertices during the shrinking process, using a technique of Eppstein for maintaining extrema of binary functions to reduce the problem of finding successive interactions to two dynamic range query problems: (1) maintain a changing set of triangles in R 3 and answer queries asking which triangle is first hit by a query ray, and (2) maintain a changing set of rays in R 3 and answer queries asking for the lowest intersection of any ray with a query triangle. We also exploit a novel characterization of the straight skeleton as a lower envelope of triangles in R 3 . The same time bounds apply to constructing non-self-intersecting offset curves with mitered or beveled corners, and similar methods extend to other problems of simulating collisions and other pairwise interactions among sets of moving objects.},
-file = {{[EE99] Raising Roofs, Crashing Cycles, and Playing Pool - Applications of a Data Structure for Finding Pairwise Interactions.pdf:application/pdf}},
-uri = {\url{papers2://publication/doi/10.1007/PL00009479}}
+url = {http://jeffe.cs.illinois.edu/pubs/pdf/cycles.pdf}
 }
 
 @inproceedings{EM00a,
@@ -56,21 +58,14 @@ title = {{Intelligent Generalisation of Urban Road Networks}},
 booktitle = {Proceedings of GIS Research UK 2000 Conference University of York},
 year = {2000},
 pages = {81--85},
-language = {English},
-file = {{[EM00] Intelligent Generalisation of Urban Road Networks.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/11098DB7-C464-4A89-863C-64CEBAE298E9}}
+url = {https://www.geos.ed.ac.uk/homes/wam/EdwardesMack2000b.pdf}
 }
 
 @inproceedings{HAS05,
+crossref = {ica05},
 author = {Heinzle, Frauke and Anders, Karl-Heinrich and Sester, Monika},
 title = {{Graph Based Approaches for Recognition of Patterns and Implicit Information in Road Networks}},
-booktitle = {Proceedings of the 22nd International Cartographic Conference},
-year = {2005},
-month = sep,
-language = {English},
-url = {http://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/HeinzleAndersSester_ICC2005.pdf},
-file = {{[HAS05] Graph Based Approaches for Recognition of Patterns and Implicit Information in Road Networks.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/E9CF886C-D910-4E46-887B-371D4454A040}}
+url = {https://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/HeinzleAndersSester_ICC2005.pdf}
 }
 
 @book{HGM02,
@@ -81,10 +76,10 @@ year = {2002},
 address = {Berlin},
 edition = {8},
 isbn = {3-11-016404-3},
+pagetotal = {617},
 library = {70~A~1363(8), Fachgruppe geod~2.03},
 abstract = {This introductory and accompanying textbook deals with the whole field of cartography. Both the current state and the development trends in cartography are presented. Taking up a prominent position in this updated edition is the cartographic visualization of spatiotemporal information in connection with geoinformation's meteoric development. Digital information and communication technologies have largely displaced classic cartographic production techniques and thus considerably altered the usage and acquisition of space-related information. This textbook offers an up-to-date systematic representation of: Theoretical basics of cartography Geoinformation systems Space-orientation in cartography and geoinformatics Cartographical modelling Techniques in cartographical visualization Topographical and subject-oriented information systems and maps Atlas cartography and includes an overview of the discipline's history and current position. The primary purpose of this book is as an introductory and accompanying teaching aid for students of cartography, geodesy, geoinformatics, geography, geosciences and town and country planning. At the same time, it is suitable for use in self-study and career development by anyone who is involved with space-oriented information.},
-url = {https://books.google.de/books?id=_LMXZ42gjPYC&pg=PA25&lpg=PA25&dq=kartographie+i+hake&source=bl&ots=2hjrSK1-i8&sig=1p39uFfweJ_k7mea9rGOJbr8GnE&hl=de&sa=X&ved=0ahUKEwjwuYSBk4rZAhVE6aQKHeGBA4EQ6AEIYjAJ#v=onepage&q=generalisierung&f=false},
-uri = {\url{papers2://publication/uuid/E01592DD-2D9A-49B2-A531-5C9F9EAE0D74}}
+hiddenurl = {https://books.google.de/books?id=_LMXZ42gjPYC&pg=PA25&lpg=PA25&dq=kartographie+i+hake&source=bl&ots=2hjrSK1-i8&sig=1p39uFfweJ_k7mea9rGOJbr8GnE&hl=de&sa=X&ved=0ahUKEwjwuYSBk4rZAhVE6aQKHeGBA4EQ6AEIYjAJ#v=onepage&q=generalisierung&f=false}
 }
 
 @inproceedings{HS04,
@@ -92,52 +87,67 @@ author = {Haunert, Jan-Henrik and Sester, Monika},
 title = {{Using the Straight Skeleton for Generalisation in a Multiple Representation Environment}},
 booktitle = {7th ICA Workshop on Generalisation and Multiple Representation},
 year = {2004},
-month = jul,
+hiddenmonth = jul,
 abstract = {In recent time a lot of research has been done towards the comprehensive administration of geographic data of different scales and thematic domains. A promising approach is the use of a Multiple Representation Database (MRDB) in which links between corresponding objects are explicitly modelled. The advantage of this approach is a limitation of redundancies and inconsistencies. It can be expected that this comprehensive administration of different data sets supports complex analysis and eases the updating process (Sester et al. 1998). Our aim is to build up a framework enabling the automatic update of features in an MRDB. We envision a system which is able to propagate information into the other representations in the database when a feature is added to an arbitrary level. To meet this demand algorithms are needed which are able to perform the generalisation of the added data considering the embedding context. The algorithms needed for generalisation depend on the relationships between objects in adjacent scale levels. The main relation is the aggregation, however, there are also more complex ones. Two of these cases are area collapses and geometry type changes. This also includes partial geometry type changes. The paper is organized as follows: after a review of related work, the relationships between objects in different scales are briefly analyzed in section 2. The main focus of the paper lies, however, in the presentation of a skeleton algorithm that can be applied to solve this task for the generalisation cases area collapse and geometry type changes from area to line. In this work the Straight Skeleton is used. The algorithm and its application to generalisation is presented in section 3. In section 4 first ideas are presented how this generalisation method can be used for the propagation of updates in MRDB. A summary concludes the paper.},
-url = {http://www1.informatik.uni-wuerzburg.de/pub/haunert/pdf/HaunertMapGen04.pdf},
-file = {{[HS04] Using the Straight Skeleton for Generalisation in a Multiple Representation Environment.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/6721804F-1E26-425C-B142-D71ED6AC3CF2}}
+url = {https://www.ikg.uni-hannover.de/fileadmin/ikg/staff/publications/Konferenzbeitraege_abstract_review/HaunertSester_ICA_workshop2004.pdf}
 }
 
-@online{Hub12,
+@image{Hub12,
 author = {Huber, Stefan},
 title = {{Straight Skeleton Definition}},
-note = {{Creative Commons Attribution"-ShareAlike 3.0 \cite{license:cc-by-sa-3.0}}},
-year = {2012},
+note = {{© Creative Commons Attribution"-ShareAlike 3.0 \cite[\cfabbr][]{license:cc-by-sa-3.0}}},
+date = {2004-04-05T09:14:00},
 url = {https://commons.wikimedia.org/wiki/File%3AStraightSkeletonDefinition.png},
-urldate = {2012-09-18},
-addendum = {(Fassung vom 18.~September 2012, 09:14~Uhr)}
 }
 
-@misc{license:cc-by-sa-3.0,
+@legal{license:cc-by-sa-3.0,
 author = {{Creative Commons}},
+hiddenauthortype = {herausgebende Körperschaft},
 title = {{Attribution-ShareAlike 3.0 License (CC BY-SA 3.0)}},
 label = {cc},
 year = {2007},
 url = {https://creativecommons.org/licenses/by-sa/3.0/}
 }
 
+@proceedings{ica05,
+title = {Proceedings of the 22nd International Cartographic Conference},
+label = {ica},
+year = {2005},
+hiddenmonth = sep,
+hiddenvenue = {A Coruña},
+hiddenorganization = {International Cartographic Association},
+url = {https://icaci.org/icc2005/}
+}
+
 @manual{iho13,
-organization = {{International Hydrographic Bureau}},
+author = {{International Hydrographic Bureau}},
+hiddenauthortype = {herausgebende Körperschaft},
+shortauthor = {IHB},
+hiddenorganization = {{International Hydrographic Organization}},
 address = {{Monaco}},
 label = {iho},
 title = {{Regulations of the IHO for International (INT) Charts and Chart Specifications of the IHO}},
-edition = {{4.4.0}},
+series = {S},
+number = {4},
+version = {{4.4.0}},
+pagetotal = {435},
 year = {2013},
-month = sep
+hiddenmonth = sep,
+url = {https://iho.int/iho_pubs/standard/S-4/S-4_e4.4.0_EN_Sep13.pdf}
 }
 
 @article{JC04,
 author = {Bin Jiang and Claramunt, C A},
-title = {{A Structural Approach to the Model Generalization of an Urban Street Networ}},
+title = {{A Structural Approach to the Model Generalization of an Urban Street Network}},
 journal = {GeoInformatica},
 year = {2004},
 volume = {8},
 number = {2},
 pages = {157--171},
-language = {English},
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
 abstract = {This paper proposes a novel generalization model for selecting characteristic streets in an urban street network. This model retains the central structure of a street network. It relies on a structural representation of a street network using graph principles where vertices represent named streets and links represent street intersections. Based on this representation, so-called connectivity graph, centrality measures are introduced to qualify the status of each individual vertex within the graph. We show that these measures can be used for characterizing the structural properties of an urban street network, and for the selection of important streets. The proposed approach is validated by a case study applied to a middle-sized Swedish city.},
-uri = {\url{papers2://publication/uuid/89FBAB43-7DFB-41B1-BF3F-81A4931A69D5}}
+doi = {10.1023/B:GEIN.0000017746.44824.70}
 }
 
 @inproceedings{KP98,
@@ -145,36 +155,17 @@ author = {van Kreveld, Marc and Peschier, Jarno},
 title = {{On the Automated Generalization of Road Network Maps}},
 booktitle = {Proceedings of the 3rd International Conference on GeoComputation},
 year = {1998},
-url = {http://www.geocomputation.org/1998/21/gc_21.htm},
-file = {{[KP98] Automated Generalization of Road Networks.webarchive:application/x-webarchive}},
-uri = {\url{papers2://publication/uuid/B880EBC8-7470-45B5-B902-42EDD7A2529E}}
+url = {http://www.geocomputation.org/1998/21/gc_21.htm}
 }
 
 @inproceedings{LM96,
 author = {Ladak, Alnoor and Martinez, Roberto B},
 title = {{Automated Derivation of High Accuracy Road Centrelines Thiessen Polygons Technique}},
-booktitle = {1996 Esri International
-User Conference},
-year = {1996},
-address = {Palm Springs},
-file = {{[LM96] Automated Derivation of High Accuracy Road Centrelines Thiessen Polygons Technique.webarchive:application/x-webarchive}},
-uri = {\url{papers2://publication/uuid/A58977E2-CCD9-471B-A2AB-182A62CE0263}}
-}
-
-@online{ME11,
-author = {Migurski, Michal and Erle, Schuyler},
-title = {{Skeletron}},
-year = {2011},
-note = {2011},
-url = {https://github.com/migurski/Skeletron/tree/976b7029afa8e52fd723137781cb01234539a655},
-addendum = {Fassung vom 17.~März 2013, 21:41~Uhr}
-}
-
-@online{Mig12,
-author = {Migurski, Michal},
-year = {2012},
-url = {http://mike.teczno.com/img/terrain-stamen-post/},
-addendum = {Fassung vom 29.~März 2012, 08:27~Uhr}
+eventtitle = {1996 Esri International User Conference},
+shorthand = {LM96},
+sortyear = {1996},
+hiddenvenue = {Palm Springs},
+url = {https://web.archive.org/web/20130203084856id_/http://proceedings.esri.com:80/library/userconf/proc96/TO400/PAP370/P370.HTM}
 }
 
 @article{ML12,
@@ -185,8 +176,9 @@ year = {2012},
 volume = {62},
 number = {5},
 pages = {263--267},
-month = oct,
-uri = {\url{papers2://publication/uuid/3D138182-C658-401C-9FC4-3D99043CDCAC}}
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
+hiddenmonth = oct
 }
 
 @article{MM99,
@@ -198,11 +190,8 @@ volume = {3},
 number = {2},
 pages = {185--200},
 doi = {10.1023/A:1009807927991},
-language = {English},
 abstract = {A road network is cartographically drawn in varying levels of detail depending on the resolution or scale of the output graphic. In automated generalization, the challenge is in deriving generalized forms of a road network, appropriate for the intended target scale and to achieve this with minimum intervention from the user. This paper presents a method for the detection and simplification of road junctions as part of that process. Road junctions within the network are identified using a combination of spatial clustering and graph theory. The junctions are simplified using a combination of contractions and restrictions of the graph. Consideration is given to ways in which attribute and cartometric information can be used both to modify the behavior of the algorithm, and to influence the choice of other generalization algorithms. This algorithm is considered to be part of a growing number of generalization algorithms that can be used to derive generalized products from single detailed database. The success and limitations are discussed and future developments are proposed.},
-url = {http://www.geos.ed.ac.uk/homes/wam/},
-file = {{[MM99] Automating the Detection and Simplification of Junctions in Road Networks.pdf:application/pdf}},
-uri = {\url{papers2://publication/doi/10.1023/A:1009807927991}}
+url = {https://www.geos.ed.ac.uk/homes/wam/MackMack1999.pdf}
 }
 
 @article{Ram72,
@@ -213,72 +202,69 @@ year = {1972},
 volume = {1},
 number = {3},
 pages = {244--256},
-abstract = {The approximation of arbitrary two-dimensional curves by polygons is an importanttechnique in image processing. For many applications, the apparent ideal procedure is to represent lines and boundaries by means of polygons with minimum number of vertices and satisfying a given fit criterion. In this paper, an approximation algorithm is presented which uses an iterative method to produce polygons with a small---but not minimum---number of vertices that lie on the given curve. The maximum distance of the curve from the approximating polygon is chosen as the fit criterion. The results obtained justify the abandonment of the minimum-vertices criterion which is computationally much more expensive.},
-url = {message://%3c377B893E-3316-4672-8A0E-5E2BF2B8347C@me.com%3e},
-file = {{[Ram72] An Iterative Procedure for the Polygonal Approximation of Plane Curves.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/12FE0463-57A5-4EAC-BBF3-8B22DD49768A}}
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
+abstract = {The approximation of arbitrary two-dimensional curves by polygons is an importanttechnique in image processing. For many applications, the apparent ideal procedure is to represent lines and boundaries by means of polygons with minimum number of vertices and satisfying a given fit criterion. In this paper, an approximation algorithm is presented which uses an iterative method to produce polygons with a small---but not minimum---number of vertices that lie on the given curve. The maximum distance of the curve from the approximating polygon is chosen as the fit criterion. The results obtained justify the abandonment of the minimum-vertices criterion which is computationally much more expensive.}
 }
 
-@booklet{sgk02,
+@book{sgk02,
 label = {sgk},
+author = {{Schweizerische Gesellschaft für Kartografie}},
+hiddenauthor = {Spiess, Ernst and Baumgartner, Ulrich and Arn, Stefan and Vez, Claude},
 title = {{Topografische Karten -- Kartengrafik und Generalisierung}},
-howpublished = {Schweizerische Gesellschaft für Kartografie},
+note = {Selbstverlag (CD-ROM)},
 year = {2002},
-publisher = {Schweizerische Gesellschaft für Kartografie},
-abstract = {Ernst Spiess, Ulrich Baumgartner, Stefan Arn, and Claude Vez},
-uri = {\url{papers2://publication/uuid/FD7376F6-F8C4-4783-9FA6-39137E576E9B}}
+pagetotal = {121}
 }
 
-@techreport{Sny87,
+@report{Sny87,
 author = {Snyder, John P},
-title = {{Map projections: A working manual}},
+title = {{Map projections---A Working Manual}},
 institution = {U.S. Geological Survey},
 year = {1987},
-number = {PP1395},
+type = {Professional paper},
+number = {1395},
 address = {Washington, D.C.},
 publisher = {U.S. Government Printing Office},
-affiliation = {U.S. Geological Survey},
+pagetotal = {383},
 abstract = {After decades of using only one map projection, the Polyconic, for its mapping program, the U.S. Geological Survey (USGS) now uses several of the more common projections for its published maps. For larger scale maps, including topographic quadrangles and the State Base Map Series, conformal projections such as the Transverse Mercator and the Lambert Conformal Conic are used. Equal-area and equidistant projections appear in the National Atlas. Other projections, such as the Miller Cylindrical and the Van der Grinten, are chosen occasionally for convenience, sometimes making use of existing base maps prepared by others. Some projections treat the Earth only as a sphere, others as either ellipsoid or sphere.
-
 The USGS has also conceived and designed several new projections, including the Space Oblique Mercator, the first map projection designed to permit mapping of the Earth continuously from a satellite with low distortion. The mapping of extraterrestrial bodies has resulted in the use of standard projections in completely new settings. Several other projections which have not been used by the USGS are frequently of interest to the cartographic public.
-
 With increased computerization, it is important to realize that rectangular coordinates for all these projections may be mathematically calculated with formulas which would have seemed too complicated in the past, but which now may be programmed routinely, especially if aided by numerical examples. A discussion of appearance, usage, and history is given together with both forward and inverse equations for each projection involved.},
-url = {https://pubs.er.usgs.gov/publication/pp1395},
-file = {{1987 Snyder.pdf:/Users/aj/Geomatik/Publications/USGS/PP_1395.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/8F5926B3-0DC2-445E-ACF4-A7456FEAE76D}}
+url = {https://pubs.er.usgs.gov/publication/pp1395}
 }
 
 @inproceedings{Tho05,
 author = {Thom, Stuart},
-title = {{A Strategy for Collapsing OS Integrated Transmport Network Dual Carriageways}},
-booktitle = {8th ICA Workshop on Generalisation and Multiple Representation},
+title = {{A Strategy for Collapsing OS Integrated Transport Network Dual Carriageways}},
+eventtitle = {8th ICA Workshop on Generalisation and Multiple Representation},
 year = {2005},
-address = {A Coruña, Spain},
-language = {English},
+hiddenvenue = {A Coruña},
 abstract = {The research topic of this paper is vector-based automated model generalisation of OS Integrated Transport NetworkTM. Two subsets of the road network are selected to perform generalisation on, firstly the dual carriageway road sections are tracked and collapsed to a single centreline representing the dual carriageway, and secondly the traffic island sections are similarly collapsed. A method of doing this successfully using stroke type objects, created with the constraint of one-way direction, is described. These strokes are paired on the basis of their end connections and collapsed (or merged) to a single stroke. This centre line is connected to the road network.},
-url = {http://www.docstoc.com/docs/34394984/A-Strategy-for-Generalising-OS-MasterMap-Tree-Polygons-to-150-000},
-file = {{[Tho05] A Strategy for Collapsing OS Integrated Transmport Network™ Dual Carriageways.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/0365EDA2-7AF9-4852-B3EA-9DE75CB424AF}}
+url = {https://www.researchgate.net/publication/228987992}
 }
 
 @inproceedings{Tho06a,
+crossref = {RKE06},
 author = {Thom, Stuart},
 title = {{Conflict Identification and Representation for Roads Based on a Skeleton}},
-booktitle = {Progress in Spatial Data Handling},
+pages = {659--680}
+}
+
+@proceedings{RKE06,
+hiddeneditor = {Riedl, Andreas and Kainz, Wolfgang and Elmes, Gregory},
+label = {RKE},
+title = {Progress in Spatial Data Handling},
+hiddensubtitle = {12th International Symposium on Spatial Data Handling},
 year = {2006},
-pages = {659--680},
 library = {2009~A~2945, Fachgruppe geog~0.5},
-uri = {\url{papers2://publication/uuid/DF0CBA46-E4F9-4DB4-A700-C34F1E92B0C6}}
 }
 
 @inproceedings{Tho06b,
+crossref = {RKE06},
 author = {Thomson, Robert C},
 title = {{The `stroke' concept in Geographic Network Generalization and Analysis}},
-booktitle = {Progress in Spatial Data Handling},
-year = {2006},
 pages = {681--697},
-library = {2009~A~2945, Fachgruppe geog~0.5},
-annote = {681f. two goals: network preservation + visual character preservation; this may be the same when little semantic information is available
+annotation = {681f. two goals: network preservation + visual character preservation; this may be the same when little semantic information is available
 683, 685: "Strokes are paths of good continuation: {\ldots}"
 683: what looks important usually is important - tagging für den renderer
 658: [Zhang 2004a]; [HAS05] !!!!
@@ -291,9 +277,7 @@ annote = {681f. two goals: network preservation + visual character preservation;
 690 more on higher-level perceptual groupings, [EM00] is "important advance"
 693 "named streets approach": [JC04]
 },
-language = {English},
-abstract = {Strokes are relatively simple linear elements readily perceived in a network. Apart from their role as graphical elements, strokes reflect lines of flow or movement within the network itself and so constitute natural functional units. Since the functional importance of a stroke is reflected in its perceived salience this makes strokes a suitable basis for network generalization, through the preferential preservation of salient strokes during data reduction. In this paper an exploration of the dual functional-graphical nature of strokes is approached via a look at perceptual grouping in generalization. The identification and use of strokes are then described. The strengths and limitations of stroke-based generalization are discussed; how the technique may be developed is also considered. Finally, the functional role of strokes in networks is highlighted by a look at recent developments in space syntax and related studies.},
-uri = {\url{papers2://publication/uuid/50A4A16E-D910-41A5-9664-390EB8C7C280}}
+abstract = {Strokes are relatively simple linear elements readily perceived in a network. Apart from their role as graphical elements, strokes reflect lines of flow or movement within the network itself and so constitute natural functional units. Since the functional importance of a stroke is reflected in its perceived salience this makes strokes a suitable basis for network generalization, through the preferential preservation of salient strokes during data reduction. In this paper an exploration of the dual functional-graphical nature of strokes is approached via a look at perceptual grouping in generalization. The identification and use of strokes are then described. The strengths and limitations of stroke-based generalization are discussed; how the technique may be developed is also considered. Finally, the functional role of strokes in networks is highlighted by a look at recent developments in space syntax and related studies.}
 }
 
 @inproceedings{TR95,
@@ -301,9 +285,7 @@ author = {Thomson, Robert C and Richardson, Dianne E},
 title = {{A Graph Theory Approach to Road Network Generalization}},
 booktitle = {Proceedings of the 16th International Cartographic Conference},
 year = {1995},
-pages = {1871--1880},
-file = {{[TR95] A Graph Theory Approach to Road Network Generalization.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/4E114E87-D0DB-41CD-B273-19EC59C8424F}}
+pages = {1871--1880}
 }
 
 @inproceedings{TR99,
@@ -313,17 +295,7 @@ booktitle = {Proceedings of the 19th International Cartographic Conference},
 year = {1999},
 pages = {1215--1223},
 abstract = {Perceptual organization (or grouping) principles play a vital role in the understanding of images and maps, and their importance in map generalization has also long been recognized. This paper presents a brief review of the application of the principles in map generalization, and then examines their particular relevance to the generalization of road networks. It is shown how the `good continuation' grouping principle can serve as the basis for analyzing a road network into a set of linear elements, here termed `strokes'. Further analysis allows the strokes to be ordered, to reflect their relative importance in the network. The deletion of the elements according to this sequence provides a simple and effective method of generalizing (attenuating) the network. This technique has been implemented, as part of the `GenSystem' generalization software package developed at the Canada Centre for Remote Sensing. The implementation is outlined, and the effectiveness of the technique demonstrated.},
-url = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.202.4737&rep=rep1&type=pdf},
-file = {{[TR99] The Good Continuation Principle of Perceptual Organization applied to the Generalization of Road Networks.pdf:application/pdf}},
-uri = {\url{papers2://publication/uuid/33473D0B-70D4-4FF3-89B5-AB028F81C172}}
-}
-
-@online{wp:StraightSkeleton,
-title = {{Straight skeleton}},
-organization = {Wikipedia},
-shorthand = {wp13},
-url = {https://en.wikipedia.org/w/index.php?title=Straight_skeleton&oldid=546598291},
-version = {vom 23.~März 2013, 19:43~Uhr}
+url = {http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.202.4737&rep=rep1&type=pdf}
 }
 
 @article{UD06,
@@ -334,7 +306,18 @@ year = {2006},
 volume = {56},
 number = {4},
 pages = {191--196},
-month = aug,
-uri = {\url{papers2://publication/uuid/F66EE06D-0D7C-45A1-8ACE-53E3279CA243}}
+addendum = {~},
+addendumcomment = {Due to a bug in thesis.bbx, an empty addendum must be added to this entry in order to produce a closing period.},
+hiddenmonth = aug
+}
+
+@online{wp:StraightSkeleton,
+author = {{Wikipedia}},
+hiddenauthortype = {herausgebende Körperschaft},
+title = {{Straight skeleton}},
+note = {Wiki-Artikel},
+shorthand = {wp13},
+date = {2013-03-23T19:43:00},
+url = {https://en.wikipedia.org/w/index.php?title=Straight_skeleton&oldid=546598291}
 }
 
