@@ -129,7 +129,7 @@ Das \term{framework} GeoTools benutzt dazu die JTS Topology Suite, die wie zuvor
 JTS bietet mit der \code{Geometry}-Hierarchie Datenstrukturen nach ISO~19125\hbox{-}1 an, die grundsätzlich auch für die Implementierung der Algorithmen aus Abschnitt~\ref{ch:algorithm-parts} geeignet wären.
 \cf{jts:geom}
 
-Die Algorithmen \textproc{Splitten} und \textproc{Analyse} ordnen den Segmenten allerdings zusätzliche Attribute zu ($wurzel$ bzw. $parallelLinks / parallelRechts$).
+Die Algorithmen \textproc{Splitten} und \textproc{Analyse} ordnen den Segmenten allerdings zusätzliche Attribute zu ($\relation{wurzel}$ bzw. $\relation{parallelLinks}$ / $\relation{parallelRechts}$).
 Dies unterstützt JTS zwar in Form von \term{user data objects}.
 % http://atetric.com/atetric/javadoc/com.vividsolutions/jts-core/1.14.0/com/vividsolutions/jts/geom/Geometry.html#getUserData--
 Weil jedoch die Arbeit damit eher umständlich ist, wäre dies nur sinnvoll, wenn die Nutzung der JTS-Datenstrukturen andere Vorteile bietet.
@@ -263,7 +263,7 @@ Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in d
 \subsection{Analyse und Anwendbarkeit auf andere Spezialfälle}
 \label{ch:impl-analyser}
 
-Die Algorithmen zur \textproc{Analyse} erfordern die Ergänzung des Datenmodells aus Abbildung~\ref{fig:impl-geometry-model} mit den zusätzlichen Attributen $parallelLinks$ und $parallelRechts$, in denen das Ergebnis der \textproc{Analyse} abgelegt wird.
+Die Algorithmen zur \textproc{Analyse} erfordern die Ergänzung des Datenmodells aus Abbildung~\ref{fig:impl-geometry-model} mit den zusätzlichen Attributen $\relation{parallelLinks}$ und $\relation{parallelRechts}$, in denen das Ergebnis der \textproc{Analyse} abgelegt wird.
 Wie in Abschnitt~\ref{ch:algorithm-parts} definiert sind dies Attribute des Wurzel-Segments, also der Klasse \code{SourceSegment}.
 
 Obwohl nach der Auswahl eines bestimmten Spezialfalls der Liniengeneralisierung in Abschnitt~\ref{ch:case-selection} andere Fälle nicht weiter berücksichtigt wurden, ist eine auch andere Anwendungsfälle zulassende Flexibilität doch Teil der angestrebten Praxistauglichkeit der zu entwickelnden Software.
@@ -291,7 +291,7 @@ Im Sinne der besprochenen Systemarchitektur braucht somit das Wissen über das B
 Für Abschnitt~\ref{ch:node-match-algorithm} ergibt sich das in Abbildung~\ref{fig:impl-node-match-model} gezeigte Datenmodell.
 Die Klasse \code{NodeMatch} implementiert die Punktezuordnungen.
 Dies sind entsprechend der formalen Definition Mengen aus exakt zwei gegenüberliegenden \term{nodes} einander paralleler Segmente.
-Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs „nächste Zuordnung $c'$“ erleichtern (vergleiche Abschnitt~\ref{ch:generalisation-algorithm}).
+Die Definition als mathematische Menge zur Vermeidung von Duplikaten wird später beim Zusammenfassen die Interpretation des Begriffs „nächste Zuordnung $Z'$“ erleichtern (vergleiche Abschnitt~\ref{ch:generalisation-algorithm}).
 Um Objekte der Klasse \code{NodeMatch} klar als Menge zu kennzeichnen, wurde sie zusätzlich als \code{Set<Node>} (Menge von \code{Node}s) im Java Collections Framework deklariert.
 Dies erleichtert auch die Implementierung der Mengeneigenschaften.
 
@@ -303,7 +303,7 @@ Dies erleichtert auch die Implementierung der Mengeneigenschaften.
 }
 
 Da die \textproc{Analyse} für jedes Segment immer jeweils links- und rechtsseitig nach Parallelen sucht, werden beim \textproc{NodesZuordnen} viele Zuordnungen doppelt gefunden, nämlich einmal in jeder Richtung.
-Erneut vereinfachen die Eigenschaften der mathematischen Menge, hier der Menge aller Zuordnungen $C$, die Beschreibung des Algorithmus in Abschnitt~\ref{ch:node-match-algorithm}.
+Erneut vereinfachen die Eigenschaften der mathematischen Menge, hier der Menge aller Zuordnungen $\mathcal{Z}$, die Beschreibung des Algorithmus in Abschnitt~\ref{ch:node-match-algorithm}.
 Weil \code{NodeMatch}-Objekte wie beschrieben die Mengeneigenschaften implementieren, können sie leicht direkt im Java Collections Framework verwendet werden, hier als \code{Set<NodeMatch>} (Menge von \code{NodeMatch}-Objekten).
 Da der Datentyp \code{NodeMatch} gleichzeitig die Schnittstelle \code{Set<Node>} implementiert, hat die Menge aller Zuordnungen implizit den Typ \code{Set<Set<Node>>}, ist also eine Menge \emph{von Mengen} von \term{nodes}, was genau der formalen Anforderung in Abschnitt~\ref{ch:node-match-algorithm} entspricht.
 
@@ -423,7 +423,7 @@ Eine solche Trennung konsequent umzusetzen, wäre allerdings über die Aufgabens
 %Diese Trennung ist allerdings bisher nur begonnen worden und konnte aus Zeitgründen nicht bis zum Abschluss der Arbeit beendet werden; angesichts der ausdrücklichen Beschränkung in der Aufgabenstellung auf nur den ausgewählten Spezialfall war das aber auch streng genommen gar nicht notwendig.
 % betrifft insb. die Klassen Line, AbstractLine, io.InputDataset, io.ShapeReader sowie GeneralisedSection/Section
 
-Im Unterschied zur formalen Definition in Abschnitt~\ref{ch:analyse-algorithm} sind $parallelLinks$ und $parallelRechts$ nicht als homogene binäre Relation auf Segmenten implementiert, sondern als Relation zwischen Segmenten und \emph{Mengen} von Segmenten.
+Im Unterschied zur formalen Definition in Abschnitt~\ref{ch:analyse-algorithm} sind $\relation{parallelLinks}$ und $\relation{parallelRechts}$ nicht als homogene binäre Relation auf Segmenten implementiert, sondern als Relation zwischen Segmenten und \emph{Mengen} von Segmenten.
 Mit anderen Worten: Es wird nicht jeweils nur ein einziges Segment je Seite als „parallel“ markiert, sondern mehrere.
 % es wird in der Tat wie theoretisch überlegt durch die reziproke Zuordnung sichergestellt, dass auch ohne Liste für jedes Paar eine Zuordnung erstellt wird
 Auf die Korrektheit der Algorithmen hat dies keinen Einfluss.

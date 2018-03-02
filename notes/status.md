@@ -12,8 +12,8 @@ Projektstatus
 Kapitel
 -------
 
-1 ✅  
-2 🎉 ⬅  
+1 🎉  
+2 🎉  
 3 🎉  
 4 🎉  
 5 🎉  
@@ -28,9 +28,9 @@ Anhänge
 A 🎉  
 B 🎉  
 C 🎉  
-D ✏  
-E ✏  
-F ✏ ⬅
+D ❌  
+E ❌  
+F 🎉
 
 
 Software
@@ -45,9 +45,9 @@ website ✅
 Titelei
 -------
 
-Titel ✅  
+Titel 🎉  
 Lizenz 🎉  
-Widmung ✅  
+Widmung ❌  
 Themenblatt 🎉  
 Vorbemerkung 🎉  
 Bibliographie 🎉
@@ -60,11 +60,4 @@ Offene Punkte
 Kapitel 2
 ---------
 
-- 2.3.4 Abb. 14 neu (evtl. weniger hoch wg. Umbruch)
-- 2.3.5 Abb. 17 besser rotieren
-
-
-Anhänge
--------
-
-- Abbildungen ⬅⬅
+- 2.3.4 Abb. 14 neu

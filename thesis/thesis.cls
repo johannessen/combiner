@@ -4,7 +4,7 @@
 \LoadClass[
 	version=3.24,  % request that Koma typeset this document just like the Koma version it was written with would have
 	a4paper,
-	draft,  % mark overflowing line boxes
+%	draft,  % mark overflowing line boxes
 	listof=nochaptergap,
 	listof=totoc,
 	bibliography=totoc,  % include bibliography in TOC
@@ -13,9 +13,12 @@
 ]{scrreprt}
 \RequirePackage{scrhack}
 
+% print version only: manual binding correction
+% (the BCOR option changes width of text block; a manual offset results in bad layout, but keeps the wrapping intact)
+%\addtolength{\hoffset}{1.5mm}
+
 \RequirePackage{subfiles}
 \newcommand{\onlyinsubfile}[1]{#1}
-%\newcommand{\notinsubfile}[1]{}
 \newcommand{\BibTeXenabled}{}  % disable BibTeX in subfiles for speed
 
 % front matter
