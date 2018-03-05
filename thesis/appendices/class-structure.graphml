@@ -444,7 +444,7 @@
           <y:Geometry height="18.0" width="93.0" x="448.03579969482405" y="201.0"/>
           <y:Fill color="#FFFFFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Cisalpin LT Std" fontSize="10" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="13.149999618530273" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.01000213623047" x="4.994998931884766" y="3.0">NonexistantNode<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Cisalpin LT Std" fontSize="10" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="13.149999618530273" horizontalTextPosition="center" iconTextGap="4" modelName="custom" textColor="#000000" verticalTextPosition="bottom" visible="true" width="83.01000213623047" x="4.994998931884766" y="3.0">NonexistentNode<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>

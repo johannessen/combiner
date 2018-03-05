@@ -164,7 +164,7 @@ Es ließe sich für eine zukünftige Version leicht ergänzen.
 Es erwies sich also als notwendig, auf dieser Basis ein neues Geometriemodell zu entwickeln.
 Ein zusammengesetztes Diagramm des Ergebnisses ist Anhang~\ref{appx:fullpage-model} zu entnehmen.
 Vereinfacht auf die grundlegenden Geometrie-Datentypen ergibt sich das in Abbildung~\ref{fig:impl-geometry-model} gezeigte Datenmodell.
-Die Segmente sind -- wie in Abschnitt~\ref{ch:split-algorithm} beschrieben -- zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch \textproc{Segmentierung} herzustellen, ist jedoch einfach.
+Die \textproc{Segmente} sind -- wie in Abschnitt~\ref{ch:split-algorithm} beschrieben -- zunächst nicht in den Eingangsdaten vorhanden; sie daraus durch Segmentierung herzustellen, ist jedoch einfach.
 
 %   https://de.wikipedia.org/wiki/Assoziation_(UML)#Aggregation_und_Komposition
 
@@ -450,7 +450,7 @@ Ein Beispiel für unnötigen Speicheraufwand ist die Bildung durchgehender Linie
 Diese sind in Kapitel~\ref{ch:algorithm-parts} spezifiziert als Mengen zusammenhängender Segmente und sind auch so in \code{AbstractLine} implementiert.
 Tatsächlich müssen diese Segmente jedoch für \code{AbstractLine} in jedem Fall erst anhand einer Liste von Stützpunkten erzeugt werden.
 Da für \code{ResultLine} die Segmente später ohnehin nur benötigt werden, um daraus gerade eine Liste von Stützpunkten zu erzeugen, wäre eine Optimierung von \code{AbstractLine} durch \term{lazy initialisation} angebracht:
-Es würde in \code{AbstractLine} zunächst die Liste von \term{nodes} gespeichert und die \textproc{Segmentierung} nur dann durchgeführt, wenn tatsächlich Segmente angefordert werden.
+Es würde in \code{AbstractLine} zunächst die Liste von \term{nodes} gespeichert und die Segmentierung nur dann durchgeführt, wenn tatsächlich \textproc{Segmente} angefordert werden.
 % Oder es könnte evtl. auch recht einfach ResultLine einige Methoden überschreiben (coordinates, add (-> protected), get/size/iterator etc.)
 
 
