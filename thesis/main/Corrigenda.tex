@@ -5,13 +5,14 @@
 \usepackage[ngerman]{babel}
 \selectlanguage{ngerman}
 \setkomafont{sectioning}{\normalfont\bfseries}
-\newcommand{\errataentrysep}{\vspace{1ex}}
+\newcommand{\errataentrysep}{\vspace{2ex}}
 \newcommand{\errataparsep}{\vspace{1ex}}
+
 \newcommand{\BibLaTex}{\textsc{Bib}\LaTeX}
 \newcommand{\reasonmincrossrefs}{
 Eine falsche Einstellung für \texttt{\small mincrossrefs} in \BibLaTex\
-führte zum Erscheinen dieses Eintrags im Verzeichnis, obwohl er im Text
-nicht direkt verwendet wurde.}
+führte zum Erscheinen dieser Einträge im Verzeichnis, obwohl sie im Text
+nicht direkt verwendet wurden.}
 
 
 \begin{document}
@@ -19,18 +20,41 @@ nicht direkt verwendet wurde.}
 
 \chapter*{Corrigenda}
 \thispagestyle{empty}
-\begin{tabular}{@{}lp{10cm}@{}}
+\begin{tabular}{@{}lp{9.9cm}@{}}
 
 
-Seite~85: &  \\
-\textbf{Streiche} & Eintrag [ica05] im Literaturverzeichnis. \errataparsep
-
-\reasonmincrossrefs
-\errataentrysep\\
+\multicolumn{2}{@{}l}{Seite~13, Absatz~4, Satz~3:} \\
+\textbf{Ersetze} & „lohnensten“ durch „lohnendsten“. \errataentrysep\\
 
 
-Seite~89: &  \\
-\textbf{Streiche} & Eintrag [RKE06] im Literaturverzeichnis. \errataparsep
+\multicolumn{2}{@{}l}{Seite~18, Zeile~1, „gezeichnet“:} \\
+\textbf{Füge ein} & Fußnote: \footnotesize{„Im November 2015 wurden Anliegerstraßen auf Zoom~13 auf 2,5\,px verschmälert. Die Abbildungen sind neueren Datums.“} \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~25, Abschnitt~2.4, Absatz~3, Satz~2:} \\
+\textbf{Ersetze} & \textit{„passenger\_lines“} durch \textit{„tracks“.} \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~50, Abschnitt~5.3.2, Satz~4:} \\
+\textbf{Ersetze} & „Segmente“ durch „\textsc{Segmente}“. \\
+\textbf{Ersetze} & „\textsc{Segmentierung}“ durch „Segmentierung“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~51, Abbildung~43:} \\
+\textbf{Ersetze} & „NonexistantNode“ durch „NonexistentNode“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~58, Satz~2:} \\
+\textbf{Ersetze} & „\textsc{Segmentierung}“ durch „Segmentierung“. \\
+\textbf{Ersetze} & „Segmente“ durch „\textsc{Segmente}“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~81, Abbildung~61:} \\
+\textbf{Ersetze} & „NonexistantNode“ durch „NonexistentNode“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seiten~85 bzw.~89:} \\
+\textbf{Streiche} & Einträge [ica05] und [RKE06] im Literaturverzeichnis. \errataparsep
 
 \reasonmincrossrefs
 \errataentrysep\\
@@ -38,7 +62,7 @@ Seite~89: &  \\
 
 \end{tabular}
 
-\vspace{1em}
-\noindent Marienheide, 2.~März 2018
+\errataentrysep
+\noindent Stand: 5.~März 2018
 
 \end{document}
