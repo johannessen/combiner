@@ -8,7 +8,7 @@ use File::Slurper;
 use Geo::JSON;
 use Geo::JSON::CRS;  # required for loading files that contain a CRS def ... this seems like a bug in Geo::JSON
 use Geometry::AffineTransform;
-use Data::Dumper;
+#use Data::Dumper;
 
 my $data = "../../../data";
 my $software = "../../../software";
@@ -22,7 +22,7 @@ my $input_file = "out-lineparts.$format";
 chdir dirname $0;
 
 $ENV{IN} = "$data/chapter6-rail/koeln-main.shp";
-#system "$software/run-combiner.sh", qw(--debug --tags), 0x2;
+system "$software/run-combiner.sh", qw(--debug --tags), 0x2;
 
 
 sub ogr2ogr {
@@ -61,19 +61,15 @@ sub affine_transform_geojson {
 	File::Slurper::write_text $file, $json->to_json;
 }
 
+# scale perpendicular to an axis defined by a position and bearing
 my @point = (360591, 5643957);  # UTM 32
 my $axis = 16;  # degrees CW
 my $t = Geometry::AffineTransform->new();
-# rotate around point
 $t->translate(map {-$_} @point);  #tx, ty
 $t->rotate(+$axis);  # degrees CCW
-$t->translate(@point);  #tx, ty
-# scale
-$t->translate(-$point[0], 0);  #tx, ty
+$t->translate(0, +$point[1]);  #tx, ty
 $t->scale(2, 1);  # sx, sy
-$t->translate(+$point[0], 0);  #tx, ty
-# rotate back
-$t->translate(map {-$_} @point);  #tx, ty
+$t->translate(0, -$point[1]);  #tx, ty
 $t->rotate(-$axis);  # degrees CCW
 $t->translate(@point);  #tx, ty
 #print Dumper $t->matrix;
