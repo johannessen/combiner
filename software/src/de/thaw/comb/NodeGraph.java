@@ -69,6 +69,13 @@ public final class NodeGraph {
 				for (int i = 0; i < 2; i++) {
 					final Collection<SourceSegment> side = i == 0 ? segment.leftRealParallels : segment.rightRealParallels;
 					
+					/* NodeGraph wird für segments erzeugt, wobei für mehrere
+					 * Parallelen der jeweils nahegelegenste Node gesucht wird;
+					 * dies ist inkonsequent, nachdem bei der Analyse extra
+					 * fragmentiwert wurde und funktioniert bei versetzten
+					 * Paralleln vmtl. nicht gut
+					 */
+					
 					SourceNode closestNode = null;
 					double closestNodeDistance = Double.POSITIVE_INFINITY;
 					
@@ -167,6 +174,9 @@ public final class NodeGraph {
 	
 	
 	private NodeMatch intern (final NodeMatch match) {
+		/* Warum existiert CorrelationGraph.intern? Warum sollten Klone
+		 * erzeugt werden? Gibt es wirklich keinen eleganteren Weg?
+		 */
 		assert sortedMatchesSet == null;  // Collection doesn't support get, only from array (Illegal State)
 		final int i = Arrays.binarySearch(sortedMatches, match);
 		if (i < 0) {

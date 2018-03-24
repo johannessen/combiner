@@ -57,6 +57,7 @@ public abstract class AbstractLine extends AbstractList<SourceSegment> implement
 	/**
 	 * 
 	 */
+	// es müsste der Zeck des Konzepts erklärt werden
 	public void mutable (final boolean mutable) {
 		if (mutable == true) {
 			throw new IllegalArgumentException();

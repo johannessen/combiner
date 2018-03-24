@@ -5,29 +5,13 @@ Problemfälle identifizieren und kategorisieren (Deckel drauf)
 offene Punkte
 =============
 
-(1) mehr als zwei Parallelen
-----------------------------
-
-- filter graph for the two highest-class lines
-- refs auswerten
+...
 
 
 (2) Normalisierung
 ------------------
 
-für Formvereinfachung (Douglas-Peucker)
-
-(bedingt Behandlung kurzer Stücke, profitiert vom Qualitätsumschlag)
-
-- Jochen: bei jeder Änderung wieder ganz von vorn anfangen? teuer, aber einfach
-
-- Jochen: alternativ zweite Datenstruktur komplett neu aufbauen, auch unveränderte Stücke übernehmen => kein Iterator-Problem
--> neue Klasse?
-
-- Jochen: nach Norm. brauche ich evtl. die ganze Node-Sammlung nicht mehr?
--> nur noch Koordinaten-Arrays für Stützpunkte
-
-- Jochen: wichtig: Refs ins Result übernehmen ("prüfen!")
+...
 
 - Jochen: Tags mergen: generischer als jetzt, vgl. Analyser (muss nicht voll implementiert sein, hauptsächlich doku reicht)
 
@@ -111,9 +95,3 @@ rein optional
 
 - (am Ende der GeneralisedSections evtl. LineSegments folgen zur nächsten GeneralisedSection, ggf. verbinden?)
 (sollte eigentlich durch die Behandlung kurzer Stücke unnötig werden)
-
-
-
-* * *
-
-Screenshots nicht vergessen...

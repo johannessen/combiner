@@ -17,8 +17,7 @@ import de.thaw.comb.util.Vector;
 
 // ex MyAnalyser
 /**
- * This Client's Analyser. This implementation evaluates fragments on a purely
- * geometric basis; OSM tags are not taken into account in any way.
+ * This Client's Analyser.
  */
 public final class HighwayAnalyser implements Analyser {
 	

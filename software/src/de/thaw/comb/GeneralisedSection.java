@@ -56,6 +56,11 @@ public class GeneralisedSection extends ResultLine {
 		assert startNode.connectingSegments().size() <= 2 : startNode;  // see issue #111
 		assert startNode.connectingSegments().size() > 0 : startNode;
 		
+		/* GeneralisedSection-Konstruktor hat Schleife, die vom Input-Node
+		 * maximal zwei seiner connectingSegments betrachtet. Es gibt aber
+		 * offenbar keine Garantie dafür, dass die zusammenzufassenden
+		 * Segmente überhaupt darunter sind. Bug?
+		 */
 		
 		boolean forward = true;
 		for (final SourceSegment segment : startNode.connectingSegments()) {
@@ -111,6 +116,9 @@ public class GeneralisedSection extends ResultLine {
 		segment2Aligned = segment2.start() == currentNode2;
 		
 		if (forward) {
+			/* offenbar code, der nur beim ersten Durchführen ausgeführt
+			 * werden soll, und hat mit vorwärts nix zu tun
+			 */
 			addGeneralisedPoint(startMatch, true);
 			currentNode1.addGeneralisedSection(this);
 			currentNode2.addGeneralisedSection(this);

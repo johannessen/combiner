@@ -109,13 +109,17 @@ public final class ShapeReader {
 				}
 				final SimpleFeature feature = (SimpleFeature)featureObject;
 				
+/*
 				// :HACK: diversify "simple" dataset by introducing reversed segments
+				// anscheinend, um mehr Spezialfälle zu testen;
+				// dies sollte wohl besser durch entsprechend spezialisierte Eingabedaten gelöst werden
 				Object id = feature.getAttribute("id");
-				if ("-5".equals(id) || "-1".equals(id) /*|| "-100".equals(id)*/ ) {
+				if ("-5".equals(id) || "-1".equals(id) || "-100".equals(id) ) {
 					Object userData = lineString.getUserData();
 					lineString = (LineString)lineString.reverse();
 					lineString.setUserData(userData);
 				}
+*/
 				
 				final CoordinateSequence coordinates = lineString.getCoordinateSequence();
 				if (coordinates.size() < 2) {
