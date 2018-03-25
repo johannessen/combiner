@@ -70,7 +70,7 @@ This is impeded by the in parts very high amount of detail, the resulting fragme
 So far, cartographic generalisation of \osm\ data only happens to the most limited extent.
 Among other situations this is noticeable at dual carriageways, whose centreline is not included in \osm\ and cannot yet be automatically derived in a satisfactory manner.
 Approaches for the automatic generalisation of line strings exist, but are not well suited for \osm\ data.
-In particular they are often unable to find solutions for junctions without special attributes.
+In particular, they are often unable to find solutions for junctions without special attributes.
 
 This thesis presents a method for the detection of parallel line strings on the basis of a geometric comparison.
 Line strings from \osm\ are fragmented further until vertices on parallels exist opposite to each other such that verifying the parallelism is simple.
@@ -78,7 +78,7 @@ The subsequent merging of the detected parallels is then easy to solve.
 The computational complexity of the developed algorithms grows linear with the number of vertices ($\mathcal{O}(n)$).
 
 An executable implementation of the algorithms demonstrates their operability and allows for testing with real world data from \osm.
-Due to some technical difficulties development was more time-consuming than expected.
+Due to some technical difficulties, development was more time-consuming than expected.
 The software (“Combiner”) has considerable potential for optimisation.
 
 The approach developed in this thesis leads to a good generalisation result in many cases.

@@ -247,7 +247,7 @@ Dessen Implementierung hat den Nachteil, dass der so erzeugte R-Baum nach dem Pa
 \cf{jts:indexSTRtree}
 % (im Gegensatz zu der Beschreibung in [RSV02 256]!)
 Weil hier ohnehin \code{SourceSegment} als eigene Klasse existiert, bietet es sich an, die \textproc{NaheSegmente}-Logik nur in \code{SourceSegment} zu implementieren statt in der Superklasse \code{AbstractSegment}.
-Das Packen des R-Baums braucht dann nur genau einmal nach dem \textproc{Segmentieren} durchgeführt zu werden.
+Das Packen des R-Baums braucht dann nur genau einmal nach dem Segmentieren durchgeführt zu werden.
 Danach werden die \code{SourceSegment}s nicht mehr verändert.
 Da Abschnitt~\ref{ch:split-algorithm} ohnehin eine erneute Abstandsprüfung in der späteren \textproc{Analyse} vorsieht, stellt diese Abweichung von der Definition der Algorithmen nicht die Korrektheit der Implementierung in Frage, obwohl sie mehr Segmente als „nah“ betrachtet als die formale Beschreibung für \textproc{NaheSegmente}.
 % (weil SourceSegments obdA größer als Fragments sind). (aber NAHESEGMENTE ist ja primär eine Optimierung)
@@ -320,8 +320,8 @@ Zur Definition des Graphen genügt die Menge aller Punktezuordnungen, wenn über
 \label{ch:impl-generalisation}
 
 Das Ergebnis der Liniengeneralisierung nach Abschnitt~\ref{ch:generalisation-algorithm} ist ein Graph aus Linienzügen, von denen einige durch Zusammenfassen entstehen, andere jedoch mangels Parallelen direkt aus den Eingangsdaten übernommen werden.
-Der beschriebene Algorithmus zum \textproc{Zusammenfassen} ergibt einen möglichst langen Linienzug.
-Um die spätere Weiterverarbeitung des Generalisierungsergebnisses zu erleichtern, werden hier auch Segmente ohne Parallele zu möglichst langen Linienzügen verkettet.
+Der beschriebene Algorithmus zum \textproc{Zusammenfassen} ergibt einzelne Segmente.
+Um die spätere Weiterverarbeitung des Generalisierungsergebnisses zu erleichtern, werden sowohl diese als auch Segmente ohne Parallele zu möglichst langen Linienzügen verkettet.
 
 \onefigure{ht}{
 % [GeneralisedLines]1 <>-- 0…n[ResultLine (Section/GeneralisedSection)]0…n <>-- 2…n[Node]
