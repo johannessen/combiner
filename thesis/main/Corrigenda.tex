@@ -1,10 +1,12 @@
 % UTF-8
 
-\documentclass[a5paper,draft,headings=small,DIV=16]{scrreprt}
+\documentclass[a5paper,twoside,final,headings=small,fontsize=10.25pt,DIV=16,BCOR=3cm]{scrreprt}
 \XeTeXinputnormalization=1
 \usepackage[ngerman]{babel}
 \selectlanguage{ngerman}
 \setkomafont{sectioning}{\normalfont\bfseries}
+\usepackage[raggedrightboxes]{ragged2e}
+\usepackage{longtable}
 \newcommand{\errataentrysep}{\vspace{2ex}}
 \newcommand{\errataparsep}{\vspace{1ex}}
 
@@ -19,20 +21,31 @@ nicht direkt verwendet wurden.}
 
 
 \chapter*{Corrigenda}
-\thispagestyle{empty}
-\begin{tabular}{@{}lp{9.9cm}@{}}
+\thispagestyle{empty}\pagestyle{empty}
+\begin{longtable}[l]{@{}lp{7.6cm}@{}}
 
 
 \multicolumn{2}{@{}l}{Seite~13, Absatz~4, Satz~3:} \\
 \textbf{Ersetze} & „lohnensten“ durch „lohnendsten“. \errataentrysep\\
 
 
-\multicolumn{2}{@{}l}{Seite~18, Zeile~1, „gezeichnet“:} \\
-\textbf{Füge ein} & Fußnote: \footnotesize{„Im November 2015 wurden Anliegerstraßen auf Zoom~13 auf 2,5\,px verschmälert. Die Abbildungen sind neueren Datums.“} \errataentrysep\\
+\multicolumn{2}{@{}l}{Seite~18, Zeile~1, nach „gezeichnet“:} \\*
+\textbf{Füge ein} & Fußnote: \footnotesize{„Im November 2015 wurden
+Anliegerstraßen auf Zoom~13 auf 2,5\,px verschmälert. Die Abbildungen
+sind neueren Datums.“} \errataentrysep\\
 
 
 \multicolumn{2}{@{}l}{Seite~25, Abschnitt~2.4, Absatz~3, Satz~2:} \\
 \textbf{Ersetze} & \textit{„passenger\_lines“} durch \textit{„tracks“.} \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~26, Abschnitt~2.5.2, Absatz~2, Satz~2:} \\*
+\textbf{Ersetze} & „[EE99]“ durch „[cf.~EE99]“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~27, Zeile~4:} \\*
+\textbf{Ersetze} & „([ME13], cf. [Mig12])“ \newline
+durch „[cf.~Mig12; ME13]“. \errataentrysep\\
 
 
 \multicolumn{2}{@{}l}{Seite~50, Abschnitt~5.3.2, Satz~4:} \\
@@ -44,9 +57,35 @@ nicht direkt verwendet wurden.}
 \textbf{Ersetze} & „NonexistantNode“ durch „NonexistentNode“. \errataentrysep\\
 
 
+\multicolumn{2}{@{}l}{Seite~53, Absatz~1, Satz~5:} \\*
+\textbf{Ersetze} & „\textsc{Segmentieren}“ durch „Segmentieren“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~55, Abschnitt~5.3.5, Sätze~2--3:} \\*
+\textbf{Ersetze} & „einen möglichst langen Linienzug“ \newline
+durch „einzelne Segmente“. \\*
+\textbf{Ersetze} & „hier“ durch „sowohl diese als“.\errataentrysep\\
+
+
 \multicolumn{2}{@{}l}{Seite~58, Satz~2:} \\
 \textbf{Ersetze} & „\textsc{Segmentierung}“ durch „Segmentierung“. \\
 \textbf{Ersetze} & „Segmente“ durch „\textsc{Segmente}“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~63, Abbildung~52:} \\*
+\textbf{Streiche} & „cf.“ \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~66, Abschnitt~6.5, Satz~1:} \\*
+\textbf{Ersetze} & „zusammenzufassen“ durch „zusammenfassen“. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~77, Absatz~2, Satz~4, nach „particular“:} \\*
+\textbf{Füge ein} & Komma. \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~77, Absatz~4, Satz~2, nach „difficulties“:} \\*
+\textbf{Füge ein} & Komma. \errataentrysep\\
 
 
 \multicolumn{2}{@{}l}{Seite~81, Abbildung~61:} \\
@@ -60,9 +99,17 @@ nicht direkt verwendet wurden.}
 \errataentrysep\\
 
 
-\end{tabular}
+\multicolumn{2}{@{}l}{Seiten~87--88, Einträge [NZ12] und [NZZ12]:} \\*
+\textbf{Streiche} & „English.“ \errataentrysep\\
+
+
+\multicolumn{2}{@{}l}{Seite~89, Eintrag [Sch12], nach „Nachrichten“:} \\*
+\textbf{Füge ein} & „Jg. 62,“. \errataentrysep\\
+
+
+\end{longtable}
 
 \errataentrysep
-\noindent Stand: 5.~März 2018
+\noindent Stand: 25.~März 2018
 
 \end{document}
