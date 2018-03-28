@@ -5,7 +5,7 @@ Combiner
 Installation
 ------------
 
-	bash -c "$(curl -fsSL https://raw.githubusercontent.com/johannessen/combiner/master/project/install.sh)" combiner
+	bash -c "$(curl -fsSL https://raw.githubusercontent.com/johannessen/combiner/master/software/install.sh)" combiner
 
 Paste that line at a Terminal prompt. The [bash script](https://github.com/johannessen/combiner/blob/master/software/install.sh) will clone the Combiner’s Git repository into a new directory named `combiner` and set up the dependencies and a test dataset (in total, a 196 MB download). No files outside of the new directory will be changed.
 
