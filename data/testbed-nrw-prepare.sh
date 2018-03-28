@@ -21,7 +21,7 @@ if [ -e ../nrw-roads.zip ]
 then
 	unzip ../nrw-roads.zip
 else
-	curl -L -O "http://dev.thaw.de/temp/highways/nrw-roads.zip"
+	curl -L -O "http://arne.johannessen.de/thesis/download/nrw-roads.zip"
 	cat <<END
 
 Contains information from OpenStreetMap, which is made available here
@@ -43,7 +43,7 @@ then
 	BBOX_PATH="$BBOX_PATH_DEFAULT"
 fi
 
-ogr2ogr -clipsrc "$BBOX_PATH/koeln-bbox.shp"  koeln.shp  roads.shp
+ogr2ogr -progress -clipsrc "$BBOX_PATH/koeln-bbox.shp"  koeln.shp  roads.shp
 ogr2ogr -clipsrc "$BBOX_PATH/koeln-SE-bbox.shp"  koeln-SE.shp  koeln.shp  # SE - southeast
 ogr2ogr -clipsrc "$BBOX_PATH/koeln-junkersdorf-bbox.shp"  koeln-junkersdorf.shp  koeln.shp
 
