@@ -63,5 +63,25 @@ under CC-BY-SA.
 If images are missing for this reason, they will be replaced with
 a placeholder during typesetting.
 
-Search the TeX source code for the string `_51` to determine which
-images are affected.
+List of affected images:
+
+- `chapter2/approach-strokes_51`  
+  source:
+  [The ‘Good Continuation’ Principle of Perceptual Organization applied
+  to the Generalization of Road Networks (Thomson and Richardson,
+  1999)](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.202.4737&rep=rep1&type=pdf),
+  figure 2
+
+- `chapter2/graph-edges-parallel_51`  
+  source:
+  [Automating the Detection and Simplification of Junctions
+  in Road Networks (Mackaness and Mackechnie,
+  1999)](https://www.geos.ed.ac.uk/homes/wam/MackMack1999.pdf),
+  figure 3
+
+- `chapter3/administrative-borders_51`  
+  source:
+  [Topografische Karten – Kartengrafik und Generalisierung
+  (Schweizerische Gesellschaft für Kartografie,
+  2002)](http://kartografie.ch/wp-content/uploads/demo_no16_en.pdf),
+  page 83
