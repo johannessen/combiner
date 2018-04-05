@@ -1,0 +1,209 @@
+- SW-Entwicklung ist zu lang, passt nirgendwo hinein und
+  ist vor allem nicht für die zielgruppe geeignet
+
+Vorbereitung:
+- Github    (ctrl-scrollen)
+- Terminal  (cmd-plus)
+- Finder    (OS zoom)
+- QGIS      (General->Font: alt 13, neu ~20; vorher auf 100% einstellen)
+- Keynote, Notizen, Display Prefs
+
+
+  0  Anfang: 4 - 4.5 min
+  4  andere Ansätze: 5.5 - 6 min
+ 10  eigener Ansatz: 8 - 8.5 min
+ 18  Demo: 8 - 8.5 min
+ 27  Schluss 2 - 3 min
+ 30  Ende
+
+
+
+Hallo
+- freut mich, dass Sie heute da sind
+- mein Name: Arne Johannessen
+- ich möchte über einen Spezialfall der automatisierten Generalisierung sprechen
+- Thema habe ich in meiner Diplomarbeit behandelt
+
+- ich schaue mit gerne Karten an
+- mache mir Gedanken
+  - über deren Inhalt und Thema
+  - über deren Anwendung und die geographischen Zusammhänge
+  - über die kartographische Darstellung
+- freue mich, wenn schwierige Probleme graphisch schön gelöst werden
+
+- leider ist das in Web-Karten oftmals nicht der Fall
+  - vergrößerter Ausschnitt aus OpenStreetMap
+  - zwei Richtungsfahrbahnen
+  - wie allgemein üblich: zwei parallele Linienzüge
+  - Abstand variiert => unschöne graphische Effekte
+  - verschwinden in kleinerem Maßstab
+  - graphisch akzeptable Lösung, jedoch Informationsverlust
+
+- dies ist das Problem, mit dem ich mich im Rahmen meiner Aufgabenstellung befasst habe:
+  "Die Entwicklung von Algorithmen zur automatisierten Erkennung und
+  Zusammenfassung paralleler Richtungsfahrbahnen in OpenStreetMap"
+
+- mit solchen Algorithmen wäre es nämlich möglich,
+  dasselbe zu machen wie die manuelle Kartographie
+- Vergleich: klassische Straßenkarte / Webkarten-Darstellung
+- entsprechend alter Regel:
+  "Charakteristisches wahren / Wichtiges betonen"
+  werden hier zweibahnig ausgebaute Abschnitte mit besonderer Linearsignatur dargestellt
+
+- OSM-Datenfluss: drei Schritte:
+  1. Freiwillige erfassen Daten (direkt in die Datenbank)
+  2. Kopie der globalen OSM-Datenbank anlegen und pausenlos aktuell halten
+  3. Daten zeichnen
+
+- Daten werden pausenlos aktuell gehalten
+- manuelle Generalisierung kann es nicht mehr geben:
+  in diesem Prozess ist kein Platz dafür
+
+- (auch automatisierte Generalisierung in diesem Prozess schwierig;
+  jedoch: Thema eines anderen Vortrags)
+
+Konsequenz:
+automatisiert zusammenfassen!
+
+- - - - - - - - - - - - - - - - - - - -
+
+Zur automatisierten Generalisierung von Linienzügen
+wurden schon sehr verschiedene Ansätze diskutiert
+- Zeit, auf zwei davon kurz einzugehen
+
+behandelt sehr ähnliche Problemstellung wie bei mir: Thom 2005
+- Ordnance Survey ITN statt OSM
+- ähnlich wie OSM enthält auch ITN viele kurze Linienzüge (Pfeile)
+- um diesem Problem zu begegnen, benutzt Thom einen weiteren der erwähnten Ansätze
+
+Principle of Good Continuation
+- dem liegt die Feststellung zugrunde,
+  dass das menschliche Gehirn wahrgenommene Elemente intuitiv ordnen kann
+- selbst dann, wenn die Semantik völlig unbekannt ist
+- Beispiel: Menge von Richtungselementen
+- der Mensch kann auf einen Blick die Diagonale erkennen
+- "gute Fortsetzung" ist für jedes Element jeweils offensichtlich
+- so entstehender langer Linienzug wird als Stroke bezeichnet
+- Arbeit von Thom beschäftigt sich dann gründlich damit, deren Enden richtig zuzuordnen,
+  was nicht einfach ist
+
+Ergebnis:
+- Mittellinie im Verlauf der Straßenachse erkennbar
+- auch Verkehrsinseln korrekt behandelt
+- lässt sich dieser Ansatz auf OSM übertragen? Nein:
+  1. Klassifizierung (Farben)
+     - Dual Carriageway + Traffic Island Sections nicht unterscheidbar
+  2. durch Strokes entfallende Attribute
+
+Überleitung zu eigenem Ansatz:
+- die "ausführlichen" Freitext-Attribute sind ja gerade eine der Stärken von OSM
+- Verlust dieser Attribute deshalb so gering wie möglich halten
+- Strokes will ich deswegen in OSM gar nicht anwenden
+
+- vor dem Hintergrund der Strokes als möglichst langen Linienzügen ist es naheliegend,
+  statt dessen lieber möglichst kurze Linienfragmente miteinander zu vergleichen
+
+- - - - - - - - - - - - - - - - - - - -
+
+eigenen Ansatz an Tafel herleiten; Farben F1/F2/F3 z.B.:
+auf Blackboard:  weiß/rot/gelb;  weiß/gelb/grün;   weiß/rot/grün
+auf Whiteboard:  blau/rot/grün;  schwarz/grün/rot
+
+wie das geht, möchte ich jetzt zeigen:
+- sagen wir, wir haben hier zwei parallele Linienzüge (F1)
+- mit Stützpunkten
+- ungleichmäßige Aufteilung ist in der Realität verbreitet anzutreffen
+- anstatt einen möglichst langen Linienzug zu bilden,
+  werden die Linien nun weiter unterteilt (F2)
+  - Mindestlänge µ: keine Aufteilung an scharfem Knick
+- erkennbar, dass nun tatsächlich Vergleich von jeweils zwei Segmenten leicht möglich ist
+- Folie: Kriterien
+  - der Reihe nach untersuchen (F1)
+    - bisschen länger, aber trotzdem ähnlich genug
+    - Richtung etwas unterschiedlich, aber trotzdem ähnlich genug
+  - tatsächlich alle Fragmente geometrisch parallel zueinander
+- das Zusammenfassen auf eine gemeinsame Mittellinie erfolgt am einfachsten
+  ausgehend von den ursprünglichen Nodes in OSM (F1)
+- jeder OSM-Node wird genau einem anderen Node zugeordnet (rechts oben anfangen)
+- und zwar immer dem jeweils nächsten Node eines der parallel erkannten Segmente
+  - zum Beispiel: (F3)
+  - links unten ist es einfach ...
+  - hier existiert direkt gegenüber kein OSM-Node,
+    sondern nur eine der neuen Trennstellen; dies hier ist der nächste OSM-Node
+- jetzt habe ich also alle OSM-Nodes, die zwei parallele Linienzüge definieren,
+  jeweils den gegenüberliegenden Nodes zugeordnet
+- jetzt ist es einfach, eine gemeinsame Mittellinie zu bilden
+- man muss nur die Mittelpunkte der Punktezuordnungen jeweils miteinander verbinden (F3)
+
+um zu versuchen, die Praxistauglichkeit nachzuweisen, habe ich diese Methode
+in Software implementiert; das möchte ich jetzt einmal vorführen
+
+- - - - - - - - - - - - - - - - - - - -
+
+Demo:
+- Software-Readme in Github
+  - kann von da aus installiert werden
+  - damit das funktioniert: Java + GDAL
+    und eine Unix-ähnliche Umgebung (auf Windows also Cygwin)
+  - Installation: einfach in die Kommandozeile ziehen
+  - dauert ein paar Minuten wegen der Downloads (hier bereits erledigt)
+  - legt Verzeichnisstruktur an mit "software" und "data",
+    worin der NRW-Testdatensatz bereits enthalten ist (zeigen!)
+  - Datenausgabe ins Unterverzeichnis "combiner"
+- Software laufen lassen in CLI
+- Ergebnis in GIS öffnen (@mag 250%)
+  - Rheinbrücke 1:7500
+    - Zusammenfassen funktioniert => Verlauf der Straßenachse
+  - Kreuzung Militärring 1:2500
+    - Eingangsdaten zeigen ungewöhnliche Kreuzungsgeometrie
+    - Abbiegefahrbahn erfasst (link)
+      - nur Richtungsfahrbahnen
+      - link von vornherein ausgeschlossen
+    - Abbiegespuren erfasst
+    - Zusammenfassung korrekt
+  - Kreuzung Gürtel 1:5000 als Straßenkarte
+    - recht guter Eindruck von dieser Straßenkreuzung
+  - Kreuzung Umgehung Rodenkirchen 1:1000
+    - Luftbild: ganz einfache Kreuzung
+    - Eingangsdaten: Abbiegespuren
+    - wie eben schon gezeigt, sind diese nicht als link erfasst
+    - verbreitet: in Kölner Innenstadt ca. 1/3 nicht als link
+    - absolut typisches Fehlerbild an Kreuzungen!
+    - auf freier Strecke dagegen problemlos
+  - kleinerer Maßstab: 1:100000 @200% als Straßenkarte
+    - auf einen Blick erkennbar, welche Straßen einbahnig / zweibahnig sind
+    - genau das, was ich wissen wollte
+    - Autobahnknotenpunkte: keine Verbindungsfahrbahnen
+- Erkenntnis ableiten?
+  - erkennbar, dass der gewählte ansatz grundsätzlich funktioniert
+  - erhebliche probleme im kreuzungsbereich
+  - Praxistauglichkeit besteht nur eingeschränkt
+
+- sowohl Kreuzungen, die durch die Präsenz falsch getaggter Abbiegefahrbahnen
+  über-spezifiziert sind
+- als auch Kreuzungen, die durch fehlende Verbindungsfahrbahnen
+  unter-spezifiziert sind
+- schwierig zu lösen!
+- Probleme an Kreuzungen werden von fast allen Autoren erwähnt,
+  die ähnliche Problemstellungen untersucht haben, und sind aufwändig zu lösen
+
+- aber auch die Erkennung und Vereinfachung von Straßenkreuzungen an sich
+  wurde schon untersucht
+- z.B. gelang es Mackaness und Mackechnie,
+  auch komplexe Kreuzungen auf einen einzelnen Knoten reduzieren
+
+- vielleicht lassen sich in ähnlicher Weise
+  die Ergebnisse der hier entwickelten Software verbessern
+- vielleicht könnte man eine solche Kreuzungsvereinfachung aber auch vorher durchführen
+
+- einfaches Straßennetz als Beispiel:
+  - nach Kreuzungserkennung Mehrfachkanten
+  - die Zusammenfassung von Mehrfachkanten ist einfach
+  - damit Problem gelöst
+
+also:
+- erst kreuzungen auf einen einzigen Knoten zusammenfassen
+- dann schauen, was von dem Problem überhaupt noch übrig ist
+- ich glaube, /das/ sollte der /nächste/ Schritt sein
+
+Danke für Ihre Zeit.
